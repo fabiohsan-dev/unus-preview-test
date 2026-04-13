@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import { useState } from 'react';
 import { SearchBar } from './SearchBar';
 import type { ApiMetadataResponse } from '@/types/vista';
@@ -20,34 +21,16 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
 
   return (
     <section className="relative w-full h-screen min-h-[750px] flex flex-col">
-      {/* Background Video */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <video
-          ref={(el) => {
-            if (el) {
-              const video = el;
-              const handleTimeUpdate = () => {
-                if (video.currentTime >= 5) {
-                  video.pause();
-                  video.removeEventListener('timeupdate', handleTimeUpdate);
-                }
-              };
-              video.addEventListener('timeupdate', handleTimeUpdate);
-              video.addEventListener('loadedmetadata', () => {
-                video.currentTime = 0;
-                video.play().catch(() => {});
-              });
-              if (video.readyState >= 2) {
-                video.currentTime = 0;
-                video.play().catch(() => {});
-              }
-            }
-          }}
-          src="https://sdr-w.agenciaalea.com.br/Unus.mp4"
-          autoPlay
-          muted
-          playsInline
-          className="w-full h-full object-cover scale-105"
+        <Image
+          src="/Sala-UNUS-6.jpg"
+          alt="Ambiente UNUS em Santa Catarina"
+          fill
+          priority
+          quality={72}
+          sizes="100vw"
+          className="object-cover scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
       </div>

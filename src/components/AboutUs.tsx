@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { Play, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import Image from 'next/image';
 
 export function AboutUs() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
@@ -37,10 +38,12 @@ export function AboutUs() {
             >
               <div className="relative aspect-[16/10] overflow-hidden group cursor-pointer" onClick={openVideo}>
                 {/* Thumbnail — Real UNUS office photo */}
-                <img
-                  src="https://img.youtube.com/vi/a3dpAyPaltg/maxresdefault.jpg"
+                <Image
+                  src="https://img.youtube.com/vi/a3dpAyPaltg/hqdefault.jpg"
                   alt="UNUS Núcleo Imobiliário — Vídeo Institucional"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
 
                 {/* Dark Gradient Overlay */}

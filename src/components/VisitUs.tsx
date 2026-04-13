@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { ArrowRight, Shield, BarChart3, Users, Award } from 'lucide-react';
 
 const metrics = [
@@ -74,11 +75,14 @@ export function VisitUs() {
         {/* Two Column: Image + Pillars */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           <div className="relative lg:sticky lg:top-24">
-            <div className="aspect-[4/5] overflow-hidden">
-              <img
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <Image
                 src="/Sala-UNUS-13.jpg"
                 alt="Sede UNUS no K-Platz Corporate"
-                className="w-full h-full object-cover"
+                fill
+                quality={72}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
               />
             </div>
             {/* Glassmorphism floating label */}

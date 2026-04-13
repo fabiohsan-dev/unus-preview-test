@@ -135,7 +135,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                   src={property.image}
                   alt={property.title}
                   className="w-full h-full object-cover"
-                  priority={true}
+                  priority={false}
                   sizes="(max-width: 1024px) 100vw, 66vw"
                 />
               </motion.div>
