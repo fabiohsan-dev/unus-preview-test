@@ -1,0 +1,303 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+
+  /* ============================================================
+     UNUS DESIGN SYSTEM — COLOR TOKENS
+     Base: Primary #07C2F2 | Secondary #696A6C
+     Architecture: Semantic + Scale (50–900)
+     ============================================================ */
+
+  /* ── PRIMARY SCALE (Brand Cyan) ── */
+  --primary-50:  #E8F8FE;
+  --primary-100: #BDEDFC;
+  --primary-200: #8AE1FA;
+  --primary-300: #57D4F7;
+  --primary-400: #2ECAF5;
+  --primary-500: #07C2F2; /* Base */
+  --primary-600: #06A3CC;
+  --primary-700: #0580A3;
+  --primary-800: #045E7A;
+  --primary-900: #033C52;
+
+  /* ── SECONDARY SCALE (Graphite) ── */
+  --secondary-50:  #F4F4F5;
+  --secondary-100: #E4E4E6;
+  --secondary-200: #C9CACC;
+  --secondary-300: #AEAFB3;
+  --secondary-400: #939499;
+  --secondary-500: #696A6C; /* Base */
+  --secondary-600: #555658;
+  --secondary-700: #414244;
+  --secondary-800: #2D2E30;
+  --secondary-900: #1A1A1C;
+
+  /* ── NEUTRAL / SURFACES ── */
+  --neutral-50:  #F8F8F6;  /* color-bg-primary — warm off-white */
+  --neutral-100: #F2F1EE;  /* color-bg-secondary — ivory linen */
+  --neutral-200: #EAEAE6;  /* color-bg-tertiary */
+  --neutral-300: #DDDDD8;  /* subtle borders */
+  --neutral-400: #C5C5C0;
+  --neutral-500: #9E9E99;
+  --neutral-600: #787873;
+  --neutral-700: #52524E;
+  --neutral-800: #2C2C2A;
+  --neutral-900: #161615;
+
+  /* ── FUNCTIONAL COLORS ── */
+  --success:     #2D8B75;  /* Elegant teal-green (WhatsApp-harmonic) */
+  --success-light: #E8F5F1;
+  --success-dark: #1F6352;
+
+  --error:       #C4384B;  /* Muted burgundy */
+  --error-light: #FCE8EB;
+  --error-dark:  #8C2735;
+
+  --warning:     #D4A537;  /* Champagne gold */
+  --warning-light: #FDF5E1;
+  --warning-dark: #9B7A28;
+
+  --gold:        #D4AF37;  /* UNUS accent gold */
+
+  --info:        #07C2F2;  /* Primary */
+  --info-light:  #E8F8FE;
+  --info-dark:   #0580A3;
+
+  /* ── SEMANTIC MAPPINGS ── */
+  --background:          var(--neutral-50);   /* color-bg-primary */
+  --foreground:          var(--secondary-500); /* color-text-body */
+  --card:                #FAFAF8;             /* color-bg-surface */
+  --card-foreground:     var(--secondary-600);
+  --popover:             #FFFFFF;             /* color-bg-elevated (modals only) */
+  --popover-foreground:  var(--secondary-900);
+  --primary:             var(--secondary-900); /* color-action-primary — dark charcoal */
+  --primary-foreground:  var(--neutral-50);
+  --secondary:           var(--neutral-100);
+  --secondary-foreground: var(--secondary-900);
+  --muted:               var(--neutral-100);
+  --muted-foreground:    var(--secondary-500);
+  --accent:              var(--primary-500);   /* color-brand-accent — Brand Cyan */
+  --accent-foreground:   #FFFFFF;
+  --destructive:         var(--error);
+  --destructive-foreground: #FFFFFF;
+  --border:              var(--neutral-300);
+  --input:               var(--neutral-300);
+  --input-background:    #FAFAF8;
+  --switch-background:   var(--neutral-400);
+  --ring:                var(--primary-500);   /* Focus ring = brand */
+
+  /* BORDERS & RADII */
+  --radius: 0px;
+
+  /* SIDEBAR DEFAULTS */
+  --sidebar:                 var(--neutral-50);
+  --sidebar-foreground:      var(--secondary-500);
+  --sidebar-primary:         var(--secondary-900);
+  --sidebar-primary-foreground: var(--neutral-50);
+  --sidebar-accent:          var(--neutral-100);
+  --sidebar-accent-foreground: var(--secondary-900);
+  --sidebar-border:          var(--neutral-300);
+  --sidebar-ring:            var(--primary-500);
+
+  /* FONTS */
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+
+  /* SPACING — 8pt Grid */
+  --spacing-2xs: 4px;
+  --spacing-xs:  8px;
+  --spacing-sm:  16px;
+  --spacing-md:  24px;
+  --spacing-lg:  32px;
+  --spacing-xl:  48px;
+  --spacing-2xl: 64px;
+  --spacing-3xl: 96px;
+  --spacing-4xl: 128px;
+}
+
+@theme inline {
+  /* Core semantic */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+
+  /* ── Brand Scale Tokens ── */
+  --color-brand-50:  var(--primary-50);
+  --color-brand-100: var(--primary-100);
+  --color-brand-200: var(--primary-200);
+  --color-brand-300: var(--primary-300);
+  --color-brand-400: var(--primary-400);
+  --color-brand-500: var(--primary-500);
+  --color-brand-600: var(--primary-600);
+  --color-brand-700: var(--primary-700);
+  --color-brand-800: var(--primary-800);
+  --color-brand-900: var(--primary-900);
+
+  /* ── Graphite Scale Tokens ── */
+  --color-graphite-50:  var(--secondary-50);
+  --color-graphite-100: var(--secondary-100);
+  --color-graphite-200: var(--secondary-200);
+  --color-graphite-300: var(--secondary-300);
+  --color-graphite-400: var(--secondary-400);
+  --color-graphite-500: var(--secondary-500);
+  --color-graphite-600: var(--secondary-600);
+  --color-graphite-700: var(--secondary-700);
+  --color-graphite-800: var(--secondary-800);
+  --color-graphite-900: var(--secondary-900);
+
+  /* ── Neutral Tokens ── */
+  --color-neutral-50:  var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+
+  /* ── Semantic Text ── */
+  --color-heading: var(--secondary-900);    /* #1A1A1C — deep charcoal */
+  --color-body:    var(--secondary-500);    /* #696A6C — graphite */
+  --color-caption: var(--neutral-500);      /* #9E9E99 — muted */
+  --color-inverse: var(--neutral-50);       /* #F8F8F6 — for dark bgs */
+
+  /* ── Functional ── */
+  --color-success:       var(--success);
+  --color-success-light: var(--success-light);
+  --color-success-dark:  var(--success-dark);
+  --color-error:         var(--error);
+  --color-error-light:   var(--error-light);
+  --color-error-dark:    var(--error-dark);
+  --color-warning:       var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-warning-dark:  var(--warning-dark);
+  --color-info:          var(--info);
+  --color-info-light:    var(--info-light);
+  --color-info-dark:     var(--info-dark);
+
+  /* ── Action / CTA ── */
+  --color-action-whatsapp: var(--success);  /* #2D8B75 */
+  --color-action-primary:  var(--secondary-900);
+  --color-action-brand:    var(--primary-500);
+
+  /* ── Spacing ── */
+  --spacing-2xs: var(--spacing-2xs);
+  --spacing-xs:  var(--spacing-xs);
+  --spacing-sm:  var(--spacing-sm);
+  --spacing-md:  var(--spacing-md);
+  --spacing-lg:  var(--spacing-lg);
+  --spacing-xl:  var(--spacing-xl);
+  --spacing-2xl: var(--spacing-2xl);
+  --spacing-3xl: var(--spacing-3xl);
+  --spacing-4xl: var(--spacing-4xl);
+
+  /* ── Radius & Shadows ── */
+  --radius-none: 0px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-pill:  9999px;
+
+  --shadow-soft:     0px 8px 32px rgba(0, 0, 0, 0.04);
+  --shadow-glass:    0px 4px 24px rgba(0, 0, 0, 0.05);
+  --shadow-elevated: 0px 16px 48px rgba(0, 0, 0, 0.08);
+
+  --font-sans:  var(--font-sans);
+  --font-serif: var(--font-serif);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  /* HEADINGS — LUXURY TYPOGRAPHY */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: var(--color-heading);
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 64px;
+  }
+
+  h2 {
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 48px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+  }
+
+  h4 {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 32px;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+  }
+
+  small {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 16px;
+  }
+
+  button {
+    font-family: var(--font-sans);
+  }
+
+  input {
+    font-family: var(--font-sans);
+  }
+}
