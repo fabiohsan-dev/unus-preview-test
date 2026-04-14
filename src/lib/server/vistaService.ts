@@ -89,7 +89,7 @@ export async function getMetadataServer(): Promise<ApiMetadataResponse> {
 
   const res = await fetch(url.toString(), {
     headers: { Accept: 'application/json' },
-    cache: 'no-store',
+    next: { revalidate: 3600 },
   });
 
   if (!res.ok) {
@@ -99,7 +99,6 @@ export async function getMetadataServer(): Promise<ApiMetadataResponse> {
   }
 
   const data = await res.json();
-  console.log('[getMetadataServer] raw keys:', Object.keys(data));
 
   const toSortedArray = (val: unknown): string[] => {
     if (!val) return [];
@@ -196,7 +195,7 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
 
   const res = await fetch(vistaUrl.toString(), {
     headers: { Accept: 'application/json' },
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
 

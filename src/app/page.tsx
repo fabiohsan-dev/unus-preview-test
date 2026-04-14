@@ -1,9 +1,8 @@
+import dynamic from 'next/dynamic';
 import { HeroSearch } from '@/components/HeroSearch';
 import { CategoryStrip } from '@/components/CategoryStrip';
-import { FeaturedCards } from '@/components/FeaturedCards';
 import { PropertyCardGrid } from '@/components/PropertyCard';
 import { SalesOpportunities } from '@/components/SalesOpportunities';
-import { AboutUs } from '@/components/AboutUs';
 import { VisitUs } from '@/components/VisitUs';
 import { NeighborhoodOpps } from '@/components/NeighborhoodOpps';
 import { BlogSection } from '@/components/BlogSection';
@@ -13,6 +12,20 @@ import {
   mapToOpportunity, 
   mapToGridProperty 
 } from '@/lib/mappers/propertyMapper';
+
+const FeaturedCards = dynamic(
+  () => import('@/components/FeaturedCards').then((module) => module.FeaturedCards),
+  {
+    loading: () => <div className="min-h-[640px] bg-[var(--neutral-100)]" aria-hidden="true" />,
+  }
+);
+
+const AboutUs = dynamic(
+  () => import('@/components/AboutUs').then((module) => module.AboutUs),
+  {
+    loading: () => <div className="min-h-[620px] bg-[var(--neutral-50)]" aria-hidden="true" />,
+  }
+);
 
 export const revalidate = 3600; // Revalida a cada 1 hora
 

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Menu, X, Heart } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Heart, Menu, X } from 'lucide-react';
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -14,10 +13,36 @@ export function Header() {
   const transparent = isHome && !scrolled;
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', handler);
-    return () => window.removeEventListener('scroll', handler);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) {
+      document.body.style.overflow = '';
+      return undefined;
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mobileOpen]);
 
   const navItems = [
     { label: 'Venda', href: '/venda' },
@@ -37,8 +62,7 @@ export function Header() {
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-20 lg:h-24">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center" aria-label="Ir para a home da UNUS">
             <img
               src="https://unusnucleoimobiliario.com.br/wp-content/uploads/2021/07/xLogo_sm-1.png.pagespeed.ic.VQHWf0IouS.webp"
               alt="UNUS Núcleo Imobiliário"
@@ -48,8 +72,7 @@ export function Header() {
             />
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-10">
+          <nav className="hidden lg:flex items-center gap-10" aria-label="Navegação principal">
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -64,7 +87,6 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Favoritos */}
           <div className="hidden lg:flex items-center">
             <Link
               href="/favoritos"
@@ -78,13 +100,13 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Mobile toggle */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
+            type="button"
+            onClick={() => setMobileOpen((current) => !current)}
             className={`lg:hidden p-2 transition-colors cursor-pointer ${
               transparent ? 'text-white' : 'text-[var(--color-heading)]'
             }`}
-            aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+            aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
           >
@@ -93,43 +115,35 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            id="mobile-navigation"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white/98 backdrop-blur-xl border-t border-[var(--neutral-200)] overflow-hidden"
-          >
-            <div className="px-6 py-8 space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block py-3 text-[15px] text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
-                  style={{ fontWeight: 400 }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="pt-6">
-                <Link
-                  href="/favoritos"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full text-center bg-[var(--secondary-900)] text-white py-3.5 text-[12px] uppercase tracking-[0.15em]"
-                  style={{ fontWeight: 500 }}
-                >
-                  <Heart className="w-4 h-4" strokeWidth={1.5} />
-                  Favoritos
-                </Link>
-              </div>
+      {mobileOpen && (
+        <div
+          id="mobile-navigation"
+          className="lg:hidden bg-white/98 backdrop-blur-xl border-t border-[var(--neutral-200)] overflow-hidden"
+        >
+          <nav className="px-6 py-8 space-y-1" aria-label="Menu mobile">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="block py-3 text-[15px] text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
+                style={{ fontWeight: 400 }}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div className="pt-6">
+              <Link
+                href="/favoritos"
+                className="flex items-center justify-center gap-2 w-full text-center bg-[var(--secondary-900)] text-white py-3.5 text-[12px] uppercase tracking-[0.15em]"
+                style={{ fontWeight: 500 }}
+              >
+                <Heart className="w-4 h-4" strokeWidth={1.5} />
+                Favoritos
+              </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

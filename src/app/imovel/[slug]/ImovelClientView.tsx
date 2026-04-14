@@ -151,15 +151,15 @@ function Gallery({ fotos, propertyRef }: { fotos: VistaFoto[]; propertyRef: stri
       />
       <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-10">
         <span className="bg-white/90 backdrop-blur-md text-[var(--color-heading)] text-[10px] uppercase tracking-[0.2em] px-4 py-2 shadow-[var(--shadow-soft)]" style={{ fontWeight: 700 }}>Ref. {propertyRef}</span>
-        <button onClick={() => setFavorited((v) => !v)} className="w-11 h-11 bg-white/90 backdrop-blur-md flex items-center justify-center shadow-[var(--shadow-soft)] transition-all hover:bg-white">
+        <button type="button" onClick={() => setFavorited((v) => !v)} className="w-11 h-11 bg-white/90 backdrop-blur-md flex items-center justify-center shadow-[var(--shadow-soft)] transition-all hover:bg-white" aria-label={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'} aria-pressed={favorited}>
           <Heart className={`w-5 h-5 transition-colors ${favorited ? 'fill-[var(--color-error)] text-[var(--color-error)]' : 'text-[var(--color-body)]'}`} strokeWidth={1.5} />
         </button>
       </div>
-      <button onClick={prev} className="absolute top-1/2 left-5 -translate-y-1/2 w-11 h-11 bg-white/80 backdrop-blur-md flex items-center justify-center text-[var(--color-heading)] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-[var(--shadow-soft)]"><ChevronLeft className="w-5 h-5" /></button>
-      <button onClick={next} className="absolute top-1/2 right-5 -translate-y-1/2 w-11 h-11 bg-white/80 backdrop-blur-md flex items-center justify-center text-[var(--color-heading)] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-[var(--shadow-soft)]"><ChevronRight className="w-5 h-5" /></button>
+      <button type="button" onClick={prev} className="absolute top-1/2 left-5 -translate-y-1/2 w-11 h-11 bg-white/80 backdrop-blur-md flex items-center justify-center text-[var(--color-heading)] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-[var(--shadow-soft)]" aria-label="Foto anterior"><ChevronLeft className="w-5 h-5" /></button>
+      <button type="button" onClick={next} className="absolute top-1/2 right-5 -translate-y-1/2 w-11 h-11 bg-white/80 backdrop-blur-md flex items-center justify-center text-[var(--color-heading)] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-[var(--shadow-soft)]" aria-label="Próxima foto"><ChevronRight className="w-5 h-5" /></button>
       <div className="absolute bottom-5 left-5 flex gap-2.5 overflow-x-auto no-scrollbar">
         {images.map((foto, index) => (
-          <button key={index} onClick={() => setActive(index)} className={`w-[110px] h-[72px] relative flex-shrink-0 overflow-hidden transition-all duration-300 ${active === index ? 'ring-2 ring-white ring-offset-1 ring-offset-transparent opacity-100' : 'opacity-60 hover:opacity-90'}`}>
+          <button key={index} type="button" onClick={() => setActive(index)} className={`w-[110px] h-[72px] relative flex-shrink-0 overflow-hidden transition-all duration-300 ${active === index ? 'ring-2 ring-white ring-offset-1 ring-offset-transparent opacity-100' : 'opacity-60 hover:opacity-90'}`} aria-label={`Abrir foto ${index + 1}`}>
             <Image 
               src={foto.FotoPequena || foto.URLArquivo || foto.URL || foto.Foto || ''} 
               alt="" 
@@ -250,7 +250,7 @@ export default function ImovelClientView({
             <div className="p-8 pb-0">
               <div className="flex items-center gap-2.5 mb-3">
                 <div className="w-2 h-2 bg-[var(--primary-500)]" />
-                <span className="text-[var(--primary-500)] text-[10px] uppercase tracking-[0.3em]" style={{ fontWeight: 700 }}>
+                <span className="text-[var(--color-accent-text)] text-[10px] uppercase tracking-[0.3em]" style={{ fontWeight: 700 }}>
                   {cleanText(imovel.Categoria)} para {transactionLabel}
                 </span>
               </div>
@@ -285,7 +285,7 @@ export default function ImovelClientView({
                       ))}
                     </div>
                     {descriptionParagraphs.length > 1 && (
-                      <button onClick={() => setDescExpanded(!descExpanded)} className="mt-4 flex items-center gap-1.5 text-[var(--primary-500)] text-[12px] uppercase tracking-[0.12em] hover:opacity-70 transition-opacity" style={{ fontWeight: 600 }}>
+                      <button type="button" onClick={() => setDescExpanded(!descExpanded)} className="mt-4 flex items-center gap-1.5 text-[var(--color-accent-text)] text-[12px] uppercase tracking-[0.12em] hover:opacity-70 transition-opacity" style={{ fontWeight: 600 }}>
                         {descExpanded ? 'Ver menos' : 'Ler descrição completa'}
                         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${descExpanded ? 'rotate-180' : ''}`} strokeWidth={2} />
                       </button>
@@ -348,7 +348,7 @@ export default function ImovelClientView({
                 </div>
               </div>
               <div className="flex gap-2.5">
-                <button className="flex-1 border border-[var(--color-border)] text-[var(--color-heading)] py-3 text-[11px] uppercase tracking-[0.12em] hover:bg-[var(--neutral-50)] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 600 }}><Phone className="w-4 h-4" /> Ligar</button>
+                <a href={corretor?.Celular ? `tel:+55${corretor.Celular.replace(/\D/g, '')}` : 'tel:+554830666767'} className="flex-1 border border-[var(--color-border)] text-[var(--color-heading)] py-3 text-[11px] uppercase tracking-[0.12em] hover:bg-[var(--neutral-50)] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 600 }}><Phone className="w-4 h-4" /> Ligar</a>
                 <a href={agentWhatsapp} target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-action-whatsapp)] text-white py-3 text-[11px] uppercase tracking-[0.12em] hover:bg-[var(--success-dark)] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 600 }}><MessageCircle className="w-4 h-4" /> WhatsApp</a>
               </div>
             </div>

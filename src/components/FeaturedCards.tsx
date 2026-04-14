@@ -84,7 +84,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-[1px] bg-[var(--primary-500)]" />
-              <span className="text-[var(--primary-500)] text-[10px] uppercase tracking-[0.3em]" style={{ fontWeight: 600 }}>
+              <span className="text-[var(--color-accent-text)] text-[10px] uppercase tracking-[0.3em]" style={{ fontWeight: 600 }}>
                 Vitrine UNUS
               </span>
             </div>

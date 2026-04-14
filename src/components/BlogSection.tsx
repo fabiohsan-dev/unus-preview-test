@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ContentImage } from './ContentImage';
 
 interface BlogPost {
   id: number;
@@ -7,6 +8,7 @@ interface BlogPost {
   title: string;
   excerpt: string;
   image: string;
+  href: string;
   tags?: string[];
 }
 
@@ -19,34 +21,38 @@ const posts: BlogPost[] = [
       'Florianópolis e São José encerraram 2025 entre os mercados imobiliários mais valorizados do país, com crescimento acima da média nacional. A combinação de demanda qualificada, escassez de oferta e foco em alto padrão mantém a valorização consistente e reforça um cenário positivo para 2026.',
     image:
       'https://images.unsplash.com/photo-1681157864613-f1a667b4b225?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxGbG9yaWFub3BvbGlzJTIwYWVyaWFsJTIwY29hc3RhbCUyMGNpdHl8ZW58MXx8fHwxNzc1NDkxNjQyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    tags: ['investimento', 'investir', 'mercado imobiliário', 'São José'],
+    tags: ['investimento', 'mercado imobiliário', 'São José'],
+    href: '/blog',
   },
   {
     id: 2,
     date: '6 de maio de 2024',
-    title: 'Campinas, São José: A Evolução Urbana',
+    title: 'Campinas, São José: a evolução urbana',
     excerpt:
-      'O bairro Campinas está em constante crescimento e é destaque no investimento imobiliário',
+      'O bairro Campinas está em constante crescimento e segue como destaque no investimento imobiliário da Grande Florianópolis.',
     image:
-      'https://images.unsplash.com/photo-1768060689238-f580dbcae732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1cmJhbiUyMHNreWxpbmUlMjBtb2Rlcm4lMjBidWlsZGluZ3MlMjBCcmF6aWx8ZW58MXx8fHwxNzc1MTU1NzY3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      'https://images.unsplash.com/photo-1768060689238-f580dbcae732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB1cmJhbiUyMHNreWxpbmUlMjBCcmF6aWx8ZW58MXx8fHwxNzc1MTU1NzY3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    href: '/blog',
   },
   {
     id: 3,
     date: '9 de outubro de 2023',
     title: 'O poder do marketing na venda do seu imóvel',
     excerpt:
-      'O marketing desempenha um papel crucial no sucesso da venda de um imóvel',
+      'O marketing desempenha um papel crucial no sucesso da venda de um imóvel de alto padrão e amplia a percepção de valor.',
     image:
       'https://images.unsplash.com/photo-1763479169474-728a7de108c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWFsJTIwZXN0YXRlJTIwbWFya2V0aW5nJTIwbHV4dXJ5JTIwaG9tZXxlbnwxfHx8fDE3NzU0OTE2NDN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    href: '/blog',
   },
   {
     id: 4,
     date: '19 de julho de 2023',
     title: 'Facilidades de morar nas regiões de Campinas e Kobrasol',
     excerpt:
-      'Estilo de vida equilibrado entre a vida urbana e a proximidade com o mar:',
+      'Um estilo de vida equilibrado entre a dinâmica urbana e a proximidade com o mar continua atraindo compradores exigentes.',
     image:
       'https://images.unsplash.com/photo-1768337278478-b42763837c22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2FzdGFsJTIwY2l0eSUyMGJlYWNoJTIwbGl2aW5nJTIwbGlmZXN0eWxlfGVufDF8fHx8MTc3NTQ5MTY0NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    href: '/blog',
   },
 ];
 
@@ -54,12 +60,11 @@ export function BlogSection() {
   return (
     <section className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--neutral-50)]">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-[1px] bg-[var(--primary-500)]" />
             <span
-              className="text-[10px] uppercase tracking-[0.3em] text-[var(--secondary-500)]"
+              className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-accent-text)]"
               style={{ fontWeight: 600 }}
             >
               Inteligência Imobiliária
@@ -71,31 +76,25 @@ export function BlogSection() {
               className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em]"
               style={{ fontWeight: 300 }}
             >
-              Insights do{' '}
-              <span style={{ fontWeight: 600 }}>mercado</span>
+              Insights do <span style={{ fontWeight: 600 }}>mercado</span>
             </h2>
 
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.15em] text-[var(--secondary-900)] hover:text-[var(--primary-500)] transition-colors"
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.15em] text-[var(--secondary-900)] hover:text-[var(--color-accent-text)] transition-colors"
               style={{ fontWeight: 600 }}
             >
               Ver todos os artigos
               <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-            </a>
+            </Link>
           </div>
         </div>
 
-        {/* Blog Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {posts.map((post) => (
-            <article
-              key={post.id}
-              className="group cursor-pointer"
-            >
-              {/* Image */}
+            <Link key={post.id} href={post.href} className="group block">
               <div className="relative overflow-hidden aspect-[4/3] mb-5">
-                <ImageWithFallback
+                <ContentImage
                   src={post.image}
                   alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -103,23 +102,20 @@ export function BlogSection() {
                 <div className="absolute inset-0 bg-[var(--secondary-900)]/0 group-hover:bg-[var(--secondary-900)]/10 transition-colors duration-500" />
               </div>
 
-              {/* Date */}
               <span
-                className="text-[11px] uppercase tracking-[0.15em] text-[var(--secondary-400)] mb-3 block"
+                className="text-[11px] uppercase tracking-[0.15em] text-[var(--color-caption)] mb-3 block"
                 style={{ fontWeight: 500 }}
               >
                 {post.date}
               </span>
 
-              {/* Title */}
               <h3
-                className="text-[17px] leading-[1.35] text-[var(--secondary-900)] mb-3 group-hover:text-[var(--primary-500)] transition-colors duration-300"
+                className="text-[17px] leading-[1.35] text-[var(--secondary-900)] mb-3 group-hover:text-[var(--color-accent-text)] transition-colors duration-300"
                 style={{ fontWeight: 600, fontFamily: 'var(--font-sans)' }}
               >
                 {post.title}
               </h3>
 
-              {/* Excerpt */}
               <p
                 className="text-[14px] leading-[1.6] text-[var(--secondary-500)] mb-4 line-clamp-3"
                 style={{ fontWeight: 300 }}
@@ -127,22 +123,20 @@ export function BlogSection() {
                 {post.excerpt}
               </p>
 
-              {/* Read More */}
               <span
-                className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.15em] text-[var(--primary-500)] group-hover:gap-3 transition-all duration-300"
+                className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.15em] text-[var(--color-accent-text)] group-hover:gap-3 transition-all duration-300"
                 style={{ fontWeight: 600 }}
               >
                 Leia mais
                 <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
               </span>
 
-              {/* Tags (only first post) */}
               {post.tags && (
                 <div className="flex flex-wrap gap-2 mt-5 pt-5 border-t border-[var(--neutral-300)]">
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10px] uppercase tracking-[0.1em] text-[var(--primary-600)] bg-[var(--primary-50)] px-2.5 py-1"
+                      className="text-[10px] uppercase tracking-[0.1em] text-[var(--primary-700)] bg-[var(--primary-50)] px-2.5 py-1"
                       style={{ fontWeight: 500 }}
                     >
                       {tag}
@@ -150,7 +144,7 @@ export function BlogSection() {
                   ))}
                 </div>
               )}
-            </article>
+            </Link>
           ))}
         </div>
       </div>

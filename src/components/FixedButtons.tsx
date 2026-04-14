@@ -1,18 +1,45 @@
 'use client';
 
-import { useState } from 'react';
-import { MessageCircle, X, Shield } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { MessageCircle, Shield, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+
+const PRIVACY_URL = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade/';
+const COOKIES_URL = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade-e-cookies/';
 
 export function FixedButtons() {
   const [consentOpen, setConsentOpen] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!consentOpen) {
+      return undefined;
+    }
+
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setConsentOpen(false);
+        requestAnimationFrame(() => triggerRef.current?.focus());
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [consentOpen]);
+
+  const acceptConsent = () => {
+    setConsentAccepted(true);
+    setConsentOpen(false);
+  };
 
   return (
     <>
-      {/* ── WHATSAPP — Bottom Right ── */}
       <motion.a
-        href="https://wa.me/554830666767?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20imóveis%20da%20UNUS."
+        href="https://wa.me/554830666767?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20im%C3%B3veis%20da%20UNUS."
         target="_blank"
         rel="noopener noreferrer"
         initial={{ scale: 0, opacity: 0 }}
@@ -31,14 +58,13 @@ export function FixedButtons() {
           <p className="text-[var(--color-heading)] text-[12px]" style={{ fontWeight: 500 }}>
             Fale com um consultor
           </p>
-          <p className="text-[var(--color-caption)] text-[10px]" style={{ fontWeight: 400 }}>
+          <p className="text-[var(--color-caption)] text-[10px]" style={{ fontWeight: 500 }}>
             Resposta em até 5 minutos
           </p>
           <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-3 h-3 bg-white rotate-45 shadow-sm" />
         </div>
       </motion.a>
 
-      {/* ── CONSENT / LGPD — Bottom Left ── */}
       {!consentAccepted && (
         <motion.div
           initial={{ y: 100, opacity: 0 }}
@@ -50,35 +76,56 @@ export function FixedButtons() {
             {!consentOpen ? (
               <motion.button
                 key="consent-pill"
+                ref={triggerRef}
+                type="button"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 onClick={() => setConsentOpen(true)}
                 className="flex items-center gap-2.5 bg-white/95 backdrop-blur-xl border border-[var(--color-border)] px-4 py-3 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300 group"
+                aria-expanded={consentOpen}
+                aria-controls="consent-panel"
+                aria-label="Abrir painel de privacidade e cookies"
               >
                 <Shield className="w-4 h-4 text-[var(--primary-500)]" strokeWidth={1.5} />
-                <span className="text-[var(--color-heading)] text-[11px] uppercase tracking-[0.1em]" style={{ fontWeight: 600 }}>
+                <span
+                  className="text-[var(--color-heading)] text-[11px] uppercase tracking-[0.1em]"
+                  style={{ fontWeight: 600 }}
+                >
                   Privacidade & Cookies
                 </span>
               </motion.button>
             ) : (
               <motion.div
                 key="consent-panel"
+                id="consent-panel"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 className="bg-white border border-[var(--color-border)] shadow-[var(--shadow-elevated)] max-w-[400px] w-[calc(100vw-48px)]"
+                role="dialog"
+                aria-modal="false"
+                aria-labelledby="consent-title"
+                aria-describedby="consent-description"
               >
-                {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--neutral-200)]">
                   <div className="flex items-center gap-2.5">
                     <Shield className="w-4 h-4 text-[var(--primary-500)]" strokeWidth={1.5} />
-                    <span className="text-[var(--color-heading)] text-[12px] uppercase tracking-[0.1em]" style={{ fontWeight: 600 }}>
+                    <span
+                      id="consent-title"
+                      className="text-[var(--color-heading)] text-[12px] uppercase tracking-[0.1em]"
+                      style={{ fontWeight: 600 }}
+                    >
                       Termos de Consentimento
                     </span>
                   </div>
                   <button
-                    onClick={() => setConsentOpen(false)}
+                    ref={closeButtonRef}
+                    type="button"
+                    onClick={() => {
+                      setConsentOpen(false);
+                      requestAnimationFrame(() => triggerRef.current?.focus());
+                    }}
                     className="w-7 h-7 flex items-center justify-center hover:bg-[var(--neutral-100)] transition-colors"
                     aria-label="Fechar termos de consentimento"
                   >
@@ -86,35 +133,53 @@ export function FixedButtons() {
                   </button>
                 </div>
 
-                {/* Body */}
                 <div className="px-6 py-5">
-                  <p className="text-[var(--color-body)] text-[13px] leading-relaxed mb-4" style={{ fontWeight: 300 }}>
-                    A UNUS Núcleo Imobiliário utiliza cookies e tecnologias similares para personalizar sua experiência,
-                    analisar o tráfego do site e oferecer conteúdo relevante. Seus dados são tratados em conformidade
-                    com a <a href="#" className="text-[var(--primary-500)] underline underline-offset-2">Lei Geral de Proteção de Dados (LGPD)</a>.
+                  <p
+                    id="consent-description"
+                    className="text-[var(--color-body)] text-[13px] leading-relaxed mb-4"
+                    style={{ fontWeight: 300 }}
+                  >
+                    A UNUS Núcleo Imobiliário utiliza cookies e tecnologias similares para
+                    personalizar sua experiência, analisar o tráfego do site e oferecer conteúdo
+                    relevante. Seus dados são tratados em conformidade com a{' '}
+                    <a
+                      href={COOKIES_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[var(--color-accent-text)] underline underline-offset-2"
+                    >
+                      Lei Geral de Proteção de Dados (LGPD)
+                    </a>
+                    .
                   </p>
-                  <p className="text-[var(--color-caption)] text-[12px] leading-relaxed mb-6" style={{ fontWeight: 400 }}>
+                  <p
+                    className="text-[var(--color-caption)] text-[12px] leading-relaxed mb-6"
+                    style={{ fontWeight: 500 }}
+                  >
                     Ao continuar navegando, você concorda com a nossa{' '}
-                    <a href="#" className="text-[var(--primary-500)] underline underline-offset-2">Política de Privacidade</a> e{' '}
-                    <a href="#" className="text-[var(--primary-500)] underline underline-offset-2">Termos de Uso</a>.
+                    <a
+                      href={PRIVACY_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[var(--color-accent-text)] underline underline-offset-2"
+                    >
+                      Política de Privacidade
+                    </a>{' '}
+                    e com nossos termos de uso.
                   </p>
 
                   <div className="flex items-center gap-3">
                     <button
-                      onClick={() => {
-                        setConsentAccepted(true);
-                        setConsentOpen(false);
-                      }}
+                      type="button"
+                      onClick={acceptConsent}
                       className="flex-1 bg-[var(--secondary-900)] text-white py-3 text-[11px] uppercase tracking-[0.15em] hover:bg-[var(--secondary-800)] transition-colors"
                       style={{ fontWeight: 600 }}
                     >
                       Aceitar Todos
                     </button>
                     <button
-                      onClick={() => {
-                        setConsentAccepted(true);
-                        setConsentOpen(false);
-                      }}
+                      type="button"
+                      onClick={acceptConsent}
                       className="flex-1 border border-[var(--color-border)] text-[var(--color-body)] py-3 text-[11px] uppercase tracking-[0.15em] hover:bg-[var(--neutral-100)] transition-colors"
                       style={{ fontWeight: 500 }}
                     >

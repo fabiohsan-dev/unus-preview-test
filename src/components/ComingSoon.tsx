@@ -145,15 +145,15 @@ export function ComingSoon({ title, subtitle }: ComingSoonProps) {
         className="relative z-10 w-full p-10 mt-auto"
       >
         <nav className="flex items-center justify-center gap-8 sm:gap-12">
-          <Link href="#" className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
+          <Link href="https://www.instagram.com/unusnucleoimobiliario/" className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
             INSTAGRAM
             <span className="absolute -bottom-1 left-1/2 w-0 h-[1px] bg-[#2c3a3a] transition-all group-hover:w-full group-hover:left-0" />
           </Link>
-          <Link href="#" className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
+          <Link href="https://www.linkedin.com/company/unus-n%C3%BAcleo-imobili%C3%A1rio/?viewAsMember=true" className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
             LINKEDIN
             <span className="absolute -bottom-1 left-1/2 w-0 h-[1px] bg-[#2c3a3a] transition-all group-hover:w-full group-hover:left-0" />
           </Link>
-          <Link href="#" className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
+          <Link href="https://wa.me/554830666767" className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
             WHATSAPP
             <span className="absolute -bottom-1 left-1/2 w-0 h-[1px] bg-[#2c3a3a] transition-all group-hover:w-full group-hover:left-0" />
           </Link>

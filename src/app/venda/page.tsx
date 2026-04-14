@@ -75,7 +75,7 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
         {/* Lado Esquerdo: Mapa (Apenas no modo Grid) */}
         {viewMode === 'grid' && (
           <div className="hidden lg:block w-[45%] xl:w-[50%] bg-[var(--neutral-100)] relative overflow-hidden border-r border-[var(--neutral-200)]">
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-[var(--secondary-400)] p-12 text-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-[var(--color-caption)] p-12 text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
                 <MapPin className="w-6 h-6 text-[var(--primary-500)]" />
               </div>
@@ -93,7 +93,7 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
           <div className={`${viewMode === 'list' ? 'max-w-[1400px]' : 'max-w-[1000px]'} mx-auto`}>
             
             <div className="flex items-center justify-between mb-8">
-              <h1 className="text-[14px] uppercase tracking-[0.2em] text-[var(--secondary-400)] font-semibold">
+              <h1 className="text-[14px] uppercase tracking-[0.2em] text-[var(--color-caption)] font-semibold">
                 {propertiesData?.total || 0} <span className="text-[var(--color-heading)]">Imóveis encontrados</span>
               </h1>
             </div>
@@ -124,7 +124,7 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
                     
                     <div className="flex items-center gap-2">
                       <span className="text-[14px] font-medium text-[var(--color-heading)]">Página {currentPage}</span>
-                      <span className="text-[14px] text-[var(--secondary-400)]">de {totalPages}</span>
+                      <span className="text-[14px] text-[var(--color-caption)]">de {totalPages}</span>
                     </div>
 
                     {currentPage < totalPages && (
@@ -137,7 +137,7 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
               </>
             ) : (
               <div className="py-20 text-center">
-                <p className="text-[var(--secondary-400)]">Nenhum imóvel encontrado com estes filtros.</p>
+                <p className="text-[var(--color-caption)]">Nenhum imóvel encontrado com estes filtros.</p>
               </div>
             )}
           </div>

@@ -1,27 +1,21 @@
-'use client';
-
-import { motion } from 'motion/react';
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
 import { SearchBar } from './SearchBar';
 import type { ApiMetadataResponse } from '@/types/vista';
 
 const quickTags = [
-  { label: 'Alto padrão', icon: '✦' },
-  { label: 'Lançamentos', icon: '🏗' },
-  { label: 'Vista mar', icon: '🌊' },
-  { label: 'Campinas', icon: null },
-  { label: 'Kobrasol', icon: null },
-  { label: 'Pedra Branca', icon: null },
-  { label: 'Oportunidades', icon: '📈' },
+  { label: 'Alto padrão', href: '/venda?precoMin=2000000' },
+  { label: 'Lançamentos', href: '/venda' },
+  { label: 'Vista mar', href: '/venda?tipo=Cobertura' },
+  { label: 'Campinas', href: '/venda?bairro=Campinas' },
+  { label: 'Kobrasol', href: '/venda?bairro=Kobrasol' },
+  { label: 'Pedra Branca', href: '/venda?bairro=Pedra%20Branca' },
+  { label: 'Oportunidades', href: '/venda?precoMax=1000000' },
 ];
 
 export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
-  const [activeQuickTag, setActiveQuickTag] = useState<string | null>(null);
-
   return (
     <section className="relative w-full h-screen min-h-[750px] flex flex-col">
-      {/* Background Image */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
           src="/Sala-UNUS-6.jpg"
@@ -35,79 +29,67 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
       </div>
 
-      {/* Hero Text — vertically centered */}
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pt-24">
         <div className="max-w-[800px]">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-8 h-[1px] bg-white" />
+            <span
+              className="text-[11px] uppercase tracking-[0.3em] text-white"
+              style={{ fontWeight: 500 }}
+            >
+              São José · Campinas · Florianópolis
+            </span>
+          </div>
+
+          <h1
+            className="text-white text-[36px] sm:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.02em] mb-6"
+            style={{ fontWeight: 300 }}
           >
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-[1px] bg-white" />
-              <span className="text-[11px] uppercase tracking-[0.3em] text-white" style={{ fontWeight: 500 }}>
-                São José · Campinas · Florianópolis
-              </span>
-            </div>
+            Onde inteligência
+            <br />
+            encontra <span style={{ fontWeight: 600, fontStyle: 'italic' }}>patrimônio.</span>
+          </h1>
 
-            <h1 className="text-white text-[36px] sm:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.02em] mb-6" style={{ fontWeight: 300 }}>
-              Onde inteligência<br />
-              encontra <span style={{ fontWeight: 600, fontStyle: 'italic' }}>patrimônio.</span>
-            </h1>
-
-            <p className="text-white/60 text-[16px] sm:text-[18px] leading-relaxed max-w-[520px]" style={{ fontWeight: 300 }}>
-              Consultoria imobiliária de alto padrão para quem entende que uma propriedade é, antes de tudo, uma decisão estratégica.
-            </p>
-          </motion.div>
+          <p
+            className="text-white/60 text-[16px] sm:text-[18px] leading-relaxed max-w-[520px]"
+            style={{ fontWeight: 300 }}
+          >
+            Consultoria imobiliária de alto padrão para quem entende que uma propriedade é,
+            antes de tudo, uma decisão estratégica.
+          </p>
         </div>
       </div>
 
-      {/* Search Bar — anchored to bottom */}
       <div className="relative z-20 w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pb-16 sm:pb-24">
         <div className="max-w-[800px]">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="relative z-20">
-              <SearchBar variant="hero" glass metadata={metadata} />
-            </div>
+          <div className="relative z-20">
+            <SearchBar variant="hero" glass metadata={metadata} />
+          </div>
 
-            {/* Quick Tags */}
-            <div className="relative z-10 flex flex-wrap gap-2 mt-4">
-              {quickTags.map((tag) => (
-                <button
-                  key={tag.label}
-                  onClick={() => setActiveQuickTag(activeQuickTag === tag.label ? null : tag.label)}
-                  className={`px-4 py-2 rounded-full text-[12px] tracking-[0.02em] transition-all duration-300 cursor-pointer ${
-                    activeQuickTag === tag.label
-                      ? 'bg-white text-[var(--color-heading)]'
-                      : 'bg-white/10 text-white/80 hover:bg-white/20 border border-white/10'
-                  }`}
-                  style={{ fontWeight: 500, backdropFilter: 'blur(12px)' }}
-                >
-                  {tag.icon && <span className="mr-1.5">{tag.icon}</span>}
-                  {tag.label}
-                </button>
-              ))}
-            </div>
-          </motion.div>
+          <div className="relative z-10 flex flex-wrap gap-2 mt-4">
+            {quickTags.map((tag) => (
+              <Link
+                key={tag.label}
+                href={tag.href}
+                className="px-4 py-2 rounded-full text-[12px] tracking-[0.02em] bg-white/10 text-white/80 hover:bg-white/20 border border-white/10 transition-colors"
+                style={{ fontWeight: 500, backdropFilter: 'blur(12px)' }}
+              >
+                {tag.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-16 right-8 sm:right-12 flex flex-col items-center gap-2"
-      >
-        <span className="text-white/40 text-[9px] uppercase tracking-[0.25em]" style={{ writingMode: 'vertical-rl' }}>
+      <div className="absolute bottom-16 right-8 sm:right-12 flex flex-col items-center gap-2">
+        <span
+          className="text-white/40 text-[9px] uppercase tracking-[0.25em]"
+          style={{ writingMode: 'vertical-rl' }}
+        >
           Scroll
         </span>
         <div className="w-[1px] h-10 bg-gradient-to-b from-white/40 to-transparent" />
-      </motion.div>
+      </div>
     </section>
   );
 }

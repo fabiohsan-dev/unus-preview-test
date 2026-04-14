@@ -1,0 +1,57 @@
+import Image from 'next/image';
+
+const DEFAULT_IMAGE_SRC =
+  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4K';
+
+interface ContentImageProps {
+  src?: string;
+  alt: string;
+  className?: string;
+  fill?: boolean;
+  priority?: boolean;
+  sizes?: string;
+  width?: number;
+  height?: number;
+  fallbackSrc?: string;
+}
+
+export function ContentImage({
+  src,
+  alt,
+  className,
+  fill = true,
+  priority = false,
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  width,
+  height,
+  fallbackSrc = DEFAULT_IMAGE_SRC,
+}: ContentImageProps) {
+  const resolvedSrc = src || fallbackSrc;
+  const useFill = fill && !width && !height;
+
+  if (useFill) {
+    return (
+      <Image
+        src={resolvedSrc}
+        alt={alt}
+        fill
+        priority={priority}
+        sizes={sizes}
+        className={className}
+        style={{ objectFit: 'cover' }}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={resolvedSrc}
+      alt={alt}
+      width={width ?? 1200}
+      height={height ?? 900}
+      priority={priority}
+      sizes={sizes}
+      className={className}
+    />
+  );
+}

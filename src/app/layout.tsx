@@ -3,9 +3,8 @@ import { Inter, Cormorant_Garamond } from 'next/font/google';
 import '../styles/globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { FixedButtons } from '@/components/FixedButtons';
-import { StickySearchBar } from '@/components/StickySearchBar';
-import { getMetadataServer } from '@/lib/server/vistaService';
+import { LazyFixedButtons } from '@/components/LazyFixedButtons';
+import { LazyStickySearchBar } from '@/components/LazyStickySearchBar';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -62,18 +61,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  let metadataData;
-  try {
-    metadataData = await getMetadataServer();
-  } catch (e) {
-    console.error('Erro ao buscar metadados no layout:', e);
-  }
-
   return (
     <html lang="pt-BR" className={`${inter.variable} ${cormorant.variable}`}>
       <body className="min-h-screen bg-[var(--color-background)] antialiased font-sans">
@@ -84,10 +76,10 @@ export default async function RootLayout({
           Pular para o conteúdo principal
         </a>
         <Header />
-        <StickySearchBar metadata={metadataData} />
+        <LazyStickySearchBar />
         <main id="main-content">{children}</main>
         <Footer />
-        <FixedButtons />
+        <LazyFixedButtons />
       </body>
     </html>
   );
