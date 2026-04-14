@@ -12,6 +12,7 @@ interface ContentImageProps {
   sizes?: string;
   width?: number;
   height?: number;
+  quality?: number;
   fallbackSrc?: string;
 }
 
@@ -24,6 +25,7 @@ export function ContentImage({
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
   width,
   height,
+  quality = 75,
   fallbackSrc = DEFAULT_IMAGE_SRC,
 }: ContentImageProps) {
   const resolvedSrc = src || fallbackSrc;
@@ -37,6 +39,7 @@ export function ContentImage({
         fill
         priority={priority}
         sizes={sizes}
+        quality={quality}
         className={className}
         style={{ objectFit: 'cover' }}
       />
@@ -51,6 +54,7 @@ export function ContentImage({
       height={height ?? 900}
       priority={priority}
       sizes={sizes}
+      quality={quality}
       className={className}
     />
   );

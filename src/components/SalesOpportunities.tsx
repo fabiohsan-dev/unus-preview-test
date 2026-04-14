@@ -91,6 +91,8 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover transition-all duration-[2s] ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    quality={70}
                   />
                   <div className="absolute top-4 left-4">
                     <span

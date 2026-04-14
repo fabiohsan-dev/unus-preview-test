@@ -10,6 +10,8 @@ export function NeighborhoodOpps() {
           src="https://sdr-w.agenciaalea.com.br/Sala-UNUS-8.jpg"
           alt="Vista aérea"
           className="w-full h-full object-cover"
+          sizes="100vw"
+          quality={60}
         />
         <div className="absolute inset-0 bg-[var(--secondary-900)]/85" />
       </div>
