@@ -121,16 +121,34 @@ function buildSlug(titulo: string, codigo: string): string {
 
 /**
  * Extrai área numérica de forma segura.
- * A Vista retorna "0" (string truthy!) quando o campo não se aplica,
- * então precisamos comparar o valor numérico — não usar `||` em strings.
- * Prioriza AreaTotal (mais confiável para terrenos), depois AreaPrivativa.
+ *
+ * QUIRK da Vista API: quando `Caracteristicas` está na lista de `fields`,
+ * os campos `AreaTotal` e `AreaPrivativa` são ABSORVIDOS para dentro do
+ * objeto `Caracteristicas` como `"Area Total"` e `"Area Privativa"` (com
+ * espaço), em vez de retornarem como campos top-level.
+ *
+ * Ordem de prioridade:
+ *  1. Campo top-level `AreaPrivativa` / `AreaTotal` (quando não tem Caracteristicas no request)
+ *  2. Chave dentro de `Caracteristicas`: `"Area Privativa"` / `"Area Total"`
  */
-function getArea(privativa?: string, total?: string): number {
-  const t = Number(total);
-  const p = Number(privativa);
+function getArea(v: VistaImovel): number {
+  // 1) Tentar campos top-level
+  const topPriv = Number(v.AreaPrivativa);
+  const topTotal = Number(v.AreaTotal);
 
-  if (Number.isFinite(p) && p > 0) return p;
-  if (Number.isFinite(t) && t > 0) return t;
+  if (Number.isFinite(topPriv) && topPriv > 0) return topPriv;
+  if (Number.isFinite(topTotal) && topTotal > 0) return topTotal;
+
+  // 2) Fallback: extrair de dentro de Caracteristicas (Vista absorve os campos)
+  if (v.Caracteristicas && typeof v.Caracteristicas === 'object') {
+    const caract = v.Caracteristicas as Record<string, string>;
+    const privFromCaract = Number(caract['Area Privativa']);
+    const totalFromCaract = Number(caract['Area Total']);
+
+    if (Number.isFinite(privFromCaract) && privFromCaract > 0) return privFromCaract;
+    if (Number.isFinite(totalFromCaract) && totalFromCaract > 0) return totalFromCaract;
+  }
+
   return 0;
 }
 
@@ -160,7 +178,7 @@ export function mapVistaToIndex(v: VistaImovel): ImovelIndex {
     tipo,
     finalidade,
     preco: finalidade === 'venda' ? precoVenda : precoLocacao,
-    area_m2: getArea(v.AreaPrivativa, v.AreaTotal),
+    area_m2: getArea(v),
     quartos: parseInt(v.Dormitorios ?? '0') || 0,
     banheiros: parseInt(v.BanheiroSocialQtd ?? '0') || 0,
     vagas: parseInt(v.Vagas ?? '0') || 0,
