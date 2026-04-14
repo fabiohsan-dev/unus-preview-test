@@ -55,7 +55,7 @@ export default async function ImovelPage({ params }: Props) {
     '@type': 'RealEstateListing',
     name: imovel.TituloSite || `${imovel.Categoria} em ${imovel.Bairro}`,
     description: (imovel.DescricaoSite || imovel.Descricao || '').slice(0, 200),
-    url: `https://unusnucleoimobiliario.com.br/imovel/${slug}`,
+    url: `https://unus-preview-test.vercel.app/imovel/${slug}`,
     image: fotos.map(f => f.URLArquivo || f.URL).filter(Boolean),
     price: imovel.ValorVenda && imovel.ValorVenda !== '0' ? Number(imovel.ValorVenda) : undefined,
     priceCurrency: 'BRL',

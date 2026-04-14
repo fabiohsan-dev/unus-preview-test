@@ -14,7 +14,7 @@ export default function NotFound() {
       <header className="relative z-10 w-full p-8 lg:p-12">
         <Link href="/" className="inline-block">
           <img
-            src="https://unusnucleoimobiliario.com.br/wp-content/uploads/2021/07/xLogo_sm-1.png.pagespeed.ic.VQHWf0IouS.webp"
+            src="/images/logo.webp"
             alt="UNUS Núcleo Imobiliário"
             className="h-10 w-auto object-contain brightness-0"
           />

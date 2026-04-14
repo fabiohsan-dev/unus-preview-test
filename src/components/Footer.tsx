@@ -63,7 +63,7 @@ export function Footer() {
           <div className="lg:col-span-1">
             <div className="mb-6">
               <img
-                src="https://unusnucleoimobiliario.com.br/wp-content/uploads/2021/07/xLogo_sm-1.png.pagespeed.ic.VQHWf0IouS.webp"
+                src="/images/logo.webp"
                 alt="UNUS Núcleo Imobiliário"
                 className="h-10 w-auto object-contain brightness-0 invert"
               />

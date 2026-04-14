@@ -64,7 +64,7 @@ export function Header() {
         <div className="flex items-center justify-between h-20 lg:h-24">
           <Link href="/" className="flex items-center" aria-label="Ir para a home da UNUS">
             <img
-              src="https://unusnucleoimobiliario.com.br/wp-content/uploads/2021/07/xLogo_sm-1.png.pagespeed.ic.VQHWf0IouS.webp"
+              src="/images/logo.webp"
               alt="UNUS Núcleo Imobiliário"
               className={`h-10 lg:h-12 w-auto object-contain transition-all duration-500 ${
                 transparent ? 'brightness-0 invert' : 'brightness-0'

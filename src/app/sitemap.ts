@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://unusnucleoimobiliario.com.br';
+  const baseUrl = 'https://unus-preview-test.vercel.app';
 
   return [
     {

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://unusnucleoimobiliario.com.br/sitemap.xml
+Sitemap: https://unus-preview-test.vercel.app/sitemap.xml

@@ -10,10 +10,6 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'unusnucleoimobiliario.com.br',
-      },
-      {
-        protocol: 'https',
         hostname: 'sdr-w.agenciaalea.com.br',
       },
       {
