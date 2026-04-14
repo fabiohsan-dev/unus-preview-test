@@ -5,7 +5,7 @@
  *
  * Usado por:
  *  - scripts/sync-imoveis.ts (CLI manual)
- *  - /api/cron/sync-imoveis   (cron Vercel cada 6h)
+ *  - /api/cron/sync-imoveis   (endpoint acionado pelo GitHub Actions)
  *
  * NÃO usa `import 'server-only'` para permitir execução via `tsx` CLI.
  * Segurança garantida pelo uso de SUPABASE_SERVICE_ROLE_KEY (nunca no client).

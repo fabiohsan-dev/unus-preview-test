@@ -6,7 +6,7 @@ import { runSync } from '@/lib/server/sync-engine';
 // ---------------------------------------------------------------------------
 // GET /api/cron/sync-imoveis
 //
-// Chamado pelo Vercel Cron a cada 6h (vercel.json).
+// Chamado pelo GitHub Actions agendado ou manualmente.
 // Protegido por CRON_SECRET via Authorization header.
 // ---------------------------------------------------------------------------
 

@@ -7,23 +7,45 @@ on:
   workflow_dispatch:
     # Permite execução manual pelo painel do GitHub Actions
 
+concurrency:
+  group: sync-imoveis
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
+      - name: Validate required secrets
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DEPLOY_URL: ${{ secrets.DEPLOY_URL }}
+        run: |
+          if [ -z "${CRON_SECRET}" ]; then
+            echo "Secret CRON_SECRET nao configurado"
+            exit 1
+          fi
+
+          if [ -z "${DEPLOY_URL}" ]; then
+            echo "Secret DEPLOY_URL nao configurado"
+            exit 1
+          fi
+
       - name: Trigger sync endpoint
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           DEPLOY_URL: ${{ secrets.DEPLOY_URL }}
         run: |
-          echo "🔄 Triggering sync at $(date -u)"
+          TARGET_URL="${DEPLOY_URL%/}/api/cron/sync-imoveis"
+
+          echo "Triggering sync at $(date -u)"
+          echo "Target: ${TARGET_URL}"
 
           RESPONSE=$(curl -s -w "\n%{http_code}" \
             -X GET \
             -H "Authorization: Bearer ${CRON_SECRET}" \
-            "${DEPLOY_URL}/api/cron/sync-imoveis")
+            "${TARGET_URL}")
 
           HTTP_CODE=$(echo "$RESPONSE" | tail -1)
           BODY=$(echo "$RESPONSE" | head -n -1)
@@ -32,8 +54,8 @@ jobs:
           echo "Response: ${BODY}"
 
           if [ "$HTTP_CODE" -ne 200 ]; then
-            echo "❌ Sync failed with status ${HTTP_CODE}"
+            echo "Sync failed with status ${HTTP_CODE}"
             exit 1
           fi
 
-          echo "✅ Sync completed successfully"
+          echo "Sync completed successfully"
