@@ -22,7 +22,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
           alt="Ambiente UNUS em Santa Catarina"
           fill
           priority
-          quality={72}
+          quality={60}
           sizes="100vw"
           className="object-cover scale-105"
         />

@@ -1,11 +1,5 @@
 import dynamic from 'next/dynamic';
 import { HeroSearch } from '@/components/HeroSearch';
-import { CategoryStrip } from '@/components/CategoryStrip';
-import { PropertyCardGrid } from '@/components/PropertyCard';
-import { SalesOpportunities } from '@/components/SalesOpportunities';
-import { VisitUs } from '@/components/VisitUs';
-import { NeighborhoodOpps } from '@/components/NeighborhoodOpps';
-import { BlogSection } from '@/components/BlogSection';
 import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaService';
 import { 
   mapToFeaturedProperty, 
@@ -13,18 +7,49 @@ import {
   mapToGridProperty 
 } from '@/lib/mappers/propertyMapper';
 
+// Carregamento dinâmico para componentes abaixo da dobra (performance)
+const CategoryStrip = dynamic(
+  () => import('@/components/CategoryStrip').then((mod) => mod.CategoryStrip),
+  { loading: () => <div className="min-h-[400px] bg-white animate-pulse" /> }
+);
+
 const FeaturedCards = dynamic(
   () => import('@/components/FeaturedCards').then((module) => module.FeaturedCards),
   {
-    loading: () => <div className="min-h-[640px] bg-[var(--neutral-100)]" aria-hidden="true" />,
+    loading: () => <div className="min-h-[640px] bg-[var(--neutral-100)] animate-pulse" />,
   }
+);
+
+const PropertyCardGrid = dynamic(
+  () => import('@/components/PropertyCard').then((mod) => mod.PropertyCardGrid),
+  { loading: () => <div className="min-h-[800px] bg-[var(--color-background)] animate-pulse" /> }
+);
+
+const SalesOpportunities = dynamic(
+  () => import('@/components/SalesOpportunities').then((mod) => mod.SalesOpportunities),
+  { loading: () => <div className="min-h-[500px] bg-white animate-pulse" /> }
 );
 
 const AboutUs = dynamic(
   () => import('@/components/AboutUs').then((module) => module.AboutUs),
   {
-    loading: () => <div className="min-h-[620px] bg-[var(--neutral-50)]" aria-hidden="true" />,
+    loading: () => <div className="min-h-[620px] bg-[var(--neutral-50)] animate-pulse" />,
   }
+);
+
+const VisitUs = dynamic(
+  () => import('@/components/VisitUs').then((mod) => mod.VisitUs),
+  { loading: () => <div className="min-h-[400px] bg-white animate-pulse" /> }
+);
+
+const NeighborhoodOpps = dynamic(
+  () => import('@/components/NeighborhoodOpps').then((mod) => mod.NeighborhoodOpps),
+  { loading: () => <div className="min-h-[500px] bg-[var(--neutral-50)] animate-pulse" /> }
+);
+
+const BlogSection = dynamic(
+  () => import('@/components/BlogSection').then((mod) => mod.BlogSection),
+  { loading: () => <div className="min-h-[600px] bg-white animate-pulse" /> }
 );
 
 export const revalidate = 3600; // Revalida a cada 1 hora

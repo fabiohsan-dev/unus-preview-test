@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const footerGroups = [
@@ -62,11 +63,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-16 pb-16 border-b border-white/8">
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <img
+              <Image
                 src="/images/logo.webp"
                 alt="UNUS Núcleo Imobiliário"
-                width="77"
-                height="48"
+                width={77}
+                height={48}
                 className="h-10 w-auto object-contain brightness-0 invert"
               />
             </div>

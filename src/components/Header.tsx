@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Heart, Menu, X } from 'lucide-react';
 
@@ -63,11 +64,12 @@ export function Header() {
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-20 lg:h-24">
           <Link href="/" className="flex items-center" aria-label="Ir para a home da UNUS">
-            <img
+            <Image
               src="/images/logo.webp"
               alt="UNUS Núcleo Imobiliário"
-              width="77"
-              height="48"
+              width={77}
+              height={48}
+              priority
               className={`h-10 lg:h-12 w-auto object-contain transition-all duration-500 ${
                 transparent ? 'brightness-0 invert' : 'brightness-0'
               }`}

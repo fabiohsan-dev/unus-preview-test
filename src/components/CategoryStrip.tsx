@@ -82,7 +82,7 @@ export function CategoryStrip() {
                 alt={item.title}
                 className="w-full h-full object-cover transition-all duration-[2s] ease-out group-hover:scale-110 opacity-80 group-hover:opacity-100"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                quality={70}
+                quality={60}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
 
