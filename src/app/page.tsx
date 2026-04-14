@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import { HeroSearch } from '@/components/HeroSearch';
+import { CategoryStrip } from '@/components/CategoryStrip';
 import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaService';
 import { 
   mapToFeaturedProperty, 
@@ -8,11 +9,6 @@ import {
 } from '@/lib/mappers/propertyMapper';
 
 // Carregamento dinâmico para componentes abaixo da dobra (performance)
-const CategoryStrip = dynamic(
-  () => import('@/components/CategoryStrip').then((mod) => mod.CategoryStrip),
-  { loading: () => <div className="min-h-[400px] bg-white animate-pulse" /> }
-);
-
 const FeaturedCards = dynamic(
   () => import('@/components/FeaturedCards').then((module) => module.FeaturedCards),
   {

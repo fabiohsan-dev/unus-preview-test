@@ -68,6 +68,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${cormorant.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://cdn.vistahost.com.br" />
+      </head>
       <body className="min-h-screen bg-[var(--color-background)] antialiased font-sans">
         <a 
           href="#main-content" 
