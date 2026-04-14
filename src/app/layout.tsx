@@ -77,9 +77,15 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} ${cormorant.variable}`}>
       <body className="min-h-screen bg-[var(--color-background)] antialiased font-sans">
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[var(--secondary-900)] focus:text-white focus:text-[12px] focus:uppercase focus:tracking-widest"
+        >
+          Pular para o conteúdo principal
+        </a>
         <Header />
         <StickySearchBar metadata={metadataData} />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <Footer />
         <FixedButtons />
       </body>

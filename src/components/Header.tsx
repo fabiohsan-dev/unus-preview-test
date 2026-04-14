@@ -84,6 +84,9 @@ export function Header() {
             className={`lg:hidden p-2 transition-colors cursor-pointer ${
               transparent ? 'text-white' : 'text-[var(--color-heading)]'
             }`}
+            aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" strokeWidth={1.5} />}
           </button>
@@ -94,6 +97,7 @@ export function Header() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-navigation"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}

@@ -30,24 +30,31 @@ function FilterField({
   compact?: boolean;
 }) {
   return (
-    <div
-      className={`flex items-center gap-3 group cursor-pointer hover:bg-[var(--neutral-50)] rounded-lg transition-colors relative ${
-        compact ? 'flex-1 px-3 py-2.5' : 'flex-1 p-3.5 py-4 md:py-3.5'
-      }`}
-      onClick={(e) => { e.stopPropagation(); onToggle(); }}
-    >
-      <Icon className="text-[var(--primary-500)] w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />
-      <div className="flex-1 min-w-0">
-        {!compact && (
-          <p className="text-[10px] text-[var(--secondary-400)] uppercase tracking-[0.12em]" style={{ fontWeight: 600 }}>{label}</p>
-        )}
-        <div className="flex items-center justify-between gap-2">
-          <span className={`text-[var(--color-heading)] truncate ${compact ? 'text-[13px]' : 'text-[14px]'}`} style={{ fontWeight: 500 }}>
-            {value}
-          </span>
-          <ChevronDown className={`w-3.5 h-3.5 text-[var(--neutral-300)] shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+    <div className="flex-1 relative">
+      <button
+        type="button"
+        className={`w-full flex items-center gap-3 group cursor-pointer hover:bg-[var(--neutral-50)] rounded-lg transition-colors relative border-none text-left bg-transparent ${
+          compact ? 'px-3 py-2.5' : 'p-3.5 py-4 md:py-3.5'
+        }`}
+        onClick={(e) => { e.stopPropagation(); onToggle(); }}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label={`${label}: ${value}`}
+      >
+        <Icon className="text-[var(--primary-500)] w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />
+        <div className="flex-1 min-w-0">
+          {!compact && (
+            <p className="text-[10px] text-[var(--secondary-400)] uppercase tracking-[0.12em]" style={{ fontWeight: 600 }}>{label}</p>
+          )}
+          <div className="flex items-center justify-between gap-2">
+            <span className={`text-[var(--color-heading)] truncate ${compact ? 'text-[13px]' : 'text-[14px]'}`} style={{ fontWeight: 500 }}>
+              {value}
+            </span>
+            <ChevronDown className={`w-3.5 h-3.5 text-[var(--neutral-300)] shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+          </div>
         </div>
-      </div>
+      </button>
+      
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -56,12 +63,14 @@ function FilterField({
             exit={{ opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
             className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[var(--neutral-200)] py-2 z-[100] max-h-[240px] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            role="listbox"
           >
             {options.map((opt) => (
               <button
                 key={opt}
-                className={`w-full text-left px-4 py-3 md:py-2.5 text-[14px] md:text-[13px] hover:bg-[var(--primary-500)]/5 transition-colors cursor-pointer ${
+                role="option"
+                aria-selected={value === opt}
+                className={`w-full text-left px-4 py-3 md:py-2.5 text-[14px] md:text-[13px] hover:bg-[var(--primary-500)]/5 transition-colors cursor-pointer border-none bg-transparent ${
                   value === opt ? 'text-[var(--primary-500)] bg-[var(--primary-500)]/5' : 'text-[var(--color-heading)]'
                 }`}
                 style={{ fontWeight: value === opt ? 600 : 400 }}
@@ -289,11 +298,14 @@ export function SearchBar({ variant = 'hero', glass = false, metadata, onSearch,
                 compact ? 'w-9 h-9' : 'w-11 h-11'
               } ${showAdvanced ? 'bg-[var(--primary-500)]/10 text-[var(--primary-500)]' : 'hover:bg-[var(--neutral-100)] text-[var(--color-body)]'}`}
               onClick={() => setShowAdvanced(!showAdvanced)}
+              aria-label="Filtros avançados"
+              aria-expanded={showAdvanced}
             >
               <SlidersHorizontal className={compact ? 'w-4 h-4' : 'w-[18px] h-[18px]'} strokeWidth={1.5} />
             </button>
             <button
               onClick={handleSearch}
+              aria-label="Realizar busca"
               className={`bg-[var(--secondary-900)] text-white rounded-lg flex items-center justify-center gap-2.5 hover:bg-[var(--secondary-800)] transition-colors cursor-pointer ${
                 compact
                   ? 'px-5 py-2.5 flex-1 md:flex-none'

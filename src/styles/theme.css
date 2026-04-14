@@ -26,7 +26,7 @@
   --secondary-100: #E4E4E6;
   --secondary-200: #C9CACC;
   --secondary-300: #AEAFB3;
-  --secondary-400: #939499;
+  --secondary-400: #787873;
   --secondary-500: #696A6C; /* Base */
   --secondary-600: #555658;
   --secondary-700: #414244;
@@ -179,7 +179,7 @@
   /* ── Semantic Text ── */
   --color-heading: var(--secondary-900);    /* #1A1A1C — deep charcoal */
   --color-body:    var(--secondary-500);    /* #696A6C — graphite */
-  --color-caption: var(--neutral-500);      /* #9E9E99 — muted */
+  --color-caption: var(--neutral-600);      /* #787873 — darkened for a11y */
   --color-inverse: var(--neutral-50);       /* #F8F8F6 — for dark bgs */
 
   /* ── Functional ── */

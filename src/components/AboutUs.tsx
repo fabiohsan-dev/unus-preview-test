@@ -36,7 +36,11 @@ export function AboutUs() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="relative aspect-[16/10] overflow-hidden group cursor-pointer" onClick={openVideo}>
+              <button 
+                className="w-full relative aspect-[16/10] overflow-hidden group cursor-pointer border-none p-0 text-left bg-transparent" 
+                onClick={openVideo}
+                aria-label="Assistir vídeo institucional da UNUS"
+              >
                 {/* Thumbnail — Real UNUS office photo */}
                 <Image
                   src="https://img.youtube.com/vi/a3dpAyPaltg/hqdefault.jpg"
@@ -83,7 +87,7 @@ export function AboutUs() {
                     Assistir apresentação · 2:40
                   </p>
                 </div>
-              </div>
+              </button>
 
               {/* Secondary photo — small accent */}
 
@@ -197,6 +201,9 @@ export function AboutUs() {
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8"
             onClick={closeVideo}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Vídeo institucional"
           >
             {/* Backdrop */}
             <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
@@ -205,6 +212,7 @@ export function AboutUs() {
             <button
               onClick={closeVideo}
               className="absolute top-6 right-6 w-12 h-12 rounded-full border border-white/15 flex items-center justify-center hover:bg-white/10 transition-colors z-10 cursor-pointer"
+              aria-label="Fechar vídeo"
             >
               <X className="w-5 h-5 text-white" strokeWidth={1.5} />
             </button>

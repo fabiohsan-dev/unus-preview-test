@@ -67,6 +67,8 @@ export function PropertyCard({ property, onFavorite, variant = 'grid' }: Propert
           <button
             onClick={handleFavorite}
             className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white z-10 shadow-sm"
+            aria-label={isFavorited ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+            aria-pressed={isFavorited}
           >
             <Heart className={`w-[16px] h-[16px] ${isFavorited ? 'fill-[var(--color-error)] text-[var(--color-error)]' : 'text-[var(--color-graphite-400)]'}`} strokeWidth={1.5} />
           </button>
@@ -143,6 +145,8 @@ export function PropertyCard({ property, onFavorite, variant = 'grid' }: Propert
           onClick={handleFavorite}
           className="absolute -top-[52px] right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white hover:scale-110 cursor-pointer z-10"
           style={{ boxShadow: 'var(--shadow-glass)' }}
+          aria-label={isFavorited ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+          aria-pressed={isFavorited}
         >
           <Heart
             className={`w-[18px] h-[18px] transition-colors ${

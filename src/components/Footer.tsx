@@ -24,13 +24,18 @@ export function Footer() {
               Inteligência Imobiliária em Alto Padrão. São José, Campinas e praias de Florianópolis.
             </p>
             <div className="flex items-center gap-4">
-              {[Instagram, Linkedin, Youtube].map((Icon, idx) => (
+              {[
+                { Icon: Instagram, label: 'Instagram' },
+                { Icon: Linkedin, label: 'LinkedIn' },
+                { Icon: Youtube, label: 'YouTube' }
+              ].map(({ Icon, label }, idx) => (
                 <a
                   key={idx}
                   href="#"
                   className="w-10 h-10 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors"
+                  aria-label={label}
                 >
-                  <Icon className="w-4 h-4 text-white/50" strokeWidth={1.5} />
+                  <Icon className="w-4 h-4 text-white/60" strokeWidth={1.5} />
                 </a>
               ))}
             </div>
@@ -40,7 +45,7 @@ export function Footer() {
           {Object.entries(links).map(([title, items]) => (
             <div key={title}>
               <h4
-                className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6"
+                className="text-[11px] uppercase tracking-[0.2em] text-white/60 mb-6"
                 style={{ fontWeight: 600 }}
               >
                 {title}
@@ -50,7 +55,7 @@ export function Footer() {
                   <li key={idx}>
                     <a
                       href="#"
-                      className="text-[14px] text-white/50 hover:text-white transition-colors flex items-center gap-1.5 group"
+                      className="text-[14px] text-white/70 hover:text-white transition-colors flex items-center gap-1.5 group"
                       style={{ fontWeight: 300 }}
                     >
                       {item}
@@ -65,14 +70,14 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/20 text-[12px]" style={{ fontWeight: 400 }}>
+          <p className="text-white/40 text-[12px]" style={{ fontWeight: 400 }}>
             &copy; 2026 UNUS Núcleo Imobiliário. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-white/20 text-[12px] hover:text-white/40 transition-colors" style={{ fontWeight: 400 }}>
+            <a href="#" className="text-white/40 text-[12px] hover:text-white/60 transition-colors" style={{ fontWeight: 400 }}>
               Política de Privacidade
             </a>
-            <a href="#" className="text-white/20 text-[12px] hover:text-white/40 transition-colors" style={{ fontWeight: 400 }}>
+            <a href="#" className="text-white/40 text-[12px] hover:text-white/60 transition-colors" style={{ fontWeight: 400 }}>
               CRECI 12345-J
             </a>
           </div>

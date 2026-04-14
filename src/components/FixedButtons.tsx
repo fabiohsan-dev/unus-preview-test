@@ -80,6 +80,7 @@ export function FixedButtons() {
                   <button
                     onClick={() => setConsentOpen(false)}
                     className="w-7 h-7 flex items-center justify-center hover:bg-[var(--neutral-100)] transition-colors"
+                    aria-label="Fechar termos de consentimento"
                   >
                     <X className="w-4 h-4 text-[var(--color-body)]" strokeWidth={1.5} />
                   </button>
