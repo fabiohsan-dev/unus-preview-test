@@ -65,11 +65,13 @@ export function Footer() {
               <img
                 src="/images/logo.webp"
                 alt="UNUS Núcleo Imobiliário"
+                width="77"
+                height="48"
                 className="h-10 w-auto object-contain brightness-0 invert"
               />
             </div>
             <p
-              className="text-white/40 text-[13px] leading-relaxed max-w-[260px] mb-8"
+              className="text-white/60 text-[13px] leading-relaxed max-w-[260px] mb-8"
               style={{ fontWeight: 300 }}
             >
               Inteligência imobiliária em alto padrão. São José, Campinas e praias de
@@ -137,7 +139,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/40 text-[12px]" style={{ fontWeight: 400 }}>
+          <p className="text-white/60 text-[12px]" style={{ fontWeight: 400 }}>
             &copy; 2026 UNUS Núcleo Imobiliário. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-6">
@@ -145,7 +147,7 @@ export function Footer() {
               href="https://unusnucleoimobiliario.com.br/politica-de-privacidade/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/40 text-[12px] hover:text-white/60 transition-colors"
+              className="text-white/60 text-[12px] hover:text-white transition-colors"
               style={{ fontWeight: 400 }}
             >
               Política de Privacidade
@@ -154,12 +156,12 @@ export function Footer() {
               href="https://unusnucleoimobiliario.com.br/politica-de-privacidade-e-cookies/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/40 text-[12px] hover:text-white/60 transition-colors"
+              className="text-white/60 text-[12px] hover:text-white transition-colors"
               style={{ fontWeight: 400 }}
             >
               Privacidade & Cookies
             </a>
-            <span className="text-white/40 text-[12px]" style={{ fontWeight: 400 }}>
+            <span className="text-white/60 text-[12px]" style={{ fontWeight: 400 }}>
               CRECI 12345-J
             </span>
           </div>

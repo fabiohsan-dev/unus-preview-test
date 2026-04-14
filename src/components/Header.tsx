@@ -66,6 +66,8 @@ export function Header() {
             <img
               src="/images/logo.webp"
               alt="UNUS Núcleo Imobiliário"
+              width="77"
+              height="48"
               className={`h-10 lg:h-12 w-auto object-contain transition-all duration-500 ${
                 transparent ? 'brightness-0 invert' : 'brightness-0'
               }`}

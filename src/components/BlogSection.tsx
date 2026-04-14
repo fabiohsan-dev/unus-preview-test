@@ -136,8 +136,8 @@ export function BlogSection() {
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10px] uppercase tracking-[0.1em] text-[var(--primary-700)] bg-[var(--primary-50)] px-2.5 py-1"
-                      style={{ fontWeight: 500 }}
+                      className="text-[10px] uppercase tracking-[0.1em] text-[var(--secondary-900)] bg-[var(--primary-50)] px-2.5 py-1"
+                      style={{ fontWeight: 600 }}
                     >
                       {tag}
                     </span>
