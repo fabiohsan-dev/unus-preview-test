@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useCallback, type FormEvent } from 'react';
-import { Turnstile } from '@marsidev/react-turnstile';
-import { Search, Sparkles } from 'lucide-react';
+import { Search, Sparkles, Lock, CheckCircle } from 'lucide-react';
 import { PropertyCard, type PropertyCardData } from '@/components/PropertyCard';
 import type { ImovelCard, SearchFilters } from '@/types/imovel';
 
@@ -100,11 +99,23 @@ export default function SmartSearch() {
   const [filters, setFilters] = useState<SearchFilters | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
-  const siteKey =
-    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA';
+  // Password gate
+  const [password, setPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('preview_auth') === 'true';
+    }
+    return false;
+  });
+  const [savedPassword, setSavedPassword] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('preview_pw') ?? '';
+    }
+    return '';
+  });
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const handleSearch = useCallback(
     async (searchQuery: string) => {
@@ -120,7 +131,7 @@ export default function SmartSearch() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             query: searchQuery.trim(),
-            turnstileToken: turnstileToken ?? '',
+            password: savedPassword,
           }),
         });
 
@@ -148,7 +159,7 @@ export default function SmartSearch() {
         setLoading(false);
       }
     },
-    [turnstileToken]
+    [savedPassword]
   );
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -161,72 +172,146 @@ export default function SmartSearch() {
     handleSearch(sugestao);
   };
 
+  const handlePasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!password.trim()) return;
+
+    setPasswordError(null);
+
+    // Test the password with a lightweight search request
+    try {
+      const res = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'teste', password: password.trim() }),
+      });
+
+      if (res.status === 403 || res.status === 401) {
+        setPasswordError('Senha incorreta');
+        return;
+      }
+
+      // Password accepted
+      sessionStorage.setItem('preview_auth', 'true');
+      sessionStorage.setItem('preview_pw', password.trim());
+      setSavedPassword(password.trim());
+      setIsAuthenticated(true);
+    } catch {
+      setPasswordError('Erro ao verificar senha');
+    }
+  };
+
   return (
     <div className="w-full space-y-10">
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <label
-            htmlFor="search-input"
-            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-            style={{ fontWeight: 600 }}
-          >
-            <Sparkles className="w-3.5 h-3.5" /> Descreva o que você procura
-          </label>
-          <div className="relative">
-            <input
-              id="search-input"
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Ex: apartamento 3 quartos com vista mar no Leblon..."
-              className="w-full rounded-lg border border-[var(--neutral-300)] bg-[var(--input-background)] px-5 py-4 pr-14 font-sans text-[15px] text-[var(--color-heading)] placeholder:text-[var(--neutral-400)] transition-colors duration-200 focus:border-[var(--primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--primary-500)]"
-              autoComplete="off"
-              disabled={loading}
-            />
-            <button
-              type="submit"
-              disabled={loading || !query.trim()}
-              aria-label="Buscar imóveis"
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-[var(--secondary-900)] rounded-lg p-3 text-white transition-all duration-200 hover:bg-[var(--secondary-800)] disabled:pointer-events-none disabled:opacity-30"
+      {/* Password gate */}
+      {!isAuthenticated ? (
+        <div className="mx-auto max-w-md space-y-6">
+          <div className="rounded-xl border border-[var(--neutral-300)] bg-[var(--card-background)] p-8 text-center shadow-sm">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--primary-500)]/10">
+              <Lock className="h-5 w-5 text-[var(--primary-500)]" />
+            </div>
+            <h3
+              className="text-[18px] text-[var(--color-heading)]"
+              style={{ fontWeight: 600 }}
             >
-              {loading ? (
-                <svg
-                  aria-hidden="true"
-                  className="h-4 w-4 animate-spin"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className="opacity-25"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    className="opacity-75"
-                  />
-                </svg>
-              ) : (
-                <Search className="w-4 h-4" strokeWidth={1.5} />
+              Acesso restrito
+            </h3>
+            <p
+              className="mt-1 text-[13px] text-[var(--color-caption)]"
+              style={{ fontWeight: 300 }}
+            >
+              Digite a senha para acessar a busca inteligente.
+            </p>
+
+            <form onSubmit={handlePasswordSubmit} className="mt-6 space-y-3">
+              <input
+                id="password-input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Senha de acesso"
+                className="w-full rounded-lg border border-[var(--neutral-300)] bg-[var(--input-background)] px-4 py-3 text-center font-sans text-[15px] text-[var(--color-heading)] placeholder:text-[var(--neutral-400)] transition-colors duration-200 focus:border-[var(--primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--primary-500)]"
+                autoComplete="off"
+              />
+              {passwordError && (
+                <p className="text-[12px] text-[var(--error)]" style={{ fontWeight: 500 }}>
+                  {passwordError}
+                </p>
               )}
-            </button>
+              <button
+                type="submit"
+                disabled={!password.trim()}
+                className="w-full rounded-lg bg-[var(--secondary-900)] py-3 text-[13px] text-white transition-all duration-200 hover:bg-[var(--secondary-800)] disabled:pointer-events-none disabled:opacity-30"
+                style={{ fontWeight: 600, letterSpacing: '0.05em' }}
+              >
+                Entrar
+              </button>
+            </form>
           </div>
         </div>
+      ) : (
+        <>
+          {/* Authenticated badge */}
+          <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-caption)]">
+            <CheckCircle className="h-3.5 w-3.5 text-green-500" />
+            <span style={{ fontWeight: 400 }}>Acesso liberado</span>
+          </div>
 
-        {/* Turnstile (invisible) */}
-        <div className="hidden">
-          <Turnstile
-            siteKey={siteKey}
-            onSuccess={(token: string) => setTurnstileToken(token)}
-            options={{ size: 'invisible' }}
-          />
-        </div>
-      </form>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label
+                htmlFor="search-input"
+                className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
+                style={{ fontWeight: 600 }}
+              >
+                <Sparkles className="w-3.5 h-3.5" /> Descreva o que você procura
+              </label>
+              <div className="relative">
+                <input
+                  id="search-input"
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Ex: apartamento 3 quartos com vista mar no Leblon..."
+                  className="w-full rounded-lg border border-[var(--neutral-300)] bg-[var(--input-background)] px-5 py-4 pr-14 font-sans text-[15px] text-[var(--color-heading)] placeholder:text-[var(--neutral-400)] transition-colors duration-200 focus:border-[var(--primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--primary-500)]"
+                  autoComplete="off"
+                  disabled={loading}
+                />
+                <button
+                  type="submit"
+                  disabled={loading || !query.trim()}
+                  aria-label="Buscar imóveis"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-[var(--secondary-900)] rounded-lg p-3 text-white transition-all duration-200 hover:bg-[var(--secondary-800)] disabled:pointer-events-none disabled:opacity-30"
+                >
+                  {loading ? (
+                    <svg
+                      aria-hidden="true"
+                      className="h-4 w-4 animate-spin"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="opacity-25"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                        className="opacity-75"
+                      />
+                    </svg>
+                  ) : (
+                    <Search className="w-4 h-4" strokeWidth={1.5} />
+                  )}
+                </button>
+              </div>
+            </div>
+          </form>
 
       {/* Sugestões (quando vazio e sem resultados) */}
       {!query.trim() && !hasSearched && (
@@ -334,6 +419,8 @@ export default function SmartSearch() {
             Tente usar termos diferentes ou menos específicos.
           </p>
         </div>
+      )}
+        </>
       )}
     </div>
   );

@@ -12,33 +12,14 @@ import type { SearchFilters, ImovelCard } from '@/types/imovel';
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY ?? '' });
 
 // ---------------------------------------------------------------------------
-// Turnstile verification
+// Preview password verification
 // ---------------------------------------------------------------------------
 
-async function verifyTurnstile(token: string): Promise<boolean> {
+function verifyPassword(password: string): boolean {
   if (process.env.NODE_ENV === 'development') return true;
-
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return false;
-
-  try {
-    const res = await fetch(
-      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ secret, response: token }),
-      }
-    );
-
-    const data = await res.json();
-    return data.success === true;
-  } catch {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('[search] Turnstile verification error');
-    }
-    return false;
-  }
+  const expected = process.env.PREVIEW_PASSWORD;
+  if (!expected) return false;
+  return password === expected;
 }
 
 // ---------------------------------------------------------------------------
@@ -88,9 +69,9 @@ async function extractFilters(query: string): Promise<SearchFilters> {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { query, turnstileToken } = body as {
+    const { query, password } = body as {
       query?: string;
-      turnstileToken?: string;
+      password?: string;
     };
 
     // Validate input
@@ -108,18 +89,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Turnstile verification (skip in development)
+    // Preview password verification (skip in development)
     if (process.env.NODE_ENV !== 'development') {
-      if (!turnstileToken) {
+      if (!password) {
         return NextResponse.json(
-          { error: 'Token Turnstile ausente' },
-          { status: 400 }
+          { error: 'Senha de acesso obrigatória' },
+          { status: 401 }
         );
       }
-      const valid = await verifyTurnstile(turnstileToken);
-      if (!valid) {
+      if (!verifyPassword(password)) {
         return NextResponse.json(
-          { error: 'Verificação anti-bot falhou' },
+          { error: 'Senha incorreta' },
           { status: 403 }
         );
       }
@@ -191,9 +171,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ results, filters });
   } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('[search] Unexpected error:', err);
-    }
+    console.error('[search] Unexpected error:', err);
     return NextResponse.json(
       { error: 'Erro interno do servidor' },
       { status: 500 }
