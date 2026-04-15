@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useCallback, type FormEvent } from 'react';
-import { Search, Sparkles, Lock, CheckCircle } from 'lucide-react';
+import { useState, useCallback, useRef, type FormEvent } from 'react';
+import { Search, Sparkles, Lock, CheckCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 import { PropertyCard, type PropertyCardData } from '@/components/PropertyCard';
 import type { ImovelCard, SearchFilters } from '@/types/imovel';
 
@@ -17,7 +17,7 @@ function mapToPropertyCardData(imovel: ImovelCard): PropertyCardData {
     transactionType: imovel.finalidade === 'venda' ? 'Venda' : 'Locação',
     price: imovel.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 }),
     bedrooms: imovel.quartos,
-    suites: 0, // Not available in index table currently
+    suites: 0,
     parkingSpots: imovel.vagas,
     bathrooms: imovel.banheiros,
     area: imovel.area_m2 > 0 ? `${imovel.area_m2} m²` : undefined,
@@ -79,7 +79,7 @@ function FilterTags({ filters }: { filters: SearchFilters }) {
       {tags.map((tag) => (
         <span
           key={tag}
-          className="rounded-full bg-[var(--primary-500)]/5 px-4 py-1.5 text-[12px] text-[var(--color-accent-text)] transition-colors"
+          className="border border-[var(--neutral-300)] bg-[var(--neutral-50)] px-4 py-1.5 text-[12px] text-[var(--color-accent-text)]"
           style={{ fontWeight: 500 }}
         >
           {tag}
@@ -116,6 +116,8 @@ export default function SmartSearch() {
     return '';
   });
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = useCallback(
     async (searchQuery: string) => {
@@ -177,8 +179,8 @@ export default function SmartSearch() {
     if (!password.trim()) return;
 
     setPasswordError(null);
+    setIsVerifying(true);
 
-    // Test the password with a lightweight search request
     try {
       const res = await fetch('/api/search', {
         method: 'POST',
@@ -187,7 +189,9 @@ export default function SmartSearch() {
       });
 
       if (res.status === 403 || res.status === 401) {
-        setPasswordError('Senha incorreta');
+        setPasswordError('Senha incorreta. Tente novamente.');
+        passwordInputRef.current?.select();
+        setIsVerifying(false);
         return;
       }
 
@@ -197,130 +201,383 @@ export default function SmartSearch() {
       setSavedPassword(password.trim());
       setIsAuthenticated(true);
     } catch {
-      setPasswordError('Erro ao verificar senha');
+      setPasswordError('Erro de conexão. Tente novamente.');
+    } finally {
+      setIsVerifying(false);
     }
   };
 
-  return (
-    <div className="w-full space-y-10">
-      {/* Password gate */}
-      {!isAuthenticated ? (
-        <div className="mx-auto max-w-md space-y-6">
-          <div className="rounded-xl border border-[var(--neutral-300)] bg-[var(--card-background)] p-8 text-center shadow-sm">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--primary-500)]/10">
-              <Lock className="h-5 w-5 text-[var(--primary-500)]" />
-            </div>
-            <h3
-              className="text-[18px] text-[var(--color-heading)]"
-              style={{ fontWeight: 600 }}
+  // ─── PASSWORD GATE ─────────────────────────────────────────────
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center" style={{ minHeight: '340px' }}>
+        <div className="w-full max-w-[440px]">
+          {/* Accent top line */}
+          <div
+            className="mx-auto mb-10"
+            style={{
+              width: '48px',
+              height: '1px',
+              background: 'var(--primary-500)',
+            }}
+          />
+
+          {/* Icon */}
+          <div className="flex justify-center mb-6">
+            <div
+              style={{
+                width: '56px',
+                height: '56px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid var(--neutral-300)',
+                background: 'var(--neutral-50)',
+              }}
             >
-              Acesso restrito
+              <Lock
+                className="text-[var(--secondary-700)]"
+                size={20}
+                strokeWidth={1.5}
+              />
+            </div>
+          </div>
+
+          {/* Copy */}
+          <div className="text-center mb-8">
+            <h3
+              className="text-[var(--color-heading)] mb-2"
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '22px',
+                fontWeight: 400,
+                letterSpacing: '-0.02em',
+                lineHeight: 1.3,
+              }}
+            >
+              Acesso Restrito
             </h3>
             <p
-              className="mt-1 text-[13px] text-[var(--color-caption)]"
-              style={{ fontWeight: 300 }}
+              className="text-[var(--color-body)]"
+              style={{
+                fontSize: '14px',
+                fontWeight: 300,
+                lineHeight: 1.6,
+              }}
             >
-              Digite a senha para acessar a busca inteligente.
+              Insira a senha para utilizar a busca inteligente.
             </p>
-
-            <form onSubmit={handlePasswordSubmit} className="mt-6 space-y-3">
-              <input
-                id="password-input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Senha de acesso"
-                className="w-full rounded-lg border border-[var(--neutral-300)] bg-[var(--input-background)] px-4 py-3 text-center font-sans text-[15px] text-[var(--color-heading)] placeholder:text-[var(--neutral-400)] transition-colors duration-200 focus:border-[var(--primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--primary-500)]"
-                autoComplete="off"
-              />
-              {passwordError && (
-                <p className="text-[12px] text-[var(--error)]" style={{ fontWeight: 500 }}>
-                  {passwordError}
-                </p>
-              )}
-              <button
-                type="submit"
-                disabled={!password.trim()}
-                className="w-full rounded-lg bg-[var(--secondary-900)] py-3 text-[13px] text-white transition-all duration-200 hover:bg-[var(--secondary-800)] disabled:pointer-events-none disabled:opacity-30"
-                style={{ fontWeight: 600, letterSpacing: '0.05em' }}
-              >
-                Entrar
-              </button>
-            </form>
-          </div>
-        </div>
-      ) : (
-        <>
-          {/* Authenticated badge */}
-          <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-caption)]">
-            <CheckCircle className="h-3.5 w-3.5 text-green-500" />
-            <span style={{ fontWeight: 400 }}>Acesso liberado</span>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
+            <div>
               <label
-                htmlFor="search-input"
-                className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-                style={{ fontWeight: 600 }}
+                htmlFor="password-input"
+                style={{
+                  display: 'block',
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase' as const,
+                  letterSpacing: '0.14em',
+                  color: 'var(--secondary-600)',
+                  marginBottom: '8px',
+                  fontFamily: 'var(--font-sans)',
+                }}
               >
-                <Sparkles className="w-3.5 h-3.5" /> Descreva o que você procura
+                Senha de acesso
               </label>
-              <div className="relative">
-                <input
-                  id="search-input"
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Ex: apartamento 3 quartos com vista mar no Leblon..."
-                  className="w-full rounded-lg border border-[var(--neutral-300)] bg-[var(--input-background)] px-5 py-4 pr-14 font-sans text-[15px] text-[var(--color-heading)] placeholder:text-[var(--neutral-400)] transition-colors duration-200 focus:border-[var(--primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--primary-500)]"
-                  autoComplete="off"
-                  disabled={loading}
-                />
-                <button
-                  type="submit"
-                  disabled={loading || !query.trim()}
-                  aria-label="Buscar imóveis"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-[var(--secondary-900)] rounded-lg p-3 text-white transition-all duration-200 hover:bg-[var(--secondary-800)] disabled:pointer-events-none disabled:opacity-30"
-                >
-                  {loading ? (
-                    <svg
-                      aria-hidden="true"
-                      className="h-4 w-4 animate-spin"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="opacity-25"
-                      />
-                      <path
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                        className="opacity-75"
-                      />
-                    </svg>
-                  ) : (
-                    <Search className="w-4 h-4" strokeWidth={1.5} />
-                  )}
-                </button>
+              <input
+                ref={passwordInputRef}
+                id="password-input"
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (passwordError) setPasswordError(null);
+                }}
+                placeholder="••••••••••"
+                autoComplete="off"
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '14px 16px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '15px',
+                  fontWeight: 400,
+                  color: 'var(--secondary-900)',
+                  background: 'var(--input-background)',
+                  border: passwordError
+                    ? '1px solid var(--error)'
+                    : '1px solid var(--neutral-300)',
+                  outline: 'none',
+                  transition: 'border-color 0.2s ease',
+                  letterSpacing: '0.12em',
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = passwordError
+                    ? 'var(--error)'
+                    : 'var(--primary-500)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = passwordError
+                    ? 'var(--error)'
+                    : 'var(--neutral-300)';
+                }}
+              />
+              {/* Error */}
+              <div
+                style={{
+                  minHeight: '24px',
+                  paddingTop: '6px',
+                }}
+              >
+                {passwordError && (
+                  <p
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      color: 'var(--error)',
+                      fontFamily: 'var(--font-sans)',
+                      margin: 0,
+                    }}
+                  >
+                    {passwordError}
+                  </p>
+                )}
               </div>
             </div>
+
+            <button
+              type="submit"
+              disabled={!password.trim() || isVerifying}
+              style={{
+                width: '100%',
+                padding: '14px 0',
+                fontSize: '12px',
+                fontWeight: 600,
+                fontFamily: 'var(--font-sans)',
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.16em',
+                color: '#FFFFFF',
+                background: !password.trim() || isVerifying
+                  ? 'var(--neutral-400)'
+                  : 'var(--secondary-900)',
+                border: 'none',
+                cursor: !password.trim() || isVerifying ? 'default' : 'pointer',
+                transition: 'all 0.25s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                opacity: !password.trim() ? 0.4 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (password.trim() && !isVerifying) {
+                  e.currentTarget.style.background = 'var(--secondary-800)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (password.trim() && !isVerifying) {
+                  e.currentTarget.style.background = 'var(--secondary-900)';
+                }
+              }}
+            >
+              {isVerifying ? (
+                <>
+                  <svg
+                    className="animate-spin"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      opacity={0.25}
+                    />
+                    <path
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                      opacity={0.75}
+                    />
+                  </svg>
+                  Verificando
+                </>
+              ) : (
+                <>
+                  Acessar
+                  <ArrowRight size={14} strokeWidth={1.5} />
+                </>
+              )}
+            </button>
           </form>
 
-      {/* Sugestões (quando vazio e sem resultados) */}
+          {/* Security note */}
+          <div
+            className="flex items-center justify-center gap-2 mt-8"
+            style={{
+              fontSize: '11px',
+              fontWeight: 400,
+              color: 'var(--neutral-500)',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            <ShieldCheck size={13} strokeWidth={1.5} />
+            <span>Ambiente de pré-visualização</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── AUTHENTICATED VIEW ────────────────────────────────────────
+  return (
+    <div className="w-full space-y-10">
+      {/* Status badge */}
+      <div
+        className="flex items-center gap-2"
+        style={{
+          fontSize: '11px',
+          fontWeight: 500,
+          color: 'var(--success)',
+          fontFamily: 'var(--font-sans)',
+        }}
+      >
+        <CheckCircle size={14} strokeWidth={1.5} />
+        <span>Acesso liberado</span>
+      </div>
+
+      {/* Search form */}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label
+            htmlFor="search-input"
+            className="flex items-center gap-2 mb-3"
+            style={{
+              fontSize: '10px',
+              fontWeight: 600,
+              textTransform: 'uppercase' as const,
+              letterSpacing: '0.14em',
+              color: 'var(--secondary-600)',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            <Sparkles size={13} strokeWidth={1.5} />
+            Descreva o que você procura
+          </label>
+          <div className="relative">
+            <input
+              id="search-input"
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Ex: apartamento 3 quartos com vista mar em Florianópolis..."
+              disabled={loading}
+              autoComplete="off"
+              style={{
+                width: '100%',
+                padding: '16px 60px 16px 20px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '15px',
+                fontWeight: 300,
+                color: 'var(--secondary-900)',
+                background: 'var(--input-background)',
+                border: '1px solid var(--neutral-300)',
+                outline: 'none',
+                transition: 'border-color 0.2s ease',
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'var(--primary-500)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'var(--neutral-300)';
+              }}
+            />
+            <button
+              type="submit"
+              disabled={loading || !query.trim()}
+              aria-label="Buscar imóveis"
+              style={{
+                position: 'absolute',
+                right: '6px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '44px',
+                height: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: loading || !query.trim()
+                  ? 'var(--neutral-300)'
+                  : 'var(--secondary-900)',
+                color: '#FFFFFF',
+                border: 'none',
+                cursor: loading || !query.trim() ? 'default' : 'pointer',
+                transition: 'all 0.2s ease',
+                opacity: !query.trim() ? 0.4 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (query.trim() && !loading) {
+                  e.currentTarget.style.background = 'var(--secondary-800)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (query.trim() && !loading) {
+                  e.currentTarget.style.background = 'var(--secondary-900)';
+                }
+              }}
+            >
+              {loading ? (
+                <svg
+                  className="animate-spin"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    opacity={0.25}
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    opacity={0.75}
+                  />
+                </svg>
+              ) : (
+                <Search size={16} strokeWidth={1.5} />
+              )}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {/* Suggestions (when empty and no search yet) */}
       {!query.trim() && !hasSearched && (
         <div className="space-y-3">
           <p
-            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-            style={{ fontWeight: 600 }}
+            className="flex items-center gap-2"
+            style={{
+              fontSize: '10px',
+              fontWeight: 600,
+              textTransform: 'uppercase' as const,
+              letterSpacing: '0.14em',
+              color: 'var(--secondary-600)',
+              fontFamily: 'var(--font-sans)',
+            }}
           >
-            <Sparkles className="w-3.5 h-3.5" /> Sugestões de busca
+            <Sparkles size={13} strokeWidth={1.5} />
+            Sugestões de busca
           </p>
           <div className="flex flex-wrap gap-2">
             {SUGESTOES.map((sugestao) => (
@@ -329,8 +586,27 @@ export default function SmartSearch() {
                 type="button"
                 onClick={() => handleSuggestionClick(sugestao)}
                 aria-label={`Buscar por: ${sugestao}`}
-                className="rounded-full bg-[var(--neutral-100)] px-4 py-2 font-sans text-[12px] text-[var(--color-body)] transition-colors hover:bg-[var(--primary-500)]/10 hover:text-[var(--color-accent-text)] cursor-pointer"
-                style={{ fontWeight: 500 }}
+                style={{
+                  padding: '8px 16px',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  fontFamily: 'var(--font-sans)',
+                  color: 'var(--secondary-600)',
+                  background: 'var(--neutral-100)',
+                  border: '1px solid transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--primary-50)';
+                  e.currentTarget.style.borderColor = 'var(--primary-200)';
+                  e.currentTarget.style.color = 'var(--primary-800)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--neutral-100)';
+                  e.currentTarget.style.borderColor = 'transparent';
+                  e.currentTarget.style.color = 'var(--secondary-600)';
+                }}
               >
                 {sugestao}
               </button>
@@ -339,18 +615,26 @@ export default function SmartSearch() {
         </div>
       )}
 
-      {/* Filtros extraídos */}
+      {/* Extracted filters */}
       {filters && <FilterTags filters={filters} />}
 
       {/* Loading */}
       {loading && (
         <div className="flex items-center justify-center py-16" role="status">
-          <div className="flex items-center gap-3 text-[var(--color-caption)]">
+          <div
+            className="flex items-center gap-3"
+            style={{
+              color: 'var(--secondary-500)',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
             <svg
-              aria-hidden="true"
-              className="h-5 w-5 animate-spin text-[var(--primary-500)]"
+              className="animate-spin"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
+              style={{ color: 'var(--primary-500)' }}
             >
               <circle
                 cx="12"
@@ -358,40 +642,54 @@ export default function SmartSearch() {
                 r="10"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="opacity-25"
+                opacity={0.25}
               />
               <path
                 fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                className="opacity-75"
+                opacity={0.75}
               />
             </svg>
-            <span className="text-[13px]" style={{ fontWeight: 300 }}>
-              Analisando sua busca com inteligência artificial...
+            <span style={{ fontSize: '13px', fontWeight: 300 }}>
+              Analisando sua busca com inteligência artificial…
             </span>
           </div>
         </div>
       )}
 
-      {/* Erro */}
+      {/* Error */}
       {error && (
         <div
           role="alert"
-          className="rounded-lg border border-[var(--error)] bg-[var(--error-light)] p-4 text-[13px] text-[var(--error-dark)]"
+          style={{
+            padding: '14px 18px',
+            fontSize: '13px',
+            fontWeight: 400,
+            fontFamily: 'var(--font-sans)',
+            color: 'var(--error-dark)',
+            background: 'var(--error-light)',
+            borderLeft: '3px solid var(--error)',
+          }}
         >
           {error}
         </div>
       )}
 
-      {/* Resultados */}
+      {/* Results */}
       {!loading && hasSearched && results.length > 0 && (
         <div className="space-y-8">
           <p
-            className="text-[14px] uppercase tracking-[0.2em] text-[var(--color-caption)]"
-            style={{ fontWeight: 600 }}
+            style={{
+              fontSize: '11px',
+              fontWeight: 600,
+              textTransform: 'uppercase' as const,
+              letterSpacing: '0.16em',
+              color: 'var(--secondary-500)',
+              fontFamily: 'var(--font-sans)',
+            }}
           >
             {results.length}{' '}
-            <span className="text-[var(--color-heading)]">
+            <span style={{ color: 'var(--secondary-900)' }}>
               {results.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados'}
             </span>
           </p>
@@ -403,24 +701,31 @@ export default function SmartSearch() {
         </div>
       )}
 
-      {/* Sem resultados */}
+      {/* No results */}
       {!loading && hasSearched && results.length === 0 && !error && (
         <div className="py-20 text-center">
           <p
-            className="text-[14px] text-[var(--color-body)]"
-            style={{ fontWeight: 300 }}
+            style={{
+              fontSize: '14px',
+              fontWeight: 300,
+              color: 'var(--secondary-500)',
+              fontFamily: 'var(--font-sans)',
+            }}
           >
             Nenhum imóvel encontrado para esta busca.
           </p>
           <p
-            className="mt-1 text-[12px] text-[var(--color-caption)]"
-            style={{ fontWeight: 400 }}
+            style={{
+              marginTop: '4px',
+              fontSize: '12px',
+              fontWeight: 400,
+              color: 'var(--secondary-400)',
+              fontFamily: 'var(--font-sans)',
+            }}
           >
             Tente usar termos diferentes ou menos específicos.
           </p>
         </div>
-      )}
-        </>
       )}
     </div>
   );
