@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getDetalheImovelServer } from '@/lib/server/vistaService';
 import ImovelClientView from './ImovelClientView';
-import { formatarPreco } from '@/lib/vistaApi';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -33,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         type: 'website',
       },
     };
-  } catch (e) {
+  } catch {
     return { title: 'Imóvel | UNUS Núcleo Imobiliário' };
   }
 }

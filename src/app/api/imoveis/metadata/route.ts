@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getMetadataServer } from '@/lib/server/vistaService';
 
-export async function GET(_req: NextRequest) {
+export async function GET() {
   try {
     const response = await getMetadataServer();
     return NextResponse.json(response, {

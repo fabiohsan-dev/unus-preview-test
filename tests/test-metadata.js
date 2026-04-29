@@ -17,7 +17,7 @@ https.get(url, { headers: { 'Accept': 'application/json' } }, (res) => {
       console.log('Success:', Object.keys(json));
       console.log('Bairros type:', Array.isArray(json.Bairro) ? 'Array' : typeof json.Bairro);
       console.log('Bairros keys:', json.Bairro ? Object.keys(json.Bairro).length : 0);
-    } catch(e) {
+    } catch {
       console.error('Error parsing JSON:', data);
     }
   });

@@ -33,10 +33,13 @@ export function ImageWithFallback({
   if (!src || didError) {
     return (
       <div className={`relative bg-gray-100 flex items-center justify-center ${className ?? ''}`}>
-        <img 
+        <Image
           src={ERROR_IMG_SRC} 
           alt="Error loading image" 
+          width={48}
+          height={48}
           className="w-12 h-12 opacity-20"
+          unoptimized
         />
       </div>
     );

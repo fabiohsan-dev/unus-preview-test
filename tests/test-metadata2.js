@@ -16,7 +16,7 @@ https.get(url, { headers: { 'Accept': 'application/json' } }, (res) => {
       console.log('Bairros:', JSON.stringify(json.Bairro, null, 2));
       console.log('Array.isArray(json.Bairro):', Array.isArray(json.Bairro));
       console.log('Object.values(json.Bairro):', Object.values(json.Bairro));
-    } catch(e) {
+    } catch {
       console.error('Error parsing JSON:', data);
     }
   });

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
 
 export default function NotFound() {
@@ -13,10 +14,13 @@ export default function NotFound() {
       {/* Logo Header */}
       <header className="relative z-10 w-full p-8 lg:p-12">
         <Link href="/" className="inline-block">
-          <img
+          <Image
             src="/images/logo.webp"
             alt="UNUS Núcleo Imobiliário"
+            width={77}
+            height={48}
             className="h-10 w-auto object-contain brightness-0"
+            priority
           />
         </Link>
       </header>

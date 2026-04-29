@@ -13,7 +13,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Heart,
-  Map,
   MapPin,
   MessageCircle,
   Phone,
@@ -30,9 +29,16 @@ function cleanText(value: unknown) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-function titleCase(value: string) {
-  const lower = value.toLowerCase();
-  return lower.charAt(0).toUpperCase() + lower.slice(1);
+type CorretorInfo = {
+  NomeCorretor?: string;
+  Nome?: string;
+  Foto?: string;
+  Celular?: string;
+  Tipo?: string;
+};
+
+function isCorretorInfo(value: VistaImovelDetalhe['Corretor']): value is CorretorInfo {
+  return Boolean(value) && !Array.isArray(value) && typeof value === 'object';
 }
 
 function getTransactionLabel(imovel: VistaImovelDetalhe) {
@@ -68,67 +74,6 @@ function formatMetricArea(value?: string) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })} m²`;
-}
-
-function getGoogleMapsLink(imovel: VistaImovelDetalhe) {
-  const latitude = cleanText(imovel.Latitude);
-  const longitude = cleanText(imovel.Longitude);
-  if (latitude && longitude) {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${latitude},${longitude}`)}`;
-  }
-  return undefined;
-}
-
-function getCoordinate(value: unknown) {
-  const number = Number(cleanText(value));
-  return Number.isFinite(number) ? number : null;
-}
-
-const MAP_TILE_SIZE = 256;
-const MAP_VIEWPORT_WIDTH = 1280;
-const MAP_VIEWPORT_HEIGHT = 720;
-
-function longitudeToTile(longitude: number, zoom: number) {
-  return ((longitude + 180) / 360) * 2 ** zoom;
-}
-
-function latitudeToTile(latitude: number, zoom: number) {
-  const latRad = (latitude * Math.PI) / 180;
-  return ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * 2 ** zoom;
-}
-
-function getOpenStreetMapPreview(imovel: VistaImovelDetalhe, zone: string) {
-  const latitude = getCoordinate(imovel.Latitude);
-  const longitude = getCoordinate(imovel.Longitude);
-  if (latitude === null || longitude === null) return null;
-
-  const zoom = zone === '3km' ? 13 : zone === '2km' ? 14 : 15;
-  const worldSize = 2 ** zoom;
-  const pinX = 0.54;
-  const pinY = 0.52;
-  const globalPixelX = longitudeToTile(longitude, zoom) * MAP_TILE_SIZE;
-  const globalPixelY = latitudeToTile(latitude, zoom) * MAP_TILE_SIZE;
-  const startPixelX = globalPixelX - MAP_VIEWPORT_WIDTH * pinX;
-  const startPixelY = globalPixelY - MAP_VIEWPORT_HEIGHT * pinY;
-  const startTileX = Math.floor(startPixelX / MAP_TILE_SIZE);
-  const startTileY = Math.floor(startPixelY / MAP_TILE_SIZE);
-  const endTileX = Math.floor((startPixelX + MAP_VIEWPORT_WIDTH) / MAP_TILE_SIZE);
-  const endTileY = Math.floor((startPixelY + MAP_VIEWPORT_HEIGHT) / MAP_TILE_SIZE);
-  const tiles: Array<{ key: string; left: number; src: string; top: number }> = [];
-
-  for (let tileY = startTileY - 1; tileY <= endTileY + 1; tileY += 1) {
-    if (tileY < 0 || tileY >= worldSize) continue;
-    for (let tileX = startTileX - 1; tileX <= endTileX + 1; tileX += 1) {
-      const wrappedTileX = ((tileX % worldSize) + worldSize) % worldSize;
-      tiles.push({
-        key: `${zoom}-${wrappedTileX}-${tileY}`,
-        left: tileX * MAP_TILE_SIZE - startPixelX,
-        src: `https://tile.openstreetmap.org/${zoom}/${wrappedTileX}/${tileY}.png`,
-        top: tileY * MAP_TILE_SIZE - startPixelY,
-      });
-    }
-  }
-  return { markerLeft: `${pinX * 100}%`, markerTop: `${pinY * 100}%`, tiles };
 }
 
 /* ── Subcomponentes ── */
@@ -194,8 +139,6 @@ export default function ImovelClientView({
 }) {
   const [activeTab, setActiveTab] = useState<'imovel' | 'condominio'>('imovel');
   const [descExpanded, setDescExpanded] = useState(false);
-  const [mapZone, setMapZone] = useState('1km');
-  const [mapMode, setMapMode] = useState<'mapa' | 'preview'>('mapa');
 
   const transactionLabel = getTransactionLabel(imovel);
   const propertyRef = cleanText(imovel.Referencia) || imovel.Codigo;
@@ -205,12 +148,10 @@ export default function ImovelClientView({
   const price = formatarPreco(getPrimaryPrice(imovel, transactionLabel));
   const condoPrice = Number(imovel.ValorCondominio ?? 0) > 0 ? `${formatarPreco(imovel.ValorCondominio)}/mes` : null;
   const descriptionParagraphs = toParagraphs(cleanText(imovel.DescricaoSite) || cleanText(imovel.Descricao));
-  const locationParagraphs = toParagraphs(cleanText(imovel.DescricaoLocalizacao));
   const infraestrutura = imovel.InfraestruturaLista ?? [];
   const caracteristicas = imovel.CaracteristicasLista ?? [];
-  const mapPreview = getOpenStreetMapPreview(imovel, mapZone);
 
-  const corretor = Array.isArray(imovel.Corretor) ? undefined : (imovel.Corretor as any);
+  const corretor = isCorretorInfo(imovel.Corretor) ? imovel.Corretor : undefined;
   const agentName = corretor?.NomeCorretor || corretor?.Nome || 'Consultor UNUS';
   const agentPhoto = corretor?.Foto || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&q=80';
   const agentWhatsapp = corretor?.Celular ? `https://wa.me/55${corretor.Celular.replace(/\D/g, '')}` : 'https://wa.me/554830666767';
@@ -341,6 +282,7 @@ export default function ImovelClientView({
 
             <div className="p-7 border-b border-[var(--color-border)]">
               <div className="flex items-center gap-4 mb-5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={agentPhoto} alt={agentName} className="w-14 h-14 object-cover border border-[var(--color-border)]" />
                 <div>
                   <p className="text-[var(--color-heading)] text-[14px]" style={{ fontWeight: 600 }}>{agentName}</p>
