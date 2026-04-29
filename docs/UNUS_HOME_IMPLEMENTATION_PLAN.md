@@ -24,11 +24,11 @@ A entrega deve priorizar:
 
 - Melhorias na busca inteligente com IA.
 - Troca completa de stack.
-- Reescrita total da integração Vista/Supabase.
+- Reescrita total da integração Vista API.
 - Implementação complexa de autenticação para a busca IA.
 - Novas features não citadas na revisão.
 
-A busca IA deve permanecer funcional, mas não deve ser prioridade de refatoração nesta entrega.
+A busca IA foi removida por overdelivery e não deve ser reintroduzida nesta entrega.
 
 ---
 
@@ -39,7 +39,7 @@ Use o prompt abaixo em um agente de código, Cursor, Codex, Claude Code ou ferra
 ```text
 Você está trabalhando no repositório Next.js `fabiohsan-dev/unus-preview-test`, um site imobiliário premium da UNUS Núcleo Imobiliário.
 
-Objetivo: aplicar a revisão da home do novo site UNUS, priorizando layout, conteúdo, navegação, design system, conversão e responsividade mobile. A busca inteligente com IA é overdelivery e deve ficar fora do caminho crítico. Não refatore a busca IA agora, exceto se alguma mudança visual da home exigir integração superficial.
+Objetivo: aplicar a revisão da home do novo site UNUS, priorizando layout, conteúdo, navegação, design system, conversão e responsividade mobile. A busca inteligente com IA é overdelivery e deve permanecer fora do produto.
 
 Stack identificada:
 - Next.js 15 com App Router
@@ -49,7 +49,7 @@ Stack identificada:
 - Design tokens em `src/styles/theme.css`
 - Componentes em `src/components`
 - Rotas em `src/app`
-- Dados de imóveis via Vista API e Supabase
+- Dados de imóveis via Vista API
 
 Direção visual:
 - Manter base UNUS: preto, branco e cinza.

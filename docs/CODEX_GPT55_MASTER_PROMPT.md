@@ -24,8 +24,7 @@ Stack identificada no projeto:
 - Rotas em `src/app`.
 - Componentes globais em `src/components`.
 - Integração de imóveis via Vista API.
-- Índice Supabase para dados auxiliares/busca.
-- Busca inteligente com IA já existente, mas considerada overdelivery.
+- Busca inteligente com IA removida por overdelivery.
 
 Fonte de direção de produto/design:
 
@@ -34,7 +33,7 @@ Fonte de direção de produto/design:
 
 Decisão de escopo:
 
-A busca inteligente com IA é um bônus. Ela deve permanecer funcional, mas não é prioridade. O foco desta entrega é melhorar o que o cliente e o usuário final percebem imediatamente: Home, direção visual, navegação, hero, busca visual inicial, cards, CTAs, footer e mobile.
+A busca inteligente com IA foi removida por overdelivery. O foco desta entrega é melhorar o que o cliente e o usuário final percebem imediatamente: Home, direção visual, navegação, hero, busca visual inicial, cards, CTAs, footer e mobile.
 
 ---
 
@@ -47,7 +46,7 @@ Aplique estas práticas antes e durante qualquer alteração.
 1. Leia antes de editar. Nunca altere arquivo central sem entender imports, props, dados recebidos e uso em outras rotas.
 2. Faça mudanças pequenas e reversíveis. Evite reescrita total quando uma refatoração incremental resolve.
 3. Planeje por fases. Primeiro design system, depois estrutura da Home, depois componentes, depois QA.
-4. Mantenha escopo rígido. Não refatore busca IA, autenticação IA, Vista API ou Supabase se a tarefa é Home.
+4. Mantenha escopo rígido. Não reintroduza busca IA ou autenticação IA se a tarefa é Home.
 5. Preserve comportamento existente. Alterar visual não pode quebrar rotas, filtros, páginas de imóvel ou dados reais.
 6. Prefira edição localizada. Se uma mudança pertence ao design system, ajuste tokens globais em vez de espalhar classes e cores soltas.
 7. Use critérios de aceite. Cada bloco deve ter resultado verificável.
@@ -153,16 +152,14 @@ A revisão visual pede:
 
 REGRA DE ESCOPO MAIS IMPORTANTE
 
-A busca inteligente com IA é overdelivery. Ela deve continuar funcionando, mas NÃO é o foco desta entrega.
+A busca inteligente com IA é overdelivery e foi removida. Ela NÃO deve ser reintroduzida nesta entrega.
 
-Não refatore agora:
+Não reintroduza agora:
 - endpoint de IA
 - autenticação da busca IA
-- lógica OpenAI
+- lógica de IA
 - prompts de IA
-- Supabase da busca IA
-
-Só toque nessa área se alguma alteração visual da Home exigir um ajuste superficial ou se algo quebrar por import/rota.
+- banco auxiliar para busca IA
 
 ANTES DE ALTERAR CÓDIGO
 
@@ -524,9 +521,9 @@ Leia `docs/UNUS_HOME_IMPLEMENTATION_PLAN.md` e `docs/CODEX_GPT55_MASTER_PROMPT.m
 
 Aplique a revisão da Home UNUS com foco no que o cliente percebe: design system, header, hero, busca visual inicial, CTA consultivo, coleções, cards, vitrine limitada a 6 imóveis, lançamentos, CTA “Anuncie seu imóvel”, prova social, footer e QA mobile.
 
-A busca IA é overdelivery. Não refatore agora.
+A busca IA é overdelivery e foi removida. Não reintroduza agora.
 
-Trabalhe em mudanças pequenas. Preserve rotas, Vista API, Supabase e páginas de imóvel. Use tokens visuais. Não invente telefone, CRECI, endereço ou avaliação real. Rode lint, typecheck e build no final.
+Trabalhe em mudanças pequenas. Preserve rotas, Vista API e páginas de imóvel. Use tokens visuais. Não invente telefone, CRECI, endereço ou avaliação real. Rode lint, typecheck e build no final.
 ```
 
 ---
@@ -546,7 +543,7 @@ Escopo desta PR:
 
 Fora de escopo:
 - busca IA
-- Supabase
+- banco auxiliar para busca IA
 - Vista API
 - refatoração completa dos cards
 - footer completo
@@ -573,7 +570,7 @@ Escopo desta PR:
 Fora de escopo:
 - busca IA
 - autenticação
-- Supabase
+- banco auxiliar para busca IA
 - reescrita da integração Vista
 
 Preserve dados reais e fallbacks de imagem. Rode validações ao final.

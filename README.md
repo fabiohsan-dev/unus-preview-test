@@ -46,25 +46,16 @@ npm run build
 npm run start
 ```
 
-## Sync agendada
+## Dados de imoveis
 
-O agendamento da sincronização Vista -> Supabase é feito por `GitHub Actions`.
+Os imoveis sao carregados diretamente da Vista API pelas rotas server-side em `src/app/api/imoveis/*` e pelos Server Components que usam `src/lib/server/vistaService.ts`.
 
-Configuração necessária:
+Configuracao necessaria:
 
-- `GitHub > Settings > Secrets and variables > Actions`
-  - `CRON_SECRET`
-  - `DEPLOY_URL`
-- `Vercel > Project > Settings > Environment Variables`
-  - `CRON_SECRET` com o mesmo valor do secret no GitHub
+- `VISTA_BASE_URL`
+- `VISTA_KEY`
 
-Para apontar o workflow para outro projeto Vercel, basta:
-
-1. atualizar `DEPLOY_URL` no GitHub com a URL base do outro deploy;
-2. criar ou atualizar `CRON_SECRET` nesse outro projeto Vercel;
-3. redeployar o projeto alvo.
-
-O repositório não depende de `.vercel/project.json` para o cron funcionar. O link local com a Vercel CLI só é necessário para operações manuais de deploy ou inspeção.
+Nao ha sync agendada nem busca por IA no fluxo atual de producao.
 
 ## Inteligência de Dados
 
