@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     default: 'UNUS Núcleo Imobiliário — Inteligência Imobiliária em Alto Padrão',
     template: '%s | UNUS Núcleo Imobiliário',
   },
-  description: 'Consultoria imobiliária de alto padrão em São José, Campinas e praias de Florianópolis. Onde inteligência encontra patrimônio.',
+  description: 'Consultoria imobiliária de alto padrão. Onde você mora define como você vive!',
   metadataBase: new URL('https://unus-preview-test.vercel.app'),
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
     url: 'https://unus-preview-test.vercel.app',
     title: 'UNUS Núcleo Imobiliário — Inteligência Imobiliária em Alto Padrão',
-    description: 'Consultoria imobiliária de alto padrão em São José, Campinas e praias de Florianópolis. Onde inteligência encontra patrimônio.',
+    description: 'Consultoria imobiliária de alto padrão. Onde você mora define como você vive!',
     siteName: 'UNUS Núcleo Imobiliário',
     images: [
       {
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'UNUS Núcleo Imobiliário — Inteligência Imobiliária em Alto Padrão',
-    description: 'Consultoria imobiliária de alto padrão em São José, Campinas e praias de Florianópolis.',
+    description: 'Consultoria imobiliária de alto padrão. Onde você mora define como você vive!',
     images: ['/og-image.jpg'],
   },
   robots: {

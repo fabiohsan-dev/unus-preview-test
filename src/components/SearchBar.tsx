@@ -55,7 +55,7 @@ function FilterField({
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <div className="flex-1 relative">
+    <div className="flex-1 relative min-w-0">
       <button
         ref={triggerRef}
         type="button"
@@ -352,7 +352,7 @@ export function SearchBar({
   };
 
   const outerClass = glass
-    ? 'bg-white/8 backdrop-blur-2xl border border-white/15 p-2 rounded-[14px]'
+    ? 'p-0'
     : 'bg-[var(--neutral-100)] p-2 rounded-[14px]';
 
   return (
@@ -363,32 +363,12 @@ export function SearchBar({
     >
       <div className={outerClass}>
         <div
-          className={`bg-white rounded-[10px] p-1.5 flex flex-col md:flex-row items-stretch relative ${
-            compact ? 'gap-0' : ''
+          className={`bg-white rounded-[12px] p-2 flex flex-col items-stretch relative shadow-[0_18px_48px_rgba(0,0,0,0.2)] ${
+            compact
+              ? 'gap-0 md:flex-row'
+              : 'md:grid md:grid-cols-[minmax(150px,1fr)_1px_minmax(180px,1.1fr)_1px_minmax(145px,0.9fr)_auto]'
           }`}
         >
-          <FilterField
-            icon={MapPin}
-            label="Localização"
-            value={selectedLocation}
-            options={locations}
-            isOpen={activeDropdown === 'location'}
-            onToggle={() => toggleDropdown('location')}
-            onSelect={(value) => {
-              setSelectedLocation(value);
-              setActiveDropdown(null);
-            }}
-            compact={compact}
-          />
-
-          <div
-            className={
-              compact
-                ? 'mx-3 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-2'
-                : 'mx-3.5 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-3'
-            }
-          />
-
           <FilterField
             icon={Building}
             label="Tipo"
@@ -412,8 +392,30 @@ export function SearchBar({
           />
 
           <FilterField
+            icon={MapPin}
+            label="Localização"
+            value={selectedLocation}
+            options={locations}
+            isOpen={activeDropdown === 'location'}
+            onToggle={() => toggleDropdown('location')}
+            onSelect={(value) => {
+              setSelectedLocation(value);
+              setActiveDropdown(null);
+            }}
+            compact={compact}
+          />
+
+          <div
+            className={
+              compact
+                ? 'mx-3 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-2'
+                : 'mx-3.5 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-3'
+            }
+          />
+
+          <FilterField
             icon={DollarSign}
-            label="Valor"
+            label="Preço"
             value={selectedValue}
             options={values}
             isOpen={activeDropdown === 'value'}
@@ -429,7 +431,7 @@ export function SearchBar({
             className={`flex items-center gap-2 ${
               compact
                 ? 'p-1 pl-0 md:pl-1'
-                : 'p-1.5 pt-2 md:pt-1.5 border-t md:border-t-0 border-[var(--neutral-200)] mt-1 md:mt-0'
+                : 'p-1.5 pt-2 md:pt-1.5 border-t md:border-t-0 border-[var(--neutral-200)] mt-1 md:mt-0 md:justify-end md:pl-3'
             }`}
           >
             <button
@@ -454,8 +456,8 @@ export function SearchBar({
             <button
               type="button"
               onClick={handleSearch}
-              aria-label="Buscar"
-              className={`bg-[var(--secondary-900)] text-white rounded-lg flex items-center justify-center gap-2.5 hover:bg-[var(--secondary-800)] transition-colors cursor-pointer ${
+              aria-label="Buscar imóvel"
+              className={`bg-[#002B45] text-white rounded-lg flex items-center justify-center gap-2.5 hover:bg-[#014160] transition-colors cursor-pointer ${
                 compact
                   ? 'px-5 py-2.5 flex-1 md:flex-none'
                   : 'px-8 py-3.5 md:py-3 flex-1 md:flex-none'
@@ -463,10 +465,10 @@ export function SearchBar({
             >
               <Search className={compact ? 'w-3.5 h-3.5' : 'w-4 h-4'} strokeWidth={1.5} />
               <span
-                className={`tracking-[0.02em] ${compact ? 'text-[12px]' : 'text-[13px]'}`}
+                className={`tracking-[0.02em] uppercase whitespace-nowrap ${compact ? 'text-[12px]' : 'text-[13px]'}`}
                 style={{ fontWeight: 500 }}
               >
-                Buscar
+                Buscar imóvel
               </span>
             </button>
           </div>
