@@ -51,9 +51,9 @@
   --neutral-900: #151410;
 
   /* ── CHAMPAGNE GOLD (fundos em transição) ── */
-  --gold:          #C2A878;
-  --gold-light:    #F5EFE3;
-  --gold-dark:     #9B8660;
+  --gold:          #C49A2E;
+  --gold-light:    #F7EED4;
+  --gold-dark:     #9B7A20;
 
   /* ── FUNCTIONAL COLORS ── */
   --success:       #2D8B75;
@@ -64,9 +64,9 @@
   --error-light:   #FCE8EB;
   --error-dark:    #8C2735;
 
-  --warning:       #C2A878;  /* Champagne gold */
-  --warning-light: #F5EFE3;
-  --warning-dark:  #9B8660;
+  --warning:       #C49A2E;  /* Champagne gold */
+  --warning-light: #F7EED4;
+  --warning-dark:  #9B7A20;
 
   --info:          #0CC0DF;
   --info-light:    #E6F9FD;
@@ -74,7 +74,7 @@
 
   /* ── SEMANTIC MAPPINGS ── */
   --background:          var(--neutral-50);
-  --foreground:          var(--secondary-500);
+  --foreground:          var(--secondary-600);
   --card:                #FAFAF8;
   --card-foreground:     var(--secondary-600);
   --popover:             #FFFFFF;
@@ -100,7 +100,7 @@
 
   /* SIDEBAR DEFAULTS */
   --sidebar:                 var(--neutral-50);
-  --sidebar-foreground:      var(--secondary-500);
+  --sidebar-foreground:      var(--secondary-600);
   --sidebar-primary:         var(--secondary-900);
   --sidebar-primary-foreground: var(--neutral-50);
   --sidebar-accent:          var(--neutral-100);
@@ -186,7 +186,7 @@
 
   /* ── Semantic Text ── */
   --color-heading: var(--secondary-900);    /* #1A1A1C — deep charcoal */
-  --color-body:    var(--secondary-500);    /* #696A6C — graphite */
+  --color-body:    var(--secondary-600);    /* #4E4E50 — graphite com contraste AAA */
   --color-caption: var(--secondary-600);
   --color-accent-text: var(--deep-blue);
   --color-inverse: var(--neutral-50);       /* for dark bgs */

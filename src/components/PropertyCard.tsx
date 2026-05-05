@@ -300,9 +300,9 @@ export function PropertyCardGrid({ properties: initialProperties }: PropertyCard
       <div className="max-w-[1400px] mx-auto">
         <div className="mb-14">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 h-[1px] bg-[var(--primary-500)]" />
+            <div className="w-6 h-[1px] bg-[var(--gold)]" />
             <span
-              className="text-[var(--color-accent-text)] text-[10px] uppercase tracking-[0.3em]"
+              className="text-[var(--gold-dark)] text-[10px] uppercase tracking-[0.3em]"
               style={{ fontWeight: 600 }}
             >
               Imóveis em Destaque

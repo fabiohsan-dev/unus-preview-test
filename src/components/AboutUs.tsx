@@ -122,9 +122,9 @@ export function AboutUs() {
               className="lg:pl-4"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-[1px] bg-[var(--primary-500)]" />
+                <div className="w-8 h-[1px] bg-[var(--gold)]" />
                 <span
-                  className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-accent-text)]"
+                  className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold-dark)]"
                   style={{ fontWeight: 600 }}
                 >
                   Quem Somos
