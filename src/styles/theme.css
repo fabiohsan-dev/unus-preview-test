@@ -5,79 +5,87 @@
 
   /* ============================================================
      UNUS DESIGN SYSTEM — COLOR TOKENS
-     Base: Primary #07C2F2 | Secondary #696A6C
+     Base: Ciano #0CC0DF | Azul Profundo #002B45 | Gold #C2A878
      Architecture: Semantic + Scale (50–900)
      ============================================================ */
 
-  /* ── PRIMARY SCALE (Brand Cyan) ── */
-  --primary-50:  #E8F8FE;
-  --primary-100: #BDEDFC;
-  --primary-200: #8AE1FA;
-  --primary-300: #57D4F7;
-  --primary-400: #2ECAF5;
-  --primary-500: #07C2F2; /* Base */
-  --primary-600: #06A3CC;
-  --primary-700: #0580A3;
-  --primary-800: #045E7A;
-  --primary-900: #033C52;
+  /* ── PRIMARY SCALE (Ciano — acento claro) ── */
+  --primary-50:  #E6F9FD;
+  --primary-100: #BAF0F9;
+  --primary-200: #88E5F5;
+  --primary-300: #56DAF1;
+  --primary-400: #2FD0EE;
+  --primary-500: #0CC0DF; /* Base — ciano/azul claro */
+  --primary-600: #0AA3BF;
+  --primary-700: #088399;
+  --primary-800: #066273;
+  --primary-900: #044252;
+
+  /* ── DEEP BLUE (Azul Profundo — CTAs e destaques) ── */
+  --deep-blue:         #002B45;
+  --deep-blue-light:   #004066;
+  --deep-blue-lighter: #E6EEF3;
 
   /* ── SECONDARY SCALE (Graphite) ── */
   --secondary-50:  #F4F4F5;
   --secondary-100: #E4E4E6;
   --secondary-200: #C9CACC;
   --secondary-300: #AEAFB3;
-  --secondary-400: #6F706A;
-  --secondary-500: #696A6C; /* Base */
-  --secondary-600: #555658;
-  --secondary-700: #414244;
+  --secondary-400: #808082;
+  --secondary-500: #606062; /* Base — cinza médio */
+  --secondary-600: #4E4E50;
+  --secondary-700: #3B3B3B; /* grafite escuro */
   --secondary-800: #2D2E30;
   --secondary-900: #1A1A1C;
 
   /* ── NEUTRAL / SURFACES ── */
-  --neutral-50:  #F8F8F6;  /* color-bg-primary — warm off-white */
-  --neutral-100: #F2F1EE;  /* color-bg-secondary — ivory linen */
-  --neutral-200: #EAEAE6;  /* color-bg-tertiary */
-  --neutral-300: #DDDDD8;  /* subtle borders */
-  --neutral-400: #C5C5C0;
-  --neutral-500: #9E9E99;
-  --neutral-600: #787873;
-  --neutral-700: #52524E;
-  --neutral-800: #2C2C2A;
-  --neutral-900: #161615;
+  --neutral-50:  #F9F7F3;  /* off-white quente — fundo principal */
+  --neutral-100: #F2F0EB;  /* ivory linen */
+  --neutral-200: #E8E5DF;  /* bg terciário */
+  --neutral-300: #D8D5CE;  /* bordas sutis */
+  --neutral-400: #C0BDB6;
+  --neutral-500: #9A9790;
+  --neutral-600: #74716A;
+  --neutral-700: #4F4D47;
+  --neutral-800: #2A2924;
+  --neutral-900: #151410;
+
+  /* ── CHAMPAGNE GOLD (fundos em transição) ── */
+  --gold:          #C49A2E;
+  --gold-light:    #F7EED4;
+  --gold-dark:     #9B7A20;
 
   /* ── FUNCTIONAL COLORS ── */
-  --success:     #2D8B75;  /* Elegant teal-green (WhatsApp-harmonic) */
+  --success:       #2D8B75;
   --success-light: #E8F5F1;
-  --success-dark: #1F6352;
+  --success-dark:  #1F6352;
 
-  --error:       #C4384B;  /* Muted burgundy */
-  --error-light: #FCE8EB;
-  --error-dark:  #8C2735;
+  --error:         #C4384B;
+  --error-light:   #FCE8EB;
+  --error-dark:    #8C2735;
 
-  --warning:     #D4A537;  /* Champagne gold */
-  --warning-light: #FDF5E1;
-  --warning-dark: #9B7A28;
+  --warning:       #C49A2E;  /* Champagne gold */
+  --warning-light: #F7EED4;
+  --warning-dark:  #9B7A20;
 
-  --gold:        #D4AF37;  /* UNUS accent gold */
-
-  --info:        #07C2F2;  /* Primary */
-  --info-light:  #E8F8FE;
-  --info-dark:   #0580A3;
+  --info:          #0CC0DF;
+  --info-light:    #E6F9FD;
+  --info-dark:     #088399;
 
   /* ── SEMANTIC MAPPINGS ── */
-  --background:          var(--neutral-50);   /* color-bg-primary */
-  --foreground:          var(--secondary-500); /* color-text-body */
-  --card:                #FAFAF8;             /* color-bg-surface */
+  --background:          var(--neutral-50);
+  --foreground:          var(--secondary-600);
+  --card:                #FAFAF8;
   --card-foreground:     var(--secondary-600);
-  --popover:             #FFFFFF;             /* color-bg-elevated (modals only) */
+  --popover:             #FFFFFF;
   --popover-foreground:  var(--secondary-900);
-  --primary:             var(--secondary-900); /* color-action-primary — dark charcoal */
+  --primary:             var(--secondary-900);
   --primary-foreground:  var(--neutral-50);
   --secondary:           var(--neutral-100);
   --secondary-foreground: var(--secondary-900);
   --muted:               var(--neutral-100);
   --muted-foreground:    var(--secondary-500);
-  --accent:              var(--primary-500);   /* color-brand-accent — Brand Cyan */
+  --accent:              var(--primary-500);   /* ciano — acento decorativo */
   --accent-foreground:   #FFFFFF;
   --destructive:         var(--error);
   --destructive-foreground: #FFFFFF;
@@ -85,20 +93,20 @@
   --input:               var(--neutral-300);
   --input-background:    #FAFAF8;
   --switch-background:   var(--neutral-400);
-  --ring:                var(--primary-500);   /* Focus ring = brand */
+  --ring:                var(--deep-blue);
 
   /* BORDERS & RADII */
   --radius: 0px;
 
   /* SIDEBAR DEFAULTS */
   --sidebar:                 var(--neutral-50);
-  --sidebar-foreground:      var(--secondary-500);
+  --sidebar-foreground:      var(--secondary-600);
   --sidebar-primary:         var(--secondary-900);
   --sidebar-primary-foreground: var(--neutral-50);
   --sidebar-accent:          var(--neutral-100);
   --sidebar-accent-foreground: var(--secondary-900);
   --sidebar-border:          var(--neutral-300);
-  --sidebar-ring:            var(--primary-500);
+  --sidebar-ring:            var(--deep-blue);
 
   /* FONTS */
   --font-sans: 'Inter', sans-serif;
@@ -178,10 +186,18 @@
 
   /* ── Semantic Text ── */
   --color-heading: var(--secondary-900);    /* #1A1A1C — deep charcoal */
-  --color-body:    var(--secondary-500);    /* #696A6C — graphite */
+  --color-body:    var(--secondary-600);    /* #4E4E50 — graphite com contraste AAA */
   --color-caption: var(--secondary-600);
-  --color-accent-text: var(--primary-800);
-  --color-inverse: var(--neutral-50);       /* #F8F8F6 — for dark bgs */
+  --color-accent-text: var(--deep-blue);
+  --color-inverse: var(--neutral-50);       /* for dark bgs */
+
+  /* ── Deep Blue & Gold ── */
+  --color-deep-blue:       var(--deep-blue);
+  --color-deep-blue-light: var(--deep-blue-light);
+  --color-offwhite:        var(--neutral-50);
+  --color-gold:            var(--gold);
+  --color-gold-light:      var(--gold-light);
+  --color-gold-dark:       var(--gold-dark);
 
   /* ── Functional ── */
   --color-success:       var(--success);
@@ -200,7 +216,7 @@
   /* ── Action / CTA ── */
   --color-action-whatsapp: var(--success);  /* #2D8B75 */
   --color-action-primary:  var(--secondary-900);
-  --color-action-brand:    var(--primary-500);
+  --color-action-brand:    var(--deep-blue);
 
   /* ── Spacing ── */
   --spacing-2xs: var(--spacing-2xs);

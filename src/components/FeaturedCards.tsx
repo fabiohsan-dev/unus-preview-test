@@ -83,8 +83,8 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
         >
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-6 h-[1px] bg-[var(--primary-500)]" />
-              <span className="text-[var(--color-accent-text)] text-[10px] uppercase tracking-[0.3em]" style={{ fontWeight: 600 }}>
+              <div className="w-6 h-[1px] bg-[var(--gold)]" />
+              <span className="text-[var(--gold-dark)] text-[10px] uppercase tracking-[0.3em]" style={{ fontWeight: 600 }}>
                 Vitrine UNUS
               </span>
             </div>
@@ -179,7 +179,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     {property.title}
                   </h3>
 
-                  <div className="grid grid-cols-2 gap-y-8 gap-x-4 mb-8 pb-8 border-b border-[var(--neutral-300)]">
+                  <div className="grid grid-cols-2 gap-y-8 gap-x-4 mb-8 pb-8 border-b border-[var(--gold)]/30">
                     <div>
                       <BedDouble className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
                       <p className="text-[var(--color-heading)] text-[16px]" style={{ fontWeight: 500 }}>{property.bedrooms}</p>
@@ -205,7 +205,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
 
                 <div>
                   <p className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.1em] mb-1" style={{ fontWeight: 500 }}>A partir de</p>
-                  <p className="text-[var(--color-heading)] text-[28px] mb-6" style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}>
+                  <p className="text-[var(--gold-dark)] text-[28px] mb-6" style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}>
                     {property.price}
                   </p>
                   <Link 
