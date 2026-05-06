@@ -12,6 +12,68 @@ import type {
 
 const META_KEYS = new Set(['total', 'paginas', 'pagina', 'quantidade']);
 
+const LIST_FIELDS = [
+  'Codigo', 'Referencia', 'TituloSite', 'Categoria', 'Finalidade', 'Status',
+  'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
+  'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal', 'FotoDestaque',
+  'FotoDestaquePequena'
+];
+
+function extractItems(raw: Record<string, unknown>): VistaImovelItem[] {
+  return Object.entries(raw)
+    .filter(([key]) => !META_KEYS.has(key))
+    .map(([, value]) => value) as VistaImovelItem[];
+}
+
+/**
+ * Busca TODOS os imóveis da Vista para filtragem client-side de preço.
+ * A Vista CRM API não suporta filtro ValorVenda para imóveis regulares —
+ * apenas para Empreendimentos. Por isso, buscamos tudo e filtramos aqui.
+ * Cada URL de página é cacheada individualmente pelo Next.js (revalidate 600s).
+ */
+async function getAllListingsFromVista(baseFilter: Record<string, unknown>, orderConfig?: Record<string, string>): Promise<VistaImovelItem[]> {
+  const PAGE_SIZE = 50;
+
+  const buildPesquisa = (pagina: number) => {
+    const p: Record<string, unknown> = {
+      fields: LIST_FIELDS,
+      filter: baseFilter,
+      paginacao: { pagina, quantidade: PAGE_SIZE },
+    };
+    if (orderConfig) p.order = orderConfig;
+    return p;
+  };
+
+  const firstUrl = buildVistaGetUrl('/imoveis/listar', buildPesquisa(1), { showtotal: '1' });
+  const firstRes = await fetch(firstUrl.toString(), {
+    headers: { Accept: 'application/json' },
+    next: { revalidate: 600 },
+  });
+  if (!firstRes.ok) throw new Error(`Vista API error: ${firstRes.status}`);
+
+  const firstRaw = await firstRes.json();
+  const totalPages = Math.min(Number(firstRaw.paginas ?? 1), 14); // max 700 imóveis
+  const firstItems = extractItems(firstRaw as Record<string, unknown>);
+
+  if (totalPages <= 1) return firstItems;
+
+  const remaining = Array.from({ length: totalPages - 1 }, (_, i) => i + 2);
+  const otherItems = await Promise.all(
+    remaining.map(async (pagina) => {
+      const pageUrl = buildVistaGetUrl('/imoveis/listar', buildPesquisa(pagina), { showtotal: '1' });
+      const res = await fetch(pageUrl.toString(), {
+        headers: { Accept: 'application/json' },
+        next: { revalidate: 600 },
+      });
+      if (!res.ok) return [];
+      const raw = await res.json();
+      return extractItems(raw as Record<string, unknown>);
+    })
+  );
+
+  return [firstItems, ...otherItems].flat();
+}
+
 const ORDER_MAP: Record<string, Record<string, string>> = {
   'menor-preco': { ValorVenda: 'asc' },
   'maior-preco': { ValorVenda: 'desc' },
@@ -163,30 +225,46 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
     filter.AreaTotal = `<= ${areaMax}`;
   }
 
-  // Preço: quando só um limite é informado vai direto no filter (como os outros campos).
-  // Quando ambos são informados o campo só pode aparecer uma vez — montamos a string combinada.
-  if (precoMin && precoMax) {
-    filter.ValorVenda = `>= ${precoMin} and <= ${precoMax}`;
-  } else if (precoMin) {
-    filter.ValorVenda = `>= ${precoMin}`;
-  } else if (precoMax) {
-    filter.ValorVenda = `<= ${precoMax}`;
+  // NOTA: A API Vista CRM não suporta filtro ValorVenda para imóveis regulares
+  // (Apartamento, Casa, etc.) — funciona apenas para Empreendimentos via sub-unidades.
+  // Quando há filtro de preço, buscamos todos e filtramos aqui no servidor.
+
+  const orderConfig = ORDER_MAP[ordem];
+  const hasPrecoFilter = Boolean(precoMin || precoMax);
+
+  if (hasPrecoFilter) {
+    // Busca todos os imóveis sem filtro de preço, filtra client-side
+    const allItems = await getAllListingsFromVista(filter, orderConfig);
+
+    const minVal = precoMin ? Number(precoMin) : 0;
+    const maxVal = precoMax ? Number(precoMax) : Infinity;
+
+    const filtered = allItems.filter((item) => {
+      const valor = Number(item.ValorVenda) || 0;
+      // Exclui imóveis sem preço (Empreendimentos com ValorVenda=0)
+      if (valor === 0) return false;
+      return valor >= minVal && valor <= maxVal;
+    });
+
+    const total = filtered.length;
+    const offset = (page - 1) * Math.min(limit, 50);
+    const paginatedItems = filtered.slice(offset, offset + Math.min(limit, 50));
+
+    return {
+      items: paginatedItems,
+      total,
+      paginas: Math.ceil(total / Math.min(limit, 50)) || 1,
+      pagina: page,
+    };
   }
 
-  const fields = [
-    'Codigo', 'Referencia', 'TituloSite', 'Categoria', 'Finalidade', 'Status',
-    'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
-    'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal', 'FotoDestaque',
-    'FotoDestaquePequena'
-  ];
-
+  // Caminho normal: sem filtro de preço — usa paginação nativa da Vista
   const pesquisa: Record<string, unknown> = {
-    fields,
+    fields: LIST_FIELDS,
     filter,
     paginacao: { pagina: page, quantidade: Math.min(limit, 50) },
   };
 
-  const orderConfig = ORDER_MAP[ordem];
   if (orderConfig) {
     pesquisa.order = orderConfig;
   }
@@ -201,12 +279,8 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
 
   const raw = await res.json();
 
-  const items = Object.entries(raw)
-    .filter(([key]) => !META_KEYS.has(key))
-    .map(([, value]) => value) as VistaImovelItem[];
-
   return {
-    items,
+    items: extractItems(raw as Record<string, unknown>),
     total: Number(raw.total ?? 0),
     paginas: Number(raw.paginas ?? 1),
     pagina: Number(raw.pagina ?? page),

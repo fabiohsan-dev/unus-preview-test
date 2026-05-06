@@ -8,7 +8,6 @@ import {
   Car,
   CheckCircle2,
   ChevronDown,
-  DollarSign,
   Hash,
   MapPin,
   Maximize,
@@ -20,6 +19,7 @@ import {
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ApiMetadataResponse } from '@/types/vista';
+import { PriceRangeField } from './PriceRangeField';
 
 export const FEATURES = [
   'Piscina',
@@ -100,7 +100,7 @@ function FilterField({
       {isOpen && (
         <div
           id={listboxId}
-          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[var(--neutral-200)] py-2 z-[100] max-h-[240px] overflow-y-auto"
+          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[var(--neutral-200)] py-2 z-[200] max-h-[240px] overflow-y-auto"
           role="listbox"
           aria-label={label}
           onClick={(event) => event.stopPropagation()}
@@ -276,21 +276,10 @@ export function SearchBar({
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const locations = useMemo(() => ['Todas as regiões', ...(metadata?.bairros || [])], [metadata]);
   const types = useMemo(() => ['Todos os tipos', ...(metadata?.categorias || [])], [metadata]);
-  const priceOptions = useMemo(
-    () => [
-      { label: 'Qualquer valor', precoMax: '' },
-      { label: 'Até R$ 500 mil', precoMax: '500000' },
-      { label: 'Até R$ 1M', precoMax: '1000000' },
-      { label: 'Até R$ 2M', precoMax: '2000000' },
-      { label: 'Até R$ 5M', precoMax: '5000000' },
-      { label: 'Acima de R$ 5M', precoMax: '10000000' },
-    ],
-    []
-  );
-  const values = useMemo(() => priceOptions.map((option) => option.label), [priceOptions]);
   const [selectedLocation, setSelectedLocation] = useState('Todas as regiões');
-  const [selectedType, setSelectedType] = useState('Todos os tipos');
-  const [selectedValue, setSelectedValue] = useState('Qualquer valor');
+  const [selectedType, setSelectedType]         = useState('Todos os tipos');
+  const [precoMin, setPrecoMin]                 = useState('');
+  const [precoMax, setPrecoMax]                 = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const advancedPanelId = useId();
   const compact = variant === 'compact';
@@ -333,15 +322,13 @@ export function SearchBar({
       params.set('tipo', selectedType);
     }
 
-    const priceMax = priceOptions.find((option) => option.label === selectedValue)?.precoMax;
-    if (priceMax) {
-      params.set('precoMax', priceMax);
-    }
+    if (precoMin) params.set('precoMin', precoMin);
+    if (precoMax) params.set('precoMax', precoMax);
 
     onSearch?.({
       location: selectedLocation,
       type: selectedType,
-      value: selectedValue,
+      value: precoMax || precoMin || '',
     });
 
     router.push(params.toString() ? `/venda?${params.toString()}` : '/venda');
@@ -353,7 +340,7 @@ export function SearchBar({
 
   const outerClass = glass
     ? 'p-0'
-    : 'bg-[var(--neutral-100)] p-2';
+    : 'bg-[var(--neutral-100)] p-2 rounded-[28px]';
 
   return (
     <div
@@ -363,7 +350,7 @@ export function SearchBar({
     >
       <div className={outerClass}>
         <div
-          className={`bg-white p-2 flex flex-col items-stretch relative ${
+          className={`bg-white rounded-[22px] p-2 flex flex-col items-stretch relative ${
             glass ? 'shadow-[0_8px_32px_rgba(0,0,0,0.18)]' : 'shadow-none'
           } ${
             compact
@@ -415,15 +402,14 @@ export function SearchBar({
             }
           />
 
-          <FilterField
-            icon={DollarSign}
-            label="Preço"
-            value={selectedValue}
-            options={values}
+          <PriceRangeField
+            precoMin={precoMin}
+            precoMax={precoMax}
             isOpen={activeDropdown === 'value'}
             onToggle={() => toggleDropdown('value')}
-            onSelect={(value) => {
-              setSelectedValue(value);
+            onApply={(min, max) => {
+              setPrecoMin(min);
+              setPrecoMax(max);
               setActiveDropdown(null);
             }}
             compact={compact}

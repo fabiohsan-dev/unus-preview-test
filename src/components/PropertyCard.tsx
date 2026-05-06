@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BedDouble, Car, MapPin, Maximize, ShowerHead } from 'lucide-react';
+import { ArrowRight, BedDouble, Car, MapPin, Maximize, ShowerHead } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import { FavoriteButton } from './FavoriteButton';
 
@@ -320,6 +320,17 @@ export function PropertyCardGrid({ properties: initialProperties }: PropertyCard
           {displayProperties.map((property) => (
             <PropertyCard key={property.id} property={property} />
           ))}
+        </div>
+
+        <div className="mt-14 flex justify-center">
+          <Link
+            href="/venda"
+            className="inline-flex items-center gap-3 border border-[var(--secondary-900)] text-[var(--color-heading)] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[var(--secondary-900)] hover:text-white transition-all duration-300"
+            style={{ fontWeight: 500 }}
+          >
+            Ver todos os imóveis
+            <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+          </Link>
         </div>
       </div>
     </section>
