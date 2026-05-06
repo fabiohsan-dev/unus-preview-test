@@ -24,6 +24,13 @@ export interface VistaImovelItem {
   FotoDestaquePequena?: string;
   // populated server-side for listing cards
   FotosSlider?: string[];
+  // aggregated from sub-units (server-side)
+  AggMinPreco?: number;
+  AggMinSuites?: number;
+  AggMaxSuites?: number;
+  AggMinArea?: number;
+  AggMaxArea?: number;
+  AggDataEntrega?: string;
 }
 
 export interface VistaFoto {

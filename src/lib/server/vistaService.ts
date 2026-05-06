@@ -314,6 +314,78 @@ export interface VistaEmpreendimento {
   Foto: Record<string, { Foto: string; FotoPequena: string; Ordem: string; Destaque: string; Descricao: string }>;
 }
 
+export interface EmpreendimentoStats {
+  minPreco: number | null;
+  minSuites: number | null;
+  maxSuites: number | null;
+  minArea: number | null;
+  maxArea: number | null;
+  dataEntrega: string | null; // "MM/YYYY" ou null
+}
+
+/**
+ * Agrega informações das sub-unidades de um empreendimento pelo nome.
+ * Ex: busca todos imóveis com Empreendimento='Arkki' que não sejam Categoria=Empreendimento.
+ * Retorna: preço mínimo, faixa de suítes, faixa de área, data de entrega.
+ * Cacheado 1h por nome de empreendimento.
+ */
+export async function getEmpreendimentoStatsServer(
+  empName: string
+): Promise<EmpreendimentoStats> {
+  const config = getVistaServerConfig();
+  if (!config.ok) return { minPreco: null, minSuites: null, maxSuites: null, minArea: null, maxArea: null, dataEntrega: null };
+
+  const pesquisa = {
+    fields: ['Codigo', 'Categoria', 'ValorVenda', 'Suites', 'DataEntrega', 'AreaPrivativa'],
+    filter: { Empreendimento: empName },
+    paginacao: { pagina: 1, quantidade: 50 },
+  };
+
+  try {
+    const url = buildVistaGetUrl('/imoveis/listar', pesquisa, { showtotal: '1' });
+    const res = await fetch(url.toString(), {
+      headers: { Accept: 'application/json' },
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return { minPreco: null, minSuites: null, maxSuites: null, minArea: null, maxArea: null, dataEntrega: null };
+
+    const raw = await res.json() as Record<string, unknown>;
+    const units = extractItems(raw).filter(
+      (u) => u.Categoria !== 'Empreendimento'
+    );
+
+    if (units.length === 0) return { minPreco: null, minSuites: null, maxSuites: null, minArea: null, maxArea: null, dataEntrega: null };
+
+    const precos = units.map((u) => parseFloat(u.ValorVenda ?? '0')).filter((v) => v > 0);
+    const suitesList = units.map((u) => parseInt(u.Suites ?? '0')).filter((v) => v >= 0);
+    const areas = units.map((u) => parseFloat(u.AreaPrivativa ?? '0')).filter((v) => v > 0);
+    const datas = units
+      .map((u) => u.DataEntrega ?? '')
+      .filter((d) => d && d !== '0000-00-00')
+      .sort();
+
+    const dataEntregaRaw = datas[0] ?? null;
+    let dataEntrega: string | null = null;
+    if (dataEntregaRaw) {
+      const parts = dataEntregaRaw.split('-');
+      if (parts.length >= 2 && parts[0] !== '0000') {
+        dataEntrega = `${parts[1]}/${parts[0]}`;
+      }
+    }
+
+    return {
+      minPreco: precos.length > 0 ? Math.min(...precos) : null,
+      minSuites: suitesList.length > 0 ? Math.min(...suitesList) : null,
+      maxSuites: suitesList.length > 0 ? Math.max(...suitesList) : null,
+      minArea: areas.length > 0 ? Math.min(...areas) : null,
+      maxArea: areas.length > 0 ? Math.max(...areas) : null,
+      dataEntrega,
+    };
+  } catch {
+    return { minPreco: null, minSuites: null, maxSuites: null, minArea: null, maxArea: null, dataEntrega: null };
+  }
+}
+
 /**
  * Busca as primeiras N fotos de um empreendimento pelo código.
  * Usado para pré-popular o slider no listing. Cacheado 1h por código.

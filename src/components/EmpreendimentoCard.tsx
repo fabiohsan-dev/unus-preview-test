@@ -2,11 +2,11 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Building2 } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Heart } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import type { VistaImovelItem } from '@/types/vista';
 
-const WHATSAPP_BASE = 'https://wa.me/554830666767?text=';
+const WHATSAPP_NUMBER = '554830666767';
 const PHONE_HREF = 'tel:+554830666767';
 
 function getSlug(emp: VistaImovelItem) {
@@ -26,25 +26,26 @@ function getStatusLabel(emp: VistaImovelItem): string {
   return emp.Status;
 }
 
-function formatPrice(value?: string): string | null {
-  if (!value) return null;
-  const num = parseFloat(value.replace(',', '.'));
-  if (isNaN(num) || num === 0) return null;
+function formatBRL(value: number): string {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(num);
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
 }
 
-function formatDataEntrega(raw?: string): string | null {
-  if (!raw) return null;
-  const parts = raw.split('-');
-  if (parts.length >= 2 && parts[0] !== '0000') {
-    return `${parts[1]}/${parts[0]}`;
-  }
-  return null;
+function getSuitesLabel(min: number | undefined, max: number | undefined): string | null {
+  if (min === undefined || max === undefined) return null;
+  if (min === max) return `${min} suíte${min !== 1 ? 's' : ''}`;
+  return `${min} a ${max} suítes`;
+}
+
+function getAreaLabel(min: number | undefined, max: number | undefined): string | null {
+  if (!min) return null;
+  const fmt = (v: number) => v.toLocaleString('pt-BR', { maximumFractionDigits: 0 });
+  if (!max || min === max) return `${fmt(min)} m²`;
+  return `${fmt(min)} a ${fmt(max)} m²`;
 }
 
 function getDescricao(text?: string): string | null {
@@ -59,28 +60,26 @@ interface EmpreendimentoCardProps {
 export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardProps) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
+  const [favorited, setFavorited] = useState(false);
 
-  const slug        = getSlug(emp);
-  const href        = `/empreendimento/${slug}`;
-  const title       = getDisplayTitle(emp);
-  const status      = getStatusLabel(emp);
-  const price       = formatPrice(emp.ValorVenda);
-  const dataEntrega = formatDataEntrega(emp.DataEntrega);
+  const slug   = getSlug(emp);
+  const href   = `/empreendimento/${slug}`;
+  const title  = getDisplayTitle(emp);
+  const status = getStatusLabel(emp);
+
+  // Dados agregados das sub-unidades
+  const price       = emp.AggMinPreco && emp.AggMinPreco > 0 ? formatBRL(emp.AggMinPreco) : null;
+  const suitesLabel = getSuitesLabel(emp.AggMinSuites, emp.AggMaxSuites);
+  const areaLabel   = getAreaLabel(emp.AggMinArea, emp.AggMaxArea);
+  const dataEntrega = emp.AggDataEntrega ?? null;
   const descricao   = getDescricao(emp.DescricaoEmpreendimento);
-  const area        = emp.AreaPrivativa && parseFloat(emp.AreaPrivativa) > 0
-    ? `${parseFloat(emp.AreaPrivativa).toLocaleString('pt-BR')} m²`
-    : null;
-  const suites = emp.Suites && parseInt(emp.Suites) > 0
-    ? `${emp.Suites} suíte${parseInt(emp.Suites) > 1 ? 's' : ''}`
-    : null;
 
-  // Build slides: prefer FotosSlider (server-fetched), fallback to FotoDestaque
+  // Slider
   const slides: string[] = (emp.FotosSlider && emp.FotosSlider.length > 0)
     ? emp.FotosSlider
     : emp.FotoDestaque
     ? [emp.FotoDestaque]
     : [];
-
   const total = slides.length;
 
   const prev = useCallback((e: React.MouseEvent) => {
@@ -109,8 +108,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
         onMouseEnter={() => setIsHoveringImage(true)}
         onMouseLeave={() => setIsHoveringImage(false)}
       >
-        {/* Slides */}
-        {slides.length > 0 && slides.map((src, i) => (
+        {slides.map((src, i) => (
           <div
             key={i}
             className="absolute inset-0 transition-opacity duration-500"
@@ -125,23 +123,36 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           </div>
         ))}
 
-        {/* Overlay escuro para legibilidade */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/15 z-10 pointer-events-none" />
 
-        {/* Link para o detalhe — toda a área da imagem */}
+        {/* Link cobre a imagem */}
         <Link href={href} className="absolute inset-0 z-20" aria-label={`Ver ${title}`} />
 
-        {/* Controles do slider */}
+        {/* Botão favorito */}
+        <button
+          onClick={(e) => { e.preventDefault(); setFavorited((f) => !f); }}
+          className="absolute top-4 left-4 z-30 w-9 h-9 flex items-center justify-center bg-black/35 hover:bg-black/60 backdrop-blur-sm transition-all duration-200"
+          aria-label={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+        >
+          <Heart
+            className="w-4 h-4 transition-all duration-200"
+            strokeWidth={1.8}
+            style={{
+              color: favorited ? '#e05252' : 'white',
+              fill: favorited ? '#e05252' : 'transparent',
+            }}
+          />
+        </button>
+
         {total > 1 && (
           <>
-            {/* Botões prev/next */}
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm transition-all duration-200"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm"
               style={{
                 opacity: isHoveringImage ? 1 : 0,
-                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '-4px'})`,
+                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '-6px'})`,
                 transition: 'opacity 0.2s, transform 0.2s, background 0.2s',
               }}
               aria-label="Foto anterior"
@@ -150,10 +161,10 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm transition-all duration-200"
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm"
               style={{
                 opacity: isHoveringImage ? 1 : 0,
-                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '4px'})`,
+                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '6px'})`,
                 transition: 'opacity 0.2s, transform 0.2s, background 0.2s',
               }}
               aria-label="Próxima foto"
@@ -167,20 +178,19 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
                 <button
                   key={i}
                   onClick={(e) => { e.preventDefault(); setSlideIndex(i); }}
-                  className="transition-all duration-200"
                   style={{
                     width: i === slideIndex ? '20px' : '6px',
                     height: '6px',
                     borderRadius: '3px',
-                    background: i === slideIndex ? 'var(--gold)' : 'rgba(255,255,255,0.45)',
+                    background: i === slideIndex ? 'var(--gold)' : 'rgba(255,255,255,0.4)',
+                    transition: 'width 0.2s, background 0.2s',
                   }}
                   aria-label={`Foto ${i + 1}`}
                 />
               ))}
             </div>
 
-            {/* Contador */}
-            <div className="absolute top-4 right-4 z-30 px-2.5 py-1 bg-black/40 backdrop-blur-sm text-white text-[10px] tracking-[0.1em]" style={{ fontWeight: 500 }}>
+            <div className="absolute top-4 right-4 z-30 px-2.5 py-1 bg-black/35 backdrop-blur-sm text-white text-[10px] tracking-[0.08em]" style={{ fontWeight: 500 }}>
               {slideIndex + 1} / {total}
             </div>
           </>
@@ -190,10 +200,9 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
       {/* ── Direita: Conteúdo ───────────────────────── */}
       <div className="flex flex-col flex-1 px-10 py-10 lg:px-12 lg:py-12 justify-between gap-8">
 
-        {/* Bloco superior */}
         <div className="flex flex-col gap-5">
 
-          {/* Badges de status + preço */}
+          {/* Status badge */}
           <div className="flex items-center flex-wrap gap-2">
             <span
               className="px-4 py-1.5 border border-[var(--gold)] text-[var(--gold)] text-[10px] uppercase tracking-[0.22em]"
@@ -201,14 +210,6 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             >
               {status}
             </span>
-            {price && (
-              <span
-                className="px-4 py-1.5 bg-white/8 text-white/60 text-[10px] tracking-[0.08em]"
-                style={{ fontWeight: 400 }}
-              >
-                A partir de {price}
-              </span>
-            )}
           </div>
 
           {/* Localização */}
@@ -236,46 +237,51 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </h3>
           </Link>
 
-          {/* Construtora */}
-          {emp.Construtora && (
-            <div className="flex items-center gap-2">
-              <Building2 className="w-3.5 h-3.5 text-white/25 shrink-0" strokeWidth={1.5} />
-              <span className="text-white/40 text-[12px] uppercase tracking-[0.12em]" style={{ fontWeight: 400 }}>
-                {emp.Construtora}
-              </span>
+          {/* Preço mínimo */}
+          {price && (
+            <div>
+              <p className="text-white/35 text-[10px] uppercase tracking-[0.18em] mb-1" style={{ fontWeight: 500 }}>
+                A partir de
+              </p>
+              <p
+                className="text-white text-[22px] leading-none"
+                style={{ fontWeight: 300, fontFamily: 'var(--font-serif)' }}
+              >
+                {price}
+              </p>
             </div>
           )}
 
           {/* Separador */}
           <div className="w-12 h-[1px] bg-[var(--gold)] opacity-30" />
 
-          {/* Metadados */}
-          {(area || suites || dataEntrega) && (
+          {/* Metadados: suítes / área / entrega */}
+          {(suitesLabel || areaLabel || dataEntrega) && (
             <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
-              {suites && (
-                <span className="flex items-center gap-2 text-white/55 text-[14px]" style={{ fontWeight: 300 }}>
+              {suitesLabel && (
+                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
                   <svg className="w-4 h-4 shrink-0 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 9V19M21 9V19M3 14H21M7 9V7C7 5.343 8.343 4 10 4H14C15.657 4 17 5.343 17 7V9"/>
                   </svg>
-                  {suites}
+                  {suitesLabel}
                 </span>
               )}
-              {area && (
-                <span className="flex items-center gap-2 text-white/55 text-[14px]" style={{ fontWeight: 300 }}>
+              {areaLabel && (
+                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
                   <Maximize2 className="w-4 h-4 shrink-0 text-white/25" strokeWidth={1.5} />
-                  {area}
+                  {areaLabel}
                 </span>
               )}
               {dataEntrega && (
-                <span className="flex items-center gap-2 text-white/55 text-[14px]" style={{ fontWeight: 300 }}>
+                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
                   <Calendar className="w-4 h-4 shrink-0 text-white/25" strokeWidth={1.5} />
-                  Entrega {dataEntrega}
+                  Data de entrega: {dataEntrega}
                 </span>
               )}
             </div>
           )}
 
-          {/* Descrição completa */}
+          {/* Descrição */}
           {descricao && (
             <p
               className="text-white/45 text-[15px] leading-[1.8]"
@@ -286,24 +292,21 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           )}
         </div>
 
-        {/* Bloco inferior: CTA + botões */}
-        <div className="flex flex-col gap-5 pt-2 border-t border-white/8">
-
+        {/* CTA + botões */}
+        <div className="flex flex-col gap-5 pt-4 border-t border-white/8">
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-2.5 text-white text-[12px] uppercase tracking-[0.22em] hover:text-[var(--gold)] transition-colors duration-200 pt-4"
+            className="group/cta inline-flex items-center gap-2.5 text-white text-[12px] uppercase tracking-[0.22em] hover:text-[var(--gold)] transition-colors duration-200"
             style={{ fontWeight: 600 }}
           >
             Conheça o empreendimento
-            <ArrowRight
-              className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1"
-              strokeWidth={2}
-            />
+            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" strokeWidth={2} />
           </Link>
 
           <div className="flex items-center gap-3">
+            {/* WhatsApp */}
             <a
-              href={`${WHATSAPP_BASE}${waText}`}
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 bg-[var(--color-action-whatsapp)]/90 hover:bg-[var(--color-action-whatsapp)] text-white text-[11px] uppercase tracking-[0.14em] transition-colors"
@@ -316,6 +319,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               WhatsApp
             </a>
 
+            {/* Telefone */}
             <a
               href={PHONE_HREF}
               className="flex items-center gap-2 px-6 py-3 border border-white/15 text-white/60 hover:border-white/40 hover:text-white text-[11px] uppercase tracking-[0.14em] transition-all"

@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
-import { getListarImoveisServer, getEmpreendimentoFotosServer } from '@/lib/server/vistaService';
+import {
+  getListarImoveisServer,
+  getEmpreendimentoFotosServer,
+  getEmpreendimentoStatsServer,
+} from '@/lib/server/vistaService';
 import { EmpreendimentoCard } from '@/components/EmpreendimentoCard';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -29,21 +33,26 @@ export default async function EmpreendimentosPage() {
 
   const empreendimentos = data.items;
 
-  // Busca fotos de cada empreendimento em paralelo (cacheadas 1h cada)
-  const fotosMap = await Promise.all(
-    empreendimentos.map(async (emp) => ({
-      codigo: emp.Codigo,
-      fotos: await getEmpreendimentoFotosServer(emp.Codigo, 5),
-    }))
-  ).then((results) =>
-    Object.fromEntries(results.map(({ codigo, fotos }) => [codigo, fotos]))
+  // Busca fotos + estatísticas das sub-unidades em paralelo (tudo cacheado 1h)
+  const enriched = await Promise.all(
+    empreendimentos.map(async (emp) => {
+      const empName = emp.Empreendimento || emp.TituloSite || '';
+      const [fotos, stats] = await Promise.all([
+        getEmpreendimentoFotosServer(emp.Codigo, 5),
+        empName ? getEmpreendimentoStatsServer(empName) : Promise.resolve(null),
+      ]);
+      return {
+        ...emp,
+        FotosSlider: fotos,
+        AggMinPreco:   stats?.minPreco   ?? undefined,
+        AggMinSuites:  stats?.minSuites  ?? undefined,
+        AggMaxSuites:  stats?.maxSuites  ?? undefined,
+        AggMinArea:    stats?.minArea    ?? undefined,
+        AggMaxArea:    stats?.maxArea    ?? undefined,
+        AggDataEntrega: stats?.dataEntrega ?? undefined,
+      };
+    })
   );
-
-  // Injeta fotos no item
-  const empreendimentosComFotos = empreendimentos.map((emp) => ({
-    ...emp,
-    FotosSlider: fotosMap[emp.Codigo] ?? [],
-  }));
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
@@ -99,9 +108,9 @@ export default async function EmpreendimentosPage() {
       {/* Listagem */}
       <section className="py-20 px-6 sm:px-8 lg:px-16">
         <div className="max-w-[1400px] mx-auto">
-          {empreendimentosComFotos.length > 0 ? (
+          {enriched.length > 0 ? (
             <div className="flex flex-col gap-8">
-              {empreendimentosComFotos.map((emp) => (
+              {enriched.map((emp) => (
                 <EmpreendimentoCard key={emp.Codigo} empreendimento={emp} />
               ))}
             </div>
