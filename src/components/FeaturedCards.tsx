@@ -96,9 +96,17 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
             </p>
           </div>
 
-          {/* Nav Arrows */}
+          {/* Nav Arrows + Ver todos */}
           <div className="flex items-center gap-3">
-            <span className="text-[var(--secondary-400)] text-[13px] mr-4" style={{ fontWeight: 400 }}>
+            <Link
+              href="/venda"
+              className="hidden sm:inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-[var(--color-heading)] hover:text-[var(--deep-blue)] transition-colors mr-4"
+              style={{ fontWeight: 500 }}
+            >
+              Ver todos
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
+            </Link>
+            <span className="text-[var(--secondary-400)] text-[13px] mr-2" style={{ fontWeight: 400 }}>
               {String(current + 1).padStart(2, '0')} / {String(displayProperties.length).padStart(2, '0')}
             </span>
             <button

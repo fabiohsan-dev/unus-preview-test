@@ -139,20 +139,26 @@ export function Header() {
               </Link>
             ))}
 
-            {/* Dropdown Ver imóveis */}
+            {/* Ver imóveis: link direto + chevron dropdown separado */}
             <div
-              className="relative"
+              className="relative flex items-center gap-0.5"
               onMouseEnter={openDropdown}
               onMouseLeave={closeDropdown}
             >
-              <button
-                className={`inline-flex items-center gap-1.5 ${linkStyle}`}
+              <Link
+                href="/venda"
+                className={`${linkStyle}`}
                 style={{ fontWeight: 500 }}
-                aria-haspopup="listbox"
-                aria-expanded={dropdownOpen}
-                onClick={() => setDropdownOpen((v) => !v)}
               >
                 Ver imóveis
+              </Link>
+              <button
+                className={`p-1 ${textColor} ${hoverStyle}`}
+                aria-haspopup="listbox"
+                aria-expanded={dropdownOpen}
+                aria-label="Filtros de imóveis"
+                onClick={(e) => { e.stopPropagation(); setDropdownOpen((v) => !v); }}
+              >
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`}
                   strokeWidth={2}
