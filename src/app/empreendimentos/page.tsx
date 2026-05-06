@@ -18,7 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default async function EmpreendimentosPage() {
-  const empreendimentos = await getEmpreendimentosServer().catch(() => []);
+  const empreendimentos = await getEmpreendimentosServer().catch((err) => {
+    console.error('[EmpreendimentosPage] falha ao buscar empreendimentos:', err);
+    return [];
+  });
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
