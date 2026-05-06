@@ -35,6 +35,18 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       <div className="relative z-20 w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pb-24 sm:pb-28">
         <div className="relative z-20 w-full max-w-[980px]">
           <SearchBar variant="hero" glass metadata={metadata} />
+          <div className="mt-4">
+            <a
+              href="https://wa.me/554830666767?text=Olá!%20Gostaria%20de%20atendimento%20consultivo."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-white/60 hover:text-white/90 text-[11px] uppercase tracking-[0.18em] transition-colors duration-300"
+              style={{ fontWeight: 400 }}
+            >
+              Prefere atendimento consultivo? Fale com um corretor
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
       </div>
 

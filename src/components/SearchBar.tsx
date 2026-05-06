@@ -353,7 +353,7 @@ export function SearchBar({
 
   const outerClass = glass
     ? 'p-0'
-    : 'bg-[var(--neutral-100)] p-2 rounded-[14px]';
+    : 'bg-[var(--neutral-100)] p-2';
 
   return (
     <div
@@ -363,7 +363,9 @@ export function SearchBar({
     >
       <div className={outerClass}>
         <div
-          className={`bg-white rounded-[12px] p-2 flex flex-col items-stretch relative shadow-[0_18px_48px_rgba(0,0,0,0.2)] ${
+          className={`bg-white p-2 flex flex-col items-stretch relative ${
+            glass ? 'shadow-[0_8px_32px_rgba(0,0,0,0.18)]' : 'shadow-none'
+          } ${
             compact
               ? 'gap-0 md:flex-row'
               : 'md:grid md:grid-cols-[minmax(150px,1fr)_1px_minmax(180px,1.1fr)_1px_minmax(145px,0.9fr)_auto]'
