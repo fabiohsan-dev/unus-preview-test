@@ -84,7 +84,7 @@ export default async function EmpreendimentosPage() {
       <section className="py-16 px-6 sm:px-8 lg:px-12">
         <div className="max-w-[1400px] mx-auto">
           {empreendimentos.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="flex flex-col gap-6">
               {empreendimentos.map((emp) => (
                 <EmpreendimentoCard key={emp.Codigo} empreendimento={emp} />
               ))}
