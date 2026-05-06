@@ -19,8 +19,11 @@ export interface VistaImovelItem {
   AreaTotal?: string;
   DataEntrega?: string;
   DescricaoEmpreendimento?: string;
+  Construtora?: string;
   FotoDestaque?: string;
   FotoDestaquePequena?: string;
+  // populated server-side for listing cards
+  FotosSlider?: string[];
 }
 
 export interface VistaFoto {

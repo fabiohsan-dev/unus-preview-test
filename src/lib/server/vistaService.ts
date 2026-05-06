@@ -16,7 +16,7 @@ const LIST_FIELDS = [
   'Codigo', 'Referencia', 'TituloSite', 'Empreendimento', 'Categoria', 'Finalidade', 'Status',
   'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
   'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal',
-  'DataEntrega', 'DescricaoEmpreendimento',
+  'DataEntrega', 'DescricaoEmpreendimento', 'Construtora',
   'FotoDestaque', 'FotoDestaquePequena'
 ];
 
@@ -312,6 +312,45 @@ export interface VistaEmpreendimento {
   InfraEstrutura: Record<string, string>;
   Caracteristicas: Record<string, string>;
   Foto: Record<string, { Foto: string; FotoPequena: string; Ordem: string; Destaque: string; Descricao: string }>;
+}
+
+/**
+ * Busca as primeiras N fotos de um empreendimento pelo código.
+ * Usado para pré-popular o slider no listing. Cacheado 1h por código.
+ */
+export async function getEmpreendimentoFotosServer(
+  codigo: string,
+  max = 5
+): Promise<string[]> {
+  const config = getVistaServerConfig();
+  if (!config.ok) return [];
+
+  const pesquisa = {
+    fields: ['Codigo', { Foto: ['Foto', 'Ordem', 'Destaque'] }],
+  };
+
+  try {
+    const url = buildVistaGetUrl('/imoveis/detalhes', pesquisa, { imovel: codigo });
+    const res = await fetch(url.toString(), {
+      headers: { Accept: 'application/json' },
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return [];
+
+    const data = await res.json();
+    const fotoMap = data?.Foto;
+    if (!fotoMap || typeof fotoMap !== 'object') return [];
+
+    const sorted = Object.values(fotoMap as Record<string, { Foto?: string; Ordem?: string | number }>)
+      .filter((f) => f?.Foto)
+      .sort((a, b) => Number(a.Ordem ?? 99) - Number(b.Ordem ?? 99))
+      .slice(0, max)
+      .map((f) => f.Foto as string);
+
+    return sorted;
+  } catch {
+    return [];
+  }
 }
 
 /**

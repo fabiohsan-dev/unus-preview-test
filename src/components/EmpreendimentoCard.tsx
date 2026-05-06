@@ -1,5 +1,8 @@
+'use client';
+
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, MapPin, Phone, Calendar, Maximize2 } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Building2 } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import type { VistaImovelItem } from '@/types/vista';
 
@@ -54,6 +57,9 @@ interface EmpreendimentoCardProps {
 }
 
 export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardProps) {
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isHoveringImage, setIsHoveringImage] = useState(false);
+
   const slug        = getSlug(emp);
   const href        = `/empreendimento/${slug}`;
   const title       = getDisplayTitle(emp);
@@ -67,39 +73,127 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
   const suites = emp.Suites && parseInt(emp.Suites) > 0
     ? `${emp.Suites} suíte${parseInt(emp.Suites) > 1 ? 's' : ''}`
     : null;
+
+  // Build slides: prefer FotosSlider (server-fetched), fallback to FotoDestaque
+  const slides: string[] = (emp.FotosSlider && emp.FotosSlider.length > 0)
+    ? emp.FotosSlider
+    : emp.FotoDestaque
+    ? [emp.FotoDestaque]
+    : [];
+
+  const total = slides.length;
+
+  const prev = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setSlideIndex((i) => (i - 1 + total) % total);
+  }, [total]);
+
+  const next = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setSlideIndex((i) => (i + 1) % total);
+  }, [total]);
+
   const waText = encodeURIComponent(
     `Olá! Tenho interesse no empreendimento ${title} em ${emp.Bairro}, ${emp.Cidade}. Gostaria de mais informações.`
   );
 
   return (
     <article
-      className="group relative flex flex-col lg:flex-row w-full overflow-hidden"
-      style={{ minHeight: '460px', boxShadow: 'var(--shadow-soft)' }}
+      className="group relative flex flex-col lg:flex-row w-full overflow-hidden bg-[var(--secondary-900)]"
+      style={{ minHeight: '480px', boxShadow: '0 4px 32px rgba(0,0,0,0.10)' }}
     >
-      {/* ── Esquerda: Imagem ─────────────────────────── */}
-      <Link
-        href={href}
-        className="relative block w-full lg:w-[55%] shrink-0 overflow-hidden"
-        style={{ minHeight: '320px' }}
-        aria-label={`Ver ${title}`}
-        tabIndex={-1}
+      {/* ── Esquerda: Slider ─────────────────────────── */}
+      <div
+        className="relative w-full lg:w-[54%] shrink-0 overflow-hidden"
+        style={{ minHeight: '340px' }}
+        onMouseEnter={() => setIsHoveringImage(true)}
+        onMouseLeave={() => setIsHoveringImage(false)}
       >
-        <ContentImage
-          src={emp.FotoDestaque || ''}
-          alt={title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          sizes="(max-width: 1024px) 100vw, 55vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/20 pointer-events-none" />
-      </Link>
+        {/* Slides */}
+        {slides.length > 0 && slides.map((src, i) => (
+          <div
+            key={i}
+            className="absolute inset-0 transition-opacity duration-500"
+            style={{ opacity: i === slideIndex ? 1 : 0, zIndex: i === slideIndex ? 1 : 0 }}
+          >
+            <ContentImage
+              src={src}
+              alt={`${title} — foto ${i + 1}`}
+              className="w-full h-full object-cover"
+              sizes="(max-width: 1024px) 100vw, 54vw"
+            />
+          </div>
+        ))}
 
-      {/* ── Direita: Painel escuro ───────────────────── */}
-      <div className="flex flex-col flex-1 bg-[var(--secondary-900)] px-10 py-10 lg:px-12 lg:py-12 justify-between gap-8">
+        {/* Overlay escuro para legibilidade */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/15 z-10 pointer-events-none" />
+
+        {/* Link para o detalhe — toda a área da imagem */}
+        <Link href={href} className="absolute inset-0 z-20" aria-label={`Ver ${title}`} />
+
+        {/* Controles do slider */}
+        {total > 1 && (
+          <>
+            {/* Botões prev/next */}
+            <button
+              onClick={prev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm transition-all duration-200"
+              style={{
+                opacity: isHoveringImage ? 1 : 0,
+                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '-4px'})`,
+                transition: 'opacity 0.2s, transform 0.2s, background 0.2s',
+              }}
+              aria-label="Foto anterior"
+            >
+              <ChevronLeft className="w-4 h-4" strokeWidth={2} />
+            </button>
+            <button
+              onClick={next}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm transition-all duration-200"
+              style={{
+                opacity: isHoveringImage ? 1 : 0,
+                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '4px'})`,
+                transition: 'opacity 0.2s, transform 0.2s, background 0.2s',
+              }}
+              aria-label="Próxima foto"
+            >
+              <ChevronRight className="w-4 h-4" strokeWidth={2} />
+            </button>
+
+            {/* Dots */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => { e.preventDefault(); setSlideIndex(i); }}
+                  className="transition-all duration-200"
+                  style={{
+                    width: i === slideIndex ? '20px' : '6px',
+                    height: '6px',
+                    borderRadius: '3px',
+                    background: i === slideIndex ? 'var(--gold)' : 'rgba(255,255,255,0.45)',
+                  }}
+                  aria-label={`Foto ${i + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Contador */}
+            <div className="absolute top-4 right-4 z-30 px-2.5 py-1 bg-black/40 backdrop-blur-sm text-white text-[10px] tracking-[0.1em]" style={{ fontWeight: 500 }}>
+              {slideIndex + 1} / {total}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* ── Direita: Conteúdo ───────────────────────── */}
+      <div className="flex flex-col flex-1 px-10 py-10 lg:px-12 lg:py-12 justify-between gap-8">
 
         {/* Bloco superior */}
         <div className="flex flex-col gap-5">
 
-          {/* Badges */}
+          {/* Badges de status + preço */}
           <div className="flex items-center flex-wrap gap-2">
             <span
               className="px-4 py-1.5 border border-[var(--gold)] text-[var(--gold)] text-[10px] uppercase tracking-[0.22em]"
@@ -121,7 +215,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[var(--primary-500)] shrink-0" strokeWidth={1.5} />
             <span
-              className="text-[var(--primary-500)] text-[13px] uppercase tracking-[0.18em]"
+              className="text-[var(--primary-500)] text-[13px] uppercase tracking-[0.16em]"
               style={{ fontWeight: 600 }}
             >
               {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
@@ -131,22 +225,35 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-white leading-[1.08] tracking-[-0.02em] group-hover/title:text-[var(--gold)] transition-colors duration-300"
+              className="text-white leading-[1.06] tracking-[-0.02em] group-hover/title:text-[var(--gold)] transition-colors duration-300"
               style={{
                 fontWeight: 400,
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(32px, 3.5vw, 52px)',
+                fontSize: 'clamp(34px, 3.8vw, 56px)',
               }}
             >
               {title}
             </h3>
           </Link>
 
+          {/* Construtora */}
+          {emp.Construtora && (
+            <div className="flex items-center gap-2">
+              <Building2 className="w-3.5 h-3.5 text-white/25 shrink-0" strokeWidth={1.5} />
+              <span className="text-white/40 text-[12px] uppercase tracking-[0.12em]" style={{ fontWeight: 400 }}>
+                {emp.Construtora}
+              </span>
+            </div>
+          )}
+
+          {/* Separador */}
+          <div className="w-12 h-[1px] bg-[var(--gold)] opacity-30" />
+
           {/* Metadados */}
           {(area || suites || dataEntrega) && (
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
               {suites && (
-                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
+                <span className="flex items-center gap-2 text-white/55 text-[14px]" style={{ fontWeight: 300 }}>
                   <svg className="w-4 h-4 shrink-0 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 9V19M21 9V19M3 14H21M7 9V7C7 5.343 8.343 4 10 4H14C15.657 4 17 5.343 17 7V9"/>
                   </svg>
@@ -154,13 +261,13 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
                 </span>
               )}
               {area && (
-                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
+                <span className="flex items-center gap-2 text-white/55 text-[14px]" style={{ fontWeight: 300 }}>
                   <Maximize2 className="w-4 h-4 shrink-0 text-white/25" strokeWidth={1.5} />
                   {area}
                 </span>
               )}
               {dataEntrega && (
-                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
+                <span className="flex items-center gap-2 text-white/55 text-[14px]" style={{ fontWeight: 300 }}>
                   <Calendar className="w-4 h-4 shrink-0 text-white/25" strokeWidth={1.5} />
                   Entrega {dataEntrega}
                 </span>
@@ -168,10 +275,10 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </div>
           )}
 
-          {/* Descrição — frase completa, sem truncar */}
+          {/* Descrição completa */}
           {descricao && (
             <p
-              className="text-white/50 text-[15px] leading-[1.75]"
+              className="text-white/45 text-[15px] leading-[1.8]"
               style={{ fontWeight: 300 }}
             >
               {descricao}
@@ -179,14 +286,12 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           )}
         </div>
 
-        {/* Bloco inferior: divisor + CTA + botões */}
-        <div className="flex flex-col gap-5">
-          <div className="w-12 h-[1px] bg-[var(--gold)] opacity-40" />
+        {/* Bloco inferior: CTA + botões */}
+        <div className="flex flex-col gap-5 pt-2 border-t border-white/8">
 
-          {/* CTA texto */}
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-2.5 text-white text-[12px] uppercase tracking-[0.22em] hover:text-[var(--gold)] transition-colors duration-200"
+            className="group/cta inline-flex items-center gap-2.5 text-white text-[12px] uppercase tracking-[0.22em] hover:text-[var(--gold)] transition-colors duration-200 pt-4"
             style={{ fontWeight: 600 }}
           >
             Conheça o empreendimento
@@ -196,13 +301,12 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             />
           </Link>
 
-          {/* Botões de contato */}
           <div className="flex items-center gap-3">
             <a
               href={`${WHATSAPP_BASE}${waText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-3 bg-[var(--color-action-whatsapp)]/90 hover:bg-[var(--color-action-whatsapp)] text-white text-[11px] uppercase tracking-[0.14em] transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-[var(--color-action-whatsapp)]/90 hover:bg-[var(--color-action-whatsapp)] text-white text-[11px] uppercase tracking-[0.14em] transition-colors"
               style={{ fontWeight: 600 }}
               aria-label="Conversar no WhatsApp"
             >
@@ -214,7 +318,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
             <a
               href={PHONE_HREF}
-              className="flex items-center gap-2 px-5 py-3 border border-white/20 text-white/70 hover:border-white/50 hover:text-white text-[11px] uppercase tracking-[0.14em] transition-colors"
+              className="flex items-center gap-2 px-6 py-3 border border-white/15 text-white/60 hover:border-white/40 hover:text-white text-[11px] uppercase tracking-[0.14em] transition-all"
               style={{ fontWeight: 500 }}
               aria-label="Ligar para a UNUS"
             >
