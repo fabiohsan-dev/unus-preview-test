@@ -287,6 +287,93 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
   };
 }
 
+export interface VistaEmpreendimento {
+  Codigo: string;
+  TituloSite: string;
+  Categoria: string;
+  Status: string;
+  Cidade: string;
+  Bairro: string;
+  UF: string;
+  Endereco: string;
+  Numero: string;
+  ValorVenda: string;
+  DescricaoEmpreendimento: string;
+  DescricaoWeb: string;
+  Descricao: string;
+  DataEntrega: string;
+  FotoDestaque: string;
+  FotoDestaquePequena: string;
+  Latitude: string;
+  Longitude: string;
+  SuperDestaqueWeb: string;
+  InfraEstrutura: Record<string, string>;
+  Caracteristicas: Record<string, string>;
+  Foto: Record<string, { Foto: string; FotoPequena: string; Ordem: string; Destaque: string; Descricao: string }>;
+}
+
+/**
+ * Busca todos os empreendimentos com seus dados completos (fotos, infra, etc.).
+ * Revalida a cada hora pois empreendimentos mudam pouco.
+ */
+export async function getEmpreendimentosServer(): Promise<VistaEmpreendimento[]> {
+  const config = getVistaServerConfig();
+  if (!config.ok) throw new Error(config.error);
+
+  const pesquisa = {
+    fields: [
+      'Codigo', 'TituloSite', 'Categoria', 'Status', 'Cidade', 'Bairro', 'UF',
+      'Endereco', 'Numero', 'ValorVenda', 'DescricaoEmpreendimento', 'DescricaoWeb',
+      'DataEntrega', 'FotoDestaque', 'FotoDestaquePequena', 'Latitude', 'Longitude',
+      'SuperDestaqueWeb', 'InfraEstrutura',
+      { Foto: ['Foto', 'FotoPequena', 'Ordem', 'Destaque', 'Descricao'] },
+    ],
+    filter: { Categoria: 'Empreendimento' },
+    paginacao: { pagina: 1, quantidade: 50 },
+  };
+
+  const url = buildVistaGetUrl('/imoveis/listar', pesquisa, { showtotal: '1' });
+  const res = await fetch(url.toString(), {
+    headers: { Accept: 'application/json' },
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
+
+  const raw = await res.json();
+  return extractItems(raw as Record<string, unknown>) as unknown as VistaEmpreendimento[];
+}
+
+/**
+ * Obtém detalhes completos de um empreendimento pelo código.
+ */
+export async function getDetalheEmpreendimentoServer(codigo: string): Promise<VistaEmpreendimento | null> {
+  const config = getVistaServerConfig();
+  if (!config.ok) throw new Error(config.error);
+
+  const pesquisa = {
+    fields: [
+      'Codigo', 'TituloSite', 'Categoria', 'Status', 'Cidade', 'Bairro', 'UF',
+      'Endereco', 'Numero', 'ValorVenda', 'DescricaoEmpreendimento', 'DescricaoWeb',
+      'Descricao', 'DataEntrega', 'FotoDestaque', 'FotoDestaquePequena',
+      'Latitude', 'Longitude', 'SuperDestaqueWeb', 'InfraEstrutura', 'Caracteristicas',
+      { Foto: ['Foto', 'FotoPequena', 'Ordem', 'Destaque', 'Descricao'] },
+      { Corretor: ['Nome', 'Foto', 'Celular', 'Tipo'] },
+    ],
+  };
+
+  const url = buildVistaGetUrl('/imoveis/detalhes', pesquisa, { imovel: codigo });
+  const res = await fetch(url.toString(), {
+    headers: { Accept: 'application/json' },
+    next: { revalidate: 3600 },
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
+
+  const data = await res.json();
+  if (!data?.Codigo) return null;
+  return data as VistaEmpreendimento;
+}
+
 /**
  * Obtém detalhes de um imóvel diretamente no servidor.
  */
