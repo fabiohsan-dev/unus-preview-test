@@ -335,12 +335,14 @@ export async function getEmpreendimentosServer(): Promise<VistaEmpreendimento[]>
   const url = buildVistaGetUrl('/imoveis/listar', pesquisa, { showtotal: '1' });
   const res = await fetch(url.toString(), {
     headers: { Accept: 'application/json' },
-    next: { revalidate: 3600 },
+    cache: 'no-store',
   });
   if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
 
-  const raw = await res.json();
-  return extractItems(raw as Record<string, unknown>) as unknown as VistaEmpreendimento[];
+  const raw = await res.json() as Record<string, unknown>;
+  const items = extractItems(raw) as unknown as VistaEmpreendimento[];
+  console.log(`[getEmpreendimentosServer] total=${raw.total} paginas=${raw.paginas} items=${items.length}`);
+  return items;
 }
 
 /**

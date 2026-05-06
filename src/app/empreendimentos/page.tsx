@@ -4,7 +4,7 @@ import { EmpreendimentoCard } from '@/components/EmpreendimentoCard';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Empreendimentos — Lançamentos e Novidades | UNUS Núcleo Imobiliário',
