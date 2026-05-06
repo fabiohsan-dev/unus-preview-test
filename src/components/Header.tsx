@@ -10,6 +10,7 @@ const WHATSAPP_URL = 'https://wa.me/554830666767?text=Olá!%20Gostaria%20de%20fa
 
 const dropdownItems = [
   { label: 'Ver todos os imóveis', href: '/venda' },
+  { label: 'Empreendimentos',      href: '/empreendimentos' },
   { label: 'Abaixo do preço',      href: '/venda?ordem=menor-preco' },
   { label: 'Imóvel vazio',         href: '/venda?tipo=vazio' },
   { label: 'Na planta',            href: '/venda?tipo=na-planta' },
