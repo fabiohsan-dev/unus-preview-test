@@ -27,6 +27,7 @@ function formatDataEntrega(date: string): string {
 
 function getDisplayTitle(emp: VistaEmpreendimento): string {
   if (emp.TituloSite) return emp.TituloSite;
+  if (emp.Empreendimento) return emp.Empreendimento;
   return `Empreendimento em ${emp.Bairro}`;
 }
 

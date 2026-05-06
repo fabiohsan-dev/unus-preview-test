@@ -13,10 +13,11 @@ import type {
 const META_KEYS = new Set(['total', 'paginas', 'pagina', 'quantidade']);
 
 const LIST_FIELDS = [
-  'Codigo', 'Referencia', 'TituloSite', 'Categoria', 'Finalidade', 'Status',
+  'Codigo', 'Referencia', 'TituloSite', 'Empreendimento', 'Categoria', 'Finalidade', 'Status',
   'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
-  'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal', 'FotoDestaque',
-  'FotoDestaquePequena'
+  'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal',
+  'DataEntrega', 'DescricaoEmpreendimento',
+  'FotoDestaque', 'FotoDestaquePequena'
 ];
 
 function extractItems(raw: Record<string, unknown>): VistaImovelItem[] {
@@ -289,6 +290,7 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
 
 export interface VistaEmpreendimento {
   Codigo: string;
+  Empreendimento: string;
   TituloSite: string;
   Categoria: string;
   Status: string;
@@ -354,9 +356,10 @@ export async function getDetalheEmpreendimentoServer(codigo: string): Promise<Vi
 
   const pesquisa = {
     fields: [
-      'Codigo', 'TituloSite', 'Categoria', 'Status', 'Cidade', 'Bairro', 'UF',
+      'Codigo', 'Empreendimento', 'TituloSite', 'Categoria', 'Status', 'Cidade', 'Bairro', 'UF',
       'Endereco', 'Numero', 'ValorVenda', 'DescricaoEmpreendimento', 'DescricaoWeb',
       'Descricao', 'DataEntrega', 'FotoDestaque', 'FotoDestaquePequena',
+      'AreaPrivativa', 'AreaTotal', 'Suites', 'Dormitorios',
       'Latitude', 'Longitude', 'SuperDestaqueWeb', 'InfraEstrutura', 'Caracteristicas',
       { Foto: ['Foto', 'FotoPequena', 'Ordem', 'Destaque', 'Descricao'] },
       { Corretor: ['Nome', 'Foto', 'Celular', 'Tipo'] },

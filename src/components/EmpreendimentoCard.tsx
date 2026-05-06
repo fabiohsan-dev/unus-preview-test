@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, MapPin, Phone } from 'lucide-react';
+import { ArrowRight, MapPin, Phone, Calendar, Maximize2 } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import type { VistaImovelItem } from '@/types/vista';
 
@@ -13,18 +13,20 @@ function getSlug(emp: VistaImovelItem) {
 }
 
 function getDisplayTitle(emp: VistaImovelItem): string {
+  // Empreendimento = nome real do projeto (ex: "Arkki")
+  if (emp.Empreendimento) return emp.Empreendimento;
   if (emp.TituloSite) return emp.TituloSite;
   return `Empreendimento em ${emp.Bairro}`;
 }
 
 function getStatusLabel(emp: VistaImovelItem): string {
-  if (!emp.Status || emp.Status === 'Venda') return 'Empreendimento';
+  if (!emp.Status || emp.Status === 'Venda') return 'Venda';
   return emp.Status;
 }
 
 function formatPrice(value?: string): string | null {
   if (!value) return null;
-  const num = parseFloat(value.replace(/\D/g, ''));
+  const num = parseFloat(value.replace(',', '.'));
   if (isNaN(num) || num === 0) return null;
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -34,16 +36,43 @@ function formatPrice(value?: string): string | null {
   }).format(num);
 }
 
+function formatDataEntrega(raw?: string): string | null {
+  if (!raw) return null;
+  // Format: "2026-12-31" → "12/2026"
+  const parts = raw.split('-');
+  if (parts.length >= 2) {
+    const month = parts[1];
+    const year = parts[0];
+    return `${month}/${year}`;
+  }
+  return null;
+}
+
+function getDescricaoExcerpt(text?: string, maxLen = 130): string | null {
+  if (!text || text.trim() === '') return null;
+  const clean = text.replace(/<[^>]*>/g, '').trim();
+  if (clean.length <= maxLen) return clean;
+  return clean.slice(0, maxLen).replace(/\s+\S*$/, '') + '…';
+}
+
 interface EmpreendimentoCardProps {
   empreendimento: VistaImovelItem;
 }
 
 export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardProps) {
-  const slug   = getSlug(emp);
-  const href   = `/empreendimento/${slug}`;
-  const title  = getDisplayTitle(emp);
-  const status = getStatusLabel(emp);
-  const price  = formatPrice(emp.ValorVenda);
+  const slug        = getSlug(emp);
+  const href        = `/empreendimento/${slug}`;
+  const title       = getDisplayTitle(emp);
+  const status      = getStatusLabel(emp);
+  const price       = formatPrice(emp.ValorVenda);
+  const dataEntrega = formatDataEntrega(emp.DataEntrega);
+  const descricao   = getDescricaoExcerpt(emp.DescricaoEmpreendimento);
+  const area        = emp.AreaPrivativa && parseFloat(emp.AreaPrivativa) > 0
+    ? `${parseFloat(emp.AreaPrivativa).toLocaleString('pt-BR')} m²`
+    : null;
+  const suites      = emp.Suites && parseInt(emp.Suites) > 0
+    ? `${emp.Suites} suíte${parseInt(emp.Suites) > 1 ? 's' : ''}`
+    : null;
   const waText = encodeURIComponent(
     `Olá! Tenho interesse no empreendimento ${title} em ${emp.Bairro}, ${emp.Cidade}. Gostaria de mais informações.`
   );
@@ -51,14 +80,15 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
   return (
     <article
       className="group relative flex flex-col sm:flex-row w-full overflow-hidden"
-      style={{ minHeight: '360px', boxShadow: 'var(--shadow-soft)' }}
+      style={{ minHeight: '380px', boxShadow: 'var(--shadow-soft)' }}
     >
-      {/* ── Left: Imagem ─────────────────────────────── */}
+      {/* ── Esquerda: Imagem (~58%) ─────────────────── */}
       <Link
         href={href}
         className="relative block w-full sm:w-[58%] shrink-0 overflow-hidden"
-        style={{ minHeight: '280px' }}
+        style={{ minHeight: '300px' }}
         aria-label={`Ver ${title}`}
+        tabIndex={-1}
       >
         <ContentImage
           src={emp.FotoDestaque || ''}
@@ -66,28 +96,34 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, 60vw"
         />
-
-        {/* subtle dark overlay para legibilidade */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/25 pointer-events-none" />
       </Link>
 
-      {/* ── Right: Painel escuro ──────────────────────── */}
+      {/* ── Direita: Painel escuro ───────────────────── */}
       <div className="flex flex-col flex-1 bg-[var(--secondary-900)] px-8 py-8 sm:px-10 sm:py-10 justify-between">
 
-        {/* Topo */}
+        {/* Topo ─ badges + título + metadados */}
         <div>
-          {/* Badge de status */}
-          <div className="flex items-center gap-2 mb-6">
+          {/* Badges */}
+          <div className="flex items-center flex-wrap gap-2 mb-5">
             <span
-              className="inline-block px-3.5 py-1.5 border border-[var(--gold)] text-[var(--gold)] text-[9px] uppercase tracking-[0.25em]"
+              className="inline-block px-3 py-1 border border-[var(--gold)] text-[var(--gold)] text-[9px] uppercase tracking-[0.22em]"
               style={{ fontWeight: 700 }}
             >
               {status}
             </span>
+            {price && (
+              <span
+                className="inline-block px-3 py-1 bg-white/5 text-white/70 text-[9px] uppercase tracking-[0.12em]"
+                style={{ fontWeight: 500 }}
+              >
+                A partir de {price}
+              </span>
+            )}
           </div>
 
           {/* Localização */}
-          <div className="flex items-center gap-1.5 mb-4">
+          <div className="flex items-center gap-1.5 mb-3">
             <MapPin className="w-3.5 h-3.5 text-[var(--primary-500)] shrink-0" strokeWidth={1.5} />
             <span
               className="text-[var(--primary-500)] text-[11px] uppercase tracking-[0.18em]"
@@ -100,39 +136,59 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-white leading-[1.1] tracking-[-0.01em] mb-5 group-hover/title:text-[var(--gold)] transition-colors duration-300"
+              className="text-white leading-[1.1] tracking-[-0.01em] mb-4 group-hover/title:text-[var(--gold)] transition-colors duration-300"
               style={{
                 fontWeight: 400,
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(24px, 3vw, 36px)',
+                fontSize: 'clamp(26px, 3vw, 40px)',
               }}
             >
               {title}
             </h3>
           </Link>
 
-          {/* Preço — se disponível */}
-          {price && (
-            <div className="mb-5">
-              <p className="text-white/40 text-[10px] uppercase tracking-[0.15em] mb-1" style={{ fontWeight: 500 }}>
-                A partir de
-              </p>
-              <p
-                className="text-white text-[18px] leading-none"
-                style={{ fontWeight: 300, fontFamily: 'var(--font-serif)' }}
-              >
-                {price}
-              </p>
+          {/* Metadados: área / suítes / entrega */}
+          {(area || suites || dataEntrega) && (
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
+              {suites && (
+                <span className="flex items-center gap-1.5 text-white/55 text-[12px]" style={{ fontWeight: 300 }}>
+                  <svg className="w-3.5 h-3.5 shrink-0 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M3 9V19M21 9V19M3 14H21M7 9V7C7 5.343 8.343 4 10 4H14C15.657 4 17 5.343 17 7V9"/>
+                  </svg>
+                  {suites}
+                </span>
+              )}
+              {area && (
+                <span className="flex items-center gap-1.5 text-white/55 text-[12px]" style={{ fontWeight: 300 }}>
+                  <Maximize2 className="w-3.5 h-3.5 shrink-0 text-white/30" strokeWidth={1.5} />
+                  {area}
+                </span>
+              )}
+              {dataEntrega && (
+                <span className="flex items-center gap-1.5 text-white/55 text-[12px]" style={{ fontWeight: 300 }}>
+                  <Calendar className="w-3.5 h-3.5 shrink-0 text-white/30" strokeWidth={1.5} />
+                  Entrega {dataEntrega}
+                </span>
+              )}
             </div>
           )}
 
-          {/* Divisor dourado */}
-          <div className="w-10 h-[1px] bg-[var(--gold)] mb-6 opacity-50" />
+          {/* Descrição */}
+          {descricao && (
+            <p
+              className="text-white/45 text-[13px] leading-relaxed mb-5 line-clamp-3"
+              style={{ fontWeight: 300 }}
+            >
+              {descricao}
+            </p>
+          )}
+
+          {/* Divisor */}
+          <div className="w-10 h-[1px] bg-[var(--gold)] opacity-40 mb-6" />
         </div>
 
-        {/* Rodapé: CTA + ações */}
+        {/* Rodapé: CTA + botões */}
         <div className="flex flex-col gap-4">
-          {/* CTA principal */}
           <Link
             href={href}
             className="group/cta inline-flex items-center gap-2 text-white text-[11px] uppercase tracking-[0.22em] hover:text-[var(--gold)] transition-colors duration-200"
@@ -145,9 +201,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             />
           </Link>
 
-          {/* Botões de contato */}
-          <div className="flex items-center gap-2 pt-1">
-            {/* WhatsApp */}
+          <div className="flex items-center gap-2">
             <a
               href={`${WHATSAPP_BASE}${waText}`}
               target="_blank"
@@ -162,7 +216,6 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               WhatsApp
             </a>
 
-            {/* Telefone */}
             <a
               href={PHONE_HREF}
               className="flex items-center gap-2 px-4 py-2.5 border border-white/20 text-white/70 hover:border-white/50 hover:text-white text-[10px] uppercase tracking-[0.14em] transition-colors"

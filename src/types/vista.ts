@@ -2,6 +2,7 @@ export interface VistaImovelItem {
   Codigo: string;
   Referencia?: string;
   TituloSite?: string;
+  Empreendimento?: string;
   Categoria?: string;
   Finalidade?: string;
   Status?: string;
@@ -16,6 +17,8 @@ export interface VistaImovelItem {
   BanheiroSocialQtd?: string;
   AreaPrivativa?: string;
   AreaTotal?: string;
+  DataEntrega?: string;
+  DescricaoEmpreendimento?: string;
   FotoDestaque?: string;
   FotoDestaquePequena?: string;
 }
