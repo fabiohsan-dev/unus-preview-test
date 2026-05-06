@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Barlow, Cormorant_Garamond } from 'next/font/google';
 import '../styles/globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { LazyFixedButtons } from '@/components/LazyFixedButtons';
 import { LazyStickySearchBar } from '@/components/LazyStickySearchBar';
 
-const inter = Inter({
+const barlow = Barlow({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-sans',
   display: 'swap',
 });
@@ -67,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${cormorant.variable}`}>
+    <html lang="pt-BR" className={`${barlow.variable} ${cormorant.variable}`}>
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://cdn.vistahost.com.br" />

@@ -109,7 +109,7 @@
   --sidebar-ring:            var(--deep-blue);
 
   /* FONTS */
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: 'Barlow', sans-serif;
   --font-serif: 'Cormorant Garamond', serif;
 
   /* SPACING — 8pt Grid */

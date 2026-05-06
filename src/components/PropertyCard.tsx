@@ -106,7 +106,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               >
                 {property.transactionType}
               </span>
-              <p className="text-[22px] text-[var(--color-heading)] font-serif font-medium">
+              <p className="text-[24px] text-[var(--gold-dark)] font-serif font-semibold tracking-[-0.01em]">
                 {property.price}
               </p>
             </div>
@@ -197,8 +197,8 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               {property.transactionType}
             </span>
             <p
-              className="text-[var(--color-heading)] text-[26px] tracking-[-0.01em]"
-              style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}
+              className="text-[var(--gold-dark)] text-[28px] tracking-[-0.01em]"
+              style={{ fontFamily: 'var(--font-serif)', fontWeight: 600 }}
             >
               {property.price}
             </p>
