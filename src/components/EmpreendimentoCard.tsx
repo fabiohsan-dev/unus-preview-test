@@ -1,54 +1,32 @@
 import Link from 'next/link';
-import { ArrowRight, Calendar, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import { ContentImage } from './ContentImage';
-import type { VistaEmpreendimento } from '@/lib/server/vistaService';
+import type { VistaImovelItem } from '@/types/vista';
 
 const WHATSAPP_BASE = 'https://wa.me/554830666767?text=';
 
-function getSlug(emp: VistaEmpreendimento) {
+function getSlug(emp: VistaImovelItem) {
   const bairro = (emp.Bairro || 'sc').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   const cidade = (emp.Cidade || 'sc').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   return `${bairro}-${cidade}-${emp.Codigo}`;
 }
 
-function formatDataEntrega(date: string): string {
-  if (!date || date === '0000-00-00') return '';
-  const d = new Date(date);
-  if (isNaN(d.getTime())) return '';
-  return `${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-}
-
-function getKeyAmenities(infra: Record<string, string>): string[] {
-  const priority = [
-    'Piscina Coletiva', 'Piscina Aquecida', 'Sala Fitness', 'Espaco Gourmet',
-    'Salao Festas', 'Sauna Condominio', 'Condominio Fechado', 'Portaria24 Hrs',
-    'Elevador', 'Bicicletario', 'Playground', 'Spa', 'Jardim',
-  ];
-  const active = Object.entries(infra || {})
-    .filter(([, v]) => v === 'Sim')
-    .map(([k]) => k);
-  const ordered = priority.filter(k => active.includes(k));
-  const rest = active.filter(k => !priority.includes(k));
-  return [...ordered, ...rest].slice(0, 4);
-}
-
-function getDisplayTitle(emp: VistaEmpreendimento): string {
+function getDisplayTitle(emp: VistaImovelItem): string {
   if (emp.TituloSite) return emp.TituloSite;
   return `Empreendimento em ${emp.Bairro}`;
 }
 
 interface EmpreendimentoCardProps {
-  empreendimento: VistaEmpreendimento;
+  empreendimento: VistaImovelItem;
 }
 
 export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardProps) {
-  const slug = getSlug(emp);
-  const href = `/empreendimento/${slug}`;
-  const entrega = formatDataEntrega(emp.DataEntrega);
-  const amenities = getKeyAmenities(emp.InfraEstrutura || {});
-  const title = getDisplayTitle(emp);
-  const desc = (emp.DescricaoEmpreendimento || emp.DescricaoWeb || '').trim();
-  const waText = encodeURIComponent(`Olá! Tenho interesse no empreendimento ${title} em ${emp.Bairro}, ${emp.Cidade}. Gostaria de mais informações.`);
+  const slug   = getSlug(emp);
+  const href   = `/empreendimento/${slug}`;
+  const title  = getDisplayTitle(emp);
+  const waText = encodeURIComponent(
+    `Olá! Tenho interesse no empreendimento ${title} em ${emp.Bairro}, ${emp.Cidade}. Gostaria de mais informações.`
+  );
 
   return (
     <article className="group bg-white overflow-hidden flex flex-col h-full" style={{ boxShadow: 'var(--shadow-soft)' }}>
@@ -64,36 +42,36 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           />
         </Link>
 
-        {/* Badge Empreendimento */}
-        <div className="absolute top-4 left-4 flex gap-2 z-10">
-          <div className="px-3.5 py-1.5 bg-[var(--secondary-900)] text-white text-[10px] uppercase tracking-[0.15em]" style={{ fontWeight: 700 }}>
+        {/* Badge */}
+        <div className="absolute top-4 left-4 z-10 flex gap-2">
+          <div
+            className="px-3.5 py-1.5 bg-[var(--secondary-900)] text-white text-[10px] uppercase tracking-[0.15em]"
+            style={{ fontWeight: 700 }}
+          >
             Empreendimento
           </div>
-          {emp.SuperDestaqueWeb === 'Sim' && (
-            <div className="px-3.5 py-1.5 bg-[var(--gold)] text-white text-[10px] uppercase tracking-[0.15em]" style={{ fontWeight: 700 }}>
-              Destaque
+          {emp.Status && emp.Status !== 'Venda' && (
+            <div
+              className="px-3.5 py-1.5 bg-[var(--gold)] text-white text-[10px] uppercase tracking-[0.15em]"
+              style={{ fontWeight: 700 }}
+            >
+              {emp.Status}
             </div>
           )}
         </div>
-
-        {/* Data de entrega overlay */}
-        {entrega && (
-          <div className="absolute bottom-4 right-4 flex items-center gap-1.5 bg-white/95 backdrop-blur-sm px-3 py-1.5 z-10">
-            <Calendar className="w-3 h-3 text-[var(--primary-500)]" strokeWidth={1.5} />
-            <span className="text-[10px] uppercase tracking-[0.1em] text-[var(--color-heading)]" style={{ fontWeight: 600 }}>
-              Entrega {entrega}
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Conteúdo */}
       <div className="flex flex-col flex-1 p-5">
         <Link href={href} className="block flex-1">
+
           {/* Localização */}
           <div className="flex items-center gap-1.5 mb-3">
             <MapPin className="w-3.5 h-3.5 text-[var(--color-caption)] shrink-0" strokeWidth={1.5} />
-            <span className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.12em]" style={{ fontWeight: 500 }}>
+            <span
+              className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.12em]"
+              style={{ fontWeight: 500 }}
+            >
               {emp.Bairro}, {emp.Cidade}
             </span>
           </div>
@@ -105,28 +83,6 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           >
             {title}
           </h3>
-
-          {/* Descrição */}
-          {desc && (
-            <p className="text-[var(--color-body)] text-[13px] leading-relaxed mb-4 line-clamp-3" style={{ fontWeight: 300 }}>
-              {desc}
-            </p>
-          )}
-
-          {/* Amenities */}
-          {amenities.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-4">
-              {amenities.map((a) => (
-                <span
-                  key={a}
-                  className="px-2.5 py-1 bg-[var(--neutral-100)] text-[var(--color-body)] text-[10px] uppercase tracking-[0.08em]"
-                  style={{ fontWeight: 500 }}
-                >
-                  {a}
-                </span>
-              ))}
-            </div>
-          )}
         </Link>
 
         {/* CTA */}

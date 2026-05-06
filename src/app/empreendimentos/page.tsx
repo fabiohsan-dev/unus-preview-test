@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { getEmpreendimentosServer } from '@/lib/server/vistaService';
+import { getListarImoveisServer } from '@/lib/server/vistaService';
 import { EmpreendimentoCard } from '@/components/EmpreendimentoCard';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Empreendimentos — Lançamentos e Novidades | UNUS Núcleo Imobiliário',
@@ -18,22 +18,19 @@ export const metadata: Metadata = {
 };
 
 export default async function EmpreendimentosPage() {
-  let debugError: string | null = null;
-  const empreendimentos = await getEmpreendimentosServer().catch((err: Error) => {
-    console.error('[EmpreendimentosPage] falha:', err);
-    debugError = err.message;
-    return [];
+  const data = await getListarImoveisServer({
+    tipo: 'Empreendimento',
+    limit: 50,
+    page: 1,
+  }).catch((err) => {
+    console.error('[EmpreendimentosPage] falha ao buscar empreendimentos:', err);
+    return { items: [], total: 0, paginas: 1 };
   });
+
+  const empreendimentos = data.items;
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
-
-      {/* Debug banner — visible only on preview */}
-      {process.env.VERCEL_ENV === 'preview' && (
-        <div className="fixed top-0 left-0 right-0 z-[999] bg-red-900 text-white text-[11px] px-4 py-2 font-mono">
-          DEBUG: count={empreendimentos.length} | env={process.env.VERCEL_ENV} | error={debugError ?? 'none'}
-        </div>
-      )}
 
       {/* Hero da página */}
       <section className="bg-[var(--secondary-900)] pt-32 pb-16 px-6 sm:px-8 lg:px-12">
