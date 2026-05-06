@@ -100,7 +100,7 @@ function FilterField({
       {isOpen && (
         <div
           id={listboxId}
-          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[var(--neutral-200)] py-2 z-[100] max-h-[240px] overflow-y-auto"
+          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[var(--neutral-200)] py-2 z-[200] max-h-[240px] overflow-y-auto"
           role="listbox"
           aria-label={label}
           onClick={(event) => event.stopPropagation()}
@@ -278,12 +278,12 @@ export function SearchBar({
   const types = useMemo(() => ['Todos os tipos', ...(metadata?.categorias || [])], [metadata]);
   const priceOptions = useMemo(
     () => [
-      { label: 'Qualquer valor', precoMax: '' },
-      { label: 'Até R$ 500 mil', precoMax: '500000' },
-      { label: 'Até R$ 1M', precoMax: '1000000' },
-      { label: 'Até R$ 2M', precoMax: '2000000' },
-      { label: 'Até R$ 5M', precoMax: '5000000' },
-      { label: 'Acima de R$ 5M', precoMax: '10000000' },
+      { label: 'Qualquer valor',   precoMin: '',        precoMax: '' },
+      { label: 'Até R$ 500 mil',   precoMin: '',        precoMax: '500000' },
+      { label: 'R$ 500k a R$ 1M',  precoMin: '500000',  precoMax: '1000000' },
+      { label: 'R$ 1M a R$ 2M',    precoMin: '1000000', precoMax: '2000000' },
+      { label: 'R$ 2M a R$ 5M',    precoMin: '2000000', precoMax: '5000000' },
+      { label: 'Acima de R$ 5M',   precoMin: '5000000', precoMax: '' },
     ],
     []
   );
@@ -333,10 +333,9 @@ export function SearchBar({
       params.set('tipo', selectedType);
     }
 
-    const priceMax = priceOptions.find((option) => option.label === selectedValue)?.precoMax;
-    if (priceMax) {
-      params.set('precoMax', priceMax);
-    }
+    const selectedPrice = priceOptions.find((option) => option.label === selectedValue);
+    if (selectedPrice?.precoMin) params.set('precoMin', selectedPrice.precoMin);
+    if (selectedPrice?.precoMax) params.set('precoMax', selectedPrice.precoMax);
 
     onSearch?.({
       location: selectedLocation,
