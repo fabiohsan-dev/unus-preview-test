@@ -17,6 +17,23 @@ const dropdownItems = [
   { label: 'Terreno',              href: '/venda?categoria=Terreno' },
 ];
 
+const leftNavItems = [
+  { label: 'Anuncie',   href: '/anuncie' },
+  { label: 'O Núcleo',  href: '/o-nucleo' },
+  { label: 'Blog',      href: '/blog' },
+];
+
+const rightNavItems = [
+  { label: 'Contato', href: '/contato' },
+];
+
+const allMobileItems = [
+  { label: 'Anuncie seu imóvel', href: '/anuncie' },
+  { label: 'O Núcleo',          href: '/o-nucleo' },
+  { label: 'Blog',              href: '/blog' },
+  { label: 'Contato',           href: '/contato' },
+];
+
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled]     = useState(false);
@@ -47,8 +64,10 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  const textColor = transparent ? 'text-white/90' : 'text-[var(--color-heading)]';
+  const textColor  = transparent ? 'text-white/85' : 'text-[var(--color-heading)]';
+  const hoverStyle = 'hover:opacity-60 transition-opacity duration-300';
   const logoFilter = transparent ? 'brightness-0 invert' : 'brightness-0';
+  const linkStyle  = `text-[11px] uppercase tracking-[0.1em] ${textColor} ${hoverStyle}`;
 
   return (
     <header
@@ -63,18 +82,18 @@ export function Header() {
         {/* ── DESKTOP — 3 colunas ── */}
         <div className="hidden lg:grid grid-cols-3 items-center h-24">
 
-          {/* Esquerda */}
-          <div>
-            <Link
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] ${textColor} hover:opacity-60 transition-opacity duration-300`}
-              style={{ fontWeight: 500 }}
-            >
-              <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
-              Fale com um corretor
-            </Link>
+          {/* Esquerda: nav + Fale com corretor */}
+          <div className="flex items-center gap-7">
+            {leftNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={linkStyle}
+                style={{ fontWeight: pathname === item.href ? 600 : 400 }}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           {/* Centro — Logo */}
@@ -91,13 +110,23 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Direita */}
+          {/* Direita: Contato + Ver imóveis dropdown + Favoritos + Fale */}
           <div className="flex items-center justify-end gap-7">
+            {rightNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={linkStyle}
+                style={{ fontWeight: pathname === item.href ? 600 : 400 }}
+              >
+                {item.label}
+              </Link>
+            ))}
 
             {/* Dropdown Ver imóveis */}
             <div className="relative group">
               <button
-                className={`inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.12em] ${textColor} hover:opacity-60 transition-opacity duration-300`}
+                className={`inline-flex items-center gap-1.5 ${linkStyle}`}
                 style={{ fontWeight: 500 }}
                 aria-haspopup="true"
               >
@@ -108,7 +137,6 @@ export function Header() {
                 />
               </button>
 
-              {/* Painel dropdown */}
               <div
                 className="absolute top-full right-0 mt-4 w-56 bg-white shadow-[var(--shadow-elevated)]
                            opacity-0 invisible pointer-events-none translate-y-1
@@ -133,10 +161,24 @@ export function Header() {
             {/* Favoritos */}
             <Link
               href="/favoritos"
-              className={`${textColor} hover:opacity-60 transition-opacity duration-300`}
+              className={`${textColor} ${hoverStyle}`}
               aria-label="Favoritos"
             >
               <Heart className="w-[18px] h-[18px]" strokeWidth={1.5} />
+            </Link>
+
+            {/* Fale com corretor — CTA sutil */}
+            <Link
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-1.5 ${linkStyle} border ${
+                transparent ? 'border-white/30 hover:border-white/60' : 'border-[var(--neutral-300)] hover:border-[var(--color-heading)]'
+              } px-4 py-2`}
+              style={{ fontWeight: 500 }}
+            >
+              <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
+              Corretor
             </Link>
           </div>
         </div>
@@ -177,19 +219,10 @@ export function Header() {
           className="lg:hidden bg-white border-t border-[var(--neutral-200)]"
         >
           <nav className="px-6 py-6 space-y-1" aria-label="Menu mobile">
-            <Link
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 py-3.5 text-[13px] text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
-              style={{ fontWeight: 500 }}
-            >
-              <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
-              Fale com um corretor
-            </Link>
 
+            {/* Ver imóveis */}
             <p
-              className="pt-4 pb-1 text-[10px] uppercase tracking-[0.2em] text-[var(--gold-dark)]"
+              className="pt-2 pb-1 text-[10px] uppercase tracking-[0.2em] text-[var(--gold-dark)]"
               style={{ fontWeight: 600 }}
             >
               Ver imóveis
@@ -205,7 +238,32 @@ export function Header() {
               </Link>
             ))}
 
-            <div className="pt-5">
+            {/* Outras páginas */}
+            <div className="pt-4 space-y-1">
+              {allMobileItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block py-3.5 text-[13px] text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
+                  style={{ fontWeight: 400 }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* CTA Favoritos + WhatsApp */}
+            <div className="pt-5 flex flex-col gap-3">
+              <Link
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full bg-[var(--color-action-whatsapp)] text-white py-3.5 text-[11px] uppercase tracking-[0.15em]"
+                style={{ fontWeight: 500 }}
+              >
+                <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
+                Fale com um corretor
+              </Link>
               <Link
                 href="/favoritos"
                 className="flex items-center justify-center gap-2 w-full bg-[var(--secondary-900)] text-white py-3.5 text-[11px] uppercase tracking-[0.15em]"
