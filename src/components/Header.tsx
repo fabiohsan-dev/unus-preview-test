@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -35,8 +35,18 @@ const allMobileItems = [
 ];
 
 export function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled]     = useState(false);
+  const [mobileOpen, setMobileOpen]       = useState(false);
+  const [scrolled, setScrolled]           = useState(false);
+  const [dropdownOpen, setDropdownOpen]   = useState(false);
+  const dropdownCloseTimer                = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDropdown  = () => {
+    if (dropdownCloseTimer.current) clearTimeout(dropdownCloseTimer.current);
+    setDropdownOpen(true);
+  };
+  const closeDropdown = () => {
+    dropdownCloseTimer.current = setTimeout(() => setDropdownOpen(false), 120);
+  };
   const pathname  = usePathname();
   const isHome    = pathname === '/';
   const transparent = isHome && !scrolled;
@@ -48,7 +58,13 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
+  useEffect(() => { setMobileOpen(false); setDropdownOpen(false); }, [pathname]);
+
+  useEffect(() => {
+    const onClickOutside = () => setDropdownOpen(false);
+    if (dropdownOpen) document.addEventListener('click', onClickOutside);
+    return () => document.removeEventListener('click', onClickOutside);
+  }, [dropdownOpen]);
 
   useEffect(() => {
     if (!mobileOpen) {
@@ -124,29 +140,46 @@ export function Header() {
             ))}
 
             {/* Dropdown Ver imóveis */}
-            <div className="relative group">
+            <div
+              className="relative"
+              onMouseEnter={openDropdown}
+              onMouseLeave={closeDropdown}
+            >
               <button
                 className={`inline-flex items-center gap-1.5 ${linkStyle}`}
                 style={{ fontWeight: 500 }}
-                aria-haspopup="true"
+                aria-haspopup="listbox"
+                aria-expanded={dropdownOpen}
+                onClick={() => setDropdownOpen((v) => !v)}
               >
                 Ver imóveis
                 <ChevronDown
-                  className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180"
+                  className={`w-3.5 h-3.5 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`}
                   strokeWidth={2}
                 />
               </button>
 
+              {/* Ponte invisível para não fechar ao passar para o painel */}
+              {dropdownOpen && (
+                <div className="absolute top-full left-0 right-0 h-2" />
+              )}
+
               <div
-                className="absolute top-full right-0 mt-4 w-56 bg-white shadow-[var(--shadow-elevated)]
-                           opacity-0 invisible pointer-events-none translate-y-1
-                           group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0
-                           transition-all duration-200"
+                className={`absolute top-[calc(100%+8px)] right-0 w-56 bg-white shadow-[var(--shadow-elevated)]
+                            transition-all duration-200 origin-top
+                            ${dropdownOpen
+                              ? 'opacity-100 visible translate-y-0 pointer-events-auto'
+                              : 'opacity-0 invisible -translate-y-1 pointer-events-none'
+                            }`}
+                role="listbox"
+                onMouseEnter={openDropdown}
+                onMouseLeave={closeDropdown}
               >
                 {dropdownItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={() => setDropdownOpen(false)}
                     className="block px-5 py-3.5 text-[12px] text-[var(--color-heading)]
                                hover:bg-[var(--neutral-50)] hover:text-[var(--deep-blue)]
                                border-b border-[var(--neutral-100)] last:border-0 transition-colors"
