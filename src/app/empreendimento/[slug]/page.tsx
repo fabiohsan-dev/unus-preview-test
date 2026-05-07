@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getDetalheEmpreendimentoServer, getListarImoveisServer } from '@/lib/server/vistaService';
+import { SITE_URL } from '@/lib/constants';
 import type { VistaImovelItem } from '@/types/vista';
 import EmpreendimentoClientView from './EmpreendimentoClientView';
 
@@ -42,10 +43,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: `${title} | UNUS Núcleo Imobiliário`,
       description,
+      alternates: { canonical: `${SITE_URL}/empreendimento/${slug}` },
       openGraph: {
         title: `${title} | UNUS`,
         description,
-        images: emp.FotoDestaque ? [{ url: emp.FotoDestaque }] : [],
+        url: `${SITE_URL}/empreendimento/${slug}`,
+        images: emp.FotoDestaque
+          ? [{ url: emp.FotoDestaque }]
+          : [{ url: '/og-image.jpg', width: 1200, height: 630 }],
         type: 'website',
       },
     };
