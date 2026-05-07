@@ -6,7 +6,7 @@ const WA_ANUNCIE = whatsappUrl('Olá! Gostaria de anunciar meu imóvel com a UNU
 
 export function AnuncieStrip() {
   return (
-    <section className="py-20 lg:py-24 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)]">
+    <section className="py-24 lg:py-28 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)]">
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
           <div>
