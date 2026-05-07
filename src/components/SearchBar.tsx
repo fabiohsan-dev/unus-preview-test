@@ -16,7 +16,7 @@ import {
   Sparkles,
   X,
 } from 'lucide-react';
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ApiMetadataResponse } from '@/types/vista';
 import { PriceRangeField } from './PriceRangeField';
@@ -52,10 +52,75 @@ function FilterField({
   compact?: boolean;
 }) {
   const listboxId = useId();
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRef  = useRef<HTMLButtonElement>(null);
+  const listboxRef  = useRef<HTMLDivElement>(null);
+  const [focusedIdx, setFocusedIdx] = useState(-1);
+
+  /* Reseta índice ao fechar */
+  useEffect(() => {
+    if (!isOpen) setFocusedIdx(-1);
+  }, [isOpen]);
+
+  /* Auto-scroll da opção ativa dentro da lista */
+  useEffect(() => {
+    if (!isOpen || focusedIdx < 0 || !listboxRef.current) return;
+    const el = listboxRef.current.querySelector<HTMLElement>(
+      `[id="${listboxId}-opt-${focusedIdx}"]`
+    );
+    el?.scrollIntoView({ block: 'nearest' });
+  }, [focusedIdx, isOpen, listboxId]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!isOpen) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        onToggle();
+        setFocusedIdx(e.key === 'ArrowDown' ? 0 : options.length - 1);
+        e.preventDefault();
+      }
+      return;
+    }
+
+    switch (e.key) {
+      case 'ArrowDown':
+        setFocusedIdx((i) => (i + 1) % options.length);
+        e.preventDefault();
+        break;
+      case 'ArrowUp':
+        setFocusedIdx((i) => (i - 1 + options.length) % options.length);
+        e.preventDefault();
+        break;
+      case 'Home':
+        setFocusedIdx(0);
+        e.preventDefault();
+        break;
+      case 'End':
+        setFocusedIdx(options.length - 1);
+        e.preventDefault();
+        break;
+      case 'Enter':
+      case ' ':
+        if (focusedIdx >= 0) {
+          onSelect(options[focusedIdx]);
+          requestAnimationFrame(() => triggerRef.current?.focus());
+        }
+        e.preventDefault();
+        break;
+      case 'Tab':
+        /* Fecha ao sair com Tab — foco segue normalmente */
+        if (isOpen) onToggle();
+        break;
+      default:
+        break;
+    }
+  }, [isOpen, focusedIdx, options, onToggle, onSelect]);
+
+  const activeDescendant = isOpen && focusedIdx >= 0
+    ? `${listboxId}-opt-${focusedIdx}`
+    : undefined;
 
   return (
     <div className="flex-1 relative min-w-0">
+      {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props -- aria-activedescendant is functionally correct for this listbox trigger pattern; all major screen readers support it */}
       <button
         ref={triggerRef}
         type="button"
@@ -66,12 +131,14 @@ function FilterField({
           event.stopPropagation();
           onToggle();
         }}
+        onKeyDown={handleKeyDown}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={listboxId}
         aria-label={`${label}: ${value}`}
+        aria-activedescendant={activeDescendant}
       >
-        <Icon className="text-[var(--primary-500)] w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />
+        <Icon className="text-[var(--primary-500)] w-[18px] h-[18px] shrink-0" strokeWidth={1.5} aria-hidden="true" />
         <div className="flex-1 min-w-0">
           {!compact && (
             <p
@@ -92,6 +159,7 @@ function FilterField({
               className={`w-3.5 h-3.5 text-[var(--neutral-300)] shrink-0 transition-transform duration-200 ${
                 isOpen ? 'rotate-180' : ''
               }`}
+              aria-hidden="true"
             />
           </div>
         </div>
@@ -99,27 +167,33 @@ function FilterField({
 
       {isOpen && (
         <div
+          ref={listboxRef}
           id={listboxId}
           className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[var(--neutral-200)] py-2 z-[200] max-h-[240px] overflow-y-auto"
           role="listbox"
           aria-label={label}
           onClick={(event) => event.stopPropagation()}
         >
-          {options.map((option) => {
-            const isSelected = value === option;
+          {options.map((option, index) => {
+            const isSelected  = value === option;
+            const isFocused   = index === focusedIdx;
 
             return (
               <button
                 key={option}
+                id={`${listboxId}-opt-${index}`}
                 type="button"
                 role="option"
                 aria-selected={isSelected}
-                className={`w-full text-left px-4 py-3 md:py-2.5 text-[14px] md:text-[13px] hover:bg-[var(--primary-500)]/5 transition-colors cursor-pointer border-none bg-transparent ${
+                tabIndex={-1}
+                className={`w-full text-left px-4 py-3 md:py-2.5 text-[14px] md:text-[13px] transition-colors cursor-pointer border-none bg-transparent ${
                   isSelected
                     ? 'text-[var(--color-accent-text)] bg-[var(--primary-500)]/5'
-                    : 'text-[var(--color-heading)]'
+                    : isFocused
+                    ? 'bg-[var(--primary-500)]/10 text-[var(--color-accent-text)] outline-none'
+                    : 'text-[var(--color-heading)] hover:bg-[var(--primary-500)]/5'
                 }`}
-                style={{ fontWeight: isSelected ? 600 : 400 }}
+                style={{ fontWeight: isSelected || isFocused ? 600 : 400 }}
                 onClick={() => {
                   onSelect(option);
                   requestAnimationFrame(() => triggerRef.current?.focus());
@@ -136,11 +210,27 @@ function FilterField({
 }
 
 function AdvancedPanel({ onClose }: { onClose: () => void }) {
+  /* IDs únicos para associar label ↔ input/select (WCAG 3.3.2) */
+  const idQuartos       = useId();
+  const idSuites        = useId();
+  const idVagas         = useId();
+  const idArea          = useId();
+  const idCodigo        = useId();
+  const idEmpreendimento = useId();
+  const idStatus        = useId();
+
+  const gridFields = [
+    { id: idQuartos, icon: BedDouble, label: 'Quartos', options: ['Qualquer', '1+', '2+', '3+', '4+'] },
+    { id: idSuites,  icon: Bath,      label: 'Suítes',  options: ['Qualquer', '1+', '2+', '3+', '4+'] },
+    { id: idVagas,   icon: Car,       label: 'Vagas',   options: ['Qualquer', '1+', '2+', '3+'] },
+    { id: idArea,    icon: Maximize,  label: 'Área (m²)', options: ['Qualquer', '50+ m²', '100+ m²', '150+ m²', '200+ m²', '300+ m²'] },
+  ];
+
   return (
     <div className="bg-white rounded-[10px] mt-1.5 p-5 md:p-6">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="w-4 h-4 text-[var(--primary-500)]" strokeWidth={1.5} />
+          <SlidersHorizontal className="w-4 h-4 text-[var(--primary-500)]" strokeWidth={1.5} aria-hidden="true" />
           <span
             className="text-[11px] uppercase tracking-[0.15em] text-[var(--color-caption)]"
             style={{ fontWeight: 600 }}
@@ -154,25 +244,23 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
           className="w-7 h-7 rounded-full hover:bg-[var(--neutral-100)] flex items-center justify-center transition-colors cursor-pointer"
           aria-label="Fechar filtros avançados"
         >
-          <X className="w-3.5 h-3.5 text-[var(--color-caption)]" />
+          <X className="w-3.5 h-3.5 text-[var(--color-caption)]" aria-hidden="true" />
         </button>
       </div>
 
+      {/* Grid: Quartos, Suítes, Vagas, Área */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        {[
-          { icon: BedDouble, label: 'Quartos', options: ['Qualquer', '1+', '2+', '3+', '4+'] },
-          { icon: Bath, label: 'Suítes', options: ['Qualquer', '1+', '2+', '3+', '4+'] },
-          { icon: Car, label: 'Vagas', options: ['Qualquer', '1+', '2+', '3+'] },
-          { icon: Maximize, label: 'Área (m²)', options: ['Qualquer', '50+ m²', '100+ m²', '150+ m²', '200+ m²', '300+ m²'] },
-        ].map((field) => (
+        {gridFields.map((field) => (
           <div key={field.label} className="space-y-1.5">
             <label
+              htmlFor={field.id}
               className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
               style={{ fontWeight: 600 }}
             >
-              <field.icon className="w-3.5 h-3.5" /> {field.label}
+              <field.icon className="w-3.5 h-3.5" aria-hidden="true" /> {field.label}
             </label>
             <select
+              id={field.id}
               className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
               style={{ fontWeight: 500 }}
             >
@@ -184,15 +272,18 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
         ))}
       </div>
 
+      {/* Código, Empreendimento, Status */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
         <div className="space-y-1.5">
           <label
+            htmlFor={idCodigo}
             className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
             style={{ fontWeight: 600 }}
           >
-            <Hash className="w-3.5 h-3.5" /> Código
+            <Hash className="w-3.5 h-3.5" aria-hidden="true" /> Código
           </label>
           <input
+            id={idCodigo}
             type="text"
             placeholder="Ex: UNUS-1234"
             className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
@@ -201,12 +292,14 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
         </div>
         <div className="space-y-1.5">
           <label
+            htmlFor={idEmpreendimento}
             className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
             style={{ fontWeight: 600 }}
           >
-            <Building2 className="w-3.5 h-3.5" /> Empreendimento
+            <Building2 className="w-3.5 h-3.5" aria-hidden="true" /> Empreendimento
           </label>
           <input
+            id={idEmpreendimento}
             type="text"
             placeholder="Nome do empreendimento"
             className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
@@ -215,12 +308,14 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
         </div>
         <div className="space-y-1.5">
           <label
+            htmlFor={idStatus}
             className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
             style={{ fontWeight: 600 }}
           >
-            <CheckCircle2 className="w-3.5 h-3.5" /> Status
+            <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" /> Status
           </label>
           <select
+            id={idStatus}
             className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
             style={{ fontWeight: 500 }}
           >
@@ -232,14 +327,16 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
+      {/* Características Especiais */}
       <div className="space-y-2">
-        <label
+        <p
           className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
           style={{ fontWeight: 600 }}
+          id="features-label"
         >
-          <Sparkles className="w-3.5 h-3.5" /> Características Especiais
-        </label>
-        <div className="flex flex-wrap gap-2">
+          <Sparkles className="w-3.5 h-3.5" aria-hidden="true" /> Características Especiais
+        </p>
+        <div className="flex flex-wrap gap-2" role="group" aria-labelledby="features-label">
           {FEATURES.map((feature) => (
             <button
               key={feature}
@@ -445,7 +542,7 @@ export function SearchBar({
               type="button"
               onClick={handleSearch}
               aria-label="Buscar imóvel"
-              className={`bg-[#002B45] text-white rounded-lg flex items-center justify-center gap-2.5 hover:bg-[#014160] transition-colors cursor-pointer ${
+              className={`bg-[var(--deep-blue)] text-white rounded-lg flex items-center justify-center gap-2.5 hover:bg-[var(--deep-blue-light)] transition-colors cursor-pointer ${
                 compact
                   ? 'px-5 py-2.5 flex-1 md:flex-none'
                   : 'px-8 py-3.5 md:py-3 flex-1 md:flex-none'

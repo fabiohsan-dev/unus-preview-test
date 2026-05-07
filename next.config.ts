@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
         hostname: '*.vistahost.com.br',
       },
       {
-        protocol: 'http',
+        protocol: 'https',
         hostname: 'www.vistasoft.com.br',
       },
     ],
@@ -33,6 +33,19 @@ const nextConfig: NextConfig = {
   compress: true,
   eslint: {
     ignoreDuringBuilds: false,
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Frame-Options',        value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options',  value: 'nosniff' },
+          { key: 'Referrer-Policy',         value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy',      value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ];
   },
 };
 
