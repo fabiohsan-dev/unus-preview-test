@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { SearchBar } from './SearchBar';
 import type { ApiMetadataResponse } from '@/types/vista';
+import { whatsappUrl, WA_CONSULTIVO } from '@/lib/constants';
 
 export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
   return (
@@ -37,7 +38,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
           <SearchBar variant="hero" glass metadata={metadata} />
           <div className="mt-4">
             <a
-              href="https://wa.me/554830666767?text=Olá!%20Gostaria%20de%20atendimento%20consultivo."
+              href={whatsappUrl(WA_CONSULTIVO)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-white/60 hover:text-white/90 text-[11px] uppercase tracking-[0.18em] transition-colors duration-300"

@@ -7,6 +7,7 @@ import {
 import { EmpreendimentoCard } from '@/components/EmpreendimentoCard';
 import { HeroSlider } from '@/components/HeroSlider';
 import { Eyebrow, SectionHeader, LinkButton } from '@/components/ui';
+import { whatsappUrl, WA_EMPREENDIMENTOS_PAGE } from '@/lib/constants';
 import { ArrowRight, Building2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -229,7 +230,7 @@ export default async function EmpreendimentosPage() {
 
           <div className="mt-10">
             <LinkButton
-              href="https://wa.me/554830666767?text=Olá!%20Gostaria%20de%20conhecer%20os%20empreendimentos%20disponíveis%20na%20UNUS."
+              href={whatsappUrl(WA_EMPREENDIMENTOS_PAGE)}
               variant="whatsapp"
               size="lg"
               external

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getDetalheEmpreendimentoServer, getEmpreendimentosServer } from '@/lib/server/vistaService';
+import { getDetalheEmpreendimentoServer, getListarImoveisServer } from '@/lib/server/vistaService';
+import type { VistaImovelItem } from '@/types/vista';
 import EmpreendimentoClientView from './EmpreendimentoClientView';
 
 export const revalidate = 3600;
@@ -15,8 +16,8 @@ function extractCodigo(slug: string): string {
 
 export async function generateStaticParams() {
   try {
-    const emps = await getEmpreendimentosServer();
-    return emps.map(emp => {
+    const data = await getListarImoveisServer({ tipo: 'Empreendimento', limit: 50, page: 1 });
+    return data.items.map((emp: VistaImovelItem) => {
       const bairro = (emp.Bairro || 'sc').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       const cidade = (emp.Cidade || 'sc').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       return { slug: `${bairro}-${cidade}-${emp.Codigo}` };

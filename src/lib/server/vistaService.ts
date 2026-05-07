@@ -425,38 +425,7 @@ export async function getEmpreendimentoFotosServer(
   }
 }
 
-/**
- * Busca todos os empreendimentos com seus dados completos (fotos, infra, etc.).
- * Revalida a cada hora pois empreendimentos mudam pouco.
- */
-export async function getEmpreendimentosServer(): Promise<VistaEmpreendimento[]> {
-  const config = getVistaServerConfig();
-  if (!config.ok) throw new Error(config.error);
 
-  const pesquisa = {
-    fields: [
-      'Codigo', 'TituloSite', 'Categoria', 'Status', 'Cidade', 'Bairro', 'UF',
-      'Endereco', 'Numero', 'ValorVenda', 'DescricaoEmpreendimento', 'DescricaoWeb',
-      'DataEntrega', 'FotoDestaque', 'FotoDestaquePequena', 'Latitude', 'Longitude',
-      'SuperDestaqueWeb', 'InfraEstrutura',
-      { Foto: ['Foto', 'FotoPequena', 'Ordem', 'Destaque', 'Descricao'] },
-    ],
-    filter: { Categoria: 'Empreendimento' },
-    paginacao: { pagina: 1, quantidade: 50 },
-  };
-
-  const url = buildVistaGetUrl('/imoveis/listar', pesquisa, { showtotal: '1' });
-  const res = await fetch(url.toString(), {
-    headers: { Accept: 'application/json' },
-    cache: 'no-store',
-  });
-  if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
-
-  const raw = await res.json() as Record<string, unknown>;
-  const items = extractItems(raw) as unknown as VistaEmpreendimento[];
-  console.log(`[getEmpreendimentosServer] total=${raw.total} paginas=${raw.paginas} items=${items.length}`);
-  return items;
-}
 
 /**
  * Obtém detalhes completos de um empreendimento pelo código.

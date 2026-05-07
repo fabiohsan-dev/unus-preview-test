@@ -54,7 +54,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               sizes="(max-width: 640px) 100vw, 320px"
             />
           </Link>
-          <FavoriteButton className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white z-10 shadow-sm" />
+          <FavoriteButton propertyId={property.code} className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white z-10 shadow-sm" />
         </div>
 
         <div className="flex-1 p-6 flex flex-col justify-between">
@@ -151,6 +151,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
         </Link>
 
         <FavoriteButton
+          propertyId={property.code}
           className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white hover:scale-110 z-10"
         />
       </div>

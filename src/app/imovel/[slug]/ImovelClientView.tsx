@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, type ElementType } from 'react';
+import { useFavorites } from '@/hooks/useFavorites';
+import { WHATSAPP_BASE, PHONE_HREF, WA_IMOVEL } from '@/lib/constants';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -79,7 +81,7 @@ function formatMetricArea(value?: string) {
 /* ── Subcomponentes ── */
 function Gallery({ fotos, propertyRef }: { fotos: VistaFoto[]; propertyRef: string }) {
   const [active, setActive] = useState(0);
-  const [favorited, setFavorited] = useState(false);
+  const { isFavorited: favorited, toggle: toggleFavorite } = useFavorites(`imovel-${propertyRef}`);
   const images = fotos.length > 0 ? fotos : [{ URLArquivo: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80' }];
   const prev = () => setActive((index) => (index - 1 + images.length) % images.length);
   const next = () => setActive((index) => (index + 1) % images.length);
@@ -96,7 +98,7 @@ function Gallery({ fotos, propertyRef }: { fotos: VistaFoto[]; propertyRef: stri
       />
       <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-10">
         <span className="bg-white/90 backdrop-blur-md text-[var(--color-heading)] text-[10px] uppercase tracking-[0.2em] px-4 py-2 shadow-[var(--shadow-soft)]" style={{ fontWeight: 700 }}>Ref. {propertyRef}</span>
-        <button type="button" onClick={() => setFavorited((v) => !v)} className="w-11 h-11 bg-white/90 backdrop-blur-md flex items-center justify-center shadow-[var(--shadow-soft)] transition-all hover:bg-white" aria-label={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'} aria-pressed={favorited}>
+        <button type="button" onClick={toggleFavorite} className="w-11 h-11 bg-white/90 backdrop-blur-md flex items-center justify-center shadow-[var(--shadow-soft)] transition-all hover:bg-white" aria-label={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'} aria-pressed={favorited}>
           <Heart className={`w-5 h-5 transition-colors ${favorited ? 'fill-[var(--color-error)] text-[var(--color-error)]' : 'text-[var(--color-body)]'}`} strokeWidth={1.5} />
         </button>
       </div>
@@ -154,7 +156,9 @@ export default function ImovelClientView({
   const corretor = isCorretorInfo(imovel.Corretor) ? imovel.Corretor : undefined;
   const agentName = corretor?.NomeCorretor || corretor?.Nome || 'Consultor UNUS';
   const agentPhoto = corretor?.Foto || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&q=80';
-  const agentWhatsapp = corretor?.Celular ? `https://wa.me/55${corretor.Celular.replace(/\D/g, '')}` : 'https://wa.me/554830666767';
+  const agentWhatsapp = corretor?.Celular
+    ? `https://wa.me/55${corretor.Celular.replace(/\D/g, '')}?text=${encodeURIComponent(WA_IMOVEL(imovel.TituloSite ?? '', imovel.Bairro ?? ''))}`
+    : `${WHATSAPP_BASE}?text=${encodeURIComponent(WA_IMOVEL(imovel.TituloSite ?? '', imovel.Bairro ?? ''))}`;
 
   const specs = [
     ...(Number(imovel.Dormitorios) > 0 ? [{ icon: BedDouble, label: 'Quartos', value: imovel.Dormitorios! }] : []),
@@ -290,7 +294,7 @@ export default function ImovelClientView({
                 </div>
               </div>
               <div className="flex gap-2.5">
-                <a href={corretor?.Celular ? `tel:+55${corretor.Celular.replace(/\D/g, '')}` : 'tel:+554830666767'} className="flex-1 border border-[var(--color-border)] text-[var(--color-heading)] py-3 text-[11px] uppercase tracking-[0.12em] hover:bg-[var(--neutral-50)] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 600 }}><Phone className="w-4 h-4" /> Ligar</a>
+                <a href={corretor?.Celular ? `tel:+55${corretor.Celular.replace(/\D/g, '')}` : PHONE_HREF} className="flex-1 border border-[var(--color-border)] text-[var(--color-heading)] py-3 text-[11px] uppercase tracking-[0.12em] hover:bg-[var(--neutral-50)] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 600 }}><Phone className="w-4 h-4" /> Ligar</a>
                 <a href={agentWhatsapp} target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-action-whatsapp)] text-white py-3 text-[11px] uppercase tracking-[0.12em] hover:bg-[var(--success-dark)] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 600 }}><MessageCircle className="w-4 h-4" /> WhatsApp</a>
               </div>
             </div>

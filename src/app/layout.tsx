@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Barlow, Cormorant_Garamond } from 'next/font/google';
+import { SITE_URL, SITE_NAME, SITE_TAGLINE } from '@/lib/constants';
 import '../styles/globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -22,18 +23,18 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: {
-    default: 'UNUS Núcleo Imobiliário — Inteligência Imobiliária em Alto Padrão',
-    template: '%s | UNUS Núcleo Imobiliário',
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
   },
   description: 'Consultoria imobiliária de alto padrão. Onde você mora define como você vive!',
-  metadataBase: new URL('https://unus-preview-test.vercel.app'),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: 'https://unus-preview-test.vercel.app',
-    title: 'UNUS Núcleo Imobiliário — Inteligência Imobiliária em Alto Padrão',
+    url: SITE_URL,
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: 'Consultoria imobiliária de alto padrão. Onde você mora define como você vive!',
-    siteName: 'UNUS Núcleo Imobiliário',
+    siteName: SITE_NAME,
     images: [
       {
         url: '/og-image.jpg',
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UNUS Núcleo Imobiliário — Inteligência Imobiliária em Alto Padrão',
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: 'Consultoria imobiliária de alto padrão. Onde você mora define como você vive!',
     images: ['/og-image.jpg'],
   },

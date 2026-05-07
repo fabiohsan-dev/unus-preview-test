@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Heart, BedDouble } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import { Badge, Divider } from '@/components/ui';
+import { whatsappUrl, WA_EMPREENDIMENTO, PHONE_HREF } from '@/lib/constants';
+import { useFavorites } from '@/hooks/useFavorites';
 import type { VistaImovelItem } from '@/types/vista';
-
-const WHATSAPP_NUMBER = '554830666767';
-const PHONE_HREF = 'tel:+554830666767';
 
 function getSlug(emp: VistaImovelItem) {
   const bairro = (emp.Bairro || 'sc').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
@@ -60,7 +59,7 @@ interface EmpreendimentoCardProps {
 export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardProps) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
-  const [favorited, setFavorited] = useState(false);
+  const { isFavorited: favorited, toggle: toggleFavorite } = useFavorites(`emp-${emp.Codigo}`);
 
   const slug   = getSlug(emp);
   const href   = `/empreendimento/${slug}`;
@@ -88,9 +87,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
     setSlideIndex((i) => (i + 1) % total);
   }, [total]);
 
-  const waText = encodeURIComponent(
-    `Olá! Tenho interesse no empreendimento ${title} em ${emp.Bairro}, ${emp.Cidade}. Gostaria de mais informações.`
-  );
+  const waHref = whatsappUrl(WA_EMPREENDIMENTO(title, emp.Bairro ?? '', emp.Cidade ?? ''));
 
   return (
     <article
@@ -140,7 +137,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
         {/* Favorito */}
         <button
-          onClick={(e) => { e.preventDefault(); setFavorited((f) => !f); }}
+          onClick={(e) => { e.preventDefault(); toggleFavorite(); }}
           className="absolute top-4 left-4 z-30 w-10 h-10 flex items-center justify-center backdrop-blur-sm transition-all duration-200"
           style={{
             background: favorited ? 'rgba(224,82,82,0.85)' : 'rgba(21,20,16,0.45)',
@@ -347,7 +344,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Botões */}
           <div className="flex items-center gap-3">
             <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
+              href={waHref}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-6 py-3.5 text-white text-[12px] uppercase tracking-[0.14em] font-[600] transition-all hover:brightness-110"

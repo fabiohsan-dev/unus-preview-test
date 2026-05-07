@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { HeroSearch } from '@/components/HeroSearch';
 import { CategoryStrip } from '@/components/CategoryStrip';
 import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaService';
+import { SITE_URL, SITE_NAME, PHONE_DISPLAY, PHONE_HREF, WHATSAPP_BASE, CRECI } from '@/lib/constants';
 import { 
   mapToFeaturedProperty, 
   mapToOpportunity, 
@@ -67,8 +68,45 @@ export default async function HomePage() {
   const opportunities = rawOpps.map(mapToOpportunity);
   const gridProperties = rawGrid.map(mapToGridProperty);
 
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateAgent',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/og-image.jpg`,
+    image: `${SITE_URL}/og-image.jpg`,
+    description: 'Consultoria imobiliária de alto padrão em Florianópolis e Grande Florianópolis.',
+    telephone: PHONE_DISPLAY,
+    sameAs: [
+      'https://www.instagram.com/unusnucleoimobiliario/',
+      WHATSAPP_BASE,
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'São José',
+      addressRegion: 'SC',
+      addressCountry: 'BR',
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Florianópolis' },
+      { '@type': 'City', name: 'São José' },
+      { '@type': 'City', name: 'Palhoça' },
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: PHONE_HREF,
+      contactType: 'customer service',
+      availableLanguage: 'Portuguese',
+    },
+    identifier: CRECI,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       <HeroSearch metadata={metadata} />
       <CategoryStrip />
       <FeaturedCards properties={featuredProperties} />

@@ -1,44 +1,32 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/constants';
 
+/**
+ * Sitemap dinâmico — lê NEXT_PUBLIC_SITE_URL para usar o domínio correto.
+ * Inclui apenas páginas com conteúdo real (ComingSoon excluídas).
+ * lastModified usa datas fixas por seção para não enganar crawlers.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://unus-preview-test.vercel.app';
+  const base = SITE_URL;
 
   return [
     {
-      url: baseUrl,
-      lastModified: new Date(),
+      url: base,
+      lastModified: new Date('2025-05-01'),
       changeFrequency: 'daily',
-      priority: 1,
+      priority: 1.0,
     },
     {
-      url: `${baseUrl}/venda`,
-      lastModified: new Date(),
+      url: `${base}/venda`,
+      lastModified: new Date('2025-05-01'),
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      url: `${base}/empreendimentos`,
+      lastModified: new Date('2025-05-01'),
       changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/anuncie`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/o-nucleo`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/contato`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.85,
     },
   ];
 }

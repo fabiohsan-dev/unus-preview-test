@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import type { VistaEmpreendimento } from '@/lib/server/vistaService';
 
-const WHATSAPP_BASE = 'https://wa.me/554830666767?text=';
+import { PHONE_HREF, WHATSAPP_BASE, WA_EMPREENDIMENTO } from '@/lib/constants';
 
 /* ── Helpers ── */
 function formatDataEntrega(date: string): string {
@@ -229,9 +229,7 @@ export default function EmpreendimentoClientView({ empreendimento: emp }: Empree
   const fotos     = normalizeFotos(emp.Foto, emp.FotoDestaque);
   const amenities = getAmenities(emp.InfraEstrutura);
   const entrega   = formatDataEntrega(emp.DataEntrega);
-  const waText    = encodeURIComponent(
-    `Olá! Tenho interesse no empreendimento ${title} em ${emp.Bairro}, ${emp.Cidade}. Gostaria de informações sobre preços e unidades disponíveis.`
-  );
+  const waHref = `${WHATSAPP_BASE}?text=${encodeURIComponent(WA_EMPREENDIMENTO(title, emp.Bairro ?? '', emp.Cidade ?? ''))}`;
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
@@ -486,7 +484,7 @@ export default function EmpreendimentoClientView({ empreendimento: emp }: Empree
 
                 <div className="space-y-2.5">
                   <a
-                    href={`${WHATSAPP_BASE}${waText}`}
+                    href={waHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2.5 bg-[var(--color-action-whatsapp)] text-white py-4 text-[11px] uppercase tracking-[0.18em] hover:opacity-90 transition-opacity"
@@ -497,7 +495,7 @@ export default function EmpreendimentoClientView({ empreendimento: emp }: Empree
                   </a>
 
                   <a
-                    href="tel:+554830666767"
+                    href={PHONE_HREF}
                     className="w-full flex items-center justify-center gap-2.5 border border-white/15 text-white/70 py-3.5 text-[11px] uppercase tracking-[0.15em] hover:bg-white/5 hover:text-white transition-colors"
                     style={{ fontWeight: 400 }}
                   >
@@ -524,7 +522,7 @@ export default function EmpreendimentoClientView({ empreendimento: emp }: Empree
       {/* ── MOBILE — Sticky bottom CTA ── */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--secondary-900)] border-t border-white/10 px-4 py-3 flex gap-3 shadow-[0_-8px_24px_rgba(0,0,0,0.2)]">
         <a
-          href="tel:+554830666767"
+          href={PHONE_HREF}
           className="flex items-center justify-center gap-2 flex-1 border border-white/20 text-white/80 py-3.5 text-[10px] uppercase tracking-[0.15em] hover:bg-white/10 transition-colors"
           style={{ fontWeight: 500 }}
         >
@@ -532,7 +530,7 @@ export default function EmpreendimentoClientView({ empreendimento: emp }: Empree
           Ligar
         </a>
         <a
-          href={`${WHATSAPP_BASE}${waText}`}
+          href={waHref}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 flex-[2] bg-[var(--color-action-whatsapp)] text-white py-3.5 text-[10px] uppercase tracking-[0.15em] hover:opacity-90 transition-opacity"

@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Heart, Menu, X, ChevronDown, MessageCircle } from 'lucide-react';
 
-const WHATSAPP_URL = 'https://wa.me/554830666767?text=Olá!%20Gostaria%20de%20falar%20com%20um%20corretor%20UNUS.';
+import { whatsappUrl, WA_DEFAULT } from '@/lib/constants';
+const WHATSAPP_URL = whatsappUrl(WA_DEFAULT);
 
 const dropdownItems = [
   { label: 'Ver todos os imóveis', href: '/venda' },

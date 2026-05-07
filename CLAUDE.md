@@ -105,7 +105,7 @@ Browser → /api/imoveis/* (Next.js API Route) → Vista CRM API → mapper → 
 
 **Tipografia:**
 - Títulos: Cormorant Garamond (serif), 400–600
-- Corpo/Labels: Inter (sans), 300–500
+- Corpo/Labels: Barlow (sans), 300–500
 
 **Grid:** sistema 8pt (4, 8, 16, 24, 32, 48, 64, 96, 128px)
 

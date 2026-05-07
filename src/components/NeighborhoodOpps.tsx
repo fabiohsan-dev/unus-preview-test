@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Phone } from 'lucide-react';
 import { ContentImage } from './ContentImage';
+import { WHATSAPP_BASE } from '@/lib/constants';
 
 export function NeighborhoodOpps() {
   return (
@@ -52,7 +53,7 @@ export function NeighborhoodOpps() {
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
           </Link>
           <a
-            href="https://wa.me/554830666767"
+            href={WHATSAPP_BASE}
             target="_blank"
             rel="noopener noreferrer"
             className="border border-white/20 text-white px-8 py-4 text-[12px] uppercase tracking-[0.15em] hover:bg-white/10 transition-colors flex items-center gap-3"

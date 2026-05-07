@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-# Sitemap
-Sitemap: https://unus-preview-test.vercel.app/sitemap.xml

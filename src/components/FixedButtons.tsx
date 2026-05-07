@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MessageCircle, Shield, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import { whatsappUrl, WA_DEFAULT } from '@/lib/constants';
 
 const PRIVACY_URL = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade/';
 const COOKIES_URL = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade-e-cookies/';
@@ -39,7 +40,7 @@ export function FixedButtons() {
   return (
     <>
       <motion.a
-        href="https://wa.me/554830666767?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20im%C3%B3veis%20da%20UNUS."
+        href={whatsappUrl(WA_DEFAULT)}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ scale: 0, opacity: 0 }}

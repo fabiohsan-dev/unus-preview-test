@@ -5,6 +5,7 @@ import { motion, type Variants } from 'motion/react';
 import { Send } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { WHATSAPP_BASE } from '@/lib/constants';
 
 interface ComingSoonProps {
   title: string;
@@ -157,7 +158,7 @@ export function ComingSoon({ title, subtitle }: ComingSoonProps) {
             LINKEDIN
             <span className="absolute -bottom-1 left-1/2 w-0 h-[1px] bg-[#2c3a3a] transition-all group-hover:w-full group-hover:left-0" />
           </Link>
-          <Link href="https://wa.me/554830666767" className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
+          <Link href={WHATSAPP_BASE} className="text-[10px] font-medium tracking-[0.2em] text-[#6b7a7a] uppercase hover:text-[#2c3a3a] transition-colors relative group">
             WHATSAPP
             <span className="absolute -bottom-1 left-1/2 w-0 h-[1px] bg-[#2c3a3a] transition-all group-hover:w-full group-hover:left-0" />
           </Link>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getDetalheImovelServer } from '@/lib/server/vistaService';
+import { SITE_URL } from '@/lib/constants';
 import ImovelClientView from './ImovelClientView';
 
 interface Props {
@@ -54,7 +55,7 @@ export default async function ImovelPage({ params }: Props) {
     '@type': 'RealEstateListing',
     name: imovel.TituloSite || `${imovel.Categoria} em ${imovel.Bairro}`,
     description: (imovel.DescricaoSite || imovel.Descricao || '').slice(0, 200),
-    url: `https://unus-preview-test.vercel.app/imovel/${slug}`,
+    url: `${SITE_URL}/imovel/${slug}`,
     image: fotos.map(f => f.URLArquivo || f.URL).filter(Boolean),
     price: imovel.ValorVenda && imovel.ValorVenda !== '0' ? Number(imovel.ValorVenda) : undefined,
     priceCurrency: 'BRL',

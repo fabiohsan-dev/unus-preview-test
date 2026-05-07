@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { PHONE_DISPLAY, PHONE_HREF } from '@/lib/constants';
 
 const footerGroups = [
   {
@@ -26,7 +27,7 @@ const footerGroups = [
   {
     title: 'contato',
     items: [
-      { label: '(48) 3066-6767', href: 'tel:+554830666767' },
+      { label: PHONE_DISPLAY, href: PHONE_HREF },
       { label: 'contato@unusimoveis.com.br', href: 'mailto:contato@unusimoveis.com.br' },
       { label: 'K-Platz Corporate' },
       { label: 'São José, SC' },
