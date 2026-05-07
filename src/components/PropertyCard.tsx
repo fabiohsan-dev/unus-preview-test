@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, BedDouble, Car, MapPin, Maximize, ShowerHead } from 'lucide-react';
+import { ArrowRight, BedDouble, Car, MapPin, Maximize } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import { FavoriteButton } from './FavoriteButton';
 import { Badge, SectionHeader } from '@/components/ui';
@@ -35,12 +35,11 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
     property.type.toLowerCase().includes('lote');
 
   const amenities = isTerrain
-    ? [{ icon: Maximize, value: property.area || 'Consulte', label: 'área total' }]
+    ? [{ icon: Maximize, value: property.area || 'Consulte', label: 'área' }]
     : [
-        { icon: BedDouble, value: property.bedrooms, label: 'quartos' },
-        { icon: BedDouble, value: property.suites, label: 'suítes' },
-        { icon: Car, value: property.parkingSpots, label: 'vagas' },
-        { icon: ShowerHead, value: property.bathrooms, label: 'banheiros' },
+        { icon: BedDouble, value: property.bedrooms, label: 'dorm.' },
+        { icon: Car,       value: property.parkingSpots, label: 'vagas' },
+        { icon: Maximize,  value: property.area || '—', label: 'm²' },
       ];
 
   if (variant === 'list') {
@@ -204,7 +203,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
           </div>
         </Link>
 
-        <div className={`border-t border-[var(--color-border)] grid ${isTerrain ? 'grid-cols-1' : 'grid-cols-4'}`}>
+        <div className={`border-t border-[var(--color-border)] grid ${isTerrain ? 'grid-cols-1' : 'grid-cols-3'}`}>
           {amenities.map((amenity, index) => (
             <div
               key={amenity.label}

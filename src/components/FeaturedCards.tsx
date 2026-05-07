@@ -139,13 +139,18 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0"
               >
-                <ImageWithFallback
-                  src={property.image}
-                  alt={property.title}
-                  className="w-full h-full object-cover"
-                  priority={false}
-                  sizes="(max-width: 1024px) 100vw, 66vw"
-                />
+                <div
+                  className="w-full h-full"
+                  onContextMenu={(e) => e.preventDefault()}
+                >
+                  <ImageWithFallback
+                    src={property.image}
+                    alt={property.title}
+                    className="w-full h-full object-cover"
+                    priority={false}
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                  />
+                </div>
               </motion.div>
             </AnimatePresence>
 
@@ -212,7 +217,6 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 </div>
 
                 <div>
-                  <p className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.1em] mb-1" style={{ fontWeight: 500 }}>A partir de</p>
                   <p className="text-[var(--gold-dark)] text-[28px] mb-6" style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}>
                     {property.price}
                   </p>

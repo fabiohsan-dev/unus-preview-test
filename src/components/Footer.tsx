@@ -1,17 +1,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight, Instagram, Linkedin, Youtube } from 'lucide-react';
-import { PHONE_DISPLAY, PHONE_HREF } from '@/lib/constants';
+import { ArrowUpRight, Instagram, Linkedin, MapPin, Phone, Youtube } from 'lucide-react';
+import { CRECI, PHONE_DISPLAY, PHONE_HREF } from '@/lib/constants';
 
 const footerGroups = [
   {
     title: 'portfólio',
     items: [
-      { label: 'Frente Mar', href: '/venda?tipo=Cobertura' },
-      { label: 'Campinas', href: '/venda?bairro=Campinas' },
+      { label: 'Pronto para Morar', href: '/venda' },
+      { label: 'Lançamentos', href: '/venda?ordem=mais-novo' },
+      { label: 'Casas', href: '/venda?categoria=Casa' },
       { label: 'Coberturas', href: '/venda?tipo=Cobertura' },
       { label: 'Investimentos', href: '/#investimentos' },
-      { label: 'Lançamentos', href: '/venda' },
     ],
   },
   {
@@ -19,18 +19,9 @@ const footerGroups = [
     items: [
       { label: 'O Núcleo', href: '/o-nucleo' },
       { label: 'Metodologia', href: '/o-nucleo' },
-      { label: 'Inteligência' },
       { label: 'Parceiros', href: 'https://unusnucleoimobiliario.com.br/parceiros-unus/' },
       { label: 'Trabalhe Conosco', href: 'https://unusnucleoimobiliario.com.br/contato/trabalhe-conosco/' },
-    ],
-  },
-  {
-    title: 'contato',
-    items: [
-      { label: PHONE_DISPLAY, href: PHONE_HREF },
-      { label: 'contato@unusimoveis.com.br', href: 'mailto:contato@unusimoveis.com.br' },
-      { label: 'K-Platz Corporate' },
-      { label: 'São José, SC' },
+      { label: 'Anuncie seu Imóvel', href: '/anuncie' },
     ],
   },
 ];
@@ -61,7 +52,7 @@ export function Footer() {
   return (
     <footer className="text-white pt-20 pb-10 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)]">
       <div className="max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-16 pb-16 border-b border-white/8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-10 mb-16 pb-16 border-b border-white/8">
           <div className="lg:col-span-1">
             <div className="mb-6">
               <Image
@@ -138,6 +129,50 @@ export function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Unidade Campinas — São José */}
+          <div>
+            <h4 className="text-[11px] uppercase tracking-[0.2em] text-white/60 mb-6" style={{ fontWeight: 600 }}>
+              Campinas · São José
+            </h4>
+            <ul className="flex flex-col gap-3">
+              <li className="flex items-start gap-2 text-[13px] text-white/70" style={{ fontWeight: 300 }}>
+                <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-white/40" strokeWidth={1.5} />
+                <span>Av. das Torres, 2275 — Sala 01<br />Campinas, São José — SC</span>
+              </li>
+              <li>
+                <a href={PHONE_HREF} className="flex items-center gap-2 text-[13px] text-white/75 hover:text-white transition-colors" style={{ fontWeight: 300 }}>
+                  <Phone className="w-3.5 h-3.5 text-white/40 shrink-0" strokeWidth={1.5} />
+                  {PHONE_DISPLAY}
+                </a>
+              </li>
+              <li className="text-[11px] text-white/40 uppercase tracking-[0.12em]" style={{ fontWeight: 500 }}>
+                {CRECI}
+              </li>
+            </ul>
+          </div>
+
+          {/* Unidade Agronômica — Florianópolis */}
+          <div>
+            <h4 className="text-[11px] uppercase tracking-[0.2em] text-white/60 mb-6" style={{ fontWeight: 600 }}>
+              Agronômica · Florianópolis
+            </h4>
+            <ul className="flex flex-col gap-3">
+              <li className="flex items-start gap-2 text-[13px] text-white/70" style={{ fontWeight: 300 }}>
+                <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-white/40" strokeWidth={1.5} />
+                <span>R. Rui Barbosa, 675 — Sala 01<br />Agronômica, Florianópolis — SC</span>
+              </li>
+              <li>
+                <a href={PHONE_HREF} className="flex items-center gap-2 text-[13px] text-white/75 hover:text-white transition-colors" style={{ fontWeight: 300 }}>
+                  <Phone className="w-3.5 h-3.5 text-white/40 shrink-0" strokeWidth={1.5} />
+                  {PHONE_DISPLAY}
+                </a>
+              </li>
+              <li className="text-[11px] text-white/40 uppercase tracking-[0.12em]" style={{ fontWeight: 500 }}>
+                {CRECI}
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -164,7 +199,7 @@ export function Footer() {
               Privacidade & Cookies
             </a>
             <span className="text-white/60 text-[12px]" style={{ fontWeight: 400 }}>
-              CRECI 12345-J
+              {CRECI}
             </span>
           </div>
         </div>
