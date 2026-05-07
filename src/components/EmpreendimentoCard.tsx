@@ -205,7 +205,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Status badge */}
           <div className="flex items-center flex-wrap gap-2">
             <span
-              className="px-4 py-1.5 border border-[var(--gold)] text-[var(--gold)] text-[10px] uppercase tracking-[0.22em]"
+              className="px-4 py-1.5 border border-[var(--gold)] text-[var(--gold)] text-[11px] uppercase tracking-[0.20em]"
               style={{ fontWeight: 700 }}
             >
               {status}
@@ -214,9 +214,9 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
           {/* Localização */}
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-[var(--primary-500)] shrink-0" strokeWidth={1.5} />
+            <MapPin className="w-4 h-4 text-[var(--primary-400,#38bdf8)] shrink-0" strokeWidth={1.5} />
             <span
-              className="text-[var(--primary-500)] text-[13px] uppercase tracking-[0.16em]"
+              className="text-[var(--primary-400,#38bdf8)] text-[14px] uppercase tracking-[0.16em]"
               style={{ fontWeight: 600 }}
             >
               {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
@@ -230,7 +230,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               style={{
                 fontWeight: 400,
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(34px, 3.8vw, 56px)',
+                fontSize: 'clamp(36px, 4vw, 58px)',
               }}
             >
               {title}
@@ -240,11 +240,11 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Preço mínimo */}
           {price && (
             <div>
-              <p className="text-white/35 text-[10px] uppercase tracking-[0.18em] mb-1" style={{ fontWeight: 500 }}>
+              <p className="text-white/65 text-[11px] uppercase tracking-[0.18em] mb-1.5" style={{ fontWeight: 500 }}>
                 A partir de
               </p>
               <p
-                className="text-white text-[22px] leading-none"
+                className="text-white text-[26px] leading-none"
                 style={{ fontWeight: 300, fontFamily: 'var(--font-serif)' }}
               >
                 {price}
@@ -253,28 +253,28 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           )}
 
           {/* Separador */}
-          <div className="w-12 h-[1px] bg-[var(--gold)] opacity-30" />
+          <div className="w-12 h-[1px] bg-[var(--gold)] opacity-60" />
 
           {/* Metadados: suítes / área / entrega */}
           {(suitesLabel || areaLabel || dataEntrega) && (
-            <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
+            <div className="flex flex-col gap-3">
               {suitesLabel && (
-                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
-                  <svg className="w-4 h-4 shrink-0 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <span className="flex items-center gap-2.5 text-white/85 text-[15px]" style={{ fontWeight: 400 }}>
+                  <svg className="w-4 h-4 shrink-0 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 9V19M21 9V19M3 14H21M7 9V7C7 5.343 8.343 4 10 4H14C15.657 4 17 5.343 17 7V9"/>
                   </svg>
                   {suitesLabel}
                 </span>
               )}
               {areaLabel && (
-                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
-                  <Maximize2 className="w-4 h-4 shrink-0 text-white/25" strokeWidth={1.5} />
+                <span className="flex items-center gap-2.5 text-white/85 text-[15px]" style={{ fontWeight: 400 }}>
+                  <Maximize2 className="w-4 h-4 shrink-0 text-white/50" strokeWidth={1.5} />
                   {areaLabel}
                 </span>
               )}
               {dataEntrega && (
-                <span className="flex items-center gap-2 text-white/60 text-[14px]" style={{ fontWeight: 300 }}>
-                  <Calendar className="w-4 h-4 shrink-0 text-white/25" strokeWidth={1.5} />
+                <span className="flex items-center gap-2.5 text-white/85 text-[15px]" style={{ fontWeight: 400 }}>
+                  <Calendar className="w-4 h-4 shrink-0 text-white/50" strokeWidth={1.5} />
                   Data de entrega: {dataEntrega}
                 </span>
               )}
@@ -284,8 +284,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Descrição */}
           {descricao && (
             <p
-              className="text-white/45 text-[15px] leading-[1.8]"
-              style={{ fontWeight: 300 }}
+              className="text-white/75 text-[15px] leading-[1.8]"
+              style={{ fontWeight: 400 }}
             >
               {descricao}
             </p>
@@ -293,10 +293,10 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
         </div>
 
         {/* CTA + botões */}
-        <div className="flex flex-col gap-5 pt-4 border-t border-white/8">
+        <div className="flex flex-col gap-5 pt-5 border-t border-white/20">
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-2.5 text-white text-[12px] uppercase tracking-[0.22em] hover:text-[var(--gold)] transition-colors duration-200"
+            className="group/cta inline-flex items-center gap-2.5 text-white text-[13px] uppercase tracking-[0.20em] hover:text-[var(--gold)] transition-colors duration-200"
             style={{ fontWeight: 600 }}
           >
             Conheça o empreendimento
@@ -309,7 +309,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 bg-[var(--color-action-whatsapp)]/90 hover:bg-[var(--color-action-whatsapp)] text-white text-[11px] uppercase tracking-[0.14em] transition-colors"
+              className="flex items-center gap-2 px-6 py-3.5 bg-[var(--color-action-whatsapp)] hover:brightness-110 text-white text-[12px] uppercase tracking-[0.14em] transition-all"
               style={{ fontWeight: 600 }}
               aria-label="Conversar no WhatsApp"
             >
@@ -322,7 +322,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             {/* Telefone */}
             <a
               href={PHONE_HREF}
-              className="flex items-center gap-2 px-6 py-3 border border-white/15 text-white/60 hover:border-white/40 hover:text-white text-[11px] uppercase tracking-[0.14em] transition-all"
+              className="flex items-center gap-2 px-6 py-3.5 border border-white/35 text-white/85 hover:border-white hover:text-white text-[12px] uppercase tracking-[0.14em] transition-all"
               style={{ fontWeight: 500 }}
               aria-label="Ligar para a UNUS"
             >
