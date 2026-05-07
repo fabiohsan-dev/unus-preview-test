@@ -58,23 +58,23 @@ export function Footer() {
         <div className="max-w-[1400px] mx-auto">
 
           {/* Grade principal */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-10 mb-16 pb-16 border-b border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-16 mb-16 pb-16 border-b border-white/10">
 
             {/* Coluna da marca */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-2">
 
               {/* Identidade visual */}
               <Link href="/" aria-label="Ir para a home da UNUS" className="inline-flex items-center gap-4 mb-6 group">
                 <UnusIcon className="h-14 w-auto text-[var(--gold)] transition-opacity group-hover:opacity-80" />
                 <div className="flex flex-col leading-none">
                   <span
-                    className="text-white text-[18px] tracking-[0.08em] uppercase"
+                    className="text-white text-[20px] tracking-[0.08em] uppercase"
                     style={{ fontFamily: 'var(--font-serif)', fontWeight: 500, letterSpacing: '0.12em' }}
                   >
                     UNUS
                   </span>
                   <span
-                    className="text-white/45 text-[9px] uppercase tracking-[0.22em] mt-1"
+                    className="text-white/45 text-[11px] uppercase tracking-[0.22em] mt-1"
                     style={{ fontWeight: 500 }}
                   >
                     Núcleo Imobiliário
@@ -84,7 +84,7 @@ export function Footer() {
 
               {/* Tagline */}
               <p
-                className="text-white/55 text-[14px] leading-[1.7] max-w-[240px] mb-8"
+                className="text-white/80 text-[15px] leading-[1.7] max-w-[280px] mb-8"
                 style={{ fontWeight: 300 }}
               >
                 Inteligência imobiliária em alto padrão. Balneário Camboriú, Itapema e região.
@@ -98,10 +98,10 @@ export function Footer() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 border border-white/15 flex items-center justify-center hover:border-[var(--gold)]/60 hover:bg-white/5 transition-all"
+                    className="w-12 h-12 border border-white/15 flex items-center justify-center hover:border-[var(--gold)]/60 hover:bg-white/5 transition-all"
                     aria-label={label}
                   >
-                    <Icon className="w-4 h-4 text-white/60 hover:text-white transition-colors" strokeWidth={1.5} />
+                    <Icon className="w-5 h-5 text-white/60 hover:text-white transition-colors" strokeWidth={1.5} />
                   </a>
                 ))}
               </div>
@@ -111,7 +111,7 @@ export function Footer() {
             {footerGroups.map((group) => (
               <div key={group.title}>
                 <h4
-                  className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/70 mb-7"
+                  className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
                   style={{ fontWeight: 600 }}
                 >
                   {group.title}
@@ -125,24 +125,24 @@ export function Footer() {
                             href={item.href}
                             target={item.href.startsWith('http') ? '_blank' : undefined}
                             rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                            className="text-[15px] text-white/65 hover:text-white transition-colors flex items-center gap-1.5 group"
+                            className="text-base text-white/80 hover:text-white transition-colors flex items-center gap-1.5 group"
                             style={{ fontWeight: 300 }}
                           >
                             {item.label}
-                            <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
+                            <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
                           </a>
                         ) : (
                           <Link
                             href={item.href}
-                            className="text-[15px] text-white/65 hover:text-white transition-colors flex items-center gap-1.5 group"
+                            className="text-base text-white/80 hover:text-white transition-colors flex items-center gap-1.5 group"
                             style={{ fontWeight: 300 }}
                           >
                             {item.label}
-                            <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
+                            <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
                           </Link>
                         )
                       ) : (
-                        <span className="text-[15px] text-white/40" style={{ fontWeight: 300 }}>
+                        <span className="text-base text-white/40" style={{ fontWeight: 300 }}>
                           {item.label}
                         </span>
                       )}
@@ -156,15 +156,15 @@ export function Footer() {
             {UNITS.map((unit) => (
               <div key={unit.city}>
                 <h4
-                  className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/70 mb-7"
+                  className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
                   style={{ fontWeight: 600 }}
                 >
                   {unit.city}
                 </h4>
                 <ul className="flex flex-col gap-4">
-                  <li className="flex items-start gap-2.5">
-                    <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-white/35" strokeWidth={1.5} />
-                    <span className="text-[14px] text-white/65 leading-[1.65]" style={{ fontWeight: 300 }}>
+                  <li className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-white/35" strokeWidth={1.5} />
+                    <span className="text-[15px] text-white/80 leading-[1.65]" style={{ fontWeight: 300 }}>
                       {unit.address}
                       <br />
                       {unit.neighborhood}, {unit.city} — {unit.state}
@@ -175,15 +175,15 @@ export function Footer() {
                   <li>
                     <a
                       href={PHONE_HREF}
-                      className="flex items-center gap-2.5 text-[14px] text-white/65 hover:text-white transition-colors"
+                      className="flex items-center gap-3 text-[15px] text-white/80 hover:text-white transition-colors"
                       style={{ fontWeight: 300 }}
                     >
-                      <Phone className="w-4 h-4 text-white/35 shrink-0" strokeWidth={1.5} />
+                      <Phone className="w-5 h-5 text-white/35 shrink-0" strokeWidth={1.5} />
                       {PHONE_DISPLAY}
                     </a>
                   </li>
                   <li
-                    className="text-[11px] text-[var(--gold)]/50 uppercase tracking-[0.18em]"
+                    className="text-[12px] text-[var(--gold)]/60 uppercase tracking-[0.18em] pt-1"
                     style={{ fontWeight: 500 }}
                   >
                     {unit.creci}
@@ -194,34 +194,34 @@ export function Footer() {
           </div>
 
           {/* Rodapé inferior */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-5 text-center sm:text-left">
-              <p className="text-white/40 text-[12px]" style={{ fontWeight: 400 }}>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-white/5 pt-10">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-center sm:text-left">
+              <p className="text-white/50 text-sm" style={{ fontWeight: 400 }}>
                 &copy; {new Date().getFullYear()} UNUS Núcleo Imobiliário.
                 {' '}Todos os direitos reservados a{' '}
-                <span className="text-white/60" style={{ fontWeight: 500 }}>FHSAN</span>.
+                <span className="text-white/80" style={{ fontWeight: 500 }}>FHSAN</span>.
               </p>
-              <span className="hidden sm:block text-white/20 text-[12px]">·</span>
-              <span className="text-white/30 text-[12px]" style={{ fontWeight: 400 }}>
+              <span className="hidden sm:block text-white/10 text-sm">|</span>
+              <span className="text-white/40 text-sm tracking-wide" style={{ fontWeight: 400 }}>
                 {UNITS.map((u) => u.creci).join(' · ')}
               </span>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-6">
               <a
                 href="https://unusnucleoimobiliario.com.br/politica-de-privacidade/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/35 text-[12px] hover:text-white/65 transition-colors"
+                className="text-white/50 text-sm hover:text-white transition-colors"
                 style={{ fontWeight: 400 }}
               >
                 Privacidade
               </a>
-              <span className="text-white/20 text-[12px]">·</span>
+              <span className="text-white/10 text-sm">·</span>
               <a
                 href="https://unusnucleoimobiliario.com.br/politica-de-privacidade-e-cookies/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/35 text-[12px] hover:text-white/65 transition-colors"
+                className="text-white/50 text-sm hover:text-white transition-colors"
                 style={{ fontWeight: 400 }}
               >
                 Cookies
