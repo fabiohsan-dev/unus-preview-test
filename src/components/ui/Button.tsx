@@ -69,13 +69,13 @@ const variantClass: Record<ButtonVariant, string> = {
   primary:   'bg-[var(--secondary-900)] text-white border border-[var(--secondary-900)] hover:bg-[var(--neutral-800)] hover:border-[var(--neutral-800)]',
   outline:   'bg-transparent text-[var(--color-heading)] border border-[var(--secondary-900)] hover:bg-[var(--secondary-900)] hover:text-white',
   gold:      'bg-[var(--gold)] text-[var(--neutral-900)] border border-[var(--gold)] hover:brightness-110',
-  ghost:     'bg-transparent text-[var(--gold)] border border-transparent hover:opacity-70',
+  ghost:     'bg-transparent text-[var(--gold-dark)] border border-transparent hover:opacity-70',
   whatsapp:  'bg-[var(--color-action-whatsapp)] text-white border border-transparent hover:brightness-110',
   phone:     '',  /* phone has JS hover — handled via inline style in the component */
 };
 
 const BASE =
-  'group/btn inline-flex items-center justify-center gap-2.5 uppercase font-[600] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none';
+  'group/btn inline-flex items-center justify-center gap-2.5 uppercase font-[600] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--deep-blue)] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none';
 
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  Helpers                                                                     */

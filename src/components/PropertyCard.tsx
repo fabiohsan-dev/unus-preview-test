@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, BedDouble, Car, MapPin, Maximize, ShowerHead } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import { FavoriteButton } from './FavoriteButton';
+import { Badge, SectionHeader } from '@/components/ui';
 
 export interface PropertyCardData {
   id: string | number;
@@ -89,6 +90,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
                     <amenity.icon
                       className="w-3.5 h-3.5 text-[var(--color-accent-text)]"
                       strokeWidth={1.5}
+                      aria-hidden="true"
                     />
                     <span>
                       <strong className="font-medium">{amenity.value}</strong> {amenity.label}
@@ -137,13 +139,9 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
             {(property.badges || property.badge) && (
               <div className="absolute top-4 left-4 flex gap-2">
                 {(property.badges || [property.badge!]).map((badge, index) => (
-                  <div
-                    key={`${badge}-${index}`}
-                    className="px-3.5 py-1.5 bg-[var(--color-brand-500)] text-white text-[10px] uppercase tracking-[0.15em]"
-                    style={{ fontWeight: 700 }}
-                  >
+                  <Badge key={`${badge}-${index}`} variant="cyan">
                     {badge}
-                  </div>
+                  </Badge>
                 ))}
               </div>
             )}
@@ -217,6 +215,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               <amenity.icon
                 className="w-[18px] h-[18px] text-[var(--color-accent-text)]"
                 strokeWidth={1.2}
+                aria-hidden="true"
               />
               <div className="text-center">
                 <span
@@ -300,21 +299,13 @@ export function PropertyCardGrid({ properties: initialProperties }: PropertyCard
     <section className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--color-background)]">
       <div className="max-w-[1400px] mx-auto">
         <div className="mb-14">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 h-[1px] bg-[var(--gold)]" />
-            <span
-              className="text-[var(--gold-dark)] text-[10px] uppercase tracking-[0.3em]"
-              style={{ fontWeight: 600 }}
-            >
-              Imóveis em Destaque
-            </span>
-          </div>
-          <h2
-            className="text-[var(--color-heading)] text-[32px] sm:text-[44px] leading-[1.1] tracking-[-0.02em]"
-            style={{ fontWeight: 300 }}
-          >
-            Nosso <span style={{ fontWeight: 600 }}>portfólio</span>
-          </h2>
+          <SectionHeader
+            eyebrow="Imóveis em Destaque"
+            title="Nosso portfólio"
+            highlight="portfólio"
+            surface="light"
+            align="left"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
