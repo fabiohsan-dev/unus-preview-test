@@ -5,7 +5,8 @@ import {
   getEmpreendimentoStatsServer,
 } from '@/lib/server/vistaService';
 import { EmpreendimentoCard } from '@/components/EmpreendimentoCard';
-import { Eyebrow, SectionHeader, Divider, LinkButton } from '@/components/ui';
+import { HeroSlider } from '@/components/HeroSlider';
+import { Eyebrow, SectionHeader, LinkButton } from '@/components/ui';
 import { ArrowRight, Building2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -54,32 +55,46 @@ export default async function EmpreendimentosPage() {
     })
   );
 
+  /* ── Coleta e embaralha fotos de todos os empreendimentos para o hero slider ── */
+  const heroImages = (() => {
+    const all: string[] = [];
+    for (const emp of enriched) {
+      if (emp.FotosSlider && emp.FotosSlider.length > 0) {
+        // pega até 3 fotos por empreendimento para equilibrar representação
+        all.push(...emp.FotosSlider.slice(0, 3));
+      } else if (emp.FotoDestaque) {
+        all.push(emp.FotoDestaque);
+      }
+    }
+    // Fisher-Yates — server-side, fixo por ciclo ISR (300s)
+    for (let i = all.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [all[i], all[j]] = [all[j], all[i]];
+    }
+    return all.slice(0, 20); // máximo 20 slides
+  })();
+
   return (
     /* Fundo quente ivory — cria contraste dramático com os cards escuros */
     <div className="min-h-screen" style={{ background: 'var(--neutral-100)' }}>
 
-      {/* ── Hero ─────────────────────────────────────────── */}
+      {/* ── Hero com slider ───────────────────────────────── */}
       <section
-        className="relative pt-36 pb-24 px-6 sm:px-10 lg:px-20 overflow-hidden"
-        style={{ background: 'var(--neutral-900)' }}
+        className="relative pt-36 pb-28 px-6 sm:px-10 lg:px-20 overflow-hidden"
+        style={{ background: 'var(--neutral-900)', minHeight: '420px' }}
       >
-        {/* Textura diagonal sutil */}
+        {/* Slider de imagens ao fundo */}
+        <HeroSlider images={heroImages} interval={5000} overlayOpacity={0.70} />
+
+        {/* Gold radial glow sobre o overlay — dá calor ao texto */}
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 z-10 pointer-events-none"
           style={{
-            backgroundImage: 'repeating-linear-gradient(45deg, #C49A2E 0, #C49A2E 1px, transparent 0, transparent 50%)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-        {/* Brilho radial central */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse 80% 60% at 20% 50%, rgba(196,154,46,0.07) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse 70% 70% at 15% 55%, rgba(196,154,46,0.08) 0%, transparent 65%)',
           }}
         />
 
-        <div className="relative max-w-[1360px] mx-auto">
+        <div className="relative z-20 max-w-[1360px] mx-auto">
           <div className="mb-8">
             <Eyebrow variant="gold">Curadoria UNUS</Eyebrow>
           </div>
@@ -119,7 +134,7 @@ export default async function EmpreendimentosPage() {
 
         {/* Borda inferior dourada */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-[2px]"
+          className="absolute bottom-0 left-0 right-0 h-[2px] z-20"
           style={{ background: 'linear-gradient(90deg, var(--gold) 0%, transparent 60%)' }}
         />
       </section>
