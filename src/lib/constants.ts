@@ -27,6 +27,26 @@ export const SITE_NAME      = 'UNUS Núcleo Imobiliário';
 export const SITE_TAGLINE   = 'Inteligência Imobiliária em Alto Padrão';
 export const CRECI          = 'CRECI-SC 3034-J';
 
+/* ── Unidades ── */
+export const UNITS = [
+  {
+    city:    'Balneário Camboriú',
+    address: 'Av. Brasil, 3322 — Sala 22',
+    neighborhood: 'Centro',
+    state:   'SC',
+    cep:     '88.330-060',
+    creci:   'CRECI 6854-J',
+  },
+  {
+    city:    'Itapema',
+    address: 'Av. Nereu Ramos, 3625 — Sala 04, 2º andar',
+    neighborhood: 'Meia Praia',
+    state:   'SC',
+    cep:     '88.220-000',
+    creci:   'CRECI 7172-J',
+  },
+] as const;
+
 /* ── Mensagens WhatsApp padrão ── */
 export const WA_DEFAULT     = 'Olá! Gostaria de falar com um corretor UNUS.';
 export const WA_IMOVEL      = (titulo: string, bairro: string) =>

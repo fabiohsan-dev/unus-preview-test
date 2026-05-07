@@ -30,3 +30,5 @@ export type { DividerVariant } from './Divider';
 
 export { SectionHeader } from './SectionHeader';
 export type { SectionHeaderSurface, SectionHeaderAlign, SectionHeaderTag } from './SectionHeader';
+
+export { UnusIcon } from './UnusIcon';
