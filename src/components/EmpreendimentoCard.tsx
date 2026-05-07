@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Heart, BedDouble } from 'lucide-react';
 import { ContentImage } from './ContentImage';
+import { Badge, Divider } from '@/components/ui';
 import type { VistaImovelItem } from '@/types/vista';
 
 const WHATSAPP_NUMBER = '554830666767';
@@ -230,18 +231,9 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
       >
         <div className="flex flex-col gap-5">
 
-          {/* Status badge — sólido dourado */}
+          {/* Status badge */}
           <div>
-            <span
-              className="inline-block px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em]"
-              style={{
-                background: 'var(--gold)',
-                color: 'var(--neutral-900)',
-                fontWeight: 800,
-              }}
-            >
-              {status}
-            </span>
+            <Badge variant="gold">{status}</Badge>
           </div>
 
           {/* Localização */}
@@ -291,10 +283,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           )}
 
           {/* Separador */}
-          <div
-            className="h-[1px] w-full"
-            style={{ background: 'linear-gradient(to right, rgba(196,154,46,0.5) 0%, transparent 70%)' }}
-          />
+          <Divider variant="gold-left" />
 
           {/* Metadados */}
           {(suitesLabel || areaLabel || dataEntrega) && (
@@ -361,8 +350,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 px-6 py-3.5 text-white text-[12px] uppercase tracking-[0.14em] transition-all hover:brightness-110"
-              style={{ background: 'var(--color-action-whatsapp)', fontWeight: 600 }}
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 text-white text-[12px] uppercase tracking-[0.14em] font-[600] transition-all hover:brightness-110"
+              style={{ background: 'var(--color-action-whatsapp)' }}
               aria-label="Conversar no WhatsApp"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -371,21 +360,21 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               WhatsApp
             </a>
 
+            {/* Phone uses the 'phone' variant from Button which handles the gold-tinted hover */}
             <a
               href={PHONE_HREF}
-              className="flex items-center gap-2.5 px-6 py-3.5 text-[12px] uppercase tracking-[0.14em] transition-all"
+              className="group/phone inline-flex items-center gap-2.5 px-6 py-3.5 text-[12px] uppercase tracking-[0.14em] font-[500] transition-all duration-200"
               style={{
                 border: '1px solid rgba(196,154,46,0.40)',
                 color: 'rgba(255,255,255,0.75)',
-                fontWeight: 500,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--gold)';
-                (e.currentTarget as HTMLAnchorElement).style.color = 'white';
+                e.currentTarget.style.borderColor = 'var(--gold)';
+                e.currentTarget.style.color = 'white';
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(196,154,46,0.40)';
-                (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.75)';
+                e.currentTarget.style.borderColor = 'rgba(196,154,46,0.40)';
+                e.currentTarget.style.color = 'rgba(255,255,255,0.75)';
               }}
               aria-label="Ligar para a UNUS"
             >
