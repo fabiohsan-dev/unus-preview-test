@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Barlow, Cormorant_Garamond } from 'next/font/google';
+import { DM_Sans, Cormorant_Garamond } from 'next/font/google';
 import { SITE_URL, SITE_NAME, SITE_TAGLINE } from '@/lib/constants';
 import '../styles/globals.css';
 import { Header } from '@/components/Header';
@@ -7,7 +7,7 @@ import { Footer } from '@/components/Footer';
 import { LazyFixedButtons } from '@/components/LazyFixedButtons';
 import { LazyStickySearchBar } from '@/components/LazyStickySearchBar';
 
-const barlow = Barlow({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-sans',
@@ -69,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${barlow.variable} ${cormorant.variable}`}>
+    <html lang="pt-BR" className={`${dmSans.variable} ${cormorant.variable}`}>
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://cdn.vistahost.com.br" />

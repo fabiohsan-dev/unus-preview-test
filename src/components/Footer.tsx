@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight, Instagram, Linkedin, MapPin, Phone, Youtube } from 'lucide-react';
 import { UnusIcon } from '@/components/ui';
-import { CRECI, PHONE_DISPLAY, PHONE_HREF, UNITS } from '@/lib/constants';
+import { PHONE_DISPLAY, PHONE_HREF, UNITS } from '@/lib/constants';
 
 const footerGroups = [
   {
@@ -193,7 +193,7 @@ export function Footer() {
               Privacidade & Cookies
             </a>
             <span className="text-white/60 text-[12px]" style={{ fontWeight: 400 }}>
-              {CRECI}
+              {UNITS.map((u) => u.creci).join(' · ')}
             </span>
           </div>
         </div>
