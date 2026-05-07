@@ -169,32 +169,39 @@ export function Footer() {
           ))}
         </div>
 
+        {/* Rodapé inferior */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/60 text-[12px]" style={{ fontWeight: 400 }}>
-            &copy; {new Date().getFullYear()} UNUS Núcleo Imobiliário. Todos os direitos reservados.
-          </p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-center sm:text-left">
+            <p className="text-white/50 text-[11px]" style={{ fontWeight: 400 }}>
+              &copy; {new Date().getFullYear()} UNUS Núcleo Imobiliário.
+              Todos os direitos reservados a{' '}
+              <span className="text-white/70" style={{ fontWeight: 500 }}>FHSAN</span>.
+            </p>
+            <span className="hidden sm:block text-white/20 text-[11px]">·</span>
+            <span className="text-white/35 text-[11px]" style={{ fontWeight: 400 }}>
+              {UNITS.map((u) => u.creci).join(' · ')}
+            </span>
+          </div>
+          <div className="flex items-center gap-5">
             <a
               href="https://unusnucleoimobiliario.com.br/politica-de-privacidade/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/60 text-[12px] hover:text-white transition-colors"
+              className="text-white/40 text-[11px] hover:text-white/70 transition-colors"
               style={{ fontWeight: 400 }}
             >
-              Política de Privacidade
+              Privacidade
             </a>
+            <span className="text-white/20 text-[11px]">·</span>
             <a
               href="https://unusnucleoimobiliario.com.br/politica-de-privacidade-e-cookies/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/60 text-[12px] hover:text-white transition-colors"
+              className="text-white/40 text-[11px] hover:text-white/70 transition-colors"
               style={{ fontWeight: 400 }}
             >
-              Privacidade & Cookies
+              Cookies
             </a>
-            <span className="text-white/60 text-[12px]" style={{ fontWeight: 400 }}>
-              {UNITS.map((u) => u.creci).join(' · ')}
-            </span>
           </div>
         </div>
       </div>
