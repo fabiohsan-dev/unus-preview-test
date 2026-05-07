@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowUpRight, Instagram, Linkedin, MapPin, Phone, Youtube } from 'lucide-react';
-import { CRECI, PHONE_DISPLAY, PHONE_HREF } from '@/lib/constants';
+import { UnusIcon } from '@/components/ui';
+import { CRECI, PHONE_DISPLAY, PHONE_HREF, UNITS } from '@/lib/constants';
 
 const footerGroups = [
   {
@@ -53,22 +53,19 @@ export function Footer() {
     <footer className="text-white pt-20 pb-10 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)]">
       <div className="max-w-[1400px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-10 mb-16 pb-16 border-b border-white/8">
+
+          {/* Brand column — ícone SVG + tagline + redes sociais */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <Image
-                src="/images/logo.webp"
-                alt="UNUS Núcleo Imobiliário"
-                width={77}
-                height={48}
-                className="h-10 w-auto object-contain brightness-0 invert"
-              />
+              <Link href="/" aria-label="Ir para a home da UNUS">
+                <UnusIcon className="h-10 w-auto text-white" />
+              </Link>
             </div>
             <p
               className="text-white/60 text-[13px] leading-relaxed max-w-[260px] mb-8"
               style={{ fontWeight: 300 }}
             >
-              Inteligência imobiliária em alto padrão. São José, Campinas e praias de
-              Florianópolis.
+              Inteligência imobiliária em alto padrão. Balneário Camboriú, Itapema e região.
             </p>
             <div className="flex items-center gap-4">
               {socialLinks.map(({ Icon, href, label }) => (
@@ -86,6 +83,7 @@ export function Footer() {
             </div>
           </div>
 
+          {/* Links de navegação */}
           {footerGroups.map((group) => (
             <div key={group.title}>
               <h4
@@ -130,54 +128,50 @@ export function Footer() {
             </div>
           ))}
 
-          {/* Unidade Campinas — São José */}
-          <div>
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-white/60 mb-6" style={{ fontWeight: 600 }}>
-              Campinas · São José
-            </h4>
-            <ul className="flex flex-col gap-3">
-              <li className="flex items-start gap-2 text-[13px] text-white/70" style={{ fontWeight: 300 }}>
-                <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-white/40" strokeWidth={1.5} />
-                <span>Av. das Torres, 2275 — Sala 01<br />Campinas, São José — SC</span>
-              </li>
-              <li>
-                <a href={PHONE_HREF} className="flex items-center gap-2 text-[13px] text-white/75 hover:text-white transition-colors" style={{ fontWeight: 300 }}>
-                  <Phone className="w-3.5 h-3.5 text-white/40 shrink-0" strokeWidth={1.5} />
-                  {PHONE_DISPLAY}
-                </a>
-              </li>
-              <li className="text-[11px] text-white/40 uppercase tracking-[0.12em]" style={{ fontWeight: 500 }}>
-                {CRECI}
-              </li>
-            </ul>
-          </div>
-
-          {/* Unidade Agronômica — Florianópolis */}
-          <div>
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-white/60 mb-6" style={{ fontWeight: 600 }}>
-              Agronômica · Florianópolis
-            </h4>
-            <ul className="flex flex-col gap-3">
-              <li className="flex items-start gap-2 text-[13px] text-white/70" style={{ fontWeight: 300 }}>
-                <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-white/40" strokeWidth={1.5} />
-                <span>R. Rui Barbosa, 675 — Sala 01<br />Agronômica, Florianópolis — SC</span>
-              </li>
-              <li>
-                <a href={PHONE_HREF} className="flex items-center gap-2 text-[13px] text-white/75 hover:text-white transition-colors" style={{ fontWeight: 300 }}>
-                  <Phone className="w-3.5 h-3.5 text-white/40 shrink-0" strokeWidth={1.5} />
-                  {PHONE_DISPLAY}
-                </a>
-              </li>
-              <li className="text-[11px] text-white/40 uppercase tracking-[0.12em]" style={{ fontWeight: 500 }}>
-                {CRECI}
-              </li>
-            </ul>
-          </div>
+          {/* Unidades físicas — dados vindos de constants.ts */}
+          {UNITS.map((unit) => (
+            <div key={unit.city}>
+              <h4
+                className="text-[11px] uppercase tracking-[0.2em] text-white/60 mb-6"
+                style={{ fontWeight: 600 }}
+              >
+                {unit.city}
+              </h4>
+              <ul className="flex flex-col gap-3">
+                <li className="flex items-start gap-2" style={{ fontWeight: 300 }}>
+                  <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-white/40" strokeWidth={1.5} />
+                  <span className="text-[13px] text-white/70 leading-relaxed">
+                    {unit.address}
+                    <br />
+                    {unit.neighborhood}, {unit.city} — {unit.state}
+                    <br />
+                    CEP {unit.cep}
+                  </span>
+                </li>
+                <li>
+                  <a
+                    href={PHONE_HREF}
+                    className="flex items-center gap-2 text-[13px] text-white/75 hover:text-white transition-colors"
+                    style={{ fontWeight: 300 }}
+                  >
+                    <Phone className="w-3.5 h-3.5 text-white/40 shrink-0" strokeWidth={1.5} />
+                    {PHONE_DISPLAY}
+                  </a>
+                </li>
+                <li
+                  className="text-[11px] text-white/40 uppercase tracking-[0.12em]"
+                  style={{ fontWeight: 500 }}
+                >
+                  {unit.creci}
+                </li>
+              </ul>
+            </div>
+          ))}
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/60 text-[12px]" style={{ fontWeight: 400 }}>
-            &copy; 2026 UNUS Núcleo Imobiliário. Todos os direitos reservados.
+            &copy; {new Date().getFullYear()} UNUS Núcleo Imobiliário. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-6">
             <a
