@@ -19,16 +19,6 @@ const dropdownItems = [
   { label: 'Terreno',              href: '/venda?categoria=Terreno' },
 ];
 
-const leftNavItems = [
-  { label: 'Anuncie',   href: '/anuncie' },
-  { label: 'O Núcleo',  href: '/o-nucleo' },
-  { label: 'Blog',      href: '/blog' },
-];
-
-const rightNavItems = [
-  { label: 'Contato', href: '/contato' },
-];
-
 const allMobileItems = [
   { label: 'Anuncie seu imóvel', href: '/anuncie' },
   { label: 'O Núcleo',          href: '/o-nucleo' },
@@ -100,18 +90,18 @@ export function Header() {
         {/* ── DESKTOP — 3 colunas ── */}
         <div className="hidden lg:grid grid-cols-3 items-center h-24">
 
-          {/* Esquerda: nav + Fale com corretor */}
+          {/* Esquerda: Fale com um corretor */}
           <div className="flex items-center gap-7">
-            {leftNavItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={linkStyle}
-                style={{ fontWeight: pathname === item.href ? 600 : 400 }}
-              >
-                {item.label}
-              </Link>
-            ))}
+            <Link
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${linkStyle} flex items-center gap-1.5`}
+              style={{ fontWeight: 500 }}
+            >
+              <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
+              Fale com um corretor
+            </Link>
           </div>
 
           {/* Centro — Logo */}
@@ -128,18 +118,8 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Direita: Contato + Ver imóveis dropdown + Favoritos + Fale */}
+          {/* Direita: Ver imóveis dropdown + Favoritos */}
           <div className="flex items-center justify-end gap-7">
-            {rightNavItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={linkStyle}
-                style={{ fontWeight: pathname === item.href ? 600 : 400 }}
-              >
-                {item.label}
-              </Link>
-            ))}
 
             {/* Ver imóveis: link direto + chevron dropdown separado */}
             <div
@@ -206,20 +186,6 @@ export function Header() {
               aria-label="Favoritos"
             >
               <Heart className="w-[18px] h-[18px]" strokeWidth={1.5} />
-            </Link>
-
-            {/* Fale com corretor — CTA sutil */}
-            <Link
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 ${linkStyle} border ${
-                transparent ? 'border-white/30 hover:border-white/60' : 'border-[var(--neutral-300)] hover:border-[var(--color-heading)]'
-              } px-4 py-2`}
-              style={{ fontWeight: 500 }}
-            >
-              <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
-              Corretor
             </Link>
           </div>
         </div>

@@ -49,6 +49,21 @@ const BlogSection = dynamic(
   { loading: () => <div className="min-h-[600px] bg-white animate-pulse" /> }
 );
 
+const RetentionCTA = dynamic(
+  () => import('@/components/RetentionCTA').then((mod) => mod.RetentionCTA),
+  { loading: () => <div className="min-h-[120px] bg-[var(--neutral-100)] animate-pulse" /> }
+);
+
+const PilaresSection = dynamic(
+  () => import('@/components/PilaresSection').then((mod) => mod.PilaresSection),
+  { loading: () => <div className="min-h-[400px] bg-[var(--neutral-50)] animate-pulse" /> }
+);
+
+const AnuncieStrip = dynamic(
+  () => import('@/components/AnuncieStrip').then((mod) => mod.AnuncieStrip),
+  { loading: () => <div className="min-h-[240px] bg-[var(--secondary-900)] animate-pulse" /> }
+);
+
 export const revalidate = 3600; // Revalida a cada 1 hora
 
 export default async function HomePage() {
@@ -56,7 +71,7 @@ export default async function HomePage() {
     getMetadataServer().catch(() => undefined),
     getListarImoveisServer({ destaque: true, limit: 12 }).catch(() => ({ items: [] })),
     getListarImoveisServer({ limit: 3, ordem: 'mais-novo' }).catch(() => ({ items: [] })),
-    getListarImoveisServer({ limit: 12 }).catch(() => ({ items: [] }))
+    getListarImoveisServer({ limit: 6 }).catch(() => ({ items: [] }))
   ]);
 
   const rawFeatured = featuredData?.items || [];
@@ -110,9 +125,12 @@ export default async function HomePage() {
       <HeroSearch metadata={metadata} />
       <CategoryStrip />
       <FeaturedCards properties={featuredProperties} />
+      <RetentionCTA />
       <PropertyCardGrid properties={gridProperties} />
       <SalesOpportunities opportunities={opportunities} />
+      <PilaresSection />
       <AboutUs />
+      <AnuncieStrip />
       <VisitUs />
       <NeighborhoodOpps />
       <BlogSection />

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowUpRight, Bath, BedDouble, Maximize } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Bath, BedDouble, Maximize } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 
 interface Opportunity {
@@ -158,6 +158,17 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
               </Link>
             );
           })}
+        </div>
+
+        <div className="mt-12 flex justify-center">
+          <Link
+            href="/venda?ordem=mais-novo"
+            className="inline-flex items-center gap-3 border border-[var(--secondary-900)] text-[var(--color-heading)] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[var(--secondary-900)] hover:text-white transition-all duration-300"
+            style={{ fontWeight: 500 }}
+          >
+            Ver todos os lançamentos
+            <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+          </Link>
         </div>
       </div>
     </section>
