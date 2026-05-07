@@ -220,9 +220,9 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                   <p className="text-[var(--gold-dark)] text-[28px] mb-6" style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}>
                     {property.price}
                   </p>
-                  <Link 
+                  <Link
                     href={`/imovel/${property.id}`}
-                    className="w-full bg-[var(--secondary-900)] text-white py-4 text-[12px] uppercase tracking-[0.15em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2" 
+                    className="w-full bg-[var(--secondary-900)] text-white py-4 text-[13px] uppercase tracking-[0.16em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2"
                     style={{ fontWeight: 500 }}
                   >
                     Ver detalhes do imóvel

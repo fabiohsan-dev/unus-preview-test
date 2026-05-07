@@ -122,6 +122,23 @@
   --spacing-2xl: 64px;
   --spacing-3xl: 96px;
   --spacing-4xl: 128px;
+
+  /* TYPOGRAPHY SCALE — referência canônica para tamanhos */
+  --text-xs:    11px;  /* eyebrows, badges, micro-labels uppercase */
+  --text-sm:    13px;  /* metadata, footer links, captions */
+  --text-base:  15px;  /* body de leitura (DEFAULT) */
+  --text-md:    16px;  /* body destacado */
+  --text-lg:    18px;  /* descrição em hero/destaque */
+  --text-xl:    22px;  /* card titles */
+  --text-2xl:   28px;  /* H3 de seção */
+  --text-3xl:   36px;  /* H2 de seção */
+  --text-4xl:   48px;  /* H1 de página */
+  --text-5xl:   64px;  /* hero title */
+
+  /* LETTER-SPACING para uppercase labels e CTAs */
+  --tracking-eyebrow: 0.30em; /* 10–11px uppercase eyebrows */
+  --tracking-button:  0.16em; /* botões CTA */
+  --tracking-link:    0.12em; /* links de navegação */
 }
 
 @theme inline {

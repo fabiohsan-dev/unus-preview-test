@@ -46,7 +46,7 @@ export function NeighborhoodOpps() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/anuncie"
-            className="bg-white text-[var(--color-heading)] px-10 py-4 text-[12px] uppercase tracking-[0.15em] hover:bg-[var(--neutral-100)] transition-colors flex items-center gap-3"
+            className="bg-white text-[var(--color-heading)] px-10 py-4 text-[13px] uppercase tracking-[0.16em] hover:bg-[var(--neutral-100)] transition-colors flex items-center gap-3"
             style={{ fontWeight: 600 }}
           >
             Solicitar Avaliação Gratuita
@@ -56,7 +56,7 @@ export function NeighborhoodOpps() {
             href={WHATSAPP_BASE}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-white/20 text-white px-8 py-4 text-[12px] uppercase tracking-[0.15em] hover:bg-white/10 transition-colors flex items-center gap-3"
+            className="border border-white/20 text-white px-8 py-4 text-[13px] uppercase tracking-[0.16em] hover:bg-white/10 transition-colors flex items-center gap-3"
             style={{ fontWeight: 500 }}
           >
             <Phone className="w-4 h-4" strokeWidth={1.5} />

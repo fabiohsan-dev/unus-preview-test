@@ -3,12 +3,21 @@ import { PropertyFilters } from '@/components/PropertyFilters';
 import { PropertyCard } from '@/components/PropertyCard';
 import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaService';
 import { mapToGridProperty } from '@/lib/mappers/propertyMapper';
+import { SITE_URL } from '@/lib/constants';
 import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Imóveis à Venda — Alto Padrão em Florianópolis e São José',
   description: 'Encontre imóveis de alto padrão na Grande Florianópolis. Apartamentos, casas e coberturas selecionadas pela UNUS.',
+  alternates: { canonical: `${SITE_URL}/venda` },
+  openGraph: {
+    title: 'Imóveis à Venda | UNUS Núcleo Imobiliário',
+    description: 'Imóveis de alto padrão na Grande Florianópolis com curadoria UNUS.',
+    type: 'website',
+    url: `${SITE_URL}/venda`,
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'UNUS — Imóveis à Venda' }],
+  },
 };
 
 interface VendaPageProps {

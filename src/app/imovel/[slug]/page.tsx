@@ -26,10 +26,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: `${title} | UNUS Núcleo Imobiliário`,
       description: description.slice(0, 160),
+      alternates: { canonical: `${SITE_URL}/imovel/${slug}` },
       openGraph: {
         title,
         description: description.slice(0, 160),
-        images: imageUrl ? [{ url: imageUrl }] : [],
+        url: `${SITE_URL}/imovel/${slug}`,
+        images: imageUrl ? [{ url: imageUrl }] : [{ url: '/og-image.jpg', width: 1200, height: 630 }],
         type: 'website',
       },
     };

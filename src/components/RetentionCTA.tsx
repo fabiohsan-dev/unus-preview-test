@@ -6,18 +6,18 @@ const WA_RETENTION = whatsappUrl('Olá! Ainda não encontrei o imóvel certo. Po
 
 export function RetentionCTA() {
   return (
-    <section className="py-14 px-6 sm:px-8 lg:px-12 bg-[var(--neutral-100)] border-y border-[var(--neutral-200)]">
+    <section className="py-20 lg:py-24 px-6 sm:px-8 lg:px-12 bg-[var(--neutral-100)] border-y border-[var(--neutral-200)]">
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
             <p
-              className="text-[var(--color-heading)] text-[20px] sm:text-[24px] leading-snug"
+              className="text-[var(--color-heading)] text-[24px] sm:text-[30px] leading-[1.2]"
               style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
             >
               Ainda não encontrou o seu novo imóvel?
             </p>
             <p
-              className="text-[var(--color-body)] text-[14px] mt-1"
+              className="text-[var(--color-body)] text-[15px] mt-2"
               style={{ fontWeight: 300 }}
             >
               Chama a gente — nossos consultores encontram o imóvel certo para você.

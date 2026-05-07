@@ -54,7 +54,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               sizes="(max-width: 640px) 100vw, 320px"
             />
           </Link>
-          <FavoriteButton propertyId={property.code} className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white z-10 shadow-sm" />
+          <FavoriteButton propertyId={property.code} className="absolute top-3 right-3 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white z-10 shadow-sm" />
         </div>
 
         <div className="flex-1 p-6 flex flex-col justify-between">
@@ -73,17 +73,17 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
                   CÓD: {property.code}
                 </span>
               </div>
-              <h3 className="text-[18px] text-[var(--color-heading)] font-serif mb-2 line-clamp-1 group-hover:text-[var(--color-accent-text)] transition-colors">
+              <h3 className="text-[20px] text-[var(--color-heading)] font-serif mb-2 line-clamp-1 group-hover:text-[var(--color-accent-text)] transition-colors">
                 {property.title}
               </h3>
               <div className="flex items-center gap-1.5 mb-4">
-                <MapPin className="w-3 h-3 text-[var(--color-caption)]" />
-                <span className="text-[var(--color-body)] text-[12px] font-light">
+                <MapPin className="w-3.5 h-3.5 text-[var(--color-caption)]" />
+                <span className="text-[var(--color-body)] text-[13px] font-light">
                   {property.location}
                 </span>
               </div>
 
-              <div className="flex flex-wrap gap-4 text-[12px] text-[var(--color-body)] border-t border-[var(--neutral-100)] pt-4">
+              <div className="flex flex-wrap gap-4 text-[13px] text-[var(--color-body)] border-t border-[var(--neutral-100)] pt-4">
                 {amenities.map((amenity) => (
                   <div key={amenity.label} className="flex items-center gap-1.5">
                     <amenity.icon
@@ -103,7 +103,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
           <div className="mt-4 sm:mt-0 flex items-end justify-between">
             <div>
               <span
-                className="text-[9px] uppercase tracking-widest text-[var(--color-caption)] font-bold block mb-0.5"
+                className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-caption)] font-bold block mb-1"
               >
                 {property.transactionType}
               </span>
@@ -113,7 +113,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
             </div>
             <Link
               href={href}
-              className="text-[var(--color-accent-text)] text-[11px] uppercase tracking-widest font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="text-[var(--color-accent-text)] text-[12px] uppercase tracking-[0.16em] font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
             >
               Ver detalhes
             </Link>
@@ -149,7 +149,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
 
         <FavoriteButton
           propertyId={property.code}
-          className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white hover:scale-110 z-10"
+          className="absolute bottom-4 right-4 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white hover:scale-110 z-10"
         />
       </div>
 
@@ -157,13 +157,13 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
         <Link href={href} className="block p-5 pb-0 flex-1">
           <div className="flex items-center justify-between mb-3">
             <span
-              className="text-[var(--color-accent-text)] text-[11px] uppercase tracking-[0.15em]"
+              className="text-[var(--color-accent-text)] text-[11px] uppercase tracking-[0.3em]"
               style={{ fontWeight: 600 }}
             >
               {property.type}
             </span>
             <span
-              className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.08em]"
+              className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.12em]"
               style={{ fontWeight: 500 }}
             >
               CÓD: {property.code}
@@ -171,7 +171,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
           </div>
 
           <h3
-            className="text-[var(--color-heading)] text-[20px] leading-[1.2] mb-4 line-clamp-2 min-h-[48px]"
+            className="text-[var(--color-heading)] text-[22px] leading-[1.25] mb-4 line-clamp-2 min-h-[56px]"
             style={{ fontWeight: 400, fontFamily: 'var(--font-serif)' }}
           >
             {property.title}
@@ -180,7 +180,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
           <div className="flex items-center gap-1.5 mb-5">
             <MapPin className="w-3.5 h-3.5 text-[var(--color-caption)]" strokeWidth={1.5} />
             <span
-              className="text-[var(--color-body)] text-[13px] line-clamp-1"
+              className="text-[var(--color-body)] text-[14px] line-clamp-1"
               style={{ fontWeight: 300 }}
             >
               {property.location}
@@ -189,7 +189,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
 
           <div className="mb-5">
             <span
-              className="text-[var(--color-caption)] text-[10px] uppercase tracking-[0.15em] block mb-1"
+              className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.3em] block mb-1"
               style={{ fontWeight: 600 }}
             >
               {property.transactionType}
@@ -218,13 +218,13 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               />
               <div className="text-center">
                 <span
-                  className="text-[var(--color-heading)] text-[14px] block"
+                  className="text-[var(--color-heading)] text-[15px] block"
                   style={{ fontWeight: 500 }}
                 >
                   {amenity.value}
                 </span>
                 <span
-                  className="text-[var(--color-caption)] text-[10px] uppercase"
+                  className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.08em]"
                   style={{ fontWeight: 500 }}
                 >
                   {amenity.label}

@@ -7,7 +7,7 @@ import {
 import { EmpreendimentoCard } from '@/components/EmpreendimentoCard';
 import { HeroSlider } from '@/components/HeroSlider';
 import { Eyebrow, SectionHeader, LinkButton } from '@/components/ui';
-import { whatsappUrl, WA_EMPREENDIMENTOS_PAGE } from '@/lib/constants';
+import { whatsappUrl, WA_EMPREENDIMENTOS_PAGE, SITE_URL } from '@/lib/constants';
 import { ArrowRight, Building2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -17,10 +17,13 @@ export const metadata: Metadata = {
   title: 'Empreendimentos — Lançamentos e Novidades | UNUS Núcleo Imobiliário',
   description:
     'Conheça os empreendimentos de alto padrão selecionados pela UNUS em Florianópolis e São José. Lançamentos exclusivos com curadoria imobiliária.',
+  alternates: { canonical: `${SITE_URL}/empreendimentos` },
   openGraph: {
     title: 'Empreendimentos | UNUS Núcleo Imobiliário',
     description: 'Lançamentos e empreendimentos de alto padrão na Grande Florianópolis.',
     type: 'website',
+    url: `${SITE_URL}/empreendimentos`,
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'UNUS — Empreendimentos' }],
   },
 };
 

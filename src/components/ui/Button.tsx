@@ -56,9 +56,9 @@ export type LinkButtonProps = ButtonBaseProps & {
 /* ─────────────────────────────────────────────────────────────────────────── */
 
 const sizeMap: Record<ButtonSize, string> = {
-  sm: 'px-5 py-2.5 text-[11px] tracking-[0.16em]',
-  md: 'px-6 py-3.5 text-[12px] tracking-[0.14em]',
-  lg: 'px-10 py-4  text-[11px] tracking-[0.18em]',
+  sm: 'px-5 py-3   text-[12px] tracking-[0.16em]',
+  md: 'px-6 py-3.5 text-[13px] tracking-[0.14em]',
+  lg: 'px-10 py-4  text-[12px] tracking-[0.18em]',
 };
 
 /**
