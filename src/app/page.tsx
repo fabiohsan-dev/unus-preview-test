@@ -54,11 +54,6 @@ const RetentionCTA = dynamic(
   { loading: () => <div className="min-h-[120px] bg-[var(--neutral-100)] animate-pulse" /> }
 );
 
-const PilaresSection = dynamic(
-  () => import('@/components/PilaresSection').then((mod) => mod.PilaresSection),
-  { loading: () => <div className="min-h-[400px] bg-[var(--neutral-50)] animate-pulse" /> }
-);
-
 const AnuncieStrip = dynamic(
   () => import('@/components/AnuncieStrip').then((mod) => mod.AnuncieStrip),
   { loading: () => <div className="min-h-[240px] bg-[var(--secondary-900)] animate-pulse" /> }
@@ -128,7 +123,6 @@ export default async function HomePage() {
       <RetentionCTA />
       <PropertyCardGrid properties={gridProperties} />
       <SalesOpportunities opportunities={opportunities} />
-      <PilaresSection />
       <AboutUs />
       <AnuncieStrip />
       <VisitUs />
