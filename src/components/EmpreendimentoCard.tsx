@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Heart } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Heart, BedDouble } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import type { VistaImovelItem } from '@/types/vista';
 
@@ -31,21 +31,20 @@ function formatBRL(value: number): string {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
   }).format(value);
 }
 
-function getSuitesLabel(min: number | undefined, max: number | undefined): string | null {
+function getSuitesLabel(min?: number, max?: number): string | null {
   if (min === undefined || max === undefined) return null;
   if (min === max) return `${min} suíte${min !== 1 ? 's' : ''}`;
   return `${min} a ${max} suítes`;
 }
 
-function getAreaLabel(min: number | undefined, max: number | undefined): string | null {
+function getAreaLabel(min?: number, max?: number): string | null {
   if (!min) return null;
   const fmt = (v: number) => v.toLocaleString('pt-BR', { maximumFractionDigits: 0 });
   if (!max || min === max) return `${fmt(min)} m²`;
-  return `${fmt(min)} a ${fmt(max)} m²`;
+  return `${fmt(min)} – ${fmt(max)} m²`;
 }
 
 function getDescricao(text?: string): string | null {
@@ -67,19 +66,15 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
   const title  = getDisplayTitle(emp);
   const status = getStatusLabel(emp);
 
-  // Dados agregados das sub-unidades
   const price       = emp.AggMinPreco && emp.AggMinPreco > 0 ? formatBRL(emp.AggMinPreco) : null;
   const suitesLabel = getSuitesLabel(emp.AggMinSuites, emp.AggMaxSuites);
   const areaLabel   = getAreaLabel(emp.AggMinArea, emp.AggMaxArea);
   const dataEntrega = emp.AggDataEntrega ?? null;
   const descricao   = getDescricao(emp.DescricaoEmpreendimento);
 
-  // Slider
   const slides: string[] = (emp.FotosSlider && emp.FotosSlider.length > 0)
     ? emp.FotosSlider
-    : emp.FotoDestaque
-    ? [emp.FotoDestaque]
-    : [];
+    : emp.FotoDestaque ? [emp.FotoDestaque] : [];
   const total = slides.length;
 
   const prev = useCallback((e: React.MouseEvent) => {
@@ -98,13 +93,17 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
   return (
     <article
-      className="group relative flex flex-col lg:flex-row w-full overflow-hidden bg-[var(--secondary-900)]"
-      style={{ minHeight: '480px', boxShadow: '0 4px 32px rgba(0,0,0,0.10)' }}
+      className="group relative flex flex-col lg:flex-row w-full overflow-hidden"
+      style={{
+        borderLeft: '4px solid var(--gold)',
+        boxShadow: '0 2px 24px rgba(21,20,16,0.10), 0 1px 4px rgba(21,20,16,0.06)',
+        background: 'var(--neutral-900)',
+      }}
     >
-      {/* ── Esquerda: Slider ─────────────────────────── */}
+      {/* ── Esquerda: Slider ──────────────────────────────── */}
       <div
-        className="relative w-full lg:w-[54%] shrink-0 overflow-hidden"
-        style={{ minHeight: '340px' }}
+        className="relative w-full lg:w-[52%] shrink-0 overflow-hidden"
+        style={{ minHeight: '360px' }}
         onMouseEnter={() => setIsHoveringImage(true)}
         onMouseLeave={() => setIsHoveringImage(false)}
       >
@@ -118,42 +117,58 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               src={src}
               alt={`${title} — foto ${i + 1}`}
               className="w-full h-full object-cover"
-              sizes="(max-width: 1024px) 100vw, 54vw"
+              sizes="(max-width: 1024px) 100vw, 52vw"
             />
           </div>
         ))}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/15 z-10 pointer-events-none" />
+        {/* Gradiente de transição para o painel */}
+        <div
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(to right, transparent 60%, rgba(21,20,16,0.5) 100%)',
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10"
+          style={{ background: 'linear-gradient(to top, rgba(21,20,16,0.5), transparent)' }}
+        />
 
         {/* Link cobre a imagem */}
         <Link href={href} className="absolute inset-0 z-20" aria-label={`Ver ${title}`} />
 
-        {/* Botão favorito */}
+        {/* Favorito */}
         <button
           onClick={(e) => { e.preventDefault(); setFavorited((f) => !f); }}
-          className="absolute top-4 left-4 z-30 w-9 h-9 flex items-center justify-center bg-black/35 hover:bg-black/60 backdrop-blur-sm transition-all duration-200"
+          className="absolute top-4 left-4 z-30 w-10 h-10 flex items-center justify-center backdrop-blur-sm transition-all duration-200"
+          style={{
+            background: favorited ? 'rgba(224,82,82,0.85)' : 'rgba(21,20,16,0.45)',
+            border: '1px solid rgba(255,255,255,0.15)',
+          }}
           aria-label={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
         >
           <Heart
             className="w-4 h-4 transition-all duration-200"
             strokeWidth={1.8}
             style={{
-              color: favorited ? '#e05252' : 'white',
-              fill: favorited ? '#e05252' : 'transparent',
+              color: favorited ? 'white' : 'rgba(255,255,255,0.85)',
+              fill: favorited ? 'white' : 'transparent',
             }}
           />
         </button>
 
+        {/* Controles do slider */}
         {total > 1 && (
           <>
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center text-white backdrop-blur-sm"
               style={{
+                background: 'rgba(21,20,16,0.55)',
+                border: '1px solid rgba(255,255,255,0.12)',
                 opacity: isHoveringImage ? 1 : 0,
-                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '-6px'})`,
-                transition: 'opacity 0.2s, transform 0.2s, background 0.2s',
+                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '-8px'})`,
+                transition: 'opacity 0.2s, transform 0.2s',
               }}
               aria-label="Foto anterior"
             >
@@ -161,11 +176,13 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 flex items-center justify-center bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm"
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center text-white backdrop-blur-sm"
               style={{
+                background: 'rgba(21,20,16,0.55)',
+                border: '1px solid rgba(255,255,255,0.12)',
                 opacity: isHoveringImage ? 1 : 0,
-                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '6px'})`,
-                transition: 'opacity 0.2s, transform 0.2s, background 0.2s',
+                transform: `translateY(-50%) translateX(${isHoveringImage ? '0' : '8px'})`,
+                transition: 'opacity 0.2s, transform 0.2s',
               }}
               aria-label="Próxima foto"
             >
@@ -173,40 +190,55 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </button>
 
             {/* Dots */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5">
+            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5">
               {slides.map((_, i) => (
                 <button
                   key={i}
                   onClick={(e) => { e.preventDefault(); setSlideIndex(i); }}
                   style={{
-                    width: i === slideIndex ? '20px' : '6px',
+                    width: i === slideIndex ? '22px' : '6px',
                     height: '6px',
                     borderRadius: '3px',
-                    background: i === slideIndex ? 'var(--gold)' : 'rgba(255,255,255,0.4)',
-                    transition: 'width 0.2s, background 0.2s',
+                    background: i === slideIndex ? 'var(--gold)' : 'rgba(255,255,255,0.35)',
+                    transition: 'width 0.25s, background 0.25s',
                   }}
                   aria-label={`Foto ${i + 1}`}
                 />
               ))}
             </div>
 
-            <div className="absolute top-4 right-4 z-30 px-2.5 py-1 bg-black/35 backdrop-blur-sm text-white text-[10px] tracking-[0.08em]" style={{ fontWeight: 500 }}>
+            {/* Contador */}
+            <div
+              className="absolute top-4 right-4 z-30 px-2.5 py-1 text-[10px] tracking-[0.08em] backdrop-blur-sm"
+              style={{
+                color: 'rgba(255,255,255,0.80)',
+                background: 'rgba(21,20,16,0.50)',
+                border: '1px solid rgba(255,255,255,0.10)',
+                fontWeight: 500,
+              }}
+            >
               {slideIndex + 1} / {total}
             </div>
           </>
         )}
       </div>
 
-      {/* ── Direita: Conteúdo ───────────────────────── */}
-      <div className="flex flex-col flex-1 px-10 py-10 lg:px-12 lg:py-12 justify-between gap-8">
-
+      {/* ── Direita: Painel de conteúdo ───────────────────── */}
+      <div
+        className="flex flex-col flex-1 px-10 py-10 lg:px-12 lg:py-12 justify-between gap-8"
+        style={{ background: 'var(--neutral-900)' }}
+      >
         <div className="flex flex-col gap-5">
 
-          {/* Status badge */}
-          <div className="flex items-center flex-wrap gap-2">
+          {/* Status badge — sólido dourado */}
+          <div>
             <span
-              className="px-4 py-1.5 border border-[var(--gold)] text-[var(--gold)] text-[11px] uppercase tracking-[0.20em]"
-              style={{ fontWeight: 700 }}
+              className="inline-block px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em]"
+              style={{
+                background: 'var(--gold)',
+                color: 'var(--neutral-900)',
+                fontWeight: 800,
+              }}
             >
               {status}
             </span>
@@ -214,10 +246,10 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
           {/* Localização */}
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-[var(--primary-400,#38bdf8)] shrink-0" strokeWidth={1.5} />
+            <MapPin className="w-4 h-4 shrink-0" style={{ color: 'var(--primary-400)' }} strokeWidth={1.5} />
             <span
-              className="text-[var(--primary-400,#38bdf8)] text-[14px] uppercase tracking-[0.16em]"
-              style={{ fontWeight: 600 }}
+              className="text-[14px] uppercase tracking-[0.15em]"
+              style={{ color: 'var(--primary-400)', fontWeight: 600 }}
             >
               {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
             </span>
@@ -226,7 +258,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-white leading-[1.06] tracking-[-0.02em] group-hover/title:text-[var(--gold)] transition-colors duration-300"
+              className="text-white leading-[1.05] tracking-[-0.02em] transition-colors duration-300 group-hover/title:opacity-80"
               style={{
                 fontWeight: 400,
                 fontFamily: 'var(--font-serif)',
@@ -237,14 +269,20 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </h3>
           </Link>
 
-          {/* Preço mínimo */}
+          {/* Preço — destaque visual forte */}
           {price && (
-            <div>
-              <p className="text-white/65 text-[11px] uppercase tracking-[0.18em] mb-1.5" style={{ fontWeight: 500 }}>
+            <div
+              className="pl-4 border-l-2"
+              style={{ borderColor: 'var(--gold)' }}
+            >
+              <p
+                className="text-[11px] uppercase tracking-[0.2em] mb-1.5"
+                style={{ color: 'var(--gold)', fontWeight: 600 }}
+              >
                 A partir de
               </p>
               <p
-                className="text-white text-[26px] leading-none"
+                className="text-white text-[28px] leading-none"
                 style={{ fontWeight: 300, fontFamily: 'var(--font-serif)' }}
               >
                 {price}
@@ -253,30 +291,37 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           )}
 
           {/* Separador */}
-          <div className="w-12 h-[1px] bg-[var(--gold)] opacity-60" />
+          <div
+            className="h-[1px] w-full"
+            style={{ background: 'linear-gradient(to right, rgba(196,154,46,0.5) 0%, transparent 70%)' }}
+          />
 
-          {/* Metadados: suítes / área / entrega */}
+          {/* Metadados */}
           {(suitesLabel || areaLabel || dataEntrega) && (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3.5">
               {suitesLabel && (
-                <span className="flex items-center gap-2.5 text-white/85 text-[15px]" style={{ fontWeight: 400 }}>
-                  <svg className="w-4 h-4 shrink-0 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M3 9V19M21 9V19M3 14H21M7 9V7C7 5.343 8.343 4 10 4H14C15.657 4 17 5.343 17 7V9"/>
-                  </svg>
-                  {suitesLabel}
-                </span>
+                <div className="flex items-center gap-3">
+                  <BedDouble className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
+                  <span className="text-[15px] text-white/80" style={{ fontWeight: 400 }}>
+                    {suitesLabel}
+                  </span>
+                </div>
               )}
               {areaLabel && (
-                <span className="flex items-center gap-2.5 text-white/85 text-[15px]" style={{ fontWeight: 400 }}>
-                  <Maximize2 className="w-4 h-4 shrink-0 text-white/50" strokeWidth={1.5} />
-                  {areaLabel}
-                </span>
+                <div className="flex items-center gap-3">
+                  <Maximize2 className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
+                  <span className="text-[15px] text-white/80" style={{ fontWeight: 400 }}>
+                    {areaLabel}
+                  </span>
+                </div>
               )}
               {dataEntrega && (
-                <span className="flex items-center gap-2.5 text-white/85 text-[15px]" style={{ fontWeight: 400 }}>
-                  <Calendar className="w-4 h-4 shrink-0 text-white/50" strokeWidth={1.5} />
-                  Data de entrega: {dataEntrega}
-                </span>
+                <div className="flex items-center gap-3">
+                  <Calendar className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
+                  <span className="text-[15px] text-white/80" style={{ fontWeight: 400 }}>
+                    Data de entrega: {dataEntrega}
+                  </span>
+                </div>
               )}
             </div>
           )}
@@ -284,33 +329,40 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Descrição */}
           {descricao && (
             <p
-              className="text-white/75 text-[15px] leading-[1.8]"
-              style={{ fontWeight: 400 }}
+              className="text-[15px] leading-[1.85]"
+              style={{ color: 'rgba(255,255,255,0.65)', fontWeight: 300 }}
             >
               {descricao}
             </p>
           )}
         </div>
 
-        {/* CTA + botões */}
-        <div className="flex flex-col gap-5 pt-5 border-t border-white/20">
+        {/* Rodapé: CTA + botões */}
+        <div
+          className="flex flex-col gap-5 pt-6 border-t"
+          style={{ borderColor: 'rgba(196,154,46,0.25)' }}
+        >
+          {/* Link CTA */}
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-2.5 text-white text-[13px] uppercase tracking-[0.20em] hover:text-[var(--gold)] transition-colors duration-200"
-            style={{ fontWeight: 600 }}
+            className="group/cta inline-flex items-center gap-2.5 text-[13px] uppercase tracking-[0.22em] transition-all duration-200"
+            style={{ color: 'var(--gold)', fontWeight: 600 }}
           >
             Conheça o empreendimento
-            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" strokeWidth={2} />
+            <ArrowRight
+              className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1.5"
+              strokeWidth={2}
+            />
           </Link>
 
+          {/* Botões */}
           <div className="flex items-center gap-3">
-            {/* WhatsApp */}
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3.5 bg-[var(--color-action-whatsapp)] hover:brightness-110 text-white text-[12px] uppercase tracking-[0.14em] transition-all"
-              style={{ fontWeight: 600 }}
+              className="flex items-center gap-2.5 px-6 py-3.5 text-white text-[12px] uppercase tracking-[0.14em] transition-all hover:brightness-110"
+              style={{ background: 'var(--color-action-whatsapp)', fontWeight: 600 }}
               aria-label="Conversar no WhatsApp"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -319,11 +371,22 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               WhatsApp
             </a>
 
-            {/* Telefone */}
             <a
               href={PHONE_HREF}
-              className="flex items-center gap-2 px-6 py-3.5 border border-white/35 text-white/85 hover:border-white hover:text-white text-[12px] uppercase tracking-[0.14em] transition-all"
-              style={{ fontWeight: 500 }}
+              className="flex items-center gap-2.5 px-6 py-3.5 text-[12px] uppercase tracking-[0.14em] transition-all"
+              style={{
+                border: '1px solid rgba(196,154,46,0.40)',
+                color: 'rgba(255,255,255,0.75)',
+                fontWeight: 500,
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--gold)';
+                (e.currentTarget as HTMLAnchorElement).style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(196,154,46,0.40)';
+                (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.75)';
+              }}
               aria-label="Ligar para a UNUS"
             >
               <Phone className="w-4 h-4 shrink-0" strokeWidth={1.5} />
