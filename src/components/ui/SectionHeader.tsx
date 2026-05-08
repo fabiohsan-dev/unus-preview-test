@@ -99,7 +99,7 @@ export function SectionHeader({
         style={{
           fontWeight: 300,
           fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(32px, 4vw, 56px)',
+          fontSize: 'clamp(40px, 5vw, 72px)',
           lineHeight: 1.05,
           letterSpacing: '-0.025em',
           color: headingColor,
@@ -110,7 +110,7 @@ export function SectionHeader({
 
       {subtitle && (
         <p
-          className="mt-5 text-[17px] leading-[1.75] max-w-[520px]"
+          className="mt-6 text-[18px] leading-[1.8] max-w-[600px]"
           style={{ color: subtitleColor, fontWeight: 300 }}
         >
           {subtitle}
