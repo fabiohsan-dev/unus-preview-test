@@ -11,6 +11,8 @@
  *   Eyebrow       — section label with decorative lines
  *   Divider       — gold gradient or subtle horizontal rule
  *   SectionHeader — composed eyebrow + heading + subtitle
+ *   UnusIcon      — símbolo "U" (favicon / marca isolada)
+ *   UnusLogo      — wordmark completo "UNUS"
  */
 
 export { Button, LinkButton } from './Button';
@@ -32,3 +34,4 @@ export { SectionHeader } from './SectionHeader';
 export type { SectionHeaderSurface, SectionHeaderAlign, SectionHeaderTag } from './SectionHeader';
 
 export { UnusIcon } from './UnusIcon';
+export { UnusLogo } from './UnusLogo';

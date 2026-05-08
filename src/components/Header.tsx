@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { UnusLogo } from '@/components/ui';
 import { Heart, Menu, X, ChevronDown, MessageCircle } from 'lucide-react';
 
 import { whatsappUrl, WA_DEFAULT } from '@/lib/constants';
@@ -117,13 +117,8 @@ export function Header() {
           {/* Centro — Logo */}
           <div className="flex justify-center">
             <Link href="/" aria-label="Ir para a home da UNUS">
-              <Image
-                src="/images/logo.webp"
-                alt="UNUS"
-                width={77}
-                height={48}
-                priority
-                className={`h-11 w-auto object-contain transition-all duration-500 ${logoFilter}`}
+              <UnusLogo
+                className={`h-7 w-auto transition-all duration-500 ${transparent ? 'text-white' : 'text-[var(--secondary-900)]'}`}
               />
             </Link>
           </div>
@@ -229,13 +224,8 @@ export function Header() {
         {/* ── MOBILE ── */}
         <div className="lg:hidden flex items-center justify-between h-20">
           <Link href="/" aria-label="Ir para a home da UNUS">
-            <Image
-              src="/images/logo.webp"
-              alt="UNUS"
-              width={65}
-              height={40}
-              priority
-              className={`h-9 w-auto object-contain transition-all duration-500 ${logoFilter}`}
+            <UnusLogo
+              className={`h-6 w-auto transition-all duration-500 ${transparent ? 'text-white' : 'text-[var(--secondary-900)]'}`}
             />
           </Link>
           <button
