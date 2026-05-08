@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, type Variants } from 'motion/react';
 import { Send } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { UnusLogo } from '@/components/ui';
 import { WHATSAPP_BASE } from '@/lib/constants';
 
 interface ComingSoonProps {
@@ -62,14 +62,7 @@ export function ComingSoon({ title, subtitle }: ComingSoonProps) {
         className="relative z-10 pt-12 pb-6"
       >
         <Link href="/" className="hover:opacity-60 transition-opacity">
-          <Image
-            src="/images/logo.webp"
-            alt="UNUS Núcleo Imobiliário"
-            width={77}
-            height={48}
-            className="h-8 w-auto brightness-0"
-            priority
-          />
+          <UnusLogo className="h-7 w-auto text-[var(--secondary-900)]" />
         </Link>
       </motion.header>
 

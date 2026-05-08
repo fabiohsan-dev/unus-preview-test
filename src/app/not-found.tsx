@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
+import { UnusLogo } from '@/components/ui';
 
 export default function NotFound() {
   return (
@@ -14,14 +14,7 @@ export default function NotFound() {
       {/* Logo Header */}
       <header className="relative z-10 w-full p-8 lg:p-12">
         <Link href="/" className="inline-block">
-          <Image
-            src="/images/logo.webp"
-            alt="UNUS Núcleo Imobiliário"
-            width={77}
-            height={48}
-            className="h-10 w-auto object-contain brightness-0"
-            priority
-          />
+          <UnusLogo className="h-9 w-auto text-[var(--secondary-900)]" />
         </Link>
       </header>
 
