@@ -123,22 +123,22 @@
   --spacing-3xl: 96px;
   --spacing-4xl: 128px;
 
-  /* TYPOGRAPHY SCALE — referência canônica para tamanhos */
-  --text-xs:    11px;  /* eyebrows, badges, micro-labels uppercase */
-  --text-sm:    13px;  /* metadata, footer links, captions */
-  --text-base:  15px;  /* body de leitura (DEFAULT) */
-  --text-md:    16px;  /* body destacado */
-  --text-lg:    18px;  /* descrição em hero/destaque */
-  --text-xl:    22px;  /* card titles */
-  --text-2xl:   28px;  /* H3 de seção */
-  --text-3xl:   36px;  /* H2 de seção */
-  --text-4xl:   48px;  /* H1 de página */
-  --text-5xl:   64px;  /* hero title */
+  /* TYPOGRAPHY SCALE — Luxury Hierarchy 2026 */
+  --text-xs:    12px;  /* micro-labels uppercase (Tracking 0.3em) */
+  --text-sm:    14px;  /* metadata, footer headers, tertiary info */
+  --text-base:  16px;  /* body de leitura (DEFAULT) */
+  --text-md:    18px;  /* body destacado / sub-headlines */
+  --text-lg:    20px;  /* descrição em hero / destaque */
+  --text-xl:    24px;  /* card titles (Cormorant Minimum) */
+  --text-2xl:   32px;  /* H3 de seção / card titles grandes */
+  --text-3xl:   48px;  /* H2 de seção secundária */
+  --text-4xl:   64px;  /* H2 de seção principal / H1 mobile */
+  --text-5xl:   84px;  /* H1 de página (Editorial) */
 
-  /* LETTER-SPACING para uppercase labels e CTAs */
-  --tracking-eyebrow: 0.30em; /* 10–11px uppercase eyebrows */
-  --tracking-button:  0.16em; /* botões CTA */
-  --tracking-link:    0.12em; /* links de navegação */
+  /* LETTER-SPACING — High-end refinement */
+  --tracking-eyebrow: 0.35em; /* 12px uppercase eyebrows */
+  --tracking-button:  0.20em; /* botões CTA */
+  --tracking-link:    0.15em; /* links de navegação */
 }
 
 @theme inline {

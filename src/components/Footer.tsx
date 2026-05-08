@@ -111,12 +111,12 @@ export function Footer() {
             {footerGroups.map((group) => (
               <div key={group.title}>
                 <h4
-                  className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
+                  className="text-sm uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
                   style={{ fontWeight: 600 }}
                 >
                   {group.title}
                 </h4>
-                <ul className="flex flex-col gap-3.5">
+                <ul className="flex flex-col gap-4">
                   {group.items.map((item) => (
                     <li key={item.label}>
                       {item.href ? (
@@ -129,7 +129,7 @@ export function Footer() {
                             style={{ fontWeight: 300 }}
                           >
                             {item.label}
-                            <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
+                            <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
                           </a>
                         ) : (
                           <Link
@@ -138,7 +138,7 @@ export function Footer() {
                             style={{ fontWeight: 300 }}
                           >
                             {item.label}
-                            <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
+                            <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
                           </Link>
                         )
                       ) : (
@@ -156,15 +156,15 @@ export function Footer() {
             {UNITS.map((unit) => (
               <div key={unit.city}>
                 <h4
-                  className="text-xs uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
+                  className="text-sm uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
                   style={{ fontWeight: 600 }}
                 >
                   {unit.city}
                 </h4>
-                <ul className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-5">
                   <li className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-white/35" strokeWidth={1.5} />
-                    <span className="text-[15px] text-white/80 leading-[1.65]" style={{ fontWeight: 300 }}>
+                    <MapPin className="w-5 h-5 mt-1 shrink-0 text-white/35" strokeWidth={1.5} />
+                    <span className="text-base text-white/80 leading-[1.7]" style={{ fontWeight: 300 }}>
                       {unit.address}
                       <br />
                       {unit.neighborhood}, {unit.city} — {unit.state}
@@ -175,7 +175,7 @@ export function Footer() {
                   <li>
                     <a
                       href={PHONE_HREF}
-                      className="flex items-center gap-3 text-[15px] text-white/80 hover:text-white transition-colors"
+                      className="flex items-center gap-3 text-base text-white/80 hover:text-white transition-colors"
                       style={{ fontWeight: 300 }}
                     >
                       <Phone className="w-5 h-5 text-white/35 shrink-0" strokeWidth={1.5} />
@@ -183,7 +183,7 @@ export function Footer() {
                     </a>
                   </li>
                   <li
-                    className="text-[12px] text-[var(--gold)]/60 uppercase tracking-[0.18em] pt-1"
+                    className="text-xs text-[var(--gold)]/60 uppercase tracking-[0.2em] pt-1"
                     style={{ fontWeight: 500 }}
                   >
                     {unit.creci}
