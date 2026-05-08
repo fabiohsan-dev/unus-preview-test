@@ -142,7 +142,7 @@ export function AboutUs() {
                 </span>
               </h2>
 
-              <div className="space-y-5 mb-10">
+              <div className="space-y-5 mb-10 pb-10 border-b border-[var(--secondary-900)]/[0.08]">
                 <p
                   className="text-[var(--secondary-500)] text-[15px] sm:text-[16px] leading-[1.75]"
                   style={{ fontWeight: 300 }}
@@ -160,29 +160,6 @@ export function AboutUs() {
                   comprar ou vender um imóvel em São José e região da Grande Florianópolis,
                   pode contar com a nossa equipe de consultores especializados.
                 </p>
-              </div>
-
-              <div className="flex items-center gap-8 mb-10 pb-10 border-b border-[var(--secondary-900)]/[0.08]">
-                {[
-                  { num: '9+', label: 'Anos de História' },
-                  { num: '464', label: 'Famílias Realizadas' },
-                  { num: '56.016', label: 'm² Comercializados' },
-                ].map((stat) => (
-                  <div key={stat.label} className="text-center sm:text-left">
-                    <p
-                      className="text-[24px] sm:text-[28px] text-[var(--color-heading)] leading-none mb-1"
-                      style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}
-                    >
-                      {stat.num}
-                    </p>
-                    <p
-                      className="text-[var(--color-caption)] text-[10px] uppercase tracking-[0.14em]"
-                      style={{ fontWeight: 500 }}
-                    >
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
               </div>
 
               <Link href="/o-nucleo" className="inline-flex items-center gap-3 group">
