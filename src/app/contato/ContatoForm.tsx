@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { whatsappUrl } from '@/lib/constants';
+import { whatsappContactLead } from '@/lib/whatsapp';
 
 export function ContatoForm() {
   const [name, setName]       = useState('');
@@ -12,14 +12,7 @@ export function ContatoForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = [
-      `Olá! Me chamo ${name}.`,
-      message ? message : '',
-      `Telefone: ${phone}`,
-      email ? `E-mail: ${email}` : '',
-    ].filter(Boolean).join('\n');
-
-    window.open(whatsappUrl(text), '_blank', 'noopener,noreferrer');
+    window.open(whatsappContactLead({ name, phone, email, message, origin: 'formulário Contato' }), '_blank', 'noopener,noreferrer');
   };
 
   const inputBase =

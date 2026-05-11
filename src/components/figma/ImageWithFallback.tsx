@@ -15,6 +15,8 @@ interface ImageWithFallbackProps {
   sizes?: string;
   width?: number;
   height?: number;
+  draggable?: boolean;
+  onContextMenu?: React.MouseEventHandler;
 }
 
 export function ImageWithFallback({
@@ -26,6 +28,8 @@ export function ImageWithFallback({
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
   width,
   height,
+  draggable,
+  onContextMenu,
 }: ImageWithFallbackProps) {
   const [didError, setDidError] = useState(false);
 
@@ -60,6 +64,8 @@ export function ImageWithFallback({
       sizes={sizes}
       onError={() => setDidError(true)}
       style={useFill ? { objectFit: 'cover' } : undefined}
+      draggable={draggable}
+      onContextMenu={onContextMenu}
     />
   );
 }

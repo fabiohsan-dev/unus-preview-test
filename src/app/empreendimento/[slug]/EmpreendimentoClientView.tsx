@@ -13,12 +13,13 @@ import {
   Phone,
   X,
 } from 'lucide-react';
-import type { VistaEmpreendimento } from '@/lib/server/vistaService';
+import type { VistaEmpreendimento } from '@/types/vista';
 
-import { PHONE_HREF, WHATSAPP_BASE, WA_EMPREENDIMENTO } from '@/lib/constants';
+import { PHONE_HREF } from '@/lib/constants';
+import { whatsappEmpreendimentoLead } from '@/lib/whatsapp';
 
 /* ── Helpers ── */
-function formatDataEntrega(date: string): string {
+function formatDataEntrega(date?: string): string {
   if (!date || date === '0000-00-00') return '';
   const [year, month] = date.split('-');
   if (!year || !month || year === '0000') return '';
@@ -35,7 +36,7 @@ function getDescription(emp: VistaEmpreendimento): string {
   return (emp.DescricaoEmpreendimento || emp.DescricaoWeb || emp.Descricao || '').trim();
 }
 
-function getAmenities(infra: Record<string, string>): string[] {
+function getAmenities(infra?: Record<string, string>): string[] {
   return Object.entries(infra || {})
     .filter(([, v]) => v === 'Sim')
     .map(([k]) => k);
@@ -53,7 +54,7 @@ function toParagraphs(text: string): string[] {
 
 type FotoItem = { Foto: string; FotoPequena: string; Ordem: string; Destaque: string; Descricao: string };
 
-function normalizeFotos(foto: VistaEmpreendimento['Foto'], destaque: string): string[] {
+function normalizeFotos(foto: VistaEmpreendimento['Foto'], destaque?: string): string[] {
   if (!foto || typeof foto !== 'object') return destaque ? [destaque] : [];
   const sorted = (Object.values(foto) as FotoItem[])
     .filter(f => Boolean(f?.Foto))
@@ -78,7 +79,7 @@ function Lightbox({ fotos, initial, onClose }: { fotos: string[]; initial: numbe
         </span>
         <button
           onClick={onClose}
-          className="p-2 text-white/50 hover:text-white transition-colors"
+          className="min-h-11 min-w-11 p-3 text-white/50 hover:text-white transition-colors"
           aria-label="Fechar galeria"
         >
           <X className="w-5 h-5" />
@@ -91,21 +92,26 @@ function Lightbox({ fotos, initial, onClose }: { fotos: string[]; initial: numbe
           src={fotos[active]}
           alt={`Foto ${active + 1}`}
           fill
-          className="object-contain"
+          className="object-contain select-none"
           sizes="100vw"
+          draggable={false}
+          onContextMenu={(event) => event.preventDefault()}
         />
+        <span className="pointer-events-none absolute bottom-5 right-5 z-10 text-white/35 text-[11px] uppercase tracking-[0.3em]">
+          UNUS
+        </span>
         {fotos.length > 1 && (
           <>
             <button
               onClick={prev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
               aria-label="Foto anterior"
             >
               <ChevronLeft className="w-5 h-5 text-white" strokeWidth={1.5} />
             </button>
             <button
               onClick={next}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
               aria-label="Próxima foto"
             >
               <ChevronRight className="w-5 h-5 text-white" strokeWidth={1.5} />
@@ -126,7 +132,15 @@ function Lightbox({ fotos, initial, onClose }: { fotos: string[]; initial: numbe
               }`}
               aria-label={`Ver foto ${i + 1}`}
             >
-              <Image src={src} alt="" fill className="object-cover" sizes="64px" />
+              <Image
+                src={src}
+                alt={`Miniatura ${i + 1}`}
+                fill
+                className="object-cover select-none"
+                sizes="64px"
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
+              />
             </button>
           ))}
         </div>
@@ -160,9 +174,14 @@ function PhotoGrid({ fotos, title }: { fotos: string[]; title: string }) {
             src={show[0]}
             alt={`${title} — foto 1`}
             fill
-            className="object-cover hover:scale-[1.03] transition-transform duration-700"
+            className="object-cover select-none hover:scale-[1.03] transition-transform duration-700 motion-reduce:transition-none motion-reduce:hover:scale-100"
             sizes="100vw"
+            draggable={false}
+            onContextMenu={(event) => event.preventDefault()}
           />
+          <span className="pointer-events-none absolute bottom-4 right-4 z-10 text-white/55 text-[10px] uppercase tracking-[0.3em]">
+            UNUS
+          </span>
         </div>
       ) : (
         /* 2+ photos: editorial grid */
@@ -176,9 +195,14 @@ function PhotoGrid({ fotos, title }: { fotos: string[]; title: string }) {
               src={show[0]}
               alt={`${title} — foto 1`}
               fill
-              className="object-cover hover:scale-[1.03] transition-transform duration-700"
+              className="object-cover select-none hover:scale-[1.03] transition-transform duration-700 motion-reduce:transition-none motion-reduce:hover:scale-100"
               sizes="50vw"
+              draggable={false}
+              onContextMenu={(event) => event.preventDefault()}
             />
+            <span className="pointer-events-none absolute bottom-4 right-4 z-10 text-white/55 text-[10px] uppercase tracking-[0.3em]">
+              UNUS
+            </span>
           </div>
 
           {/* Secondary photos — right column */}
@@ -195,9 +219,14 @@ function PhotoGrid({ fotos, title }: { fotos: string[]; title: string }) {
                   src={src}
                   alt={`${title} — foto ${idx + 1}`}
                   fill
-                  className={`object-cover transition-transform duration-700 ${isLast ? '' : 'hover:scale-[1.03]'}`}
+                  className={`object-cover select-none transition-transform duration-700 motion-reduce:transition-none ${isLast ? '' : 'hover:scale-[1.03] motion-reduce:hover:scale-100'}`}
                   sizes="25vw"
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
                 />
+                <span className="pointer-events-none absolute bottom-3 right-3 z-10 text-white/55 text-[9px] uppercase tracking-[0.25em]">
+                  UNUS
+                </span>
                 {isLast && (
                   <div className="absolute inset-0 bg-[var(--secondary-900)]/70 flex flex-col items-center justify-center gap-1">
                     <span className="text-white text-[22px]" style={{ fontWeight: 300, fontFamily: 'var(--font-serif)' }}>
@@ -229,7 +258,13 @@ export default function EmpreendimentoClientView({ empreendimento: emp }: Empree
   const fotos     = normalizeFotos(emp.Foto, emp.FotoDestaque);
   const amenities = getAmenities(emp.InfraEstrutura);
   const entrega   = formatDataEntrega(emp.DataEntrega);
-  const waHref = `${WHATSAPP_BASE}?text=${encodeURIComponent(WA_EMPREENDIMENTO(title, emp.Bairro ?? '', emp.Cidade ?? ''))}`;
+  const waHref = whatsappEmpreendimentoLead({
+    name: title,
+    bairro: emp.Bairro,
+    cidade: emp.Cidade,
+    codigo: emp.Codigo,
+    pathOrUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+  });
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
@@ -243,10 +278,17 @@ export default function EmpreendimentoClientView({ empreendimento: emp }: Empree
             src={fotos[0]}
             alt={title}
             fill
-            className="object-cover"
+            className="object-cover select-none"
             priority
             sizes="100vw"
+            draggable={false}
+            onContextMenu={(event) => event.preventDefault()}
           />
+        )}
+        {fotos[0] && (
+          <span className="pointer-events-none absolute bottom-8 right-8 z-[1] text-white/30 text-[11px] uppercase tracking-[0.3em]">
+            UNUS
+          </span>
         )}
 
         {/* Gradient overlays */}

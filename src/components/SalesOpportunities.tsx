@@ -4,6 +4,7 @@ import { ContentImage } from './ContentImage';
 
 interface Opportunity {
   id: string | number;
+  slug?: string;
   image: string;
   type: string;
   title: string;
@@ -20,27 +21,9 @@ interface SalesOpportunitiesProps {
   opportunities?: Opportunity[];
 }
 
-const fallbackOpportunities: Opportunity[] = [
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1531971589569-0d9370cbe1e5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlfGVufDF8fHx8MTc3NTA4OTgwN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    type: 'Casa',
-    title: 'Residência Áurea',
-    location: 'Campinas, São José',
-    bedrooms: 4,
-    suites: 4,
-    bathrooms: 5,
-    area: '880m²',
-    price: 'R$ 18.500.000',
-    badge: 'Exclusivo',
-  },
-];
-
 export function SalesOpportunities({ opportunities: initialOpportunities }: SalesOpportunitiesProps) {
-  const displayOpportunities =
-    initialOpportunities && initialOpportunities.length > 0
-      ? initialOpportunities
-      : fallbackOpportunities;
+  const displayOpportunities = initialOpportunities ?? [];
+  if (displayOpportunities.length === 0) return null;
 
   return (
     <section id="investimentos" className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-white">
@@ -83,7 +66,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
             return (
               <Link
                 key={item.id}
-                href={`/imovel/${item.id}`}
+                href={`/imovel/${item.slug || item.id}`}
                 className="group cursor-pointer flex flex-col h-full"
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-[var(--secondary-900)] mb-5">
@@ -93,6 +76,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
                     className="w-full h-full object-cover transition-all duration-[2s] ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
                     sizes="(max-width: 768px) 100vw, 33vw"
                     quality={70}
+                    protectedContent
                   />
                   <div className="absolute top-4 left-4">
                     <span

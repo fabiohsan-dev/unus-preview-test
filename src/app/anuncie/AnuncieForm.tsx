@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
-import { whatsappUrl } from '@/lib/constants';
+import { whatsappAnuncieLead } from '@/lib/whatsapp';
 
 /* ─────────────────────────────────────────
    Dropdown customizado (substitui <select>)
@@ -158,19 +158,7 @@ export function AnuncieForm() {
     e.preventDefault();
     if (!tipo) return; // required no custom select
 
-    const text = [
-      'Olá! Quero anunciar meu imóvel pela UNUS.',
-      '',
-      `Nome: ${name}`,
-      `Tipo de imóvel: ${tipo}`,
-      quartos ? `Número de quartos: ${quartos}` : '',
-      `Telefone: ${phone}`,
-      email ? `E-mail: ${email}` : '',
-    ]
-      .filter(Boolean)
-      .join('\n');
-
-    window.open(whatsappUrl(text), '_blank', 'noopener,noreferrer');
+    window.open(whatsappAnuncieLead({ name, phone, email, tipo, quartos }), '_blank', 'noopener,noreferrer');
   };
 
   const inputBase =

@@ -9,7 +9,7 @@ const footerGroups = [
     items: [
       { label: 'Pronto para Morar', href: '/venda' },
       { label: 'Lançamentos', href: '/venda?ordem=mais-novo' },
-      { label: 'Casas', href: '/venda?categoria=Casa' },
+      { label: 'Casas', href: '/venda?tipo=Casa' },
       { label: 'Coberturas', href: '/venda?tipo=Cobertura' },
       { label: 'Investimentos', href: '/#investimentos' },
     ],

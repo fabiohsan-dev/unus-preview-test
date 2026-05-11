@@ -5,15 +5,11 @@ import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Heart, BedDouble } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import { Badge, Divider, LinkButton } from '@/components/ui';
-import { whatsappUrl, WA_EMPREENDIMENTO, PHONE_HREF } from '@/lib/constants';
+import { PHONE_HREF } from '@/lib/constants';
+import { whatsappEmpreendimentoLead } from '@/lib/whatsapp';
 import { useFavorites } from '@/hooks/useFavorites';
 import type { VistaImovelItem } from '@/types/vista';
-
-function getSlug(emp: VistaImovelItem) {
-  const bairro = (emp.Bairro || 'sc').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-  const cidade = (emp.Cidade || 'sc').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-  return `${bairro}-${cidade}-${emp.Codigo}`;
-}
+import { buildEmpreendimentoSlug } from '@/lib/slug';
 
 function getDisplayTitle(emp: VistaImovelItem): string {
   if (emp.Empreendimento) return emp.Empreendimento;
@@ -59,9 +55,9 @@ interface EmpreendimentoCardProps {
 export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardProps) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
-  const { isFavorited: favorited, toggle: toggleFavorite } = useFavorites(`emp-${emp.Codigo}`);
+  const { isFavorited: favorited, toggle: toggleFavorite } = useFavorites(`empreendimento:${emp.Codigo}`);
 
-  const slug   = getSlug(emp);
+  const slug   = buildEmpreendimentoSlug(emp);
   const href   = `/empreendimento/${slug}`;
   const title  = getDisplayTitle(emp);
   const status = getStatusLabel(emp);
@@ -87,7 +83,13 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
     setSlideIndex((i) => (i + 1) % total);
   }, [total]);
 
-  const waHref = whatsappUrl(WA_EMPREENDIMENTO(title, emp.Bairro ?? '', emp.Cidade ?? ''));
+  const waHref = whatsappEmpreendimentoLead({
+    name: title,
+    bairro: emp.Bairro,
+    cidade: emp.Cidade,
+    codigo: emp.Codigo,
+    pathOrUrl: `/empreendimento/${slug}`,
+  });
 
   return (
     <article
@@ -116,6 +118,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               alt={`${title} — foto ${i + 1}`}
               className="w-full h-full object-cover"
               sizes="(max-width: 1024px) 100vw, 52vw"
+              protectedContent
             />
           </div>
         ))}
@@ -138,7 +141,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
         {/* Favorito */}
         <button
           onClick={(e) => { e.preventDefault(); toggleFavorite(); }}
-          className="absolute top-4 left-4 z-30 w-10 h-10 flex items-center justify-center backdrop-blur-sm transition-all duration-200"
+          className="absolute top-4 left-4 z-30 w-11 h-11 flex items-center justify-center backdrop-blur-sm transition-all duration-200 hover:scale-105"
           style={{
             background: favorited ? 'rgba(224,82,82,0.85)' : 'color-mix(in srgb, var(--neutral-900) 45%, transparent)',
             border: '1px solid rgba(255,255,255,0.15)',
@@ -160,7 +163,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           <>
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center text-white backdrop-blur-sm focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-white"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 flex items-center justify-center text-white backdrop-blur-sm focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-white"
               style={{
                 background: 'color-mix(in srgb, var(--neutral-900) 55%, transparent)',
                 border: '1px solid rgba(255,255,255,0.12)',
@@ -174,7 +177,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center text-white backdrop-blur-sm focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 flex items-center justify-center text-white backdrop-blur-sm focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-white"
               style={{
                 background: 'color-mix(in srgb, var(--neutral-900) 55%, transparent)',
                 border: '1px solid rgba(255,255,255,0.12)',

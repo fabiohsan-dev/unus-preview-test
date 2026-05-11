@@ -1,7 +1,16 @@
-const VISTA_BASE_URL = 'https://luizhenr-rest.vistahost.com.br';
-const VISTA_KEY = 'ced97a1526d0338e62818ada0b2def88';
+require('dotenv/config');
+
+const VISTA_BASE_URL = process.env.VISTA_BASE_URL;
+const VISTA_KEY = process.env.VISTA_KEY;
+
+function requireVistaEnv() {
+  if (!VISTA_BASE_URL || !VISTA_KEY) {
+    throw new Error('Defina VISTA_BASE_URL e VISTA_KEY para rodar este diagnóstico.');
+  }
+}
 
 async function run() {
+  requireVistaEnv();
   const pesquisa = {
     filter: { DestaqueWeb: 'Sim' },
     fields: ["DestaqueWeb", "SuperDestaqueWeb", "TiqueImoveisEmDestaque", "ExibirNoSite", "FotoDestaque", "TituloSite", "DescricaoWeb"]

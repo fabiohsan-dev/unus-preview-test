@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { getDetalheImovelServer } from '@/lib/server/vistaService';
 import { SITE_URL } from '@/lib/constants';
+import { buildPropertySlug, extractCodigoFromSlug } from '@/lib/slug';
 import ImovelClientView from './ImovelClientView';
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const codigo = slug.split('-').pop() ?? '';
+  const codigo = extractCodigoFromSlug(slug);
   
   if (!codigo) return { title: 'Imóvel não encontrado' };
 
@@ -22,15 +23,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const title = imovel.TituloSite || `${imovel.Categoria} em ${imovel.Bairro || imovel.Cidade}`;
     const description = imovel.DescricaoSite || imovel.Descricao || '';
     const imageUrl = imovel.FotoDestaque || '';
+    const canonicalSlug = buildPropertySlug(imovel);
 
     return {
       title: `${title} | UNUS Núcleo Imobiliário`,
       description: description.slice(0, 160),
-      alternates: { canonical: `${SITE_URL}/imovel/${slug}` },
+      alternates: { canonical: `${SITE_URL}/imovel/${canonicalSlug || slug}` },
       openGraph: {
         title,
         description: description.slice(0, 160),
-        url: `${SITE_URL}/imovel/${slug}`,
+        url: `${SITE_URL}/imovel/${canonicalSlug || slug}`,
         images: imageUrl ? [{ url: imageUrl }] : [{ url: '/og-image.jpg', width: 1200, height: 630 }],
         type: 'website',
       },
@@ -42,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ImovelPage({ params }: Props) {
   const { slug } = await params;
-  const codigo = slug.split('-').pop() ?? '';
+  const codigo = extractCodigoFromSlug(slug);
 
   if (!codigo) notFound();
 
@@ -50,6 +52,10 @@ export default async function ImovelPage({ params }: Props) {
   if (!data) notFound();
 
   const { imovel, fotos } = data;
+  const canonicalSlug = buildPropertySlug(imovel);
+  if (canonicalSlug && slug !== canonicalSlug) {
+    redirect(`/imovel/${canonicalSlug}`);
+  }
 
   // JSON-LD Dinâmico para SEO 10/10
   const jsonLd = {
@@ -75,11 +81,30 @@ export default async function ImovelPage({ params }: Props) {
     },
   };
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Imóveis à venda', item: `${SITE_URL}/venda` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: imovel.TituloSite || `${imovel.Categoria} em ${imovel.Bairro}`,
+        item: `${SITE_URL}/imovel/${canonicalSlug}`,
+      },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <ImovelClientView imovel={imovel} fotos={fotos} />
     </>

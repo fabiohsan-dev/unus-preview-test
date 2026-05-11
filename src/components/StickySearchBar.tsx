@@ -4,6 +4,7 @@ import { ChevronDown, Search } from 'lucide-react';
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ApiMetadataResponse } from '@/types/vista';
+import { vendaUrl } from '@/lib/vendaSearch';
 
 const BUSINESS_TYPES = ['Venda', 'Locação', 'Temporada'];
 
@@ -79,7 +80,7 @@ function DropdownField({
                 type="button"
                 role="option"
                 aria-selected={isSelected}
-                className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-[var(--primary-500)]/5 transition-colors cursor-pointer ${
+                className={`w-full min-h-11 text-left px-4 py-2.5 text-[13px] hover:bg-[var(--primary-500)]/5 transition-colors cursor-pointer ${
                   isSelected
                     ? 'text-[var(--color-accent-text)] bg-[var(--primary-500)]/5'
                     : 'text-[var(--color-heading)]'
@@ -216,10 +217,10 @@ export function StickySearchBar() {
     }
 
     if (businessType !== 'Venda') {
-      params.set('negocio', businessType.toLowerCase());
+      params.set('finalidade', businessType);
     }
 
-    router.push(params.toString() ? `/venda?${params.toString()}` : '/venda');
+    router.push(vendaUrl(Object.fromEntries(params.entries())));
   };
 
   if (!visible) {
@@ -299,7 +300,7 @@ export function StickySearchBar() {
           <button
             type="button"
             onClick={handleSearch}
-            className="ml-auto bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white px-6 lg:px-8 h-9 rounded-md flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+            className="ml-auto bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white px-6 lg:px-8 h-11 rounded-md flex items-center gap-2 transition-colors cursor-pointer shrink-0"
             aria-label="Pesquisar imóveis"
           >
             <Search className="w-3.5 h-3.5" strokeWidth={2} />
