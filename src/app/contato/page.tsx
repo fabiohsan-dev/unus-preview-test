@@ -25,11 +25,11 @@ const MAPS_URLS: Record<string, string> = {
 
 export default function ContatoPage() {
   return (
-    <div className="min-h-screen bg-[var(--color-background)]">
+    <div className="min-h-screen">
 
-      {/* ── Hero band escura — separa visualmente do header ── */}
-      <section className="bg-[var(--secondary-900)] pt-40 pb-16 px-6 sm:px-8 lg:px-12 relative overflow-hidden">
-        {/* Textura sutil */}
+      {/* ── Hero ── */}
+      <section className="bg-[var(--secondary-900)] pt-48 pb-24 px-6 sm:px-8 lg:px-12 relative overflow-hidden">
+        {/* textura */}
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{
@@ -37,14 +37,13 @@ export default function ContatoPage() {
               "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
           }}
         />
-        {/* Acento dourado decorativo */}
         <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)]/30 to-transparent" />
 
         <div className="max-w-[1400px] mx-auto relative z-10">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-[1px] bg-[var(--gold)]" />
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-[1px] bg-[var(--gold)]" />
             <span
-              className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)]/80"
+              className="text-[10px] uppercase tracking-[0.35em] text-[var(--gold)]/75"
               style={{ fontWeight: 600 }}
             >
               Fale Conosco
@@ -52,7 +51,7 @@ export default function ContatoPage() {
           </div>
 
           <h1
-            className="text-[42px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-[-0.02em] text-white mb-6"
+            className="text-[52px] sm:text-[68px] lg:text-[80px] leading-[1.0] tracking-[-0.025em] text-white mb-8 max-w-[700px]"
             style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
           >
             Fale com o{' '}
@@ -62,7 +61,7 @@ export default function ContatoPage() {
           </h1>
 
           <p
-            className="text-white/55 text-[16px] sm:text-[18px] max-w-[520px] leading-[1.75]"
+            className="text-white/50 text-[16px] sm:text-[18px] max-w-[480px] leading-[1.8]"
             style={{ fontWeight: 300 }}
           >
             Estamos prontos para transformar sua jornada imobiliária com
@@ -71,66 +70,75 @@ export default function ContatoPage() {
         </div>
       </section>
 
-      {/* ── Conteúdo principal ── */}
-      <main className="px-6 sm:px-8 lg:px-12 py-20 lg:py-28">
+      {/* ── Conteúdo ── */}
+      <main className="bg-[var(--color-background)] px-6 sm:px-8 lg:px-12 py-24 lg:py-32">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_480px] gap-20 lg:gap-24 items-start">
 
-            {/* ── Coluna Esquerda ── */}
-            <div className="space-y-20">
+            {/* ── Esquerda ── */}
+            <div className="space-y-24">
 
               {/* Formulário */}
               <section>
-                <h2 className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[var(--color-heading)] font-semibold mb-8">
-                  <div className="w-8 h-[1px] bg-[var(--secondary-900)]" />
-                  Contato rápido
-                </h2>
+                <div className="flex items-center gap-4 mb-12">
+                  <div className="w-10 h-[1px] bg-[var(--secondary-900)]" />
+                  <h2
+                    className="text-[10px] uppercase tracking-[0.35em] text-[var(--color-heading)]"
+                    style={{ fontWeight: 600 }}
+                  >
+                    Contato rápido
+                  </h2>
+                </div>
                 <ContatoForm />
               </section>
 
               {/* Unidades */}
               <section>
-                <h2 className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[var(--color-heading)] font-semibold mb-10">
-                  <div className="w-8 h-[1px] bg-[var(--secondary-900)]" />
-                  Onde estamos
-                </h2>
+                <div className="flex items-center gap-4 mb-12">
+                  <div className="w-10 h-[1px] bg-[var(--secondary-900)]" />
+                  <h2
+                    className="text-[10px] uppercase tracking-[0.35em] text-[var(--color-heading)]"
+                    style={{ fontWeight: 600 }}
+                  >
+                    Onde estamos
+                  </h2>
+                </div>
 
-                <div className="space-y-10">
+                <div className="grid sm:grid-cols-2 gap-12">
                   {UNITS.map((unit) => (
-                    <div key={unit.city} className="flex gap-5 items-start">
-                      <div className="w-11 h-11 border border-[var(--neutral-200)] flex items-center justify-center shrink-0 mt-0.5">
-                        <MapPin className="w-4 h-4 text-[var(--color-heading)]" strokeWidth={1.5} />
-                      </div>
-                      <div>
+                    <div key={unit.city}>
+                      <p
+                        className="text-[14px] text-[var(--color-heading)] uppercase tracking-[0.2em] mb-5"
+                        style={{ fontWeight: 600 }}
+                      >
+                        {unit.city}
+                      </p>
+                      <div className="flex gap-4 items-start mb-4">
+                        <MapPin className="w-4 h-4 text-[var(--color-caption)] shrink-0 mt-0.5" strokeWidth={1.5} />
                         <p
-                          className="text-[15px] text-[var(--color-heading)] mb-1.5"
-                          style={{ fontWeight: 500 }}
-                        >
-                          {unit.city}
-                        </p>
-                        <p
-                          className="text-[14px] text-[var(--color-body)] leading-[1.7] mb-2"
+                          className="text-[14px] text-[var(--color-body)] leading-[1.8]"
                           style={{ fontWeight: 300 }}
                         >
                           {unit.address}<br />
-                          {unit.neighborhood}, {unit.city} — {unit.state}<br />
+                          {unit.neighborhood} — {unit.state}<br />
                           CEP {unit.cep}
                         </p>
-                        <p
-                          className="text-[11px] text-[var(--color-caption)] uppercase tracking-[0.16em] mb-3"
-                          style={{ fontWeight: 500 }}
-                        >
-                          {unit.creci}
-                        </p>
-                        <a
-                          href={MAPS_URLS[unit.city]}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-[11px] font-semibold text-[var(--color-heading)] uppercase tracking-[0.14em] border-b border-[var(--secondary-900)]/20 hover:border-[var(--secondary-900)] transition-colors pb-0.5"
-                        >
-                          Ver no mapa <ExternalLink className="w-3 h-3" />
-                        </a>
                       </div>
+                      <p
+                        className="text-[11px] text-[var(--color-caption)] uppercase tracking-[0.18em] mb-4 pl-8"
+                        style={{ fontWeight: 500 }}
+                      >
+                        {unit.creci}
+                      </p>
+                      <a
+                        href={MAPS_URLS[unit.city]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 pl-8 text-[11px] text-[var(--color-heading)] uppercase tracking-[0.16em] border-b border-[var(--secondary-900)]/20 hover:border-[var(--secondary-900)] transition-colors pb-0.5"
+                        style={{ fontWeight: 600 }}
+                      >
+                        Ver no mapa <ExternalLink className="w-3 h-3" />
+                      </a>
                     </div>
                   ))}
                 </div>
@@ -138,19 +146,24 @@ export default function ContatoPage() {
 
               {/* Canais */}
               <section>
-                <h2 className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[var(--color-heading)] font-semibold mb-8">
-                  <div className="w-8 h-[1px] bg-[var(--secondary-900)]" />
-                  Canais de atendimento
-                </h2>
+                <div className="flex items-center gap-4 mb-12">
+                  <div className="w-10 h-[1px] bg-[var(--secondary-900)]" />
+                  <h2
+                    className="text-[10px] uppercase tracking-[0.35em] text-[var(--color-heading)]"
+                    style={{ fontWeight: 600 }}
+                  >
+                    Canais de atendimento
+                  </h2>
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  <a href={PHONE_HREF} className="flex gap-4 items-center group">
-                    <div className="w-11 h-11 border border-[var(--neutral-200)] group-hover:border-[var(--secondary-900)] flex items-center justify-center shrink-0 transition-colors">
+                <div className="grid sm:grid-cols-3 gap-8">
+                  <a href={PHONE_HREF} className="group flex flex-col gap-4">
+                    <div className="w-12 h-12 border border-[var(--neutral-200)] group-hover:border-[var(--secondary-900)] flex items-center justify-center transition-colors">
                       <Phone className="w-4 h-4 text-[var(--color-heading)]" strokeWidth={1.5} />
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-caption)] font-medium">Telefone</p>
-                      <p className="text-[14px] text-[var(--color-heading)]" style={{ fontWeight: 500 }}>{PHONE_DISPLAY}</p>
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-caption)] mb-1" style={{ fontWeight: 500 }}>Telefone</p>
+                      <p className="text-[15px] text-[var(--color-heading)]" style={{ fontWeight: 500 }}>{PHONE_DISPLAY}</p>
                     </div>
                   </a>
 
@@ -158,27 +171,27 @@ export default function ContatoPage() {
                     href={whatsappUrl(WA_DEFAULT)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex gap-4 items-center group"
+                    className="group flex flex-col gap-4"
                   >
-                    <div className="w-11 h-11 border border-[var(--neutral-200)] group-hover:border-[var(--color-action-whatsapp)] flex items-center justify-center shrink-0 transition-colors">
+                    <div className="w-12 h-12 border border-[var(--neutral-200)] group-hover:border-[var(--color-action-whatsapp)] flex items-center justify-center transition-colors">
                       <MessageCircle className="w-4 h-4 text-[var(--color-action-whatsapp)]" strokeWidth={1.5} />
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-caption)] font-medium">WhatsApp</p>
-                      <p className="text-[14px] text-[var(--color-heading)]" style={{ fontWeight: 500 }}>{PHONE_DISPLAY}</p>
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-caption)] mb-1" style={{ fontWeight: 500 }}>WhatsApp</p>
+                      <p className="text-[15px] text-[var(--color-heading)]" style={{ fontWeight: 500 }}>{PHONE_DISPLAY}</p>
                     </div>
                   </a>
 
-                  <div className="flex gap-4 items-center">
-                    <div className="w-11 h-11 border border-[var(--neutral-200)] flex items-center justify-center shrink-0">
+                  <div className="flex flex-col gap-4">
+                    <div className="w-12 h-12 border border-[var(--neutral-200)] flex items-center justify-center">
                       <Clock className="w-4 h-4 text-[var(--color-heading)]" strokeWidth={1.5} />
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-caption)] font-medium">Horário</p>
-                      <p className="text-[14px] text-[var(--color-heading)] leading-snug" style={{ fontWeight: 500 }}>
-                        Seg–Sex 9h–18h<br />
-                        <span className="text-[var(--color-body)]" style={{ fontWeight: 300 }}>Sáb 9h–13h</span>
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-caption)] mb-1" style={{ fontWeight: 500 }}>Horário</p>
+                      <p className="text-[15px] text-[var(--color-heading)] leading-snug" style={{ fontWeight: 500 }}>
+                        Seg–Sex 9h–18h
                       </p>
+                      <p className="text-[14px] text-[var(--color-body)]" style={{ fontWeight: 300 }}>Sáb 9h–13h</p>
                     </div>
                   </div>
                 </div>
@@ -186,84 +199,72 @@ export default function ContatoPage() {
 
             </div>
 
-            {/* ── Coluna Direita (sticky) ── */}
-            <div className="space-y-5 lg:sticky lg:top-32">
+            {/* ── Direita (sticky) ── */}
+            <div className="space-y-4 lg:sticky lg:top-32">
 
-              {/* Card: Quero Comprar */}
               <Link
                 href="/venda"
                 className="group block p-10 bg-[var(--secondary-900)] text-white relative overflow-hidden hover:bg-[var(--secondary-800)] transition-colors duration-300"
               >
                 <div className="relative z-10">
-                  <Building2 className="w-8 h-8 text-[var(--gold)] mb-6" strokeWidth={1.5} />
+                  <Building2 className="w-7 h-7 text-[var(--gold)] mb-8" strokeWidth={1.5} />
                   <h3
-                    className="text-[26px] mb-2 text-white"
+                    className="text-[28px] mb-3 text-white leading-tight"
                     style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
                   >
                     Quero comprar
                   </h3>
                   <p
-                    className="text-white/55 text-[14px] mb-8 max-w-[280px] leading-[1.7]"
+                    className="text-white/50 text-[14px] mb-10 leading-[1.75]"
                     style={{ fontWeight: 300 }}
                   >
                     Explore nossa curadoria de imóveis de alto padrão e encontre
                     seu próximo destino.
                   </p>
-                  <div
-                    className="flex items-center gap-3 text-[11px] uppercase tracking-[0.2em]"
-                    style={{ fontWeight: 600 }}
-                  >
+                  <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.22em]" style={{ fontWeight: 600 }}>
                     Ver imóveis
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" strokeWidth={1.5} />
                   </div>
                 </div>
-                <div className="absolute top-0 right-0 w-40 h-40 bg-white/[0.03] rounded-bl-full -mr-10 -mt-10 group-hover:scale-125 transition-transform duration-700" />
+                <div className="absolute -bottom-12 -right-12 w-48 h-48 rounded-full border border-white/5 group-hover:scale-110 transition-transform duration-700" />
+                <div className="absolute -bottom-6 -right-6 w-28 h-28 rounded-full border border-white/5 group-hover:scale-110 transition-transform duration-700" />
               </Link>
 
-              {/* Card: Quero Anunciar */}
               <Link
                 href="/anuncie"
-                className="group block p-10 border border-[var(--neutral-200)] bg-white text-[var(--color-heading)] relative overflow-hidden hover:border-[var(--secondary-900)] transition-colors duration-300"
+                className="group block p-10 border border-[var(--neutral-200)] bg-white hover:border-[var(--secondary-900)] transition-colors duration-300"
               >
-                <div className="relative z-10">
-                  <MessageCircle className="w-8 h-8 text-[var(--color-heading)] mb-6" strokeWidth={1.5} />
-                  <h3
-                    className="text-[26px] mb-2"
-                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
-                  >
-                    Quero anunciar
-                  </h3>
-                  <p
-                    className="text-[var(--color-body)] text-[14px] mb-8 max-w-[280px] leading-[1.7]"
-                    style={{ fontWeight: 300 }}
-                  >
-                    Consultoria especializada para proprietários que buscam
-                    valorização e liquidez.
-                  </p>
-                  <div
-                    className="flex items-center gap-3 text-[11px] uppercase tracking-[0.2em]"
-                    style={{ fontWeight: 600 }}
-                  >
-                    Falar com consultor
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" strokeWidth={1.5} />
-                  </div>
+                <MessageCircle className="w-7 h-7 text-[var(--color-heading)] mb-8" strokeWidth={1.5} />
+                <h3
+                  className="text-[28px] mb-3 leading-tight"
+                  style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+                >
+                  Quero anunciar
+                </h3>
+                <p
+                  className="text-[var(--color-body)] text-[14px] mb-10 leading-[1.75]"
+                  style={{ fontWeight: 300 }}
+                >
+                  Consultoria especializada para proprietários que buscam
+                  valorização e liquidez.
+                </p>
+                <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.22em]" style={{ fontWeight: 600 }}>
+                  Falar com consultor
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" strokeWidth={1.5} />
                 </div>
               </Link>
 
-              {/* Links secundários */}
-              <div className="grid grid-cols-2 gap-4 pt-1">
+              <div className="grid grid-cols-2 gap-4">
                 <a
                   href="https://unusnucleoimobiliario.com.br/contato/trabalhe-conosco/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-6 border border-[var(--neutral-200)] hover:border-[var(--secondary-900)] transition-colors group"
                 >
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-caption)] mb-2" style={{ fontWeight: 500 }}>
-                    Carreiras
-                  </p>
-                  <p className="text-[13px] text-[var(--color-heading)] flex items-center gap-2" style={{ fontWeight: 600 }}>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--color-caption)] mb-2" style={{ fontWeight: 500 }}>Carreiras</p>
+                  <p className="text-[13px] text-[var(--color-heading)] flex items-center gap-1.5" style={{ fontWeight: 600 }}>
                     Trabalhe conosco
-                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" strokeWidth={1.5} />
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={1.5} />
                   </p>
                 </a>
                 <a
@@ -272,12 +273,10 @@ export default function ContatoPage() {
                   rel="noopener noreferrer"
                   className="p-6 border border-[var(--neutral-200)] hover:border-[var(--secondary-900)] transition-colors group"
                 >
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-caption)] mb-2" style={{ fontWeight: 500 }}>
-                    Parcerias
-                  </p>
-                  <p className="text-[13px] text-[var(--color-heading)] flex items-center gap-2" style={{ fontWeight: 600 }}>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--color-caption)] mb-2" style={{ fontWeight: 500 }}>Parcerias</p>
+                  <p className="text-[13px] text-[var(--color-heading)] flex items-center gap-1.5" style={{ fontWeight: 600 }}>
                     Seja parceiro
-                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" strokeWidth={1.5} />
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={1.5} />
                   </p>
                 </a>
               </div>
