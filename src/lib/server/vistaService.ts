@@ -13,75 +13,11 @@ import type {
 
 const META_KEYS = new Set(['total', 'paginas', 'pagina', 'quantidade']);
 
-const LIST_FIELDS = [
-  'Codigo', 'Referencia', 'TituloSite', 'Empreendimento', 'Categoria', 'Finalidade', 'Status',
-  'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
-  'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal',
-  'DataEntrega', 'DataAtualizacao', 'DataCadastro', 'DescricaoEmpreendimento', 'Construtora',
-  'FotoDestaque', 'FotoDestaquePequena'
-];
-
 function extractItems(raw: Record<string, unknown>): VistaImovelItem[] {
   return Object.entries(raw)
     .filter(([key]) => !META_KEYS.has(key))
     .map(([, value]) => value) as VistaImovelItem[];
 }
-
-/**
- * Busca TODOS os imóveis da Vista para filtragem client-side de preço.
- * A Vista CRM API não suporta filtro ValorVenda para imóveis regulares —
- * apenas para Empreendimentos. Por isso, buscamos tudo e filtramos aqui.
- * Cada URL de página é cacheada individualmente pelo Next.js (revalidate 600s).
- */
-async function getAllListingsFromVista(baseFilter: Record<string, unknown>, orderConfig?: Record<string, string>): Promise<VistaImovelItem[]> {
-  const PAGE_SIZE = 50;
-
-  const buildPesquisa = (pagina: number) => {
-    const p: Record<string, unknown> = {
-      fields: LIST_FIELDS,
-      filter: baseFilter,
-      paginacao: { pagina, quantidade: PAGE_SIZE },
-    };
-    if (orderConfig) p.order = orderConfig;
-    return p;
-  };
-
-  const firstUrl = buildVistaGetUrl('/imoveis/listar', buildPesquisa(1), { showtotal: '1' });
-  const firstRes = await fetch(firstUrl.toString(), {
-    headers: { Accept: 'application/json' },
-    next: { revalidate: 600 },
-  });
-  if (!firstRes.ok) throw new Error(`Vista API error: ${firstRes.status}`);
-
-  const firstRaw = await firstRes.json();
-  const totalPages = Math.min(Number(firstRaw.paginas ?? 1), 14); // max 700 imóveis
-  const firstItems = extractItems(firstRaw as Record<string, unknown>);
-
-  if (totalPages <= 1) return firstItems;
-
-  const remaining = Array.from({ length: totalPages - 1 }, (_, i) => i + 2);
-  const otherItems = await Promise.all(
-    remaining.map(async (pagina) => {
-      const pageUrl = buildVistaGetUrl('/imoveis/listar', buildPesquisa(pagina), { showtotal: '1' });
-      const res = await fetch(pageUrl.toString(), {
-        headers: { Accept: 'application/json' },
-        next: { revalidate: 600 },
-      });
-      if (!res.ok) return [];
-      const raw = await res.json();
-      return extractItems(raw as Record<string, unknown>);
-    })
-  );
-
-  return [firstItems, ...otherItems].flat();
-}
-
-const ORDER_MAP: Record<string, Record<string, string>> = {
-  'menor-preco': { ValorVenda: 'asc' },
-  'maior-preco': { ValorVenda: 'desc' },
-  'maior-area': { AreaTotal: 'desc' },
-  'mais-novo': { DataCadastro: 'desc' },
-};
 
 const LABEL_OVERRIDES: Record<string, string> = {
   Deposito: 'Depósito',
@@ -154,9 +90,9 @@ export async function getMetadataServer(): Promise<ApiMetadataResponse> {
       supabase.from('imoveis').select('categoria').eq('status', 'Disponível'),
     ]);
 
-    const extractUnique = (res: any, field: string) => {
+    const extractUnique = (res: { data: Record<string, unknown>[] | null }, field: string) => {
       if (!res.data) return [];
-      const values = res.data.map((item: any) => item[field]).filter(Boolean);
+      const values = res.data.map((item) => item[field]).filter(Boolean);
       return Array.from(new Set(values as string[])).sort();
     };
 
@@ -169,7 +105,6 @@ export async function getMetadataServer(): Promise<ApiMetadataResponse> {
     };
   } catch (err) {
     console.error('[getMetadataServer] Erro ao buscar metadados no Supabase:', err);
-    // Fallback básico para não quebrar o site
     return {
       bairros: [],
       cidades: [],
@@ -217,6 +152,11 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
     if (cidade) query = query.eq('cidade', cidade);
     if (bairro) query = query.eq('bairro', bairro);
     
+    // Filtro de Destaque (Busca no JSON original)
+    if (destaque) {
+      query = query.filter('raw_data->>SuperDestaqueWeb', 'eq', 'Sim');
+    }
+
     // Filtros de Faixa (Preço e Área)
     if (precoMin) query = query.gte('valor_venda', parseFloat(precoMin));
     if (precoMax) query = query.lte('valor_venda', parseFloat(precoMax));
