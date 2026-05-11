@@ -3,6 +3,7 @@ import { ArrowRight, BedDouble, Car, MapPin, Maximize } from 'lucide-react';
 import { ContentImage } from './ContentImage';
 import { FavoriteButton } from './FavoriteButton';
 import { Badge, SectionHeader } from '@/components/ui';
+import { buildPropertySlug } from '@/lib/slug';
 
 export interface PropertyCardData {
   id: string | number;
@@ -12,6 +13,7 @@ export interface PropertyCardData {
   badges?: string[];
   type: string;
   code: string;
+  slug?: string;
   title: string;
   location: string;
   transactionType: string;
@@ -29,7 +31,11 @@ interface PropertyCardProps {
 }
 
 export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) {
-  const href = `/imovel/${property.code}`;
+  const href = `/imovel/${property.slug || buildPropertySlug({
+    Codigo: property.code,
+    Categoria: property.type,
+    Bairro: property.location.split(',')[0],
+  })}`;
   const isTerrain =
     property.type.toLowerCase().includes('terreno') ||
     property.type.toLowerCase().includes('lote');
@@ -52,6 +58,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               alt={property.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width: 640px) 100vw, 320px"
+              protectedContent
             />
           </Link>
           <FavoriteButton propertyId={property.code} className="absolute top-3 right-3 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white z-10 shadow-sm" />
@@ -133,6 +140,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               alt={property.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              protectedContent
             />
 
             {(property.badges || property.badge) && (
@@ -238,61 +246,14 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
   );
 }
 
-const demoProperties: PropertyCardData[] = [
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1766866574522-920761fc93b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiZWFjaGZyb250JTIwdHJvcGljYWwlMjB2aWxsYSUyMGFlcmlhbHxlbnwxfHx8fDE3NzU1MDI0MTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    badge: 'Lançamento',
-    badges: ['Lançamento', 'Exclusivo UNUS'],
-    type: 'Cobertura',
-    code: '102',
-    title: 'Penthouse Beira-Mar Norte',
-    location: 'Beira-Mar Norte, Florianópolis',
-    transactionType: 'Venda',
-    price: 'R$ 8.900.000,00',
-    bedrooms: 4,
-    suites: 4,
-    parkingSpots: 3,
-    bathrooms: 5,
-  },
-  {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1667830501890-f18c74a8efac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBtaW5pbWFsaXN0JTIwbWFuc2lvbiUyMGV4dGVyaW9yJTIwbmlnaHR8ZW58MXx8fHwxNzc1MTU1NzY3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    badge: 'Exclusivo',
-    type: 'Casa',
-    code: '087',
-    title: 'Residência Jurerê Internacional',
-    location: 'Jurerê Internacional, Florianópolis',
-    transactionType: 'Venda',
-    price: 'R$ 18.500.000,00',
-    bedrooms: 5,
-    suites: 5,
-    parkingSpots: 4,
-    bathrooms: 6,
-  },
-  {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1639405069836-f82aa6dcb900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBzbWFydCUyMGhvbWUlMjBsdXh1cnklMjBraXRjaGVufGVufDF8fHx8MTc3NTE1NTc2OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    type: 'Apartamento',
-    code: '145',
-    title: 'Smart Home Pedra Branca',
-    location: 'Pedra Branca, Palhoça',
-    transactionType: 'Venda',
-    price: 'R$ 12.800.000,00',
-    bedrooms: 4,
-    suites: 4,
-    parkingSpots: 3,
-    bathrooms: 5,
-  },
-];
-
 interface PropertyCardGridProps {
   properties?: PropertyCardData[];
 }
 
 export function PropertyCardGrid({ properties: initialProperties }: PropertyCardGridProps) {
-  const displayProperties =
-    initialProperties && initialProperties.length > 0 ? initialProperties : demoProperties;
+  const displayProperties = initialProperties ?? [];
+
+  if (displayProperties.length === 0) return null;
 
   return (
     <section className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--color-background)]">

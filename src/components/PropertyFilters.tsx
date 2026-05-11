@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'motion/react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
@@ -21,6 +21,7 @@ import {
   X,
 } from 'lucide-react';
 import type { ApiMetadataResponse } from '@/types/vista';
+import { vendaUrl } from '@/lib/vendaSearch';
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 50_000_000;
@@ -51,9 +52,70 @@ function SelectField({
 }) {
   const listboxId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
+  const [focusedIdx, setFocusedIdx] = useState(-1);
+
+  useEffect(() => {
+    if (!isOpen) setFocusedIdx(-1);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || focusedIdx < 0 || !listboxRef.current) return;
+    listboxRef.current
+      .querySelector<HTMLElement>(`[id="${listboxId}-opt-${focusedIdx}"]`)
+      ?.scrollIntoView({ block: 'nearest' });
+  }, [focusedIdx, isOpen, listboxId]);
+
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!isOpen) {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        onToggle();
+        setFocusedIdx(event.key === 'ArrowDown' ? 0 : options.length - 1);
+        event.preventDefault();
+      }
+      return;
+    }
+
+    switch (event.key) {
+      case 'ArrowDown':
+        setFocusedIdx((index) => (index + 1) % options.length);
+        event.preventDefault();
+        break;
+      case 'ArrowUp':
+        setFocusedIdx((index) => (index - 1 + options.length) % options.length);
+        event.preventDefault();
+        break;
+      case 'Home':
+        setFocusedIdx(0);
+        event.preventDefault();
+        break;
+      case 'End':
+        setFocusedIdx(options.length - 1);
+        event.preventDefault();
+        break;
+      case 'Enter':
+      case ' ':
+        if (focusedIdx >= 0) {
+          onSelect(options[focusedIdx]);
+          requestAnimationFrame(() => triggerRef.current?.focus());
+        }
+        event.preventDefault();
+        break;
+      case 'Tab':
+        if (isOpen) onToggle();
+        break;
+      default:
+        break;
+    }
+  }, [focusedIdx, isOpen, onSelect, onToggle, options]);
+
+  const activeDescendant = isOpen && focusedIdx >= 0
+    ? `${listboxId}-opt-${focusedIdx}`
+    : undefined;
 
   return (
     <div className="relative flex-1">
+      {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props -- mirrors the SearchBar listbox trigger pattern for keyboard navigation */}
       <button
         ref={triggerRef}
         type="button"
@@ -62,10 +124,12 @@ function SelectField({
           event.stopPropagation();
           onToggle();
         }}
+        onKeyDown={handleKeyDown}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={listboxId}
         aria-label={`${label}: ${value}`}
+        aria-activedescendant={activeDescendant}
       >
         <Icon className="text-[var(--primary-500)] w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />
         <div className="flex-1 min-w-0">
@@ -88,6 +152,7 @@ function SelectField({
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={listboxRef}
             id={listboxId}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
@@ -98,22 +163,27 @@ function SelectField({
             role="listbox"
             aria-label={label}
           >
-            {options.map((option) => {
+            {options.map((option, index) => {
               const isSelected =
                 value === option || (!value && (option.includes('Todos') || option.includes('Todas')));
+              const isFocused = focusedIdx === index;
 
               return (
                 <button
                   key={option}
+                  id={`${listboxId}-opt-${index}`}
                   type="button"
                   role="option"
                   aria-selected={isSelected}
+                  tabIndex={-1}
                   className={`w-full text-left px-4 py-3 md:py-2.5 text-[14px] md:text-[13px] hover:bg-[var(--primary-500)]/5 transition-colors cursor-pointer ${
                     isSelected
                       ? 'text-[var(--color-accent-text)] bg-[var(--primary-500)]/5'
+                      : isFocused
+                      ? 'bg-[var(--primary-500)]/10 text-[var(--color-accent-text)] outline-none'
                       : 'text-[var(--color-heading)]'
                   }`}
-                  style={{ fontWeight: isSelected ? 600 : 400 }}
+                  style={{ fontWeight: isSelected || isFocused ? 600 : 400 }}
                   onClick={() => {
                     onSelect(option);
                     requestAnimationFrame(() => triggerRef.current?.focus());
@@ -287,7 +357,7 @@ function PriceRangeField({
               <button
                 type="button"
                 onClick={reset}
-                className="px-5 py-2 text-[13px] text-[var(--color-body)] bg-[var(--neutral-100)] rounded-full hover:bg-[var(--neutral-200)] transition-colors cursor-pointer"
+                className="min-h-11 px-5 py-2 text-[13px] text-[var(--color-body)] bg-[var(--neutral-100)] rounded-full hover:bg-[var(--neutral-200)] transition-colors cursor-pointer"
                 style={{ fontWeight: 500 }}
               >
                 Resetar
@@ -300,7 +370,7 @@ function PriceRangeField({
                   onApply(minValue, maxValue);
                   requestAnimationFrame(() => triggerRef.current?.focus());
                 }}
-                className="px-5 py-2 text-[13px] text-white bg-[var(--secondary-900)] rounded-full hover:bg-[var(--secondary-800)] transition-colors cursor-pointer"
+                className="min-h-11 px-5 py-2 text-[13px] text-white bg-[var(--secondary-900)] rounded-full hover:bg-[var(--secondary-800)] transition-colors cursor-pointer"
                 style={{ fontWeight: 500 }}
               >
                 Aplicar
@@ -374,7 +444,7 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
     });
 
     params.set('view', nextView || view);
-    router.push(`/venda?${params.toString()}`);
+    router.push(vendaUrl(Object.fromEntries(params.entries())));
   };
 
   const handleSelect = (key: keyof typeof filters, value: string) => {
@@ -454,7 +524,7 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
               <button
                 type="button"
                 onClick={() => updateURL(filters, 'grid')}
-                className={`p-2 rounded-md transition-all ${
+                className={`w-11 h-11 flex items-center justify-center rounded-md transition-all ${
                   view === 'grid'
                     ? 'bg-white shadow-sm text-[var(--color-accent-text)]'
                     : 'text-[var(--neutral-400)] hover:text-[var(--color-heading)]'
@@ -467,7 +537,7 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
               <button
                 type="button"
                 onClick={() => updateURL(filters, 'list')}
-                className={`p-2 rounded-md transition-all ${
+                className={`w-11 h-11 flex items-center justify-center rounded-md transition-all ${
                   view === 'list'
                     ? 'bg-white shadow-sm text-[var(--color-accent-text)]'
                     : 'text-[var(--neutral-400)] hover:text-[var(--color-heading)]'
@@ -534,7 +604,7 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
                   <button
                     type="button"
                     onClick={() => setShowAdvanced(false)}
-                    className="w-7 h-7 rounded-full hover:bg-[var(--neutral-100)] flex items-center justify-center transition-colors cursor-pointer"
+                    className="w-11 h-11 rounded-full hover:bg-[var(--neutral-100)] flex items-center justify-center transition-colors cursor-pointer"
                     aria-label="Fechar mais filtros"
                   >
                     <X className="w-3.5 h-3.5 text-[var(--color-caption)]" />
@@ -625,7 +695,7 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
                       updateURL(filters);
                       setShowAdvanced(false);
                     }}
-                    className="bg-[var(--secondary-900)] text-white px-8 py-2.5 rounded-lg text-[13px] font-bold tracking-widest uppercase hover:bg-[var(--secondary-800)] transition-colors cursor-pointer"
+                    className="min-h-11 bg-[var(--secondary-900)] text-white px-8 py-2.5 rounded-lg text-[13px] font-bold tracking-widest uppercase hover:bg-[var(--secondary-800)] transition-colors cursor-pointer"
                   >
                     Aplicar Filtros
                   </button>

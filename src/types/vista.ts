@@ -18,6 +18,10 @@ export interface VistaImovelItem {
   AreaPrivativa?: string;
   AreaTotal?: string;
   DataEntrega?: string;
+  DataAtualizacao?: string;
+  DataCadastro?: string;
+  AtualizadoEm?: string;
+  ModificadoEm?: string;
   DescricaoEmpreendimento?: string;
   Construtora?: string;
   FotoDestaque?: string;
@@ -31,6 +35,23 @@ export interface VistaImovelItem {
   AggMinArea?: number;
   AggMaxArea?: number;
   AggDataEntrega?: string;
+}
+
+export interface VistaEmpreendimento extends VistaImovelItem {
+  TituloSite: string;
+  Categoria: string;
+  Status: string;
+  Endereco: string;
+  Numero: string;
+  ValorVenda: string;
+  DescricaoWeb: string;
+  Descricao: string;
+  Latitude: string;
+  Longitude: string;
+  SuperDestaqueWeb: string;
+  InfraEstrutura: Record<string, string>;
+  Caracteristicas: Record<string, string>;
+  Foto: Record<string, { Foto: string; FotoPequena: string; Ordem: string; Destaque: string; Descricao: string }>;
 }
 
 export interface VistaFoto {
@@ -98,6 +119,10 @@ export interface ApiMetadataResponse {
 export interface ApiDetalheResponse {
   imovel: VistaImovelDetalhe;
   fotos: VistaFoto[];
+}
+
+export interface ApiEmpreendimentoDetalheResponse {
+  empreendimento: VistaEmpreendimento;
 }
 
 export interface FiltrosImoveis {

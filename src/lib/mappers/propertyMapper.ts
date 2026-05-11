@@ -1,5 +1,6 @@
 import { VistaImovelItem } from '@/types/vista';
 import { formatarPreco } from '../vistaApi';
+import { buildPropertySlug } from '@/lib/slug';
 
 /**
  * Utilitário para calcular a área de forma segura, 
@@ -18,6 +19,7 @@ function getAreaValue(item: VistaImovelItem): string {
 export function mapToFeaturedProperty(item: VistaImovelItem, index: number) {
   return {
     id: item.Codigo || `featured-${index}`,
+    slug: buildPropertySlug(item),
     title: item.TituloSite || `${item.Categoria} em ${item.Bairro}`,
     image: item.FotoDestaque || '',
     bedrooms: Number(item.Dormitorios) || 0,
@@ -36,6 +38,7 @@ export function mapToFeaturedProperty(item: VistaImovelItem, index: number) {
 export function mapToOpportunity(item: VistaImovelItem, index: number) {
   return {
     id: item.Codigo || `opp-${index}`,
+    slug: buildPropertySlug(item),
     image: item.FotoDestaque || '',
     type: item.Categoria || '',
     title: item.TituloSite || `${item.Categoria} em ${item.Bairro}`,
@@ -55,6 +58,7 @@ export function mapToOpportunity(item: VistaImovelItem, index: number) {
 export function mapToGridProperty(item: VistaImovelItem, index: number) {
   return {
     id: item.Codigo || `grid-${index}`,
+    slug: buildPropertySlug(item),
     image: item.FotoDestaque || '',
     imagePequena: item.FotoDestaquePequena,
     type: item.Categoria || 'Imóvel',

@@ -8,6 +8,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface Property {
   id: string | number;
+  slug?: string;
   title: string;
   image: string;
   bedrooms: number | string;
@@ -29,22 +30,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   
-  const displayProperties = initialProperties && initialProperties.length > 0 
-    ? initialProperties 
-    : [
-        {
-          id: 1,
-          title: 'Residência com assinatura arquitetônica em Jurerê Internacional',
-          image: 'https://images.unsplash.com/photo-1667830501890-f18c74a8efac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBtaW5pbWFsaXN0JTIwbWFuc2lvbiUyMGV4dGVyaW9yJTIwbmlnaHR8ZW58MXx8fHwxNzc1MTU1NzY3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-          bedrooms: 5,
-          suites: 5,
-          bathrooms: 6,
-          area: '887m²',
-          location: 'Jurerê Internacional, Florianópolis',
-          price: 'R$ 18.500.000',
-          tags: ['Frente Mar', 'Mobiliado', 'Exclusividade'],
-        },
-      ];
+  const displayProperties = initialProperties ?? [];
 
   const goNext = useCallback(() => {
     setCurrent((p) => (p + 1) % displayProperties.length);
@@ -65,6 +51,8 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
   }, [goNext, isPaused, displayProperties.length]);
 
   const property = displayProperties[current];
+  if (!property) return null;
+  const href = `/imovel/${property.slug || property.id}`;
 
   return (
     <section 
@@ -149,7 +137,12 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     className="w-full h-full object-cover"
                     priority={false}
                     sizes="(max-width: 1024px) 100vw, 66vw"
+                    draggable={false}
+                    onContextMenu={(event) => event.preventDefault()}
                   />
+                  <span className="pointer-events-none absolute bottom-3 right-3 z-10 border border-white/25 bg-black/20 px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-white/70 backdrop-blur-sm">
+                    UNUS
+                  </span>
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -221,7 +214,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     {property.price}
                   </p>
                   <Link
-                    href={`/imovel/${property.id}`}
+                    href={href}
                     className="w-full bg-[var(--secondary-900)] text-white py-4 text-[13px] uppercase tracking-[0.16em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2"
                     style={{ fontWeight: 500 }}
                   >

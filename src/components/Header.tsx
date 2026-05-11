@@ -13,10 +13,10 @@ const dropdownItems = [
   { label: 'Ver todos os imóveis', href: '/venda' },
   { label: 'Empreendimentos',      href: '/empreendimentos' },
   { label: 'Abaixo do preço',      href: '/venda?ordem=menor-preco' },
-  { label: 'Imóvel vazio',         href: '/venda?tipo=vazio' },
-  { label: 'Na planta',            href: '/venda?tipo=na-planta' },
-  { label: 'Sala comercial',       href: '/venda?categoria=Sala Comercial' },
-  { label: 'Terreno',              href: '/venda?categoria=Terreno' },
+  { label: 'Imóvel vazio',         href: '/venda?ordem=mais-novo' },
+  { label: 'Na planta',            href: '/empreendimentos' },
+  { label: 'Sala comercial',       href: '/venda?tipo=Sala Comercial' },
+  { label: 'Terreno',              href: '/venda?tipo=Terreno' },
 ];
 
 const leftNavItems = [

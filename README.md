@@ -1,67 +1,82 @@
 # UNUS Next.js
 
-Site UNUS Núcleo Imobiliário — versão Next.js 15 com App Router.
+Site UNUS Nucleo Imobiliario, plataforma Next.js 15 com App Router para busca, listagem e detalhe de imoveis de alto padrao.
 
 ## Stack
 
-- **Next.js 15** (App Router)
-- **React 18**
-- **TypeScript**
-- **Tailwind CSS 4**
-- **Framer Motion** (animações)
-- **Lucide React** (ícones)
+- Next.js 15
+- React 18
+- TypeScript 5 strict
+- Tailwind CSS 4
+- Motion/Framer Motion
+- Radix UI
+- Lucide React
+- Vista CRM API
+- WordPress companion em `cms/`
 
-## Estrutura do Projeto (Enterprise Architecture)
+## Rotas principais
 
-```text
-├── cms/                        # Temas e recursos WordPress
-├── docs/                       # Documentação técnica e estratégica
-├── public/                     # Ativos estáticos acessíveis via URL
-├── scripts/                    # Automações e ferramentas de dados
-├── src/
-│   ├── app/                    # Rotas, Layouts e Páginas (Next.js)
-│   ├── assets/                 # Imagens e ativos importados via código
-│   ├── components/             # UI Components globais e reutilizáveis
-│   ├── hooks/                  # Lógica de estado personalizada
-│   ├── lib/                    # Serviços, APIs e Mappers
-│   ├── styles/                 # Design Tokens e CSS Global
-│   └── types/                  # Definições TypeScript
-├── tests/                      # Scripts de teste e validação
-└── README.md
-```
+- `/` - home com curadoria de imoveis e empreendimentos
+- `/venda` - listagem com filtros canonicos e paginacao
+- `/imovel/[slug]` - detalhe de imovel com slug `tipo-bairro-codigo`
+- `/empreendimentos` e `/empreendimento/[slug]` - listagem e detalhe de empreendimentos
+- `/favoritos` - favoritos v2 em `localStorage`
+- `/anuncie`, `/contato`, `/o-nucleo`, `/parceiros-unus` - paginas institucionais
+- `/blog` - placeholder ate a integracao WordPress completa
 
 ## Desenvolvimento
 
 ```bash
-# Instalar dependências
 npm install
-
-# Rodar dev server
 npm run dev
-
-# Build produção
+npm run lint
+npm test
 npm run build
-
-# Start produção
 npm run start
 ```
 
-## Dados de imoveis
+## Variaveis de ambiente
 
-Os imoveis sao carregados diretamente da Vista API pelas rotas server-side em `src/app/api/imoveis/*` e pelos Server Components que usam `src/lib/server/vistaService.ts`.
+```bash
+VISTA_BASE_URL=https://[domain]-rest.vistahost.com.br
+VISTA_KEY=[api-key-here]
+NEXT_PUBLIC_SITE_URL=https://example.com
+WORDPRESS_URL=https://[blog-domain]
+```
 
-Configuracao necessaria:
+`VISTA_KEY` deve permanecer server-only. Scripts em `tests/` e `scripts/vista-tools/` leem `VISTA_BASE_URL` e `VISTA_KEY` do ambiente.
 
-- `VISTA_BASE_URL`
-- `VISTA_KEY`
+## Contratos de hardening
 
-Nao ha sync agendada nem busca por IA no fluxo atual de producao.
+Veja `docs/HARDENING_CONTRACTS.md` para:
 
-## Inteligência de Dados
+- query string publica de `/venda`
+- compatibilidade e redirect de aliases legados
+- slugs canonicos
+- favoritos v2
+- helpers de WhatsApp
+- politica de protecao leve de imagens
+- nota de rotacao da chave Vista
 
-O projeto segue uma abordagem *Data-Driven*. Para mais detalhes sobre a estratégia de dados e maturidade do ecossistema, consulte:
-`docs/README_INTELLIGENCE.md`
+## Dados Vista
+
+Fluxo principal:
+
+```text
+Browser -> Next API/Server Component -> Vista CRM -> mapper -> UI
+```
+
+Arquivos chave:
+
+- `src/lib/server/vistaConfig.ts`
+- `src/lib/server/vistaService.ts`
+- `src/lib/vistaApi.ts`
+- `src/lib/mappers/propertyMapper.ts`
+- `src/lib/slug.ts`
+- `src/lib/vendaSearch.ts`
+- `src/lib/favoriteIds.ts`
+- `src/lib/whatsapp.ts`
 
 ## Design System
 
-Baseado em uma grade de 8pt, com tipografia de luxo (**Cormorant Garamond** para títulos e **Inter** para corpo). As definições estão centralizadas em `src/styles/theme.css`.
+Grade 8pt, Cormorant Garamond para titulos e Barlow para corpo/labels. Tokens em `src/styles/theme.css`.

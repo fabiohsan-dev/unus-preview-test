@@ -8,7 +8,6 @@ const collections = [
     title: 'Pronto para Morar',
     subtitle: 'Entrega imediata',
     image: 'https://images.unsplash.com/photo-1729605411960-4195875873c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBpbmZpbml0eSUyMHBvb2wlMjBvY2VhbiUyMHZpZXd8ZW58MXx8fHwxNzc1MTU1NzY3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    count: 34,
     href: '/venda',
   },
   {
@@ -16,7 +15,6 @@ const collections = [
     title: 'Lançamentos',
     subtitle: 'Na planta & em obras',
     image: 'https://images.unsplash.com/photo-1774099690798-c4fe300374b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBidWlsZGluZyUyMGZhY2FkZSUyMGdsYXNzfGVufDF8fHx8MTc3NTE1NTc2OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    count: 18,
     href: '/venda?ordem=mais-novo',
   },
   {
@@ -24,15 +22,13 @@ const collections = [
     title: 'Casas',
     subtitle: 'Alto Padrão',
     image: 'https://images.unsplash.com/photo-1667830501890-f18c74a8efac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBtaW5pbWFsaXN0JTIwbWFuc2lvbiUyMGV4dGVyaW9yJTIwbmlnaHR8ZW58MXx8fHwxNzc1MTU1NzY3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    count: 27,
-    href: '/venda?categoria=Casa',
+    href: '/venda?tipo=Casa',
   },
   {
     id: 4,
     title: 'Coberturas',
     subtitle: 'Viver no Topo',
     image: 'https://images.unsplash.com/photo-1738168279272-c08d6dd22002?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhcGFydG1lbnQlMjBsaXZpbmclMjByb29tJTIwaW50ZXJpb3IlMjBkZXNpZ258ZW58MXx8fHwxNzc1MTU1NzY4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    count: 15,
     href: '/venda?tipo=Cobertura',
   },
 ];
@@ -98,9 +94,9 @@ export function CategoryStrip() {
                     <h3 className="text-white text-[24px] leading-tight" style={{ fontWeight: 500 }}>
                       {item.title}
                     </h3>
-                    <span className="text-white/50 text-[12px] mt-2 block" style={{ fontWeight: 500 }}>
-                      {item.count} propriedades
-                    </span>
+                <span className="text-white/50 text-[12px] mt-2 block" style={{ fontWeight: 500 }}>
+                      Curadoria UNUS
+                </span>
                   </div>
                   <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 bg-white/5 backdrop-blur-sm">
                     <ArrowUpRight className="w-4 h-4 text-white" strokeWidth={1.5} />

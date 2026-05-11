@@ -1,4 +1,4 @@
-# Dependencies
+﻿# Dependencies
 node_modules
 /.pnp
 .pnp.js
@@ -40,3 +40,9 @@ next-env.d.ts
 
 # Legacy ESLint config
 .eslintrc.json
+
+# Extraidos
+content/blog-posts/
+contato-structure.md
+anuncie-structure.md
+blog-structure.md

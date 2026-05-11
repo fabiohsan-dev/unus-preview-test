@@ -8,10 +8,10 @@ export async function GET(req: NextRequest) {
   const filtros: FiltrosImoveis = {
     page: Number(searchParams.get('page') || 1),
     limit: Number(searchParams.get('limit') || 12),
-    tipo: searchParams.get('tipo') || undefined,
+    tipo: searchParams.get('tipo') || searchParams.get('categoria') || undefined,
     cidade: searchParams.get('cidade') || undefined,
     bairro: searchParams.get('bairro') || undefined,
-    finalidade: searchParams.get('finalidade') || 'Venda',
+    finalidade: searchParams.get('finalidade') || searchParams.get('negocio') || 'Venda',
     precoMin: searchParams.get('precoMin') || undefined,
     precoMax: searchParams.get('precoMax') || undefined,
     areaMin: searchParams.get('areaMin') || undefined,

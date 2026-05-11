@@ -21,14 +21,14 @@ export function FavoriteButton({
     <button
       type="button"
       onClick={toggle}
-      className={className}
+      className={`${className} active:scale-95 motion-reduce:transition-none`}
       aria-label={isFavorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
       aria-pressed={isFavorited}
     >
       <Heart
-        className={`${iconClassName} transition-colors ${
+        className={`${iconClassName} transition-all duration-200 ${
           isFavorited
-            ? 'fill-[var(--color-error)] text-[var(--color-error)]'
+            ? 'fill-[var(--color-error)] text-[var(--color-error)] scale-110'
             : 'text-[var(--color-graphite-400)]'
         }`}
         strokeWidth={1.5}

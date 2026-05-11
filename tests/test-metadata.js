@@ -1,11 +1,19 @@
 const https = require('https');
+require('dotenv/config');
+
+const VISTA_BASE_URL = process.env.VISTA_BASE_URL;
+const VISTA_KEY = process.env.VISTA_KEY;
+
+if (!VISTA_BASE_URL || !VISTA_KEY) {
+  throw new Error('Defina VISTA_BASE_URL e VISTA_KEY para rodar este diagnóstico.');
+}
 
 const dataObj = {
   fields: ["Bairro", "Cidade", "Categoria", "ValorVenda", "ValorLocacao"]
 };
 
 const encoded = encodeURIComponent(JSON.stringify(dataObj));
-const url = `https://luizhenr-rest.vistahost.com.br/imoveis/listarConteudo?key=ced97a1526d0338e62818ada0b2def88&pesquisa=${encoded}`;
+const url = `${VISTA_BASE_URL}/imoveis/listarConteudo?key=${VISTA_KEY}&pesquisa=${encoded}`;
 
 https.get(url, { headers: { 'Accept': 'application/json' } }, (res) => {
   let data = '';

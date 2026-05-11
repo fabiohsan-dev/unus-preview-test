@@ -7,7 +7,8 @@ import type {
   FiltrosImoveis,
   VistaImovelItem,
   VistaImovelDetalhe,
-  VistaFoto
+  VistaFoto,
+  VistaEmpreendimento
 } from '@/types/vista';
 
 const META_KEYS = new Set(['total', 'paginas', 'pagina', 'quantidade']);
@@ -16,7 +17,7 @@ const LIST_FIELDS = [
   'Codigo', 'Referencia', 'TituloSite', 'Empreendimento', 'Categoria', 'Finalidade', 'Status',
   'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
   'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal',
-  'DataEntrega', 'DescricaoEmpreendimento', 'Construtora',
+  'DataEntrega', 'DataAtualizacao', 'DataCadastro', 'DescricaoEmpreendimento', 'Construtora',
   'FotoDestaque', 'FotoDestaquePequena'
 ];
 
@@ -288,32 +289,6 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
   };
 }
 
-export interface VistaEmpreendimento {
-  Codigo: string;
-  Empreendimento: string;
-  TituloSite: string;
-  Categoria: string;
-  Status: string;
-  Cidade: string;
-  Bairro: string;
-  UF: string;
-  Endereco: string;
-  Numero: string;
-  ValorVenda: string;
-  DescricaoEmpreendimento: string;
-  DescricaoWeb: string;
-  Descricao: string;
-  DataEntrega: string;
-  FotoDestaque: string;
-  FotoDestaquePequena: string;
-  Latitude: string;
-  Longitude: string;
-  SuperDestaqueWeb: string;
-  InfraEstrutura: Record<string, string>;
-  Caracteristicas: Record<string, string>;
-  Foto: Record<string, { Foto: string; FotoPequena: string; Ordem: string; Destaque: string; Descricao: string }>;
-}
-
 export interface EmpreendimentoStats {
   minPreco: number | null;
   minSuites: number | null;
@@ -436,9 +411,9 @@ export async function getDetalheEmpreendimentoServer(codigo: string): Promise<Vi
 
   const pesquisa = {
     fields: [
-      'Codigo', 'Empreendimento', 'TituloSite', 'Categoria', 'Status', 'Cidade', 'Bairro', 'UF',
-      'Endereco', 'Numero', 'ValorVenda', 'DescricaoEmpreendimento', 'DescricaoWeb',
-      'Descricao', 'DataEntrega', 'FotoDestaque', 'FotoDestaquePequena',
+    'Codigo', 'Empreendimento', 'TituloSite', 'Categoria', 'Status', 'Cidade', 'Bairro', 'UF',
+    'Endereco', 'Numero', 'ValorVenda', 'DescricaoEmpreendimento', 'DescricaoWeb',
+    'Descricao', 'DataEntrega', 'DataAtualizacao', 'DataCadastro', 'FotoDestaque', 'FotoDestaquePequena',
       'AreaPrivativa', 'AreaTotal', 'Suites', 'Dormitorios',
       'Latitude', 'Longitude', 'SuperDestaqueWeb', 'InfraEstrutura', 'Caracteristicas',
       { Foto: ['Foto', 'FotoPequena', 'Ordem', 'Destaque', 'Descricao'] },
@@ -470,7 +445,7 @@ export async function getDetalheImovelServer(codigo: string): Promise<ApiDetalhe
     'Codigo', 'Referencia', 'TituloSite', 'Categoria', 'Finalidade', 'Status',
     'Cidade', 'Bairro', 'UF', 'ValorVenda', 'ValorLocacao', 'ValorCondominio',
     'Dormitorios', 'Suites', 'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa',
-    'AreaTotal', 'FotoDestaque', 'Descricao', 'DescricaoWeb', 'Empreendimento',
+    'AreaTotal', 'DataAtualizacao', 'DataCadastro', 'FotoDestaque', 'Descricao', 'DescricaoWeb', 'Empreendimento',
     'InfraEstrutura', 'Caracteristicas', 'Latitude', 'Longitude',
     { Foto: ['Foto', 'FotoPequena', 'Destaque', 'Descricao', 'Ordem'] },
     { Corretor: ['Nome', 'Foto', 'Celular', 'Tipo'] },
@@ -478,7 +453,10 @@ export async function getDetalheImovelServer(codigo: string): Promise<ApiDetalhe
 
   const url = buildVistaGetUrl('/imoveis/detalhes', { fields }, { imovel: codigo });
 
-  const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } });
+  const res = await fetch(url.toString(), {
+    headers: { Accept: 'application/json' },
+    next: { revalidate: 300 },
+  });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
 

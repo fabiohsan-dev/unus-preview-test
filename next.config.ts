@@ -34,6 +34,15 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  async redirects() {
+    return [
+      {
+        source: '/busca',
+        destination: '/venda',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

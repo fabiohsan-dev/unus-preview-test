@@ -4,41 +4,61 @@ import { PropertyCard } from '@/components/PropertyCard';
 import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaService';
 import { mapToGridProperty } from '@/lib/mappers/propertyMapper';
 import { SITE_URL } from '@/lib/constants';
+import { normalizeVendaSearchParams, vendaFiltersFromParams, vendaUrl } from '@/lib/vendaSearch';
 import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-
-export const metadata: Metadata = {
-  title: 'Imóveis à Venda — Alto Padrão em Florianópolis e São José',
-  description: 'Encontre imóveis de alto padrão na Grande Florianópolis. Apartamentos, casas e coberturas selecionadas pela UNUS.',
-  alternates: { canonical: `${SITE_URL}/venda` },
-  openGraph: {
-    title: 'Imóveis à Venda | UNUS Núcleo Imobiliário',
-    description: 'Imóveis de alto padrão na Grande Florianópolis com curadoria UNUS.',
-    type: 'website',
-    url: `${SITE_URL}/venda`,
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'UNUS — Imóveis à Venda' }],
-  },
-};
+import { redirect } from 'next/navigation';
 
 interface VendaPageProps {
   searchParams: Promise<{
     cidade?: string;
     bairro?: string;
     tipo?: string;
+    categoria?: string;
+    finalidade?: string;
+    negocio?: string;
     precoMin?: string;
     precoMax?: string;
     quartos?: string;
     suites?: string;
     vagas?: string;
     areaMin?: string;
+    areaMax?: string;
+    banheiros?: string;
     codigo?: string;
+    ordem?: string;
     page?: string;
     view?: string;
   }>;
 }
 
+export async function generateMetadata({ searchParams }: VendaPageProps): Promise<Metadata> {
+  const normalized = normalizeVendaSearchParams(await searchParams);
+  const hasFilters = Boolean(normalized.query);
+
+  return {
+    title: 'Imóveis à Venda — Alto Padrão em Florianópolis e São José',
+    description: 'Encontre imóveis de alto padrão na Grande Florianópolis. Apartamentos, casas e coberturas selecionadas pela UNUS.',
+    alternates: { canonical: `${SITE_URL}/venda` },
+    robots: hasFilters ? { index: false, follow: true } : { index: true, follow: true },
+    openGraph: {
+      title: 'Imóveis à Venda | UNUS Núcleo Imobiliário',
+      description: 'Imóveis de alto padrão na Grande Florianópolis com curadoria UNUS.',
+      type: 'website',
+      url: `${SITE_URL}/venda`,
+      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'UNUS — Imóveis à Venda' }],
+    },
+  };
+}
+
 export default async function VendaPage({ searchParams }: VendaPageProps) {
-  const params = await searchParams;
+  const rawParams = await searchParams;
+  const normalized = normalizeVendaSearchParams(rawParams);
+  if (normalized.changed) {
+    redirect(normalized.query ? `/venda?${normalized.query}` : '/venda');
+  }
+
+  const params = normalized.params;
   const viewMode = params.view || 'grid';
   const currentPage = Number(params.page) || 1;
   const itemsPerPage = viewMode === 'list' ? 24 : 12;
@@ -49,18 +69,9 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
       return undefined;
     }),
     getListarImoveisServer({
-      codigo: params.codigo,
-      cidade: params.cidade,
-      bairro: params.bairro,
-      tipo: params.tipo,
-      precoMin: params.precoMin,
-      precoMax: params.precoMax,
-      quartos: params.quartos ? Number(params.quartos) : undefined,
-      suites: params.suites ? Number(params.suites) : undefined,
-      vagas: params.vagas ? Number(params.vagas) : undefined,
-      areaMin: params.areaMin,
+      ...vendaFiltersFromParams(params),
       limit: itemsPerPage,
-      page: currentPage
+      page: currentPage,
     }).catch(() => ({ items: [], total: 0, paginas: 1 }))
   ]);
 
@@ -72,11 +83,24 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
     const p = new URLSearchParams();
     Object.entries(params).forEach(([k, v]) => { if(v) p.set(k, v); });
     p.set('page', page.toString());
-    return `/venda?${p.toString()}`;
+    return vendaUrl(Object.fromEntries(p.entries()));
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Imóveis à venda', item: `${SITE_URL}/venda` },
+    ],
   };
 
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PropertyFilters metadata={metadata} />
 
       <main className={`flex flex-col lg:flex-row ${viewMode === 'grid' ? 'h-[calc(100vh-128px)] overflow-hidden' : 'min-h-screen'}`}>

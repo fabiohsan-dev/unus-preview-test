@@ -179,7 +179,7 @@ export function PriceRangeField({
               <button
                 type="button"
                 onClick={reset}
-                className="px-5 py-2 text-[13px] text-[var(--color-body)] bg-[var(--neutral-100)] rounded-full hover:bg-[var(--neutral-200)] transition-colors cursor-pointer"
+                className="min-h-11 px-5 py-2 text-[13px] text-[var(--color-body)] bg-[var(--neutral-100)] rounded-full hover:bg-[var(--neutral-200)] transition-colors cursor-pointer"
                 style={{ fontWeight: 500 }}
               >
                 Resetar
@@ -192,7 +192,7 @@ export function PriceRangeField({
                   onApply(minValue, maxValue);
                   requestAnimationFrame(() => triggerRef.current?.focus());
                 }}
-                className="px-5 py-2 text-[13px] text-white bg-[var(--secondary-900)] rounded-full hover:bg-[var(--secondary-800)] transition-colors cursor-pointer"
+                className="min-h-11 px-5 py-2 text-[13px] text-white bg-[var(--secondary-900)] rounded-full hover:bg-[var(--secondary-800)] transition-colors cursor-pointer"
                 style={{ fontWeight: 500 }}
               >
                 Aplicar

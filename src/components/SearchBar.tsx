@@ -4,33 +4,20 @@ import {
   Bath,
   BedDouble,
   Building,
-  Building2,
   Car,
-  CheckCircle2,
   ChevronDown,
   Hash,
   MapPin,
   Maximize,
   Search,
   SlidersHorizontal,
-  Sparkles,
   X,
 } from 'lucide-react';
 import { useEffect, useId, useMemo, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ApiMetadataResponse } from '@/types/vista';
 import { PriceRangeField } from './PriceRangeField';
-
-export const FEATURES = [
-  'Piscina',
-  'Churrasqueira',
-  'Vista mar',
-  'Varanda gourmet',
-  'Home office',
-  'Academia',
-  'Pet friendly',
-  'Mobiliado',
-];
+import { vendaUrl } from '@/lib/vendaSearch';
 
 function FilterField({
   icon: Icon,
@@ -209,21 +196,35 @@ function FilterField({
   );
 }
 
-function AdvancedPanel({ onClose }: { onClose: () => void }) {
+interface AdvancedFiltersState {
+  quartos: string;
+  suites: string;
+  vagas: string;
+  areaMin: string;
+  codigo: string;
+}
+
+function AdvancedPanel({
+  values,
+  onChange,
+  onClose,
+}: {
+  values: AdvancedFiltersState;
+  onChange: (key: keyof AdvancedFiltersState, value: string) => void;
+  onClose: () => void;
+}) {
   /* IDs únicos para associar label ↔ input/select (WCAG 3.3.2) */
   const idQuartos       = useId();
   const idSuites        = useId();
   const idVagas         = useId();
   const idArea          = useId();
   const idCodigo        = useId();
-  const idEmpreendimento = useId();
-  const idStatus        = useId();
 
   const gridFields = [
-    { id: idQuartos, icon: BedDouble, label: 'Quartos', options: ['Qualquer', '1+', '2+', '3+', '4+'] },
-    { id: idSuites,  icon: Bath,      label: 'Suítes',  options: ['Qualquer', '1+', '2+', '3+', '4+'] },
-    { id: idVagas,   icon: Car,       label: 'Vagas',   options: ['Qualquer', '1+', '2+', '3+'] },
-    { id: idArea,    icon: Maximize,  label: 'Área (m²)', options: ['Qualquer', '50+ m²', '100+ m²', '150+ m²', '200+ m²', '300+ m²'] },
+    { id: idQuartos, icon: BedDouble, label: 'Quartos', key: 'quartos' as const, options: ['', '1', '2', '3', '4'] },
+    { id: idSuites,  icon: Bath,      label: 'Suítes',  key: 'suites' as const, options: ['', '1', '2', '3', '4'] },
+    { id: idVagas,   icon: Car,       label: 'Vagas',   key: 'vagas' as const, options: ['', '1', '2', '3'] },
+    { id: idArea,    icon: Maximize,  label: 'Área (m²)', key: 'areaMin' as const, options: ['', '50', '100', '150', '200', '300'] },
   ];
 
   return (
@@ -241,7 +242,7 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           onClick={onClose}
-          className="w-7 h-7 rounded-full hover:bg-[var(--neutral-100)] flex items-center justify-center transition-colors cursor-pointer"
+          className="w-11 h-11 rounded-full hover:bg-[var(--neutral-100)] flex items-center justify-center transition-colors cursor-pointer"
           aria-label="Fechar filtros avançados"
         >
           <X className="w-3.5 h-3.5 text-[var(--color-caption)]" aria-hidden="true" />
@@ -261,19 +262,21 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
             </label>
             <select
               id={field.id}
+              value={values[field.key]}
+              onChange={(event) => onChange(field.key, event.target.value)}
               className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
               style={{ fontWeight: 500 }}
             >
               {field.options.map((option) => (
-                <option key={option}>{option}</option>
+                <option key={option} value={option}>{option ? `${option}+` : 'Qualquer'}</option>
               ))}
             </select>
           </div>
         ))}
       </div>
 
-      {/* Código, Empreendimento, Status */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
+      {/* Código */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
         <div className="space-y-1.5">
           <label
             htmlFor={idCodigo}
@@ -286,69 +289,15 @@ function AdvancedPanel({ onClose }: { onClose: () => void }) {
             id={idCodigo}
             type="text"
             placeholder="Ex: UNUS-1234"
+            value={values.codigo}
+            onChange={(event) => onChange('codigo', event.target.value)}
             className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
             style={{ fontWeight: 500 }}
           />
-        </div>
-        <div className="space-y-1.5">
-          <label
-            htmlFor={idEmpreendimento}
-            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-            style={{ fontWeight: 600 }}
-          >
-            <Building2 className="w-3.5 h-3.5" aria-hidden="true" /> Empreendimento
-          </label>
-          <input
-            id={idEmpreendimento}
-            type="text"
-            placeholder="Nome do empreendimento"
-            className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
-            style={{ fontWeight: 500 }}
-          />
-        </div>
-        <div className="space-y-1.5">
-          <label
-            htmlFor={idStatus}
-            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-            style={{ fontWeight: 600 }}
-          >
-            <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" /> Status
-          </label>
-          <select
-            id={idStatus}
-            className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
-            style={{ fontWeight: 500 }}
-          >
-            <option>Todos</option>
-            <option>Pronto</option>
-            <option>Em construção</option>
-            <option>Na planta</option>
-          </select>
         </div>
       </div>
 
       {/* Características Especiais */}
-      <div className="space-y-2">
-        <p
-          className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-          style={{ fontWeight: 600 }}
-          id="features-label"
-        >
-          <Sparkles className="w-3.5 h-3.5" aria-hidden="true" /> Características Especiais
-        </p>
-        <div className="flex flex-wrap gap-2" role="group" aria-labelledby="features-label">
-          {FEATURES.map((feature) => (
-            <button
-              key={feature}
-              type="button"
-              className="px-3 py-1.5 rounded-full bg-[var(--neutral-100)] text-[12px] text-[var(--color-body)] hover:bg-[var(--primary-500)]/10 hover:text-[var(--color-accent-text)] transition-colors cursor-pointer"
-              style={{ fontWeight: 500 }}
-            >
-              {feature}
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
@@ -377,6 +326,13 @@ export function SearchBar({
   const [selectedType, setSelectedType]         = useState('Todos os tipos');
   const [precoMin, setPrecoMin]                 = useState('');
   const [precoMax, setPrecoMax]                 = useState('');
+  const [advancedFilters, setAdvancedFilters] = useState<AdvancedFiltersState>({
+    quartos: '',
+    suites: '',
+    vagas: '',
+    areaMin: '',
+    codigo: '',
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const advancedPanelId = useId();
   const compact = variant === 'compact';
@@ -411,16 +367,13 @@ export function SearchBar({
   const handleSearch = () => {
     const params = new URLSearchParams();
 
-    if (selectedLocation !== 'Todas as regiões') {
-      params.set('bairro', selectedLocation);
-    }
-
-    if (selectedType !== 'Todos os tipos') {
-      params.set('tipo', selectedType);
-    }
-
+    if (selectedLocation !== 'Todas as regiões') params.set('bairro', selectedLocation);
+    if (selectedType !== 'Todos os tipos') params.set('tipo', selectedType);
     if (precoMin) params.set('precoMin', precoMin);
     if (precoMax) params.set('precoMax', precoMax);
+    Object.entries(advancedFilters).forEach(([key, value]) => {
+      if (value.trim()) params.set(key, value.trim());
+    });
 
     onSearch?.({
       location: selectedLocation,
@@ -428,7 +381,7 @@ export function SearchBar({
       value: precoMax || precoMin || '',
     });
 
-    router.push(params.toString() ? `/venda?${params.toString()}` : '/venda');
+    router.push(vendaUrl(Object.fromEntries(params.entries())));
   };
 
   const toggleDropdown = (name: string) => {
@@ -522,7 +475,7 @@ export function SearchBar({
             <button
               type="button"
               className={`flex items-center justify-center rounded-lg transition-colors cursor-pointer ${
-                compact ? 'w-9 h-9' : 'w-11 h-11'
+                'w-11 h-11'
               } ${
                 showAdvanced
                   ? 'bg-[var(--primary-500)]/10 text-[var(--color-accent-text)]'
@@ -544,8 +497,8 @@ export function SearchBar({
               aria-label="Buscar imóvel"
               className={`bg-[var(--deep-blue)] text-white rounded-lg flex items-center justify-center gap-2.5 hover:bg-[var(--deep-blue-light)] transition-colors cursor-pointer ${
                 compact
-                  ? 'px-5 py-2.5 flex-1 md:flex-none'
-                  : 'px-8 py-3.5 md:py-3 flex-1 md:flex-none'
+                  ? 'px-5 py-2.5 min-h-11 flex-1 md:flex-none'
+                  : 'px-8 py-3.5 md:py-3 min-h-11 flex-1 md:flex-none'
               }`}
             >
               <Search className={compact ? 'w-3.5 h-3.5' : 'w-4 h-4'} strokeWidth={1.5} />
@@ -561,7 +514,11 @@ export function SearchBar({
 
         {showAdvanced && (
           <div id={advancedPanelId}>
-            <AdvancedPanel onClose={() => setShowAdvanced(false)} />
+            <AdvancedPanel
+              values={advancedFilters}
+              onChange={(key, value) => setAdvancedFilters((current) => ({ ...current, [key]: value }))}
+              onClose={() => setShowAdvanced(false)}
+            />
           </div>
         )}
       </div>
