@@ -279,19 +279,78 @@ export default function NucleoPage() {
               ))}
             </div>
 
-            {/* Direita — imagem fixa (sticky) */}
+            {/* Direita — composição editorial (sticky) */}
             <div className="lg:sticky lg:top-32">
-              <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
-                <Image
-                  src="/office/sala-unus-7.webp"
-                  alt="Visão geral do escritório UNUS Núcleo Imobiliário"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 500px"
-                  className="object-cover"
-                />
-                {/* overlay sutil */}
-                <div className="absolute inset-0 bg-[var(--secondary-900)]/10" />
-              </div>
+              <figure className="relative">
+
+                {/* Filete dourado vertical decorativo */}
+                <div className="hidden lg:block absolute -left-6 top-12 bottom-12 w-[1px] bg-[var(--gold)]/40" />
+
+                {/* Imagem principal */}
+                <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
+                  <Image
+                    src="/office/sala-unus-7.webp"
+                    alt="Escritório UNUS Núcleo Imobiliário em Balneário Camboriú"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 500px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--secondary-900)]/35 via-transparent to-transparent" />
+
+                  {/* Selo no canto superior direito — ano de fundação */}
+                  <div className="absolute top-6 right-6 flex flex-col items-end">
+                    <span
+                      className="text-[9px] uppercase tracking-[0.4em] text-white/70 mb-1"
+                      style={{ fontWeight: 600 }}
+                    >
+                      Est.
+                    </span>
+                    <span
+                      className="text-[28px] text-white tabular-nums leading-none"
+                      style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+                    >
+                      2015
+                    </span>
+                  </div>
+
+                  {/* Localização no rodapé da imagem */}
+                  <figcaption className="absolute left-6 right-6 bottom-5 flex items-center gap-3">
+                    <div className="w-6 h-[1px] bg-[var(--gold)]" />
+                    <span
+                      className="text-[10px] uppercase tracking-[0.3em] text-white/85"
+                      style={{ fontWeight: 500 }}
+                    >
+                      Balneário Camboriú, SC
+                    </span>
+                  </figcaption>
+                </div>
+
+                {/* Cartão sobreposto — assinatura editorial */}
+                <div className="relative lg:absolute lg:-bottom-8 lg:-left-10 mt-6 lg:mt-0 bg-white px-7 py-7 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.18)] max-w-[280px] z-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-7 h-[1px] bg-[var(--gold)]" />
+                    <span
+                      className="text-[9px] uppercase tracking-[0.35em] text-[var(--gold)]"
+                      style={{ fontWeight: 600 }}
+                    >
+                      Nossa Casa
+                    </span>
+                  </div>
+                  <p
+                    className="text-[18px] text-[var(--color-heading)] leading-[1.35]"
+                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
+                  >
+                    Mais que um escritório,{' '}
+                    <em
+                      className="italic text-[var(--gold)]"
+                      style={{ fontWeight: 500 }}
+                    >
+                      um núcleo.
+                    </em>
+                  </p>
+                </div>
+
+              </figure>
             </div>
 
           </div>
