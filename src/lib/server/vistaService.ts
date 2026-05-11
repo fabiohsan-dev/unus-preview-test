@@ -205,6 +205,9 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
       AreaTotal: row.area_total?.toString(),
       DataEntrega: row.data_entrega,
       FotoDestaque: row.foto_destaque,
+      DescricaoEmpreendimento: row.raw_data?.DescricaoEmpreendimento || row.raw_data?.DescricaoWeb || row.raw_data?.Descricao || '',
+      DescricaoWeb: row.raw_data?.DescricaoWeb || '',
+      Descricao: row.raw_data?.Descricao || '',
     }));
 
     const total = count || 0;

@@ -20,6 +20,7 @@ async function fetchVistaPage(page: number, limit: number): Promise<{ items: Vis
       'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
       'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal', 'DataEntrega',
       'DataCadastro', 'DataAtualizacao', 'FotoDestaque', 'SuperDestaqueWeb',
+      'DescricaoEmpreendimento', 'DescricaoWeb', 'Descricao',
     ],
     paginacao: { pagina: page, quantidade: limit },
   };
