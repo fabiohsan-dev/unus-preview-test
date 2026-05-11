@@ -17,7 +17,7 @@ const SLIDES = [
 ];
 
 export function OfficeSlider() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start', dragFree: false });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
@@ -43,12 +43,12 @@ export function OfficeSlider() {
     <div className="relative group">
       {/* Viewport */}
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex">
+        <div className="flex gap-1 lg:gap-2">
           {SLIDES.map((slide, i) => (
             <div
               key={slide.src}
-              className="flex-[0_0_100%] min-w-0 relative"
-              style={{ aspectRatio: '16/7' }}
+              className="flex-[0_0_100%] lg:flex-[0_0_calc(50%-4px)] min-w-0 relative shrink-0"
+              style={{ aspectRatio: '16/9' }}
             >
               <Image
                 src={slide.src}

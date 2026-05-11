@@ -8,6 +8,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { whatsappUrl, SITE_URL } from '@/lib/constants';
 import { OfficeSlider } from '@/components/OfficeSlider';
 
@@ -102,45 +103,70 @@ export default function NucleoPage() {
   return (
     <div className="min-h-screen">
 
-      {/* ── Hero ── */}
-      <section className="bg-[var(--secondary-900)] pt-48 pb-24 px-6 sm:px-8 lg:px-12 relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
-          }}
-        />
-        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)]/30 to-transparent" />
+      {/* ── Hero (split) ── */}
+      <section className="overflow-hidden">
+        <div className="lg:grid lg:grid-cols-2">
 
-        <div className="max-w-[1400px] mx-auto relative z-10">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-[1px] bg-[var(--gold)]" />
-            <span
-              className="text-[10px] uppercase tracking-[0.35em] text-[var(--gold)]/75"
-              style={{ fontWeight: 600 }}
-            >
-              O Núcleo
-            </span>
+          {/* Esquerda — texto sobre fundo escuro */}
+          <div className="bg-[var(--secondary-900)] relative px-6 sm:px-8 lg:px-12 xl:px-16 pt-48 pb-24">
+            {/* textura */}
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none"
+              style={{
+                backgroundImage:
+                  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
+              }}
+            />
+            {/* linha dourada embaixo (só aparece no bottom da col) */}
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)]/30 to-transparent lg:hidden" />
+
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-[1px] bg-[var(--gold)]" />
+                <span
+                  className="text-[10px] uppercase tracking-[0.35em] text-[var(--gold)]/75"
+                  style={{ fontWeight: 600 }}
+                >
+                  O Núcleo
+                </span>
+              </div>
+
+              <h1
+                className="text-[48px] sm:text-[64px] lg:text-[72px] leading-[1.0] tracking-[-0.025em] text-white mb-8"
+                style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+              >
+                A solução perfeita em{' '}
+                <span style={{ fontWeight: 600 }} className="italic text-[var(--gold)]">
+                  serviços imobiliários.
+                </span>
+              </h1>
+
+              <p
+                className="text-white/50 text-[16px] sm:text-[18px] max-w-[480px] leading-[1.8]"
+                style={{ fontWeight: 300 }}
+              >
+                Mais de 9 anos conectando famílias e investidores aos melhores
+                imóveis de Santa Catarina com inteligência, estratégia e cuidado.
+              </p>
+            </div>
           </div>
 
-          <h1
-            className="text-[52px] sm:text-[68px] lg:text-[80px] leading-[1.0] tracking-[-0.025em] text-white mb-8 max-w-[820px]"
-            style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
-          >
-            A solução perfeita em{' '}
-            <span style={{ fontWeight: 600 }} className="italic text-[var(--gold)]">
-              serviços imobiliários.
-            </span>
-          </h1>
+          {/* Direita — fotografia */}
+          <div className="relative min-h-[360px] lg:min-h-0">
+            <Image
+              src="/office/sala-unus-9.webp"
+              alt="Sala de conferência UNUS com vista para a cidade"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+            {/* gradiente sutil à esquerda para fundir com a col de texto */}
+            <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[var(--secondary-900)] to-transparent hidden lg:block" />
+            {/* overlay leve para preservar legibilidade da cor */}
+            <div className="absolute inset-0 bg-[var(--secondary-900)]/15" />
+          </div>
 
-          <p
-            className="text-white/50 text-[16px] sm:text-[18px] max-w-[540px] leading-[1.8]"
-            style={{ fontWeight: 300 }}
-          >
-            Mais de 9 anos conectando famílias e investidores aos melhores
-            imóveis de Santa Catarina com inteligência, estratégia e cuidado.
-          </p>
         </div>
       </section>
 
@@ -198,58 +224,76 @@ export default function NucleoPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-[var(--neutral-100)]">
-            {DIFERENCIAIS.map(({ num, Icon, title, desc, extras }) => (
-              <div
-                key={num}
-                className="p-10 lg:p-12 border-b border-r-0 md:odd:border-r border-[var(--neutral-100)] last:border-b-0 md:[&:nth-child(3)]:border-b-0"
-              >
-                <div className="flex items-center gap-4 mb-8">
-                  <span
-                    className="text-[11px] text-[var(--gold)] tracking-[0.1em]"
-                    style={{ fontWeight: 600 }}
-                  >
-                    {num}
-                  </span>
-                  <div className="w-11 h-11 border border-[var(--neutral-200)] flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-[var(--color-heading)]" strokeWidth={1.5} />
+          {/* Layout: lista à esquerda + imagem à direita */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] xl:grid-cols-[1fr_500px] gap-16 lg:gap-24 items-start">
+
+            {/* Esquerda — lista com divisores */}
+            <div className="divide-y divide-[var(--neutral-100)]">
+              {DIFERENCIAIS.map(({ num, Icon, title, desc, extras }) => (
+                <div key={num} className="py-10 first:pt-0 last:pb-0">
+                  <div className="flex items-center gap-4 mb-6">
+                    <span
+                      className="text-[11px] text-[var(--gold)] tracking-[0.1em]"
+                      style={{ fontWeight: 600 }}
+                    >
+                      {num}
+                    </span>
+                    <div className="w-10 h-10 border border-[var(--neutral-200)] flex items-center justify-center">
+                      <Icon className="w-4 h-4 text-[var(--color-heading)]" strokeWidth={1.5} />
+                    </div>
                   </div>
+
+                  <h3
+                    className="text-[22px] text-[var(--color-heading)] mb-3 leading-[1.25]"
+                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
+                  >
+                    {title}
+                  </h3>
+
+                  <p
+                    className="text-[14px] text-[var(--color-body)] leading-[1.85]"
+                    style={{ fontWeight: 300 }}
+                  >
+                    {desc}
+                  </p>
+
+                  {extras.length > 0 && (
+                    <ul className="mt-5 space-y-2">
+                      {extras.map((item) => (
+                        <li key={item} className="flex items-start gap-3">
+                          <CheckCircle2
+                            className="w-3.5 h-3.5 text-[var(--gold)] mt-[3px] shrink-0"
+                            strokeWidth={2}
+                          />
+                          <span
+                            className="text-[13px] text-[var(--color-body)] leading-[1.7]"
+                            style={{ fontWeight: 300 }}
+                          >
+                            {item}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
+              ))}
+            </div>
 
-                <h3
-                  className="text-[22px] text-[var(--color-heading)] mb-4 leading-[1.25]"
-                  style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
-                >
-                  {title}
-                </h3>
-
-                <p
-                  className="text-[14px] text-[var(--color-body)] leading-[1.85]"
-                  style={{ fontWeight: 300 }}
-                >
-                  {desc}
-                </p>
-
-                {extras.length > 0 && (
-                  <ul className="mt-5 space-y-2">
-                    {extras.map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <CheckCircle2
-                          className="w-3.5 h-3.5 text-[var(--gold)] mt-[3px] shrink-0"
-                          strokeWidth={2}
-                        />
-                        <span
-                          className="text-[13px] text-[var(--color-body)] leading-[1.7]"
-                          style={{ fontWeight: 300 }}
-                        >
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+            {/* Direita — imagem fixa (sticky) */}
+            <div className="lg:sticky lg:top-32">
+              <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
+                <Image
+                  src="/office/sala-unus-7.webp"
+                  alt="Visão geral do escritório UNUS Núcleo Imobiliário"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="object-cover"
+                />
+                {/* overlay sutil */}
+                <div className="absolute inset-0 bg-[var(--secondary-900)]/10" />
               </div>
-            ))}
+            </div>
+
           </div>
 
         </div>
