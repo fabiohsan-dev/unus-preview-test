@@ -85,9 +85,9 @@ export async function getMetadataServer(): Promise<ApiMetadataResponse> {
   try {
     // Busca dados distintos diretamente do banco (extremamente rápido e preciso)
     const [bairrosRes, cidadesRes, categoriasRes] = await Promise.all([
-      supabase.from('imoveis').select('bairro').eq('status', 'Disponível'),
-      supabase.from('imoveis').select('cidade').eq('status', 'Disponível'),
-      supabase.from('imoveis').select('categoria').eq('status', 'Disponível'),
+      supabase.from('imoveis').select('bairro'),
+      supabase.from('imoveis').select('cidade'),
+      supabase.from('imoveis').select('categoria'),
     ]);
 
     const extractUnique = (res: { data: Record<string, unknown>[] | null }, field: string) => {
