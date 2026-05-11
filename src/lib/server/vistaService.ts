@@ -140,53 +140,51 @@ function normalizeVistaFotos(source: unknown): VistaFoto[] {
     .sort((a, b) => getOrdem(a) - getOrdem(b));
 }
 
+import { supabase } from '../supabase';
+
 /**
- * Busca metadados diretamente no servidor.
+ * Busca metadados diretamente no banco de dados Supabase (Sincronizado com Vista).
  */
 export async function getMetadataServer(): Promise<ApiMetadataResponse> {
-  const config = getVistaServerConfig();
-  if (!config.ok) throw new Error(config.error);
+  try {
+    // Busca dados distintos diretamente do banco (extremamente rápido e preciso)
+    const [bairrosRes, cidadesRes, categoriasRes] = await Promise.all([
+      supabase.from('imoveis').select('bairro').eq('status', 'Disponível'),
+      supabase.from('imoveis').select('cidade').eq('status', 'Disponível'),
+      supabase.from('imoveis').select('categoria').eq('status', 'Disponível'),
+    ]);
 
-  const url = buildVistaGetUrl('/imoveis/listarConteudo', {
-    fields: ['Bairro', 'Cidade', 'Categoria'],
-  });
+    const extractUnique = (res: any, field: string) => {
+      if (!res.data) return [];
+      const values = res.data.map((item: any) => item[field]).filter(Boolean);
+      return Array.from(new Set(values as string[])).sort();
+    };
 
-  const res = await fetch(url.toString(), {
-    headers: { Accept: 'application/json' },
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    console.error(`[getMetadataServer] Vista API error ${res.status}:`, body);
-    throw new Error(`Vista API error: ${res.status}`);
+    return {
+      bairros: extractUnique(bairrosRes, 'bairro'),
+      cidades: extractUnique(cidadesRes, 'cidade'),
+      categorias: extractUnique(categoriasRes, 'categoria'),
+      valorVenda: { min: 0, max: 50000000 },
+      valorLocacao: { min: 0, max: 500000 },
+    };
+  } catch (err) {
+    console.error('[getMetadataServer] Erro ao buscar metadados no Supabase:', err);
+    // Fallback básico para não quebrar o site
+    return {
+      bairros: [],
+      cidades: [],
+      categorias: [],
+      valorVenda: { min: 0, max: 50000000 },
+      valorLocacao: { min: 0, max: 500000 },
+    };
   }
-
-  const data = await res.json();
-
-  const toSortedArray = (val: unknown): string[] => {
-    if (!val) return [];
-    if (Array.isArray(val)) return [...val as string[]].sort();
-    if (typeof val === 'object') return (Object.values(val) as string[]).sort();
-    return [];
-  };
-
-  return {
-    bairros: toSortedArray(data.Bairro),
-    cidades: toSortedArray(data.Cidade),
-    categorias: toSortedArray(data.Categoria),
-    valorVenda: { min: 0, max: 50000000 },
-    valorLocacao: { min: 0, max: 500000 },
-  };
 }
 
 /**
- * Lista imóveis diretamente no servidor.
+ * Lista imóveis consultando o banco de dados Supabase (Sincronizado com Vista).
+ * Resolve o problema de performance permitindo filtros complexos (preço, área) via SQL.
  */
 export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Promise<ApiListResponse> {
-  const config = getVistaServerConfig();
-  if (!config.ok) throw new Error(config.error);
-
   const {
     page = 1,
     limit = 12,
@@ -207,86 +205,80 @@ export async function getListarImoveisServer(filtros: FiltrosImoveis = {}): Prom
     codigo
   } = filtros;
 
-  const filter: Record<string, unknown> = {};
+  try {
+    let query = supabase
+      .from('imoveis')
+      .select('*', { count: 'exact' });
 
-  if (codigo) filter.Referencia = codigo;
-  if (destaque) filter.SuperDestaqueWeb = 'Sim';
-  if (tipo) filter.Categoria = tipo;
-  if (finalidade) filter.Finalidade = finalidade;
-  if (cidade) filter.Cidade = cidade;
-  if (bairro) filter.Bairro = bairro;
-  if (quartos && quartos > 0) filter.Dormitorios = `>= ${quartos}`;
-  if (suites && suites > 0) filter.Suites = `>= ${suites}`;
-  if (vagas && vagas > 0) filter.Vagas = `>= ${vagas}`;
-  if (banheiros && banheiros > 0) filter.BanheiroSocialQtd = `>= ${banheiros}`;
-  if (areaMin && areaMax) {
-    filter.AreaTotal = `>= ${areaMin} and <= ${areaMax}`;
-  } else if (areaMin) {
-    filter.AreaTotal = `>= ${areaMin}`;
-  } else if (areaMax) {
-    filter.AreaTotal = `<= ${areaMax}`;
-  }
+    // Filtros Básicos
+    if (codigo) query = query.eq('codigo', codigo);
+    if (tipo) query = query.eq('categoria', tipo);
+    if (finalidade) query = query.eq('finalidade', finalidade);
+    if (cidade) query = query.eq('cidade', cidade);
+    if (bairro) query = query.eq('bairro', bairro);
+    
+    // Filtros de Faixa (Preço e Área)
+    if (precoMin) query = query.gte('valor_venda', parseFloat(precoMin));
+    if (precoMax) query = query.lte('valor_venda', parseFloat(precoMax));
+    if (areaMin) query = query.gte('area_total', parseFloat(areaMin));
+    if (areaMax) query = query.lte('area_total', parseFloat(areaMax));
 
-  // NOTA: A API Vista CRM não suporta filtro ValorVenda para imóveis regulares
-  // (Apartamento, Casa, etc.) — funciona apenas para Empreendimentos via sub-unidades.
-  // Quando há filtro de preço, buscamos todos e filtramos aqui no servidor.
+    // Filtros de Quantidade (Minimos)
+    if (quartos && quartos > 0) query = query.gte('dormitorios', quartos);
+    if (suites && suites > 0) query = query.gte('suites', suites);
+    if (vagas && vagas > 0) query = query.gte('vagas', vagas);
+    if (banheiros && banheiros > 0) query = query.gte('banheiros', banheiros);
 
-  const orderConfig = ORDER_MAP[ordem];
-  const hasPrecoFilter = Boolean(precoMin || precoMax);
+    // Ordenação
+    if (ordem === 'menor-preco') query = query.order('valor_venda', { ascending: true });
+    else if (ordem === 'maior-preco') query = query.order('valor_venda', { ascending: false });
+    else if (ordem === 'maior-area') query = query.order('area_total', { ascending: false });
+    else if (ordem === 'mais-novo') query = query.order('data_cadastro', { ascending: false });
+    else query = query.order('updated_at', { ascending: false });
 
-  if (hasPrecoFilter) {
-    // Busca todos os imóveis sem filtro de preço, filtra client-side
-    const allItems = await getAllListingsFromVista(filter, orderConfig);
+    // Paginação
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+    query = query.range(from, to);
 
-    const minVal = precoMin ? Number(precoMin) : 0;
-    const maxVal = precoMax ? Number(precoMax) : Infinity;
+    const { data, error, count } = await query;
 
-    const filtered = allItems.filter((item) => {
-      const valor = Number(item.ValorVenda) || 0;
-      // Exclui imóveis sem preço (Empreendimentos com ValorVenda=0)
-      if (valor === 0) return false;
-      return valor >= minVal && valor <= maxVal;
-    });
+    if (error) throw error;
 
-    const total = filtered.length;
-    const offset = (page - 1) * Math.min(limit, 50);
-    const paginatedItems = filtered.slice(offset, offset + Math.min(limit, 50));
+    // Remapeia para o formato VistaImovelItem esperado pelos componentes
+    const items: VistaImovelItem[] = (data || []).map(row => ({
+      Codigo: row.codigo,
+      TituloSite: row.titulo_site,
+      Empreendimento: row.empreendimento,
+      Categoria: row.categoria,
+      Finalidade: row.finalidade,
+      Status: row.status,
+      Cidade: row.cidade,
+      Bairro: row.bairro,
+      ValorVenda: row.valor_venda?.toString(),
+      ValorLocacao: row.valor_locacao?.toString(),
+      Dormitorios: row.dormitorios?.toString(),
+      Suites: row.suites?.toString(),
+      Vagas: row.vagas?.toString(),
+      BanheiroSocialQtd: row.banheiros?.toString(),
+      AreaPrivativa: row.area_privativa?.toString(),
+      AreaTotal: row.area_total?.toString(),
+      DataEntrega: row.data_entrega,
+      FotoDestaque: row.foto_destaque,
+    }));
+
+    const total = count || 0;
 
     return {
-      items: paginatedItems,
+      items,
       total,
-      paginas: Math.ceil(total / Math.min(limit, 50)) || 1,
+      paginas: Math.ceil(total / limit) || 1,
       pagina: page,
     };
+  } catch (err) {
+    console.error('[getListarImoveisServer] Erro ao buscar no Supabase:', err);
+    return { items: [], total: 0, paginas: 1, pagina: 1 };
   }
-
-  // Caminho normal: sem filtro de preço — usa paginação nativa da Vista
-  const pesquisa: Record<string, unknown> = {
-    fields: LIST_FIELDS,
-    filter,
-    paginacao: { pagina: page, quantidade: Math.min(limit, 50) },
-  };
-
-  if (orderConfig) {
-    pesquisa.order = orderConfig;
-  }
-
-  const vistaUrl = buildVistaGetUrl('/imoveis/listar', pesquisa, { showtotal: '1' });
-
-  const res = await fetch(vistaUrl.toString(), {
-    headers: { Accept: 'application/json' },
-    next: { revalidate: 300 },
-  });
-  if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
-
-  const raw = await res.json();
-
-  return {
-    items: extractItems(raw as Record<string, unknown>),
-    total: Number(raw.total ?? 0),
-    paginas: Number(raw.paginas ?? 1),
-    pagina: Number(raw.pagina ?? page),
-  };
 }
 
 export interface EmpreendimentoStats {

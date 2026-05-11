@@ -46,3 +46,4 @@ content/blog-posts/
 contato-structure.md
 anuncie-structure.md
 blog-structure.md
+.env*.local
