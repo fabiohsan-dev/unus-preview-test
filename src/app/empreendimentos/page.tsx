@@ -42,13 +42,14 @@ export default async function EmpreendimentosPage() {
   const enriched = await Promise.all(
     empreendimentos.map(async (emp) => {
       const empName = emp.Empreendimento || emp.TituloSite || '';
-      const [fotos, stats] = await Promise.all([
+      const [{ fotos, descricao }, stats] = await Promise.all([
         getEmpreendimentoFotosServer(emp.Codigo, 5),
         empName ? getEmpreendimentoStatsServer(empName) : Promise.resolve(null),
       ]);
       return {
         ...emp,
-        FotosSlider:    fotos,
+        FotosSlider:               fotos,
+        DescricaoEmpreendimento:   descricao ?? emp.DescricaoEmpreendimento ?? '',
         AggMinPreco:    stats?.minPreco    ?? undefined,
         AggMinSuites:   stats?.minSuites   ?? undefined,
         AggMaxSuites:   stats?.maxSuites   ?? undefined,

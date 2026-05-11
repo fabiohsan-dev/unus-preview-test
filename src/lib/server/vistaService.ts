@@ -303,12 +303,12 @@ export async function getEmpreendimentoStatsServer(
 export async function getEmpreendimentoFotosServer(
   codigo: string,
   max = 5
-): Promise<string[]> {
+): Promise<{ fotos: string[]; descricao: string | null }> {
   const config = getVistaServerConfig();
-  if (!config.ok) return [];
+  if (!config.ok) return { fotos: [], descricao: null };
 
   const pesquisa = {
-    fields: ['Codigo', { Foto: ['Foto', 'Ordem', 'Destaque'] }],
+    fields: ['Codigo', 'DescricaoEmpreendimento', 'DescricaoWeb', 'Descricao', { Foto: ['Foto', 'Ordem', 'Destaque'] }],
   };
 
   try {
@@ -317,21 +317,26 @@ export async function getEmpreendimentoFotosServer(
       headers: { Accept: 'application/json' },
       next: { revalidate: 3600 },
     });
-    if (!res.ok) return [];
+    if (!res.ok) return { fotos: [], descricao: null };
 
     const data = await res.json();
+
+    // Descrição
+    const descricaoRaw: string = data?.DescricaoEmpreendimento || data?.DescricaoWeb || data?.Descricao || '';
+    const descricao = descricaoRaw.replace(/<[^>]*>/g, '').trim() || null;
+
+    // Fotos
     const fotoMap = data?.Foto;
-    if (!fotoMap || typeof fotoMap !== 'object') return [];
+    const fotos: string[] = (!fotoMap || typeof fotoMap !== 'object') ? [] :
+      Object.values(fotoMap as Record<string, { Foto?: string; Ordem?: string | number }>)
+        .filter((f) => f?.Foto)
+        .sort((a, b) => Number(a.Ordem ?? 99) - Number(b.Ordem ?? 99))
+        .slice(0, max)
+        .map((f) => f.Foto as string);
 
-    const sorted = Object.values(fotoMap as Record<string, { Foto?: string; Ordem?: string | number }>)
-      .filter((f) => f?.Foto)
-      .sort((a, b) => Number(a.Ordem ?? 99) - Number(b.Ordem ?? 99))
-      .slice(0, max)
-      .map((f) => f.Foto as string);
-
-    return sorted;
+    return { fotos, descricao };
   } catch {
-    return [];
+    return { fotos: [], descricao: null };
   }
 }
 
