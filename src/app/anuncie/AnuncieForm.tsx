@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { whatsappUrl } from '@/lib/constants';
 
 const TIPOS = [
@@ -99,34 +99,50 @@ export function AnuncieForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
         <div>
           <label className={labelBase} htmlFor="anuncie-tipo">Tipo de imóvel</label>
-          <select
-            id="anuncie-tipo"
-            required
-            value={tipo}
-            onChange={(e) => setTipo(e.target.value)}
-            className={`${inputBase} cursor-pointer appearance-none`}
-            style={{ fontWeight: 300 }}
-          >
-            <option value="" disabled>Selecione</option>
-            {TIPOS.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              id="anuncie-tipo"
+              required
+              value={tipo}
+              onChange={(e) => setTipo(e.target.value)}
+              className={`${inputBase} cursor-pointer appearance-none pr-8 ${
+                tipo === '' ? 'text-[var(--neutral-400)]' : 'text-[var(--secondary-900)]'
+              }`}
+              style={{ fontWeight: 300 }}
+            >
+              <option value="" disabled>Selecione</option>
+              {TIPOS.map((t) => (
+                <option key={t} value={t} className="text-[var(--secondary-900)]">{t}</option>
+              ))}
+            </select>
+            <ChevronDown
+              className="absolute right-0 bottom-3.5 w-4 h-4 text-[var(--neutral-400)] pointer-events-none"
+              strokeWidth={1.5}
+            />
+          </div>
         </div>
         <div>
           <label className={labelBase} htmlFor="anuncie-quartos">Nº de quartos</label>
-          <select
-            id="anuncie-quartos"
-            value={quartos}
-            onChange={(e) => setQuartos(e.target.value)}
-            className={`${inputBase} cursor-pointer appearance-none`}
-            style={{ fontWeight: 300 }}
-          >
-            <option value="">Selecione</option>
-            {QUARTOS.map((q) => (
-              <option key={q} value={q}>{q}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              id="anuncie-quartos"
+              value={quartos}
+              onChange={(e) => setQuartos(e.target.value)}
+              className={`${inputBase} cursor-pointer appearance-none pr-8 ${
+                quartos === '' ? 'text-[var(--neutral-400)]' : 'text-[var(--secondary-900)]'
+              }`}
+              style={{ fontWeight: 300 }}
+            >
+              <option value="">Selecione</option>
+              {QUARTOS.map((q) => (
+                <option key={q} value={q} className="text-[var(--secondary-900)]">{q}</option>
+              ))}
+            </select>
+            <ChevronDown
+              className="absolute right-0 bottom-3.5 w-4 h-4 text-[var(--neutral-400)] pointer-events-none"
+              strokeWidth={1.5}
+            />
+          </div>
         </div>
       </div>
 
