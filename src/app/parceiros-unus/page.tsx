@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ArrowRight, MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { whatsappUrl, SITE_URL } from '@/lib/constants';
 
@@ -26,80 +27,94 @@ const PARTNERS = [
     name: 'Ademicon',
     category: 'Consórcio e Investimento',
     phone: '(48) 9 9650-2020',
+    logo: '/partners/ademicon.jpg',
   },
   {
     name: 'Beatriz Zeglin Arquitetura',
     category: 'Arquiteta de interiores',
     phone: '(48) 9 9958-3361',
+    logo: '/partners/beatriz-zeglin.jpg',
   },
   {
     name: 'Belluno Móveis',
     category: 'Móveis sob medida',
     phone: '(48) 9 8404-5869',
+    logo: '/partners/belluno.jpg',
   },
   {
     name: 'Bluhaus',
     category: 'Automação, sonorização, redes e segurança',
     phone: '(48) 9 9101-2516',
+    logo: '/partners/bluhaus.jpg',
   },
   {
     name: 'Carol Cortinas',
     category: 'Cortinas, persianas e papel de parede',
     phone: '(48) 9 9844-0024',
+    logo: '/partners/carol-cortinas.jpg',
   },
   {
     name: 'DWG Vidros',
     category: 'Box, fechamento de sacadas e vidros em geral',
     phone: '(48) 9 9985-1897',
+    logo: '/partners/dwg-vidros.jpg',
   },
   {
     name: 'Grupo INVI',
     category: 'Assessoria técnica · Síndico profissional',
     phone: '(48) 9 9625-7302',
+    logo: '/partners/grupo-invi.png',
   },
   {
     name: 'Improjel',
     category: 'Impermeabilizações',
     phone: '(48) 9 8476-6518',
+    logo: '/partners/improjel.jpg',
   },
   {
     name: 'Lares Empreendimentos',
     category: 'Administração de obras',
     phone: '(48) 9 8476-6518',
+    logo: '/partners/lares.jpg',
   },
   {
     name: 'Mais Art & Design',
     category: 'Design de interiores e arquitetura',
     phone: '(48) 9 8858-8763',
+    logo: '/partners/mais-art-design.png',
   },
   {
     name: 'Marmoart',
     category: 'Marmoraria',
     phone: '(48) 9 8402-1062',
+    logo: '/partners/marmoart.png',
   },
   {
     name: 'Pont Cred',
     category: 'Assessoria Financeira',
     phone: '(48) 3375-9009',
+    logo: '/partners/pont-cred.png',
   },
   {
     name: 'Sagas do Prado',
     category: 'Advocacia Imobiliária',
     phone: '(48) 9 9819-9304',
+    logo: '/partners/sagas-do-prado.jpg',
   },
   {
     name: 'SC Cortinas e Persianas',
     category: 'Cortinas, persianas e papel de parede',
     phone: '(48) 9 98404-9006',
+    logo: '/partners/sc-cortinas.jpg',
   },
   {
     name: 'Tec Clean',
     category: 'Climatização e Elétrica',
     phone: '(48) 9 9668-5407',
+    logo: '/partners/tec-clean.png',
   },
 ] as const;
 
-/* Monta link WhatsApp com número limpo */
 function waLink(phone: string, name: string) {
   const digits = phone.replace(/\D/g, '');
   const e164 = digits.startsWith('55') ? digits : `55${digits}`;
@@ -157,10 +172,10 @@ export default function ParceirosPage() {
         </div>
       </section>
 
-      {/* ── Intro — números + descrição ── */}
+      {/* ── Intro ── */}
       <section className="bg-white px-6 sm:px-8 lg:px-12 py-20 border-b border-[var(--neutral-100)]">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-16 items-center">
 
             <p
               className="text-[17px] sm:text-[19px] text-[var(--color-body)] leading-[1.85] max-w-[640px]"
@@ -194,7 +209,7 @@ export default function ParceirosPage() {
         </div>
       </section>
 
-      {/* ── Diretório de parceiros ── */}
+      {/* ── Grid de parceiros ── */}
       <section className="bg-[var(--color-background)] px-6 sm:px-8 lg:px-12 py-24 lg:py-32">
         <div className="max-w-[1400px] mx-auto">
 
@@ -208,98 +223,58 @@ export default function ParceirosPage() {
             </span>
           </div>
 
-          {/* Cabeçalho da tabela — apenas desktop */}
-          <div className="hidden lg:grid grid-cols-[64px_1fr_240px_200px] gap-6 pb-4 mb-2 border-b border-[var(--neutral-200)]">
-            <span
-              className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-caption)]"
-              style={{ fontWeight: 500 }}
-            >
-              N.º
-            </span>
-            <span
-              className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-caption)]"
-              style={{ fontWeight: 500 }}
-            >
-              Empresa
-            </span>
-            <span
-              className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-caption)]"
-              style={{ fontWeight: 500 }}
-            >
-              Telefone
-            </span>
-            <span
-              className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-caption)]"
-              style={{ fontWeight: 500 }}
-            >
-              Contato
-            </span>
-          </div>
-
-          {/* Linhas */}
-          <div className="divide-y divide-[var(--neutral-100)]">
-            {PARTNERS.map((p, i) => (
-              <div
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-px bg-[var(--neutral-100)]">
+            {PARTNERS.map((p) => (
+              <a
                 key={p.name}
-                className="grid grid-cols-1 lg:grid-cols-[64px_1fr_240px_200px]
-                  gap-3 lg:gap-6 py-7 lg:items-center
-                  hover:bg-white/60 transition-colors duration-200 lg:-mx-4 lg:px-4"
+                href={waLink(p.phone, p.name)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-white flex flex-col hover:bg-[var(--secondary-900)] transition-colors duration-300"
               >
-                {/* Número */}
-                <span
-                  className="hidden lg:block text-[12px] text-[var(--gold)] tabular-nums"
-                  style={{ fontWeight: 600, letterSpacing: '0.1em' }}
-                >
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+                {/* Logo */}
+                <div className="relative w-full aspect-square p-6 flex items-center justify-center bg-white group-hover:bg-[var(--secondary-900)] transition-colors duration-300">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={p.logo}
+                      alt={`Logo ${p.name}`}
+                      fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 20vw"
+                      className="object-contain p-2 group-hover:brightness-0 group-hover:invert transition-all duration-300"
+                    />
+                  </div>
+                </div>
 
-                {/* Nome + categoria */}
-                <div>
-                  <h2
-                    className="text-[20px] sm:text-[22px] text-[var(--color-heading)] leading-[1.2] mb-1"
+                {/* Info */}
+                <div className="px-5 py-5 border-t border-[var(--neutral-100)] group-hover:border-[var(--secondary-800)] flex-1 flex flex-col gap-1">
+                  <p
+                    className="text-[14px] text-[var(--color-heading)] leading-[1.3] group-hover:text-white transition-colors duration-300"
                     style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
                   >
-                    {/* Número inline só no mobile */}
-                    <span
-                      className="lg:hidden text-[11px] text-[var(--gold)] tabular-nums mr-3 align-middle"
-                      style={{ fontWeight: 600, letterSpacing: '0.1em', fontFamily: 'var(--font-sans)' }}
-                    >
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
                     {p.name}
-                  </h2>
+                  </p>
                   <p
-                    className="text-[13px] text-[var(--color-body)] leading-[1.6]"
+                    className="text-[11px] text-[var(--color-caption)] leading-[1.5] group-hover:text-white/50 transition-colors duration-300"
                     style={{ fontWeight: 300 }}
                   >
                     {p.category}
                   </p>
                 </div>
 
-                {/* Telefone */}
-                <p
-                  className="text-[14px] text-[var(--color-body)] tabular-nums"
-                  style={{ fontWeight: 300 }}
-                >
-                  {p.phone}
-                </p>
-
-                {/* CTA WhatsApp */}
-                <a
-                  href={waLink(p.phone, p.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 self-start
-                    text-[11px] uppercase tracking-[0.18em]
-                    border border-[var(--neutral-300)] hover:border-[var(--secondary-900)]
-                    hover:bg-[var(--secondary-900)] hover:text-white
-                    px-5 py-2.5 transition-all duration-200 group w-fit"
-                  style={{ fontWeight: 500 }}
-                >
-                  <MessageCircle className="w-3.5 h-3.5 shrink-0" strokeWidth={1.5} />
-                  Entrar em contato
-                </a>
-              </div>
+                {/* CTA footer */}
+                <div className="px-5 pb-5 flex items-center gap-2">
+                  <MessageCircle
+                    className="w-3 h-3 text-[var(--color-caption)] group-hover:text-[var(--gold)] transition-colors duration-300 shrink-0"
+                    strokeWidth={1.5}
+                  />
+                  <span
+                    className="text-[10px] uppercase tracking-[0.2em] text-[var(--color-caption)] group-hover:text-[var(--gold)] transition-colors duration-300"
+                    style={{ fontWeight: 500 }}
+                  >
+                    {p.phone}
+                  </span>
+                </div>
+              </a>
             ))}
           </div>
 
