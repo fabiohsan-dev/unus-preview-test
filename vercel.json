@@ -1,1 +1,8 @@
-{}
+{
+  "crons": [
+    {
+      "path": "/api/sync/vista?token=${SYNC_TOKEN}",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
