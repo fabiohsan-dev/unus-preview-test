@@ -1,5 +1,38 @@
-import { getListarImoveisServer } from './vistaService';
+import { getVistaServerConfig, buildVistaGetUrl } from './vistaConfig';
 import { getSupabaseAdmin } from '../supabase';
+import type { VistaImovelItem } from '@/types/vista';
+
+const META_KEYS = new Set(['total', 'paginas', 'pagina', 'quantidade']);
+
+function extractVistaItems(raw: Record<string, unknown>): VistaImovelItem[] {
+  return Object.entries(raw)
+    .filter(([key]) => !META_KEYS.has(key))
+    .map(([, value]) => value) as VistaImovelItem[];
+}
+
+async function fetchVistaPage(page: number, limit: number): Promise<{ items: VistaImovelItem[]; paginas: number }> {
+  const config = getVistaServerConfig();
+  if (!config.ok) throw new Error(config.error);
+
+  const pesquisa = {
+    fields: [
+      'Codigo', 'TituloSite', 'Empreendimento', 'Categoria', 'Finalidade', 'Status',
+      'Cidade', 'Bairro', 'ValorVenda', 'ValorLocacao', 'Dormitorios', 'Suites',
+      'Vagas', 'BanheiroSocialQtd', 'AreaPrivativa', 'AreaTotal', 'DataEntrega',
+      'DataCadastro', 'DataAtualizacao', 'FotoDestaque', 'SuperDestaqueWeb',
+    ],
+    paginacao: { pagina: page, quantidade: limit },
+  };
+
+  const url = buildVistaGetUrl('/imoveis/listar', pesquisa, { showtotal: '1' });
+  const res = await fetch(url.toString(), { headers: { Accept: 'application/json' }, cache: 'no-store' });
+  if (!res.ok) throw new Error(`Vista API error: ${res.status}`);
+
+  const raw = await res.json() as Record<string, unknown>;
+  const items = extractVistaItems(raw);
+  const paginas = Number(raw.paginas ?? 1);
+  return { items, paginas };
+}
 
 export async function syncVistaToSupabase() {
   const admin = getSupabaseAdmin();
@@ -11,18 +44,14 @@ export async function syncVistaToSupabase() {
 
   while (hasMore) {
     try {
-      const data = await getListarImoveisServer({
-        page,
-        limit: 50,
-        finalidade: 'Venda' // Sincroniza apenas vendas inicialmente
-      });
+      const { items, paginas } = await fetchVistaPage(page, 50);
 
-      if (data.items.length === 0) {
+      if (items.length === 0) {
         hasMore = false;
         break;
       }
 
-      const imoveisMapeados = data.items.map(item => ({
+      const imoveisMapeados = items.map(item => ({
         codigo: item.Codigo,
         titulo_site: item.TituloSite || '',
         empreendimento: item.Empreendimento || '',
@@ -58,7 +87,7 @@ export async function syncVistaToSupabase() {
       syncedCount += imoveisMapeados.length;
       console.log(`[Sync] Página ${page} sincronizada. Total: ${syncedCount}`);
 
-      if (page >= data.paginas) {
+      if (page >= paginas) {
         hasMore = false;
       } else {
         page++;
