@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { whatsappUrl, SITE_URL } from '@/lib/constants';
+import { OfficeSlider } from '@/components/OfficeSlider';
 
 export const revalidate = 3600;
 
@@ -358,6 +359,35 @@ export default function NucleoPage() {
 
           </div>
         </div>
+      </section>
+
+      {/* ── Slider — Conheça nossa Casa ── */}
+      <section className="bg-[var(--secondary-900)]">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-24 pb-10">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <div className="flex items-center gap-4 mb-5">
+                <div className="w-10 h-[1px] bg-[var(--gold)]" />
+                <span
+                  className="text-[10px] uppercase tracking-[0.35em] text-[var(--gold)]/75"
+                  style={{ fontWeight: 600 }}
+                >
+                  Nosso espaço
+                </span>
+              </div>
+              <h2
+                className="text-[32px] sm:text-[40px] text-white leading-[1.15]"
+                style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+              >
+                Faça-nos uma visita e conheça{' '}
+                <span className="italic text-[var(--gold)]" style={{ fontWeight: 600 }}>
+                  nossa Casa!
+                </span>
+              </h2>
+            </div>
+          </div>
+        </div>
+        <OfficeSlider />
       </section>
 
       {/* ── CTA ── */}
