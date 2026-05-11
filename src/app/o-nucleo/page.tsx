@@ -8,7 +8,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { PHONE_HREF, PHONE_DISPLAY, whatsappUrl, SITE_URL } from '@/lib/constants';
+import { whatsappUrl, SITE_URL } from '@/lib/constants';
 
 export const revalidate = 3600;
 

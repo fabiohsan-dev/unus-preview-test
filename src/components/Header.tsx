@@ -84,7 +84,6 @@ export function Header() {
 
   const textColor  = transparent ? 'text-white/85' : 'text-[var(--color-heading)]';
   const hoverStyle = 'hover:opacity-60 transition-opacity duration-300';
-  const logoFilter = transparent ? 'brightness-0 invert' : 'brightness-0';
   const linkStyle  = `text-[11px] uppercase tracking-[0.1em] ${textColor} ${hoverStyle}`;
 
   return (
