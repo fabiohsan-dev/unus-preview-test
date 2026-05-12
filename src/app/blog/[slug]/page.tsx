@@ -62,8 +62,9 @@ export default async function BlogPostPage({ params }: PageProps) {
               Mercado Imobiliário
             </span>
             <div className="w-1 h-1 rounded-full bg-[var(--neutral-200)]" />
-            <span className="text-[11px] uppercase tracking-wider text-[var(--neutral-400)]">
-              Leitura de 5 min
+            <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-[var(--neutral-400)] font-medium">
+              <Calendar className="w-3 h-3" />
+              {new Date(post.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
             </span>
           </div>
 

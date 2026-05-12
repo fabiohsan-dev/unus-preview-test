@@ -62,7 +62,7 @@ export default async function BlogPage() {
               <div className="flex items-center gap-4 mb-4">
                 <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-[var(--neutral-400)] font-medium">
                   <Calendar className="w-3 h-3" />
-                  Atualizado Recentemente
+                  {new Date(post.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
                 </span>
                 <div className="w-1 h-1 rounded-full bg-[var(--neutral-300)]" />
                 <span className="text-[11px] uppercase tracking-wider text-[var(--gold)] font-bold">
