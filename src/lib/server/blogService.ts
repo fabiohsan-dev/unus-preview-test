@@ -52,7 +52,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
       summary: summaryMatch ? summaryMatch[1] : '',
       content: fileContents,
       mainImage: mainImage ? `/blog-posts/${slug}/${mainImage}` : '',
-      images: [],
+      images: [] as string[],
       date: POST_METADATA[slug]?.date || '2021-01-01'
     };
   }).filter((post): post is BlogPost => post !== null);
