@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { LazyFixedButtons } from '@/components/LazyFixedButtons';
 import { LazyStickySearchBar } from '@/components/LazyStickySearchBar';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -86,6 +87,7 @@ export default function RootLayout({
         <main id="main-content">{children}</main>
         <Footer />
         <LazyFixedButtons />
+        <SpeedInsights />
       </body>
     </html>
   );
