@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Share2, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Calendar, Share2, MessageCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getPostBySlug, getAllPosts } from '@/lib/server/blogService';
