@@ -103,7 +103,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
     >
       {/* ── Esquerda: Slider ──────────────────────────────── */}
       <div
-        className="relative w-full lg:w-[54%] shrink-0 overflow-hidden"
+        className="relative w-full lg:w-[52%] shrink-0 overflow-hidden"
         style={{ minHeight: 'clamp(360px, 34vw, 460px)' }}
         onMouseEnter={() => setIsHoveringImage(true)}
         onMouseLeave={() => setIsHoveringImage(false)}
@@ -118,7 +118,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               src={src}
               alt={`${title} — foto ${i + 1}`}
               className="w-full h-full object-cover"
-              sizes="(max-width: 1024px) 100vw, 54vw"
+              sizes="(max-width: 1024px) 100vw, 52vw"
               protectedContent
             />
           </div>
@@ -227,7 +227,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
       {/* ── Direita: Painel de conteúdo ───────────────────── */}
       <div
-        className="flex flex-col flex-1 px-8 py-8 lg:px-10 lg:py-10 justify-between gap-6"
+        className="flex flex-col flex-1 px-8 py-8 lg:px-10 lg:py-8 justify-between gap-6"
         style={{ background: 'var(--neutral-900)' }}
       >
         <div className="flex flex-col gap-4">
@@ -251,7 +251,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-[var(--text-2xl)] leading-[1.1] tracking-[-0.02em] transition-opacity duration-300 group-hover/title:opacity-70 line-clamp-2"
+              className="text-[34px] leading-[1.05] tracking-[-0.02em] transition-opacity duration-300 group-hover/title:opacity-70 line-clamp-2"
               style={{
                 fontWeight: 'var(--weight-normal)',
                 fontFamily: 'var(--font-serif)',
@@ -275,8 +275,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
                 A partir de
               </p>
               <p
-                className="text-white text-[var(--text-2xl)] leading-none"
-                style={{ fontWeight: 'var(--weight-semi)', fontFamily: 'var(--font-sans)' }}
+                className="text-white text-[30px] leading-none tracking-[-0.01em]"
+                style={{ fontWeight: 'var(--weight-normal)', fontFamily: 'var(--font-serif)' }}
               >
                 {price}
               </p>
@@ -288,7 +288,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
           {/* Metadados */}
           {(suitesLabel || areaLabel || dataEntrega) && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3.5">
+            <div className="flex flex-col gap-3.5">
               {suitesLabel && (
                 <div className="flex items-center gap-3">
                   <BedDouble className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
@@ -306,7 +306,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
                 </div>
               )}
               {dataEntrega && (
-                <div className="flex items-center gap-3 sm:col-span-2">
+                <div className="flex items-center gap-3">
                   <Calendar className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
                   <span className="text-[var(--text-body)] text-white/80" style={{ fontWeight: 'var(--weight-normal)' }}>
                     Data de entrega: {dataEntrega}
