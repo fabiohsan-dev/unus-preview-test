@@ -238,10 +238,10 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
           {/* Localização */}
           <div className="flex items-center gap-2">
-            <MapPin className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--primary-400)' }} strokeWidth={1.5} />
+            <MapPin className="w-3 h-3 shrink-0" style={{ color: 'rgba(255,255,255,0.45)' }} strokeWidth={1.5} />
             <span
-              className="text-[var(--text-xs)] uppercase tracking-[0.12em]"
-              style={{ color: 'var(--primary-400)', fontWeight: 'var(--weight-medium)' }}
+              className="text-[var(--text-micro)] uppercase tracking-[0.14em]"
+              style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 'var(--weight-medium)' }}
             >
               {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
             </span>
@@ -250,7 +250,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-white text-[var(--text-3xl)] lg:text-[var(--text-4xl)] leading-[1.05] tracking-[-0.02em] transition-colors duration-300 group-hover/title:opacity-80"
+              className="text-white text-[var(--text-4xl)] lg:text-[56px] leading-[1.02] tracking-[-0.025em] transition-opacity duration-300 group-hover/title:opacity-70"
               style={{
                 fontWeight: 'var(--weight-normal)',
                 fontFamily: 'var(--font-serif)',
