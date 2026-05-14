@@ -210,12 +210,12 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
             {/* Contador */}
             <div
-              className="absolute top-4 right-4 z-30 px-2.5 py-1 text-[10px] tracking-[0.08em] backdrop-blur-sm"
+              className="absolute top-4 right-4 z-30 px-2.5 py-1 text-[var(--text-xs)] tracking-[var(--tracking-button)] backdrop-blur-sm"
               style={{
                 color: 'rgba(255,255,255,0.80)',
                 background: 'color-mix(in srgb, var(--neutral-900) 50%, transparent)',
                 border: '1px solid rgba(255,255,255,0.10)',
-                fontWeight: 500,
+                fontWeight: 'var(--weight-medium)',
               }}
             >
               {slideIndex + 1} / {total}
@@ -240,8 +240,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 shrink-0" style={{ color: 'var(--primary-400)' }} strokeWidth={1.5} />
             <span
-              className="text-[14px] uppercase tracking-[0.15em]"
-              style={{ color: 'var(--primary-400)', fontWeight: 600 }}
+              className="text-[var(--text-sm)] uppercase tracking-[var(--tracking-link)]"
+              style={{ color: 'var(--primary-400)', fontWeight: 'var(--weight-semi)' }}
             >
               {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
             </span>
@@ -250,11 +250,10 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-white leading-[1.05] tracking-[-0.02em] transition-colors duration-300 group-hover/title:opacity-80"
+              className="text-white text-[var(--text-3xl)] lg:text-[var(--text-5xl)] leading-[1.05] tracking-[-0.02em] transition-colors duration-300 group-hover/title:opacity-80"
               style={{
-                fontWeight: 400,
+                fontWeight: 'var(--weight-normal)',
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(36px, 4vw, 58px)',
               }}
             >
               {title}
@@ -268,14 +267,14 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               style={{ borderColor: 'var(--gold)' }}
             >
               <p
-                className="text-[11px] uppercase tracking-[0.2em] mb-1.5"
-                style={{ color: 'var(--gold)', fontWeight: 600 }}
+                className="text-[var(--text-xs)] uppercase tracking-[var(--tracking-eyebrow)] mb-1.5"
+                style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
               >
                 A partir de
               </p>
               <p
-                className="text-white text-[28px] leading-none"
-                style={{ fontWeight: 300, fontFamily: 'var(--font-serif)' }}
+                className="text-white text-[var(--text-2xl)] leading-none"
+                style={{ fontWeight: 'var(--weight-light)', fontFamily: 'var(--font-serif)' }}
               >
                 {price}
               </p>
@@ -291,7 +290,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               {suitesLabel && (
                 <div className="flex items-center gap-3">
                   <BedDouble className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
-                  <span className="text-[15px] text-white/80" style={{ fontWeight: 400 }}>
+                  <span className="text-[var(--text-body)] text-white/80" style={{ fontWeight: 'var(--weight-normal)' }}>
                     {suitesLabel}
                   </span>
                 </div>
@@ -299,7 +298,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               {areaLabel && (
                 <div className="flex items-center gap-3">
                   <Maximize2 className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
-                  <span className="text-[15px] text-white/80" style={{ fontWeight: 400 }}>
+                  <span className="text-[var(--text-body)] text-white/80" style={{ fontWeight: 'var(--weight-normal)' }}>
                     {areaLabel}
                   </span>
                 </div>
@@ -307,7 +306,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               {dataEntrega && (
                 <div className="flex items-center gap-3">
                   <Calendar className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
-                  <span className="text-[15px] text-white/80" style={{ fontWeight: 400 }}>
+                  <span className="text-[var(--text-body)] text-white/80" style={{ fontWeight: 'var(--weight-normal)' }}>
                     Data de entrega: {dataEntrega}
                   </span>
                 </div>
@@ -318,8 +317,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Descrição */}
           {descricao && (
             <p
-              className="text-[15px] leading-[1.85]"
-              style={{ color: 'rgba(255,255,255,0.65)', fontWeight: 300 }}
+              className="text-[var(--text-body)] leading-[1.85]"
+              style={{ color: 'rgba(255,255,255,0.65)', fontWeight: 'var(--weight-light)' }}
             >
               {descricao}
             </p>
@@ -334,8 +333,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Link CTA */}
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-2.5 text-[13px] uppercase tracking-[0.22em] transition-all duration-200"
-            style={{ color: 'var(--gold)', fontWeight: 600 }}
+            className="group/cta inline-flex items-center gap-2.5 text-[var(--text-sm)] uppercase tracking-[var(--tracking-eyebrow)] transition-all duration-200"
+            style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
           >
             Conheça o empreendimento
             <ArrowRight

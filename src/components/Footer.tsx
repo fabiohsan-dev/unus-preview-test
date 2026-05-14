@@ -68,14 +68,14 @@ export function Footer() {
                 <UnusIcon className="h-14 w-auto text-[var(--gold)] transition-opacity group-hover:opacity-80" />
                 <div className="flex flex-col leading-none">
                   <span
-                    className="text-white text-[20px] tracking-[0.08em] uppercase"
-                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 500, letterSpacing: '0.12em' }}
+                    className="text-white text-[var(--text-lg)] tracking-[var(--tracking-button)] uppercase"
+                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 'var(--weight-medium)', letterSpacing: '0.12em' }}
                   >
                     UNUS
                   </span>
                   <span
-                    className="text-white/45 text-[11px] uppercase tracking-[0.22em] mt-1"
-                    style={{ fontWeight: 500 }}
+                    className="text-white/45 text-[var(--text-xs)] uppercase tracking-[var(--tracking-eyebrow)] mt-1"
+                    style={{ fontWeight: 'var(--weight-medium)' }}
                   >
                     Núcleo Imobiliário
                   </span>
@@ -84,8 +84,8 @@ export function Footer() {
 
               {/* Tagline */}
               <p
-                className="text-white/80 text-[15px] leading-[1.7] max-w-[280px] mb-8"
-                style={{ fontWeight: 300 }}
+                className="text-white/80 text-[var(--text-body)] leading-[1.7] max-w-[280px] mb-8"
+                style={{ fontWeight: 'var(--weight-light)' }}
               >
                 Inteligência imobiliária em alto padrão. Balneário Camboriú, Itapema e região.
               </p>
@@ -111,8 +111,8 @@ export function Footer() {
             {footerGroups.map((group) => (
               <div key={group.title}>
                 <h4
-                  className="text-sm uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
-                  style={{ fontWeight: 600 }}
+                  className="text-sm uppercase tracking-[var(--tracking-eyebrow)] text-[var(--gold)]/80 mb-7"
+                  style={{ fontWeight: 'var(--weight-semi)' }}
                 >
                   {group.title}
                 </h4>
@@ -126,7 +126,7 @@ export function Footer() {
                             target={item.href.startsWith('http') ? '_blank' : undefined}
                             rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                             className="text-base text-white/80 hover:text-white transition-colors flex items-center gap-1.5 group"
-                            style={{ fontWeight: 300 }}
+                            style={{ fontWeight: 'var(--weight-light)' }}
                           >
                             {item.label}
                             <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
@@ -135,14 +135,14 @@ export function Footer() {
                           <Link
                             href={item.href}
                             className="text-base text-white/80 hover:text-white transition-colors flex items-center gap-1.5 group"
-                            style={{ fontWeight: 300 }}
+                            style={{ fontWeight: 'var(--weight-light)' }}
                           >
                             {item.label}
                             <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-opacity shrink-0" />
                           </Link>
                         )
                       ) : (
-                        <span className="text-base text-white/40" style={{ fontWeight: 300 }}>
+                        <span className="text-base text-white/40" style={{ fontWeight: 'var(--weight-light)' }}>
                           {item.label}
                         </span>
                       )}
@@ -156,15 +156,15 @@ export function Footer() {
             {UNITS.map((unit) => (
               <div key={unit.city}>
                 <h4
-                  className="text-sm uppercase tracking-[0.3em] text-[var(--gold)]/80 mb-7"
-                  style={{ fontWeight: 600 }}
+                  className="text-sm uppercase tracking-[var(--tracking-eyebrow)] text-[var(--gold)]/80 mb-7"
+                  style={{ fontWeight: 'var(--weight-semi)' }}
                 >
                   {unit.city}
                 </h4>
                 <ul className="flex flex-col gap-5">
                   <li className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 mt-1 shrink-0 text-white/35" strokeWidth={1.5} />
-                    <span className="text-base text-white/80 leading-[1.7]" style={{ fontWeight: 300 }}>
+                    <span className="text-base text-white/80 leading-[1.7]" style={{ fontWeight: 'var(--weight-light)' }}>
                       {unit.address}
                       <br />
                       {unit.neighborhood}, {unit.city} — {unit.state}
@@ -176,15 +176,15 @@ export function Footer() {
                     <a
                       href={PHONE_HREF}
                       className="flex items-center gap-3 text-base text-white/80 hover:text-white transition-colors"
-                      style={{ fontWeight: 300 }}
+                      style={{ fontWeight: 'var(--weight-light)' }}
                     >
                       <Phone className="w-5 h-5 text-white/35 shrink-0" strokeWidth={1.5} />
                       {PHONE_DISPLAY}
                     </a>
                   </li>
                   <li
-                    className="text-xs text-[var(--gold)]/60 uppercase tracking-[0.2em] pt-1"
-                    style={{ fontWeight: 500 }}
+                    className="text-xs text-[var(--gold)]/60 uppercase tracking-[var(--tracking-eyebrow)] pt-1"
+                    style={{ fontWeight: 'var(--weight-medium)' }}
                   >
                     {unit.creci}
                   </li>
@@ -196,13 +196,13 @@ export function Footer() {
           {/* Rodapé inferior */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-white/5 pt-10">
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-center sm:text-left">
-              <p className="text-white/50 text-sm" style={{ fontWeight: 400 }}>
+              <p className="text-white/50 text-sm" style={{ fontWeight: 'var(--weight-normal)' }}>
                 &copy; {new Date().getFullYear()} UNUS Núcleo Imobiliário.
                 {' '}Todos os direitos reservados a{' '}
-                <span className="text-white/80" style={{ fontWeight: 500 }}>FHSAN</span>.
+                <span className="text-white/80" style={{ fontWeight: 'var(--weight-medium)' }}>FHSAN</span>.
               </p>
               <span className="hidden sm:block text-white/10 text-sm">|</span>
-              <span className="text-white/40 text-sm tracking-wide" style={{ fontWeight: 400 }}>
+              <span className="text-white/40 text-sm tracking-wide" style={{ fontWeight: 'var(--weight-normal)' }}>
                 {UNITS.map((u) => u.creci).join(' · ')}
               </span>
             </div>
@@ -212,7 +212,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/50 text-sm hover:text-white transition-colors"
-                style={{ fontWeight: 400 }}
+                style={{ fontWeight: 'var(--weight-normal)' }}
               >
                 Privacidade
               </a>
@@ -222,7 +222,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/50 text-sm hover:text-white transition-colors"
-                style={{ fontWeight: 400 }}
+                style={{ fontWeight: 'var(--weight-normal)' }}
               >
                 Cookies
               </a>

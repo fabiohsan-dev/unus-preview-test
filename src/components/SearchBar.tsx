@@ -129,16 +129,16 @@ function FilterField({
         <div className="flex-1 min-w-0">
           {!compact && (
             <p
-              className="text-[10px] text-[var(--color-caption)] uppercase tracking-[0.12em]"
-              style={{ fontWeight: 600 }}
+              className="text-[var(--text-xs)] text-[var(--color-caption)] uppercase tracking-[var(--tracking-button)]"
+              style={{ fontWeight: 'var(--weight-semi)' }}
             >
               {label}
             </p>
           )}
           <div className="flex items-center justify-between gap-2">
             <span
-              className={`text-[var(--color-heading)] truncate ${compact ? 'text-[13px]' : 'text-[14px]'}`}
-              style={{ fontWeight: 500 }}
+              className={`text-[var(--color-heading)] truncate ${compact ? 'text-[var(--text-sm)]' : 'text-[var(--text-sm)]'}`}
+              style={{ fontWeight: 'var(--weight-medium)' }}
             >
               {value}
             </span>
@@ -173,14 +173,14 @@ function FilterField({
                 role="option"
                 aria-selected={isSelected}
                 tabIndex={-1}
-                className={`w-full text-left px-4 py-3 md:py-2.5 text-[14px] md:text-[13px] transition-colors cursor-pointer border-none bg-transparent ${
+                className={`w-full text-left px-4 py-3 md:py-2.5 text-[var(--text-sm)] transition-colors cursor-pointer border-none bg-transparent ${
                   isSelected
                     ? 'text-[var(--color-accent-text)] bg-[var(--primary-500)]/5'
                     : isFocused
                     ? 'bg-[var(--primary-500)]/10 text-[var(--color-accent-text)] outline-none'
                     : 'text-[var(--color-heading)] hover:bg-[var(--primary-500)]/5'
                 }`}
-                style={{ fontWeight: isSelected || isFocused ? 600 : 400 }}
+                style={{ fontWeight: isSelected || isFocused ? 'var(--weight-semi)' : 'var(--weight-normal)' }}
                 onClick={() => {
                   onSelect(option);
                   requestAnimationFrame(() => triggerRef.current?.focus());
@@ -233,8 +233,8 @@ function AdvancedPanel({
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="w-4 h-4 text-[var(--primary-500)]" strokeWidth={1.5} aria-hidden="true" />
           <span
-            className="text-[11px] uppercase tracking-[0.15em] text-[var(--color-caption)]"
-            style={{ fontWeight: 600 }}
+            className="text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)] text-[var(--color-caption)]"
+            style={{ fontWeight: 'var(--weight-semi)' }}
           >
             Busca Avançada
           </span>
@@ -255,8 +255,8 @@ function AdvancedPanel({
           <div key={field.label} className="space-y-1.5">
             <label
               htmlFor={field.id}
-              className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-              style={{ fontWeight: 600 }}
+              className="flex items-center gap-1.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] text-[var(--color-caption)]"
+              style={{ fontWeight: 'var(--weight-semi)' }}
             >
               <field.icon className="w-3.5 h-3.5" aria-hidden="true" /> {field.label}
             </label>
@@ -264,8 +264,8 @@ function AdvancedPanel({
               id={field.id}
               value={values[field.key]}
               onChange={(event) => onChange(field.key, event.target.value)}
-              className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
-              style={{ fontWeight: 500 }}
+              className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[var(--text-sm)] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
+              style={{ fontWeight: 'var(--weight-medium)' }}
             >
               {field.options.map((option) => (
                 <option key={option} value={option}>{option ? `${option}+` : 'Qualquer'}</option>
@@ -280,8 +280,8 @@ function AdvancedPanel({
         <div className="space-y-1.5">
           <label
             htmlFor={idCodigo}
-            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
-            style={{ fontWeight: 600 }}
+            className="flex items-center gap-1.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] text-[var(--color-caption)]"
+            style={{ fontWeight: 'var(--weight-semi)' }}
           >
             <Hash className="w-3.5 h-3.5" aria-hidden="true" /> Código
           </label>
@@ -291,8 +291,8 @@ function AdvancedPanel({
             placeholder="Ex: UNUS-1234"
             value={values.codigo}
             onChange={(event) => onChange('codigo', event.target.value)}
-            className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[13px] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
-            style={{ fontWeight: 500 }}
+            className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[var(--text-sm)] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
+            style={{ fontWeight: 'var(--weight-medium)' }}
           />
         </div>
       </div>
@@ -503,8 +503,8 @@ export function SearchBar({
             >
               <Search className={compact ? 'w-3.5 h-3.5' : 'w-4 h-4'} strokeWidth={1.5} />
               <span
-                className={`tracking-[0.02em] uppercase whitespace-nowrap ${compact ? 'text-[12px]' : 'text-[13px]'}`}
-                style={{ fontWeight: 500 }}
+                className={`tracking-[0.02em] uppercase whitespace-nowrap ${compact ? 'text-[var(--text-xs)]' : 'text-[var(--text-sm)]'}`}
+                style={{ fontWeight: 'var(--weight-medium)' }}
               >
                 Buscar imóvel
               </span>

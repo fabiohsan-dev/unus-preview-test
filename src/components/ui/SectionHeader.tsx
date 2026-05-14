@@ -96,12 +96,10 @@ export function SectionHeader({
       )}
 
       <Tag
+        className="text-[var(--text-4xl)] lg:text-[var(--text-5xl)] leading-[1.05] tracking-[-0.025em]"
         style={{
-          fontWeight: 300,
+          fontWeight: 'var(--weight-light)',
           fontFamily: 'var(--font-serif)',
-          fontSize: 'clamp(40px, 5vw, 72px)',
-          lineHeight: 1.05,
-          letterSpacing: '-0.025em',
           color: headingColor,
         }}
       >
@@ -110,8 +108,8 @@ export function SectionHeader({
 
       {subtitle && (
         <p
-          className="mt-6 text-[18px] leading-[1.8] max-w-[600px]"
-          style={{ color: subtitleColor, fontWeight: 300 }}
+          className="mt-6 text-[var(--text-md)] leading-[1.8] max-w-[600px]"
+          style={{ color: subtitleColor, fontWeight: 'var(--weight-light)' }}
         >
           {subtitle}
         </p>

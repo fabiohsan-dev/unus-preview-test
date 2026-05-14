@@ -72,14 +72,14 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-[1px] bg-[var(--gold)]" />
-              <span className="text-[var(--gold-dark)] text-[10px] uppercase tracking-[0.3em]" style={{ fontWeight: 600 }}>
+              <span className="text-[var(--gold-dark)] text-[var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)]" style={{ fontWeight: 'var(--weight-semi)' }}>
                 Vitrine UNUS
               </span>
             </div>
-            <h2 className="text-[var(--color-heading)] text-[32px] sm:text-[44px] leading-[1.1] tracking-[-0.02em]" style={{ fontWeight: 300 }}>
-              Seleção <span style={{ fontWeight: 600 }}>exclusiva</span>
+            <h2 className="text-[var(--color-heading)] text-[var(--text-3xl)] sm:text-[var(--text-4xl)] leading-[1.1] tracking-[-0.02em]" style={{ fontWeight: 'var(--weight-light)' }}>
+              Seleção <span style={{ fontWeight: 'var(--weight-semi)' }}>exclusiva</span>
             </h2>
-            <p className="text-[var(--color-body)] text-[15px] mt-4 leading-relaxed max-w-[420px]" style={{ fontWeight: 300 }}>
+            <p className="text-[var(--color-body)] text-[var(--text-body)] mt-4 leading-relaxed max-w-[420px]" style={{ fontWeight: 'var(--weight-light)' }}>
               Propriedades singulares, selecionadas pela nossa curadoria de inteligência imobiliária.
             </p>
           </div>
@@ -88,13 +88,13 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           <div className="flex items-center gap-3">
             <Link
               href="/venda"
-              className="hidden sm:inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-[var(--color-heading)] hover:text-[var(--deep-blue)] transition-colors mr-4"
-              style={{ fontWeight: 500 }}
+              className="hidden sm:inline-flex items-center gap-2 text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)] text-[var(--color-heading)] hover:text-[var(--deep-blue)] transition-colors mr-4"
+              style={{ fontWeight: 'var(--weight-medium)' }}
             >
               Ver todos
               <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
             </Link>
-            <span className="text-[var(--secondary-400)] text-[13px] mr-2" style={{ fontWeight: 400 }}>
+            <span className="text-[var(--secondary-400)] text-[var(--text-sm)] mr-2" style={{ fontWeight: 'var(--weight-normal)' }}>
               {String(current + 1).padStart(2, '0')} / {String(displayProperties.length).padStart(2, '0')}
             </span>
             <button
@@ -140,7 +140,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     draggable={false}
                     onContextMenu={(event) => event.preventDefault()}
                   />
-                  <span className="pointer-events-none absolute bottom-3 right-3 z-10 border border-white/25 bg-black/20 px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-white/70 backdrop-blur-sm">
+                  <span className="pointer-events-none absolute bottom-3 right-3 z-10 border border-white/25 bg-black/20 px-2.5 py-1 text-[var(--text-micro)] uppercase tracking-[var(--tracking-micro)] text-white/70 backdrop-blur-sm">
                     UNUS
                   </span>
                 </div>
@@ -152,8 +152,8 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
               {property.tags.map((tag, idx) => (
                 <span
                   key={`${property.id}-${idx}`}
-                  className="px-3 py-1 bg-white/95 backdrop-blur-sm text-[var(--color-heading)] text-[10px] uppercase tracking-[0.1em] flex items-center gap-1.5 shadow-sm"
-                  style={{ fontWeight: 600 }}
+                  className="px-3 py-1 bg-white/95 backdrop-blur-sm text-[var(--color-heading)] text-[var(--text-micro)] uppercase tracking-[var(--tracking-micro)] flex items-center gap-1.5 shadow-sm"
+                  style={{ fontWeight: 'var(--weight-semi)' }}
                 >
                   {tagIcon[tag] && <TrendingUp className="w-3 h-3 text-[var(--primary-500)]" />}
                   {tag}
@@ -176,47 +176,47 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-6">
                     <MapPin className="w-3.5 h-3.5 text-[var(--primary-500)]" strokeWidth={1.5} />
-                    <span className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.15em]" style={{ fontWeight: 500 }}>
+                    <span className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]" style={{ fontWeight: 'var(--weight-medium)' }}>
                       {property.location}
                     </span>
                   </div>
 
-                  <h3 className="text-[var(--color-heading)] text-[24px] sm:text-[28px] leading-[1.15] mb-8 line-clamp-3 min-h-[84px]" style={{ fontWeight: 400 }}>
+                  <h3 className="text-[var(--color-heading)] text-[var(--text-xl)] sm:text-[var(--text-2xl)] leading-[1.15] mb-8 line-clamp-3 min-h-[84px]" style={{ fontWeight: 'var(--weight-normal)' }}>
                     {property.title}
                   </h3>
 
                   <div className="grid grid-cols-2 gap-y-8 gap-x-4 mb-8 pb-8 border-b border-[var(--gold)]/30">
                     <div>
                       <BedDouble className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[16px]" style={{ fontWeight: 500 }}>{property.bedrooms}</p>
-                      <p className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.1em]" style={{ fontWeight: 500 }}>QUARTOS</p>
+                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.bedrooms}</p>
+                      <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>QUARTOS</p>
                     </div>
                     <div>
                       <BedDouble className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[16px]" style={{ fontWeight: 500 }}>{property.suites}</p>
-                      <p className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.1em]" style={{ fontWeight: 500 }}>SUÍTES</p>
+                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.suites}</p>
+                      <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>SUÍTES</p>
                     </div>
                     <div>
                       <Bath className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[16px]" style={{ fontWeight: 500 }}>{property.bathrooms}</p>
-                      <p className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.1em]" style={{ fontWeight: 500 }}>BANHEIROS</p>
+                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.bathrooms}</p>
+                      <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>BANHEIROS</p>
                     </div>
                     <div>
                       <Maximize className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[16px]" style={{ fontWeight: 500 }}>{property.area}</p>
-                      <p className="text-[var(--secondary-400)] text-[11px] uppercase tracking-[0.1em]" style={{ fontWeight: 500 }}>ÁREA</p>
+                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.area}</p>
+                      <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>ÁREA</p>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <p className="text-[var(--gold-dark)] text-[28px] mb-6" style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}>
+                  <p className="text-[var(--gold-dark)] text-[var(--text-2xl)] mb-6" style={{ fontFamily: 'var(--font-serif)', fontWeight: 'var(--weight-medium)' }}>
                     {property.price}
                   </p>
                   <Link
                     href={href}
-                    className="w-full bg-[var(--secondary-900)] text-white py-4 text-[13px] uppercase tracking-[0.16em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2"
-                    style={{ fontWeight: 500 }}
+                    className="w-full bg-[var(--secondary-900)] text-white py-4 text-[var(--text-sm)] uppercase tracking-[var(--tracking-button)] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2"
+                    style={{ fontWeight: 'var(--weight-medium)' }}
                   >
                     Ver detalhes do imóvel
                     <ArrowRight className="w-4 h-4" strokeWidth={1.5} />

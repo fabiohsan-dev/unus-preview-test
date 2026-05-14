@@ -69,28 +69,29 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span
-                  className="text-[var(--color-accent-text)] text-[10px] uppercase tracking-widest"
-                  style={{ fontWeight: 600 }}
+                  className="text-[var(--color-accent-text)] text-[var(--text-micro)] uppercase tracking-[var(--tracking-micro)]"
+                  style={{ fontWeight: 'var(--weight-semi)' }}
                 >
                   {property.type}
                 </span>
                 <span
-                  className="text-[var(--color-caption)] text-[10px] uppercase font-medium"
+                  className="text-[var(--color-caption)] text-[var(--text-micro)] uppercase"
+                  style={{ fontWeight: 'var(--weight-medium)' }}
                 >
                   CÓD: {property.code}
                 </span>
               </div>
-              <h3 className="text-[20px] text-[var(--color-heading)] font-serif mb-2 line-clamp-1 group-hover:text-[var(--color-accent-text)] transition-colors">
+              <h3 className="text-[var(--text-lg)] text-[var(--color-heading)] font-serif mb-2 line-clamp-1 group-hover:text-[var(--color-accent-text)] transition-colors">
                 {property.title}
               </h3>
               <div className="flex items-center gap-1.5 mb-4">
                 <MapPin className="w-3.5 h-3.5 text-[var(--color-caption)]" />
-                <span className="text-[var(--color-body)] text-[13px] font-light">
+                <span className="text-[var(--color-body)] text-[var(--text-sm)]" style={{ fontWeight: 'var(--weight-light)' }}>
                   {property.location}
                 </span>
               </div>
 
-              <div className="flex flex-wrap gap-4 text-[13px] text-[var(--color-body)] border-t border-[var(--neutral-100)] pt-4">
+              <div className="flex flex-wrap gap-4 text-[var(--text-sm)] text-[var(--color-body)] border-t border-[var(--neutral-100)] pt-4">
                 {amenities.map((amenity) => (
                   <div key={amenity.label} className="flex items-center gap-1.5">
                     <amenity.icon
@@ -99,7 +100,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
                       aria-hidden="true"
                     />
                     <span>
-                      <strong className="font-medium">{amenity.value}</strong> {amenity.label}
+                      <strong style={{ fontWeight: 'var(--weight-medium)' }}>{amenity.value}</strong> {amenity.label}
                     </span>
                   </div>
                 ))}
@@ -110,17 +111,18 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
           <div className="mt-4 sm:mt-0 flex items-end justify-between">
             <div>
               <span
-                className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-caption)] font-bold block mb-1"
+                className="text-[var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--color-caption)] block mb-1"
+                style={{ fontWeight: 'var(--weight-bold)' }}
               >
                 {property.transactionType}
               </span>
-              <p className="text-[24px] text-[var(--gold-dark)] font-serif font-semibold tracking-[-0.01em]">
+              <p className="text-[var(--text-xl)] text-[var(--gold-dark)] font-serif font-semibold tracking-[-0.01em]">
                 {property.price}
               </p>
             </div>
             <Link
               href={href}
-              className="text-[var(--color-accent-text)] text-[12px] uppercase tracking-[0.16em] font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="text-[var(--color-accent-text)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
             >
               Ver detalhes
             </Link>
@@ -146,7 +148,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
             {(property.badges || property.badge) && (
               <div className="absolute top-4 left-4 flex gap-2">
                 {(property.badges || [property.badge!]).map((badge, index) => (
-                  <Badge key={`${badge}-${index}`} variant="cyan">
+                  <Badge key={`${badge}-${index}`} variant="blue">
                     {badge}
                   </Badge>
                 ))}
@@ -165,22 +167,22 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
         <Link href={href} className="block p-5 pb-0 flex-1">
           <div className="flex items-center justify-between mb-3">
             <span
-              className="text-[var(--color-accent-text)] text-[11px] uppercase tracking-[0.3em]"
-              style={{ fontWeight: 600 }}
+              className="text-[var(--color-accent-text)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-eyebrow)]"
+              style={{ fontWeight: 'var(--weight-semi)' }}
             >
               {property.type}
             </span>
             <span
-              className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.12em]"
-              style={{ fontWeight: 500 }}
+              className="text-[var(--color-caption)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]"
+              style={{ fontWeight: 'var(--weight-medium)' }}
             >
               CÓD: {property.code}
             </span>
           </div>
 
           <h3
-            className="text-[var(--color-heading)] text-[22px] leading-[1.25] mb-4 line-clamp-2 min-h-[56px]"
-            style={{ fontWeight: 400, fontFamily: 'var(--font-serif)' }}
+            className="text-[var(--color-heading)] text-[var(--text-xl)] leading-[1.25] mb-4 line-clamp-2 min-h-[60px]"
+            style={{ fontWeight: 'var(--weight-normal)', fontFamily: 'var(--font-serif)' }}
           >
             {property.title}
           </h3>
@@ -188,8 +190,8 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
           <div className="flex items-center gap-1.5 mb-5">
             <MapPin className="w-3.5 h-3.5 text-[var(--color-caption)]" strokeWidth={1.5} />
             <span
-              className="text-[var(--color-body)] text-[14px] line-clamp-1"
-              style={{ fontWeight: 300 }}
+              className="text-[var(--color-body)] text-[var(--text-sm)] line-clamp-1"
+              style={{ fontWeight: 'var(--weight-light)' }}
             >
               {property.location}
             </span>
@@ -197,14 +199,14 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
 
           <div className="mb-5">
             <span
-              className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.3em] block mb-1"
-              style={{ fontWeight: 600 }}
+              className="text-[var(--color-caption)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-eyebrow)] block mb-1"
+              style={{ fontWeight: 'var(--weight-semi)' }}
             >
               {property.transactionType}
             </span>
             <p
-              className="text-[var(--gold-dark)] text-[28px] tracking-[-0.01em]"
-              style={{ fontFamily: 'var(--font-serif)', fontWeight: 600 }}
+              className="text-[var(--gold-dark)] text-[var(--text-2xl)] tracking-[-0.01em]"
+              style={{ fontFamily: 'var(--font-serif)', fontWeight: 'var(--weight-semi)' }}
             >
               {property.price}
             </p>
@@ -226,14 +228,14 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
               />
               <div className="text-center">
                 <span
-                  className="text-[var(--color-heading)] text-[15px] block"
-                  style={{ fontWeight: 500 }}
+                  className="text-[var(--color-heading)] text-[var(--text-body)] block"
+                  style={{ fontWeight: 'var(--weight-medium)' }}
                 >
                   {amenity.value}
                 </span>
                 <span
-                  className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.08em]"
-                  style={{ fontWeight: 500 }}
+                  className="text-[var(--color-caption)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]"
+                  style={{ fontWeight: 'var(--weight-medium)' }}
                 >
                   {amenity.label}
                 </span>
@@ -277,8 +279,8 @@ export function PropertyCardGrid({ properties: initialProperties }: PropertyCard
         <div className="mt-14 flex justify-center">
           <Link
             href="/venda"
-            className="inline-flex items-center gap-3 border border-[var(--secondary-900)] text-[var(--color-heading)] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[var(--secondary-900)] hover:text-white transition-all duration-300"
-            style={{ fontWeight: 500 }}
+            className="inline-flex items-center gap-3 border border-[var(--secondary-900)] text-[var(--color-heading)] px-10 py-4 text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] hover:bg-[var(--secondary-900)] hover:text-white transition-all duration-300"
+            style={{ fontWeight: 'var(--weight-medium)' }}
           >
             Ver todos os imóveis
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />

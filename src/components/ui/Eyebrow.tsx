@@ -54,8 +54,8 @@ export function Eyebrow({
       <div style={{ ...lineStyle, width: align === 'center' ? '40px' : '32px' }} />
 
       <span
-        className="text-[10px] uppercase tracking-[0.30em] whitespace-nowrap"
-        style={{ color, fontWeight: 600 }}
+        className="text-[var(--text-xs)] uppercase tracking-[var(--tracking-eyebrow)] whitespace-nowrap"
+        style={{ color, fontWeight: 'var(--weight-semi)' }}
       >
         {children}
       </span>

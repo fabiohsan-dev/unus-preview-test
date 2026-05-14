@@ -23,8 +23,8 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pt-24">
         <div className="max-w-[800px]">
           <h1
-            className="text-white text-[36px] sm:text-[52px] lg:text-[64px] leading-[1.05] tracking-normal"
-            style={{ fontWeight: 300 }}
+            className="text-white text-[var(--text-3xl)] sm:text-[var(--text-4xl)] lg:text-[var(--text-5xl)] leading-[1.05] tracking-normal"
+            style={{ fontWeight: 'var(--weight-light)' }}
           >
             Onde você mora
             <br />
@@ -41,8 +41,8 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
               href={whatsappUrl(WA_CONSULTIVO)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-white/90 text-[11px] uppercase tracking-[0.18em] transition-colors duration-300"
-              style={{ fontWeight: 400 }}
+              className="inline-flex items-center gap-2 text-white/60 hover:text-white/90 text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] transition-colors duration-300"
+              style={{ fontWeight: 'var(--weight-normal)' }}
             >
               Prefere atendimento consultivo? Fale com um corretor
               <span aria-hidden="true">→</span>
@@ -53,7 +53,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
 
       <div className="absolute bottom-16 right-8 sm:right-12 flex flex-col items-center gap-2">
         <span
-          className="text-white/40 text-[9px] uppercase tracking-[0.25em]"
+          className="text-white/40 text-[var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)]"
           style={{ writingMode: 'vertical-rl' }}
         >
           Scroll

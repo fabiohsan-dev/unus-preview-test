@@ -84,7 +84,7 @@ export function Header() {
 
   const textColor  = transparent ? 'text-white/85' : 'text-[var(--color-heading)]';
   const hoverStyle = 'hover:opacity-60 transition-opacity duration-300';
-  const linkStyle  = `text-[11px] uppercase tracking-[0.1em] ${textColor} ${hoverStyle}`;
+  const linkStyle  = `text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)] ${textColor} ${hoverStyle}`;
 
   return (
     <header
@@ -182,10 +182,10 @@ export function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setDropdownOpen(false)}
-                    className="block px-5 py-3.5 text-[12px] text-[var(--color-heading)]
+                    className="block px-5 py-3.5 text-[var(--text-xs)] text-[var(--color-heading)]
                                hover:bg-[var(--neutral-50)] hover:text-[var(--deep-blue)]
                                border-b border-[var(--neutral-100)] last:border-0 transition-colors"
-                    style={{ fontWeight: 400 }}
+                    style={{ fontWeight: 'var(--weight-normal)' }}
                   >
                     {item.label}
                   </Link>
@@ -254,8 +254,8 @@ export function Header() {
 
             {/* Ver imóveis */}
             <p
-              className="pt-2 pb-1 text-[10px] uppercase tracking-[0.2em] text-[var(--gold-dark)]"
-              style={{ fontWeight: 600 }}
+              className="pt-2 pb-1 text-[var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--gold-dark)]"
+              style={{ fontWeight: 'var(--weight-semi)' }}
             >
               Ver imóveis
             </p>
@@ -263,8 +263,8 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="block py-3 text-[13px] text-[var(--color-heading)] border-b border-[var(--neutral-100)] pl-3"
-                style={{ fontWeight: 400 }}
+                className="block py-3 text-[var(--text-sm)] text-[var(--color-heading)] border-b border-[var(--neutral-100)] pl-3"
+                style={{ fontWeight: 'var(--weight-normal)' }}
               >
                 {item.label}
               </Link>
@@ -276,8 +276,8 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block py-3.5 text-[13px] text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
-                  style={{ fontWeight: 400 }}
+                  className="block py-3.5 text-[var(--text-sm)] text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
+                  style={{ fontWeight: 'var(--weight-normal)' }}
                 >
                   {item.label}
                 </Link>
@@ -290,16 +290,16 @@ export function Header() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full bg-[var(--color-action-whatsapp)] text-white py-3.5 text-[11px] uppercase tracking-[0.15em]"
-                style={{ fontWeight: 500 }}
+                className="flex items-center justify-center gap-2 w-full bg-[var(--color-action-whatsapp)] text-white py-3.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]"
+                style={{ fontWeight: 'var(--weight-medium)' }}
               >
                 <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
                 Fale com um corretor
               </Link>
               <Link
                 href="/favoritos"
-                className="flex items-center justify-center gap-2 w-full bg-[var(--secondary-900)] text-white py-3.5 text-[11px] uppercase tracking-[0.15em]"
-                style={{ fontWeight: 500 }}
+                className="flex items-center justify-center gap-2 w-full bg-[var(--secondary-900)] text-white py-3.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]"
+                style={{ fontWeight: 'var(--weight-medium)' }}
               >
                 <Heart className="w-4 h-4" strokeWidth={1.5} />
                 Favoritos
