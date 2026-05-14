@@ -5,21 +5,21 @@
 
   /* ============================================================
      UNUS DESIGN SYSTEM — COLOR TOKENS
-     Base: Ciano #0CC0DF | Azul Profundo #002B45 | Gold #C2A878
+     Base: Azul Profundo #002B45 | Gold #C2A878
      Architecture: Semantic + Scale (50–900)
      ============================================================ */
 
-  /* ── PRIMARY SCALE (Ciano — acento claro) ── */
-  --primary-50:  #E6F9FD;
-  --primary-100: #BAF0F9;
-  --primary-200: #88E5F5;
-  --primary-300: #56DAF1;
-  --primary-400: #2FD0EE;
-  --primary-500: #0CC0DF; /* Base — ciano/azul claro */
-  --primary-600: #0AA3BF;
-  --primary-700: #088399;
-  --primary-800: #066273;
-  --primary-900: #044252;
+  /* ── PRIMARY SCALE (Azul Profundo — CTAs, botões e ícones) ── */
+  --primary-50:  #E8EFF4;
+  --primary-100: #C2D4DF;
+  --primary-200: #96B4C7;
+  --primary-300: #6A94AF;
+  --primary-400: #3E7497;
+  --primary-500: #002B45; /* Base — azul profundo */
+  --primary-600: #004066; /* Hover */
+  --primary-700: #001F33;
+  --primary-800: #001525;
+  --primary-900: #000D18;
 
   /* ── DEEP BLUE (Azul Profundo — CTAs e destaques) ── */
   --deep-blue:         #002B45;
@@ -68,9 +68,9 @@
   --warning-light: #F7EED4;
   --warning-dark:  #9B7A20;
 
-  --info:          #0CC0DF;
-  --info-light:    #E6F9FD;
-  --info-dark:     #088399;
+  --info:          #002B45;
+  --info-light:    #E8EFF4;
+  --info-dark:     #001F33;
 
   /* ── SEMANTIC MAPPINGS ── */
   --background:          var(--neutral-50);

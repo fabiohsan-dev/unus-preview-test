@@ -3,7 +3,7 @@
  *
  * Variants:
  *   gold      — solid gold fill + dark text → status/launch badges (primary)
- *   cyan      — solid cyan fill + white text → type labels
+ *   blue      — solid deep blue fill + white text → type labels
  *   outline   — transparent + neutral-900 border → subtle tags
  *   dark      — neutral-900 bg + white text → inverted contexts
  *   success   — success green
@@ -15,7 +15,8 @@ import type { ReactNode } from 'react';
 
 export type BadgeVariant =
   | 'gold'
-  | 'cyan'
+  | 'blue'
+  | 'cyan'  /* @deprecated — use 'blue' */
   | 'outline'
   | 'dark'
   | 'success'
@@ -34,6 +35,11 @@ const variantStyle: Record<BadgeVariant, React.CSSProperties> = {
     background: 'var(--gold)',
     color: 'var(--neutral-900)',
     fontWeight: 800,
+  },
+  blue: {
+    background: 'var(--primary-500)',
+    color: '#ffffff',
+    fontWeight: 700,
   },
   cyan: {
     background: 'var(--primary-500)',
