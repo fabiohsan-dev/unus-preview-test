@@ -238,10 +238,10 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
           {/* Localização */}
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 shrink-0" style={{ color: 'var(--primary-400)' }} strokeWidth={1.5} />
+            <MapPin className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--primary-400)' }} strokeWidth={1.5} />
             <span
-              className="text-[var(--text-sm)] uppercase tracking-[var(--tracking-link)]"
-              style={{ color: 'var(--primary-400)', fontWeight: 'var(--weight-semi)' }}
+              className="text-[var(--text-xs)] uppercase tracking-[0.12em]"
+              style={{ color: 'var(--primary-400)', fontWeight: 'var(--weight-medium)' }}
             >
               {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
             </span>
@@ -252,7 +252,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             <h3
               className="text-white text-[var(--text-3xl)] lg:text-[var(--text-4xl)] leading-[1.05] tracking-[-0.02em] transition-colors duration-300 group-hover/title:opacity-80"
               style={{
-                fontWeight: 'var(--weight-light)',
+                fontWeight: 'var(--weight-normal)',
                 fontFamily: 'var(--font-serif)',
               }}
             >
@@ -267,14 +267,14 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               style={{ borderColor: 'var(--gold)' }}
             >
               <p
-                className="text-[var(--text-xs)] uppercase tracking-[var(--tracking-eyebrow)] mb-1.5"
+                className="text-[var(--text-xs)] uppercase tracking-[0.20em] mb-1.5"
                 style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
               >
                 A partir de
               </p>
               <p
                 className="text-white text-[var(--text-2xl)] leading-none"
-                style={{ fontWeight: 'var(--weight-light)', fontFamily: 'var(--font-serif)' }}
+                style={{ fontWeight: 'var(--weight-medium)', fontFamily: 'var(--font-sans)' }}
               >
                 {price}
               </p>
@@ -333,7 +333,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Link CTA */}
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-2.5 text-[var(--text-sm)] uppercase tracking-[var(--tracking-eyebrow)] transition-all duration-200"
+            className="group/cta inline-flex items-center gap-2 text-[var(--text-xs)] uppercase tracking-[0.18em] transition-all duration-200"
             style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
           >
             Conheça o empreendimento
