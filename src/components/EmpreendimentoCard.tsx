@@ -32,6 +32,7 @@ function formatBRL(value: number): string {
 
 function getSuitesLabel(min?: number, max?: number): string | null {
   if (min === undefined || max === undefined) return null;
+  if (min === 0 && max === 0) return null; // studios: não exibir "0 suítes"
   if (min === max) return `${min} suíte${min !== 1 ? 's' : ''}`;
   return `${min} a ${max} suítes`;
 }
@@ -250,7 +251,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-white text-[var(--text-4xl)] lg:text-[56px] leading-[1.02] tracking-[-0.025em] transition-opacity duration-300 group-hover/title:opacity-70"
+              className="text-white text-[36px] lg:text-[var(--text-4xl)] leading-[1.05] tracking-[-0.025em] transition-opacity duration-300 group-hover/title:opacity-70"
               style={{
                 fontWeight: 'var(--weight-normal)',
                 fontFamily: 'var(--font-serif)',
@@ -273,7 +274,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
                 A partir de
               </p>
               <p
-                className="text-white text-[var(--text-2xl)] leading-none"
+                className="text-white text-[var(--text-3xl)] leading-none"
                 style={{ fontWeight: 'var(--weight-medium)', fontFamily: 'var(--font-sans)' }}
               >
                 {price}
@@ -317,8 +318,12 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Descrição */}
           {descricao && (
             <p
-              className="text-[var(--text-body)] leading-[1.85]"
-              style={{ color: 'rgba(255,255,255,0.65)', fontWeight: 'var(--weight-light)' }}
+              className="text-[var(--text-body)] leading-[1.85] pt-4 border-t"
+              style={{
+                color: 'rgba(255,255,255,0.80)',
+                fontWeight: 'var(--weight-normal)',
+                borderColor: 'rgba(255,255,255,0.08)',
+              }}
             >
               {descricao}
             </p>
@@ -333,7 +338,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Link CTA */}
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-2 text-[var(--text-xs)] uppercase tracking-[0.18em] transition-all duration-200"
+            className="group/cta inline-flex items-center gap-1.5 text-[var(--text-micro)] uppercase tracking-[0.14em] transition-all duration-200"
             style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
           >
             Conheça o empreendimento
