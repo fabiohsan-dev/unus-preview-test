@@ -96,7 +96,7 @@ export function SectionHeader({
       )}
 
       <Tag
-        className="text-[var(--text-4xl)] lg:text-[var(--text-5xl)] leading-[1.05] tracking-[-0.025em]"
+        className="text-[var(--text-3xl)] sm:text-[var(--text-4xl)] lg:text-[var(--text-5xl)] leading-[1.05] tracking-[-0.025em]"
         style={{
           fontWeight: 'var(--weight-light)',
           fontFamily: 'var(--font-serif)',

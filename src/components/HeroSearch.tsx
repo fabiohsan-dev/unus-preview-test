@@ -23,10 +23,10 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pt-24">
         <div className="max-w-[800px]">
           <h1
-            className="text-[var(--text-2xl)] sm:text-[var(--text-3xl)] lg:text-[var(--text-4xl)] leading-[1.1] tracking-[-0.01em]"
+            className="text-[var(--text-3xl)] sm:text-[44px] lg:text-[var(--text-5xl)] leading-[1.05] tracking-[-0.02em]"
             style={{
-              fontFamily: 'var(--font-sans)',
-              fontWeight: 'var(--weight-medium)',
+              fontFamily: 'var(--font-serif)',
+              fontWeight: 'var(--weight-light)',
               color: 'white',
             }}
           >

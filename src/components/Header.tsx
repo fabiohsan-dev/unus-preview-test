@@ -84,7 +84,7 @@ export function Header() {
 
   const textColor  = transparent ? 'text-white/85' : 'text-[var(--color-heading)]';
   const hoverStyle = 'hover:opacity-60 transition-opacity duration-300';
-  const linkStyle  = `text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)] ${textColor} ${hoverStyle}`;
+  const linkStyle  = `text-[var(--text-xs)] uppercase tracking-[0.08em] ${textColor} ${hoverStyle}`;
 
   return (
     <header

@@ -250,9 +250,9 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-white text-[var(--text-3xl)] lg:text-[var(--text-5xl)] leading-[1.05] tracking-[-0.02em] transition-colors duration-300 group-hover/title:opacity-80"
+              className="text-white text-[var(--text-3xl)] lg:text-[var(--text-4xl)] leading-[1.05] tracking-[-0.02em] transition-colors duration-300 group-hover/title:opacity-80"
               style={{
-                fontWeight: 'var(--weight-normal)',
+                fontWeight: 'var(--weight-light)',
                 fontFamily: 'var(--font-serif)',
               }}
             >
