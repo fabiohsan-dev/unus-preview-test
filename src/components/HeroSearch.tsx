@@ -17,14 +17,18 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
           sizes="100vw"
           className="object-cover scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/55" />
       </div>
 
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pt-24">
         <div className="max-w-[800px]">
           <h1
-            className="text-white text-[var(--text-3xl)] sm:text-[var(--text-4xl)] lg:text-[var(--text-5xl)] leading-[1.05] tracking-normal"
-            style={{ fontWeight: 'var(--weight-light)' }}
+            className="text-[var(--text-2xl)] sm:text-[var(--text-3xl)] lg:text-[var(--text-4xl)] leading-[1.1] tracking-[-0.01em]"
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 'var(--weight-medium)',
+              color: 'white',
+            }}
           >
             Onde você mora
             <br />
