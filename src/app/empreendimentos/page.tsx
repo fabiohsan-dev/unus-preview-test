@@ -179,7 +179,7 @@ export default async function EmpreendimentosPage() {
       <section className="py-16 px-6 sm:px-10 lg:px-20">
         <div className="max-w-[1360px] mx-auto">
           {enriched.length > 0 ? (
-            <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
               {enriched.map((emp) => (
                 <EmpreendimentoCard key={emp.Codigo} empreendimento={emp} />
               ))}

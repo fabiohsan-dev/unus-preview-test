@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Calendar, Search, ChevronRight } from 'lucide-react';
+import { ArrowRight, Search, ChevronRight } from 'lucide-react';
 import { getAllPosts } from '@/lib/server/blogService';
 
 export const metadata: Metadata = {
