@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Phone, Calendar, Maximize2, Heart, BedDouble } from 'lucide-react';
 import { ContentImage } from './ContentImage';
-import { Badge, Divider, LinkButton } from '@/components/ui';
 import { PHONE_HREF } from '@/lib/constants';
 import { whatsappEmpreendimentoLead } from '@/lib/whatsapp';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -53,6 +52,20 @@ interface EmpreendimentoCardProps {
   empreendimento: VistaImovelItem;
 }
 
+function CardDivider() {
+  return (
+    <div
+      className="my-6 h-px w-full flex-none"
+      style={{
+        background:
+          'linear-gradient(90deg, rgba(199,154,32,0.34) 0%, rgba(199,154,32,0.18) 42%, rgba(199,154,32,0.07) 72%, rgba(9,10,9,0) 100%)',
+      }}
+      role="separator"
+      aria-hidden="true"
+    />
+  );
+}
+
 export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardProps) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
@@ -94,17 +107,15 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
   return (
     <article
-      className="group relative flex flex-col lg:flex-row w-full overflow-hidden"
+      className="group relative grid w-full overflow-hidden bg-[#080908] lg:min-h-[578px] lg:grid-cols-[54.8%_45.2%]"
+      aria-label={`Empreendimento ${title}`}
       style={{
-        borderLeft: '4px solid var(--gold)',
         boxShadow: '0 2px 24px rgba(21,20,16,0.10), 0 1px 4px rgba(21,20,16,0.06)',
-        background: 'var(--neutral-900)',
       }}
     >
       {/* ── Esquerda: Slider ──────────────────────────────── */}
       <div
-        className="relative w-full lg:w-[52%] shrink-0 overflow-hidden"
-        style={{ minHeight: 'clamp(360px, 34vw, 460px)' }}
+        className="relative min-h-[330px] w-full overflow-hidden bg-[var(--neutral-900)] sm:min-h-[430px] lg:min-h-[578px]"
         onMouseEnter={() => setIsHoveringImage(true)}
         onMouseLeave={() => setIsHoveringImage(false)}
       >
@@ -118,22 +129,20 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
               src={src}
               alt={`${title} — foto ${i + 1}`}
               className="w-full h-full object-cover"
-              sizes="(max-width: 1024px) 100vw, 52vw"
+              sizes="(max-width: 1024px) 100vw, 55vw"
               protectedContent
+              watermark={false}
             />
           </div>
         ))}
 
-        {/* Gradiente de transição para o painel */}
         <div
           className="absolute inset-0 pointer-events-none z-10"
-          style={{
-            background: 'linear-gradient(to right, transparent 60%, rgba(21,20,16,0.5) 100%)',
-          }}
+          style={{ background: 'linear-gradient(0deg, rgba(4,5,5,0.52), rgba(4,5,5,0.52))' }}
         />
         <div
-          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10"
-          style={{ background: 'linear-gradient(to top, rgba(21,20,16,0.5), transparent)' }}
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{ background: 'linear-gradient(90deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.32) 100%)' }}
         />
 
         {/* Link cobre a imagem */}
@@ -142,15 +151,11 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
         {/* Favorito */}
         <button
           onClick={(e) => { e.preventDefault(); toggleFavorite(); }}
-          className="absolute top-4 left-4 z-30 w-11 h-11 flex items-center justify-center backdrop-blur-sm transition-all duration-200 hover:scale-105"
-          style={{
-            background: favorited ? 'rgba(224,82,82,0.85)' : 'color-mix(in srgb, var(--neutral-900) 45%, transparent)',
-            border: '1px solid rgba(255,255,255,0.15)',
-          }}
+          className="absolute left-5 top-[17px] z-30 flex h-11 w-11 items-center justify-center text-white/90 transition-all duration-200 hover:scale-105 sm:left-6 lg:left-[22px]"
           aria-label={favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
         >
           <Heart
-            className="w-4 h-4 transition-all duration-200"
+            className="h-[17px] w-[17px] transition-all duration-200"
             strokeWidth={1.8}
             style={{
               color: favorited ? 'white' : 'rgba(255,255,255,0.85)',
@@ -192,7 +197,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
             </button>
 
             {/* Dots */}
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5">
+            <div className="absolute bottom-[19px] left-1/2 z-30 flex -translate-x-1/2 items-center gap-1.5">
               {slides.map((_, i) => (
                 <button
                   key={i}
@@ -211,169 +216,137 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
 
             {/* Contador */}
             <div
-              className="absolute top-4 right-4 z-30 px-2.5 py-1 text-[var(--text-xs)] tracking-[var(--tracking-button)] backdrop-blur-sm"
+              className="absolute right-5 top-[22px] z-30 inline-flex h-[30px] min-w-[64px] items-center justify-center gap-[7px] border border-white/15 bg-black/30 px-[13px] text-[11px] font-medium leading-none tracking-[0.14em] text-white/85 shadow-[0_12px_30px_rgba(0,0,0,0.22)] backdrop-blur-md lg:right-[52px]"
               style={{
-                color: 'rgba(255,255,255,0.80)',
-                background: 'color-mix(in srgb, var(--neutral-900) 50%, transparent)',
-                border: '1px solid rgba(255,255,255,0.10)',
-                fontWeight: 'var(--weight-medium)',
+                color: 'rgba(245,241,233,0.86)',
               }}
+              aria-label={`Imagem ${slideIndex + 1} de ${total}`}
             >
-              {slideIndex + 1} / {total}
+              <span style={{ color: 'var(--gold)' }}>{slideIndex + 1}</span>
+              <span className="text-white/35">/</span>
+              <span>{total}</span>
             </div>
           </>
         )}
+
+        <div className="pointer-events-none absolute bottom-3 right-5 z-30 border border-white/10 bg-black/25 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45 lg:right-[53px]">
+          UNUS
+        </div>
       </div>
 
       {/* ── Direita: Painel de conteúdo ───────────────────── */}
       <div
-        className="flex flex-col flex-1 px-8 py-8 lg:px-10 lg:py-8 justify-between gap-6"
-        style={{ background: 'var(--neutral-900)' }}
+        className="flex flex-col justify-start border-l border-white/[0.02] bg-[#090a09] px-[22px] py-7 sm:px-7 sm:py-8 lg:px-[52px] lg:py-[42px] lg:pb-10"
       >
-        <div className="flex flex-col gap-4">
+        <span className="inline-flex h-[25px] w-fit items-center justify-center border border-[rgba(199,154,32,0.38)] px-[13px] text-[9px] font-semibold uppercase leading-none tracking-[0.34em] text-[var(--gold)]">
+          {status}
+        </span>
 
-          {/* Status badge */}
-          <div>
-            <Badge variant="gold">{status}</Badge>
-          </div>
-
-          {/* Localização */}
-          <div className="flex items-center gap-2">
-            <MapPin className="w-3 h-3 shrink-0" style={{ color: 'rgba(255,255,255,0.45)' }} strokeWidth={1.5} />
-            <span
-              className="text-[var(--text-micro)] uppercase tracking-[0.14em]"
-              style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 'var(--weight-medium)' }}
-            >
-              {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
-            </span>
-          </div>
-
-          {/* Título */}
-          <Link href={href} className="block group/title">
-            <h3
-              className="text-[34px] leading-[1.05] tracking-[-0.02em] transition-opacity duration-300 group-hover/title:opacity-70 line-clamp-2"
-              style={{
-                fontWeight: 'var(--weight-normal)',
-                fontFamily: 'var(--font-serif)',
-                color: 'white',
-              }}
-            >
-              {title}
-            </h3>
-          </Link>
-
-          {/* Preço — destaque visual forte */}
-          {price && (
-            <div
-              className="pl-4 border-l-2"
-              style={{ borderColor: 'var(--gold)' }}
-            >
-              <p
-                className="text-[var(--text-xs)] uppercase tracking-[0.20em] mb-1.5"
-                style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
-              >
-                A partir de
-              </p>
-              <p
-                className="text-white text-[30px] leading-none tracking-[-0.01em]"
-                style={{ fontWeight: 'var(--weight-normal)', fontFamily: 'var(--font-serif)' }}
-              >
-                {price}
-              </p>
-            </div>
-          )}
-
-          {/* Separador */}
-          <Divider variant="gold-left" />
-
-          {/* Metadados */}
-          {(suitesLabel || areaLabel || dataEntrega) && (
-            <div className="flex flex-col gap-3.5">
-              {suitesLabel && (
-                <div className="flex items-center gap-3">
-                  <BedDouble className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
-                  <span className="text-[var(--text-body)] text-white/80" style={{ fontWeight: 'var(--weight-normal)' }}>
-                    {suitesLabel}
-                  </span>
-                </div>
-              )}
-              {areaLabel && (
-                <div className="flex items-center gap-3">
-                  <Maximize2 className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
-                  <span className="text-[var(--text-body)] text-white/80" style={{ fontWeight: 'var(--weight-normal)' }}>
-                    {areaLabel}
-                  </span>
-                </div>
-              )}
-              {dataEntrega && (
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-4 h-4 shrink-0" style={{ color: 'var(--gold-dark)' }} strokeWidth={1.5} />
-                  <span className="text-[var(--text-body)] text-white/80" style={{ fontWeight: 'var(--weight-normal)' }}>
-                    Data de entrega: {dataEntrega}
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Descrição */}
-          {descricao && (
-            <p
-              className="text-[var(--text-body)] leading-[1.75] pt-4 border-t line-clamp-3"
-              style={{
-                color: 'rgba(255,255,255,0.80)',
-                fontWeight: 'var(--weight-normal)',
-                borderColor: 'rgba(255,255,255,0.08)',
-              }}
-            >
-              {descricao}
-            </p>
-          )}
+        {/* Localização */}
+        <div className="mt-[19px] flex items-center gap-[9px] text-[12px] font-medium uppercase leading-[1.25] tracking-[0.28em] text-[rgba(184,186,198,0.92)]">
+          <MapPin className="h-[13px] w-[13px] shrink-0 text-[rgba(184,186,198,0.62)]" strokeWidth={1.45} />
+          <span>
+            {emp.Bairro}{emp.Cidade ? `, ${emp.Cidade}` : ''}
+          </span>
         </div>
 
-        {/* Rodapé: CTA + botões */}
-        <div
-          className="flex flex-col gap-4 pt-5 border-t"
-          style={{ borderColor: 'color-mix(in srgb, var(--gold) 25%, transparent)' }}
-        >
-          {/* Link CTA */}
-          <Link
-            href={href}
-            className="group/cta inline-flex items-center gap-2 text-[var(--text-body)] uppercase tracking-[0.12em] transition-all duration-200"
-            style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
+        {/* Título */}
+        <Link href={href} className="group/title mt-[22px] block max-w-[520px]">
+          <h3
+            className="line-clamp-2 text-[34px] font-semibold leading-[0.98] tracking-[-0.015em] text-white transition-opacity duration-300 group-hover/title:opacity-75 lg:text-[clamp(34px,3.2vw,46px)]"
+            style={{
+              fontFamily: 'var(--font-serif)',
+              textShadow: '0 10px 28px rgba(0,0,0,0.38)',
+              textWrap: 'balance',
+            }}
           >
-            Conheça o empreendimento
-            <ArrowRight
-              className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1.5"
-              strokeWidth={2}
-            />
-          </Link>
+            {title}
+          </h3>
+        </Link>
 
-          {/* Botões */}
-          <div className="flex items-center gap-3">
-            <LinkButton
+        {/* Preço */}
+        {price && (
+          <div className="mt-[26px] border-l-2 border-[var(--gold)] pl-[18px]">
+            <span className="block text-[11px] font-medium uppercase leading-none tracking-[0.34em] text-[var(--gold)]">
+              A partir de
+            </span>
+            <span
+              className="mt-2.5 block text-[23px] font-medium leading-[1.05] tracking-[-0.02em] text-white"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              {price}
+            </span>
+          </div>
+        )}
+
+        <CardDivider />
+
+        {/* Metadados */}
+        {(suitesLabel || areaLabel || dataEntrega) && (
+          <div className="grid gap-5">
+            {suitesLabel && (
+              <div className="flex items-center gap-3 text-[14px] font-medium leading-[1.35] tracking-[-0.01em] text-[rgba(245,241,233,0.88)]">
+                <BedDouble className="h-4 w-4 shrink-0 text-[var(--gold)]" strokeWidth={1.5} />
+                <span>{suitesLabel}</span>
+              </div>
+            )}
+            {areaLabel && (
+              <div className="flex items-center gap-3 text-[14px] font-medium leading-[1.35] tracking-[-0.01em] text-[rgba(245,241,233,0.88)]">
+                <Maximize2 className="h-4 w-4 shrink-0 text-[var(--gold)]" strokeWidth={1.5} />
+                <span>{areaLabel}</span>
+              </div>
+            )}
+            {dataEntrega && (
+              <div className="flex items-center gap-3 text-[14px] font-medium leading-[1.35] tracking-[-0.01em] text-[rgba(245,241,233,0.88)]">
+                <Calendar className="h-4 w-4 shrink-0 text-[var(--gold)]" strokeWidth={1.5} />
+                <span>Data de entrega: {dataEntrega}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {descricao && (
+          <>
+            <CardDivider />
+            <p className="line-clamp-3 max-w-[500px] text-[14.5px] font-normal leading-[1.82] tracking-[-0.01em] text-[rgba(245,241,233,0.82)]">
+              {descricao}
+            </p>
+          </>
+        )}
+
+        <CardDivider />
+
+        <Link
+          href={href}
+          className="group/cta inline-flex w-fit items-center gap-[9px] text-[11.5px] font-medium uppercase leading-[1.2] tracking-[0.24em] text-[var(--gold)] transition-all duration-200 hover:gap-[15px] hover:opacity-80"
+        >
+          Conheça o empreendimento
+          <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.8} />
+        </Link>
+
+        {/* Botões */}
+        <div className="mt-7 flex flex-col items-start gap-[18px] sm:flex-row sm:items-center sm:gap-[38px]">
+          <a
               href={waHref}
-              variant="whatsapp"
-              size="md"
-              external
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-[46px] w-full min-w-[152px] items-center justify-center gap-2.5 bg-[var(--color-action-whatsapp)] px-[22px] text-[11.5px] font-medium uppercase tracking-[0.22em] text-white transition-all duration-200 hover:-translate-y-px hover:brightness-110 sm:w-auto"
               aria-label="Conversar no WhatsApp"
             >
-              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <svg className="h-[17px] w-[17px] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>
               WhatsApp
-            </LinkButton>
+            </a>
 
-            <LinkButton
+            <a
               href={PHONE_HREF}
-              variant="phone"
-              size="md"
+              className="inline-flex items-center gap-2.5 text-[11.5px] font-extrabold uppercase tracking-[0.22em] text-[#777a77] transition-colors duration-200 hover:text-[rgba(245,241,233,0.9)]"
               aria-label="Ligar para a UNUS"
             >
-              <Phone className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+              <Phone className="h-[15px] w-[15px] shrink-0" strokeWidth={1.7} />
               Ligar
-            </LinkButton>
-          </div>
+            </a>
         </div>
       </div>
     </article>
