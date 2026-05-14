@@ -108,9 +108,9 @@
   --sidebar-border:          var(--neutral-300);
   --sidebar-ring:            var(--deep-blue);
 
-  /* FONTS */
-  --font-sans: 'Barlow', sans-serif;
-  --font-serif: 'Cormorant Garamond', serif;
+  /* FONTS — variáveis injetadas via next/font/google no layout.tsx
+     DM Sans → --font-sans | Cormorant Garamond → --font-serif
+     Não redefinir aqui para não sobrescrever os valores de next/font */
 
   /* SPACING — 8pt Grid */
   --spacing-2xs: 4px;
