@@ -251,9 +251,9 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Título */}
           <Link href={href} className="block group/title">
             <h3
-              className="text-[46px] lg:text-[58px] leading-[1.02] tracking-[-0.025em] transition-opacity duration-300 group-hover/title:opacity-70"
+              className="text-[var(--text-2xl)] leading-[1.1] tracking-[-0.02em] transition-opacity duration-300 group-hover/title:opacity-70"
               style={{
-                fontWeight: 'var(--weight-medium)',
+                fontWeight: 'var(--weight-normal)',
                 fontFamily: 'var(--font-serif)',
                 color: 'white',
               }}
@@ -275,8 +275,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
                 A partir de
               </p>
               <p
-                className="text-white text-[38px] leading-none"
-                style={{ fontWeight: 'var(--weight-bold)', fontFamily: 'var(--font-sans)' }}
+                className="text-white text-[var(--text-2xl)] leading-none"
+                style={{ fontWeight: 'var(--weight-semi)', fontFamily: 'var(--font-sans)' }}
               >
                 {price}
               </p>
@@ -339,7 +339,7 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           {/* Link CTA */}
           <Link
             href={href}
-            className="group/cta inline-flex items-center gap-1 text-[9px] uppercase tracking-[0.10em] transition-all duration-200"
+            className="group/cta inline-flex items-center gap-2 text-[var(--text-body)] uppercase tracking-[0.12em] transition-all duration-200"
             style={{ color: 'var(--gold)', fontWeight: 'var(--weight-semi)' }}
           >
             Conheça o empreendimento
