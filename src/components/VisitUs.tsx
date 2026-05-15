@@ -41,7 +41,13 @@ export function VisitUs() {
   return (
     <section
       id="nucleo"
-      className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)] text-white relative overflow-hidden"
+      className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 text-white relative overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(circle at 18% 46%, rgba(216,180,106,0.10), transparent 38%),
+          linear-gradient(135deg, var(--deep-blue) 0%, #001f33 48%, #001827 100%)
+        `,
+      }}
     >
       {/* Textura sutil */}
       <div
