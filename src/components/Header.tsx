@@ -98,7 +98,7 @@ export function Header() {
 
   const textColor  = transparent ? 'text-white/85' : 'text-[var(--color-heading)]';
   const hoverStyle = 'hover:opacity-60 transition-opacity duration-300';
-  const linkStyle  = `text-[var(--text-xs)] uppercase tracking-[0.08em] ${textColor} ${hoverStyle}`;
+  const linkStyle  = `text-[11px] uppercase tracking-[0.12em] leading-none ${textColor} ${hoverStyle}`;
 
   return (
     <header
@@ -120,7 +120,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={linkStyle}
-                style={{ fontWeight: pathname === item.href ? 600 : 400 }}
+                style={{ fontWeight: pathname === item.href ? 600 : 500 }}
               >
                 {item.label}
               </Link>
@@ -143,7 +143,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={linkStyle}
-                style={{ fontWeight: pathname === item.href ? 600 : 400 }}
+                style={{ fontWeight: pathname === item.href ? 600 : 500 }}
               >
                 {item.label}
               </Link>
@@ -157,8 +157,8 @@ export function Header() {
             >
               <Link
                 href="/venda"
-                className={`${linkStyle}`}
-                style={{ fontWeight: 500 }}
+                className={linkStyle}
+                style={{ fontWeight: pathname === '/venda' ? 600 : 500 }}
               >
                 Ver imóveis
               </Link>
@@ -171,7 +171,7 @@ export function Header() {
               >
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`}
-                  strokeWidth={2}
+                  strokeWidth={1.75}
                 />
               </button>
 
@@ -196,10 +196,11 @@ export function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setDropdownOpen(false)}
-                    className="block px-5 py-3.5 text-[var(--text-xs)] text-[var(--color-heading)]
-                               hover:bg-[var(--neutral-50)] hover:text-[var(--deep-blue)]
+                    className="block px-5 py-3.5 text-[13px] leading-[1.25] tracking-[0.01em]
+                               text-[var(--color-heading)] hover:bg-[var(--neutral-50)]
+                               hover:text-[var(--deep-blue)] hover:font-medium
                                border-b border-[var(--neutral-100)] last:border-0 transition-colors"
-                    style={{ fontWeight: 'var(--weight-normal)' }}
+                    style={{ fontWeight: 400 }}
                   >
                     {item.label}
                   </Link>
@@ -266,8 +267,8 @@ export function Header() {
 
             {/* Ver imóveis */}
             <p
-              className="pt-2 pb-1 text-[var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--gold-dark)]"
-              style={{ fontWeight: 'var(--weight-semi)' }}
+              className="pt-2 pb-1 text-[10px] uppercase tracking-[0.18em] text-[var(--gold-dark)]"
+              style={{ fontWeight: 600 }}
             >
               Ver imóveis
             </p>
@@ -275,8 +276,8 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="block py-3 text-[var(--text-sm)] text-[var(--color-heading)] border-b border-[var(--neutral-100)] pl-3"
-                style={{ fontWeight: 'var(--weight-normal)' }}
+                className="block py-3 text-[14px] leading-[1.35] tracking-normal text-[var(--color-heading)] border-b border-[var(--neutral-100)] pl-3"
+                style={{ fontWeight: 400 }}
               >
                 {item.label}
               </Link>
@@ -288,8 +289,8 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block py-3.5 text-[var(--text-sm)] text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
-                  style={{ fontWeight: 'var(--weight-normal)' }}
+                  className="block py-3.5 text-[14px] leading-[1.35] tracking-normal text-[var(--color-heading)] border-b border-[var(--neutral-200)]"
+                  style={{ fontWeight: 400 }}
                 >
                   {item.label}
                 </Link>
@@ -300,8 +301,8 @@ export function Header() {
             <div className="pt-5 flex flex-col gap-3">
               <Link
                 href="/favoritos"
-                className="flex items-center justify-center gap-2 w-full bg-[var(--secondary-900)] text-white py-3.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]"
-                style={{ fontWeight: 'var(--weight-medium)' }}
+                className="flex items-center justify-center gap-2 w-full bg-[var(--secondary-900)] text-white py-3.5 text-[12px] uppercase tracking-[0.12em] leading-none"
+                style={{ fontWeight: 600 }}
               >
                 <Heart className="w-4 h-4" strokeWidth={1.5} />
                 Favoritos
