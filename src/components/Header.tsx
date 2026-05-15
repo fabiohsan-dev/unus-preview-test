@@ -45,9 +45,9 @@ const allMobileItems = [
 ];
 
 const socialLinks = [
-  { label: 'Instagram', href: 'COLOCAR_LINK_INSTAGRAM', icon: Instagram },
-  { label: 'YouTube',   href: 'COLOCAR_LINK_YOUTUBE',   icon: Youtube },
-  { label: 'TikTok',    href: 'COLOCAR_LINK_TIKTOK',    icon: TikTokIcon },
+  { label: 'Instagram', href: 'https://www.instagram.com/unusnucleoimobiliario', icon: Instagram },
+  { label: 'YouTube',   href: 'https://www.youtube.com/@unusnucleoimobiliario',  icon: Youtube },
+  { label: 'TikTok',    href: 'https://www.tiktok.com/@unusnucleoimobiliario',   icon: TikTokIcon },
 ];
 
 export function Header() {
