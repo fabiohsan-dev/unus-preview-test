@@ -69,7 +69,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
         </div>
 
         {/* SearchBar + CTA consultivo */}
-        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(140px,18vh,200px)]">
+        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(180px,24vh,260px)]">
           <SearchBar variant="hero" glass metadata={metadata} />
           <div className="mt-[18px]">
             <a
