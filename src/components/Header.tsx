@@ -4,10 +4,20 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UnusLogo } from '@/components/ui';
-import { Heart, Menu, X, ChevronDown, MessageCircle } from 'lucide-react';
+import { Heart, Menu, X, ChevronDown, Instagram, Youtube } from 'lucide-react';
 
-import { whatsappUrl, WA_DEFAULT } from '@/lib/constants';
-const WHATSAPP_URL = whatsappUrl(WA_DEFAULT);
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06Z" />
+    </svg>
+  );
+}
 
 const dropdownItems = [
   { label: 'Ver todos os imóveis', href: '/venda' },
@@ -20,9 +30,8 @@ const dropdownItems = [
 ];
 
 const leftNavItems = [
-  { label: 'Anuncie',  href: '/anuncie' },
-  { label: 'O Núcleo', href: '/o-nucleo' },
-  { label: 'Blog',     href: '/blog' },
+  { label: 'Anuncie', href: '/anuncie' },
+  { label: 'Blog',    href: '/blog' },
 ];
 
 const rightNavItems = [
@@ -31,9 +40,14 @@ const rightNavItems = [
 
 const allMobileItems = [
   { label: 'Anuncie seu imóvel', href: '/anuncie' },
-  { label: 'O Núcleo',          href: '/o-nucleo' },
-  { label: 'Blog',              href: '/blog' },
-  { label: 'Contato',           href: '/contato' },
+  { label: 'Blog',               href: '/blog' },
+  { label: 'Contato',            href: '/contato' },
+];
+
+const socialLinks = [
+  { label: 'Instagram', href: 'COLOCAR_LINK_INSTAGRAM', icon: Instagram },
+  { label: 'YouTube',   href: 'COLOCAR_LINK_YOUTUBE',   icon: Youtube },
+  { label: 'TikTok',    href: 'COLOCAR_LINK_TIKTOK',    icon: TikTokIcon },
 ];
 
 export function Header() {
@@ -202,21 +216,19 @@ export function Header() {
               <Heart className="w-[18px] h-[18px]" strokeWidth={1.5} />
             </Link>
 
-            {/* Fale com corretor — CTA WhatsApp */}
-            <Link
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 ${linkStyle} border ${
-                transparent
-                  ? 'border-white/30 hover:border-white/60'
-                  : 'border-[var(--neutral-300)] hover:border-[var(--color-heading)]'
-              } px-4 py-2`}
-              style={{ fontWeight: 500 }}
-            >
-              <MessageCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
-              Corretor
-            </Link>
+            {/* Redes sociais */}
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <Link
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className={`${textColor} ${hoverStyle}`}
+              >
+                <Icon className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -284,18 +296,8 @@ export function Header() {
               ))}
             </div>
 
-            {/* CTA Favoritos + WhatsApp */}
+            {/* Favoritos */}
             <div className="pt-5 flex flex-col gap-3">
-              <Link
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full bg-[var(--color-action-whatsapp)] text-white py-3.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]"
-                style={{ fontWeight: 'var(--weight-medium)' }}
-              >
-                <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
-                Fale com um corretor
-              </Link>
               <Link
                 href="/favoritos"
                 className="flex items-center justify-center gap-2 w-full bg-[var(--secondary-900)] text-white py-3.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]"
@@ -304,6 +306,22 @@ export function Header() {
                 <Heart className="w-4 h-4" strokeWidth={1.5} />
                 Favoritos
               </Link>
+            </div>
+
+            {/* Redes sociais */}
+            <div className="pt-5 flex items-center justify-center gap-5">
+              {socialLinks.map(({ label, href, icon: Icon }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="text-[var(--color-heading)] hover:opacity-60 transition-opacity duration-300"
+                >
+                  <Icon className="w-5 h-5" strokeWidth={1.5} />
+                </Link>
+              ))}
             </div>
           </nav>
         </div>
