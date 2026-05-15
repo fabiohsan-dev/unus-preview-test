@@ -6,53 +6,60 @@ const WA_ANUNCIE = whatsappUrl('Olá! Gostaria de anunciar meu imóvel com a UNU
 
 export function AnuncieStrip() {
   return (
-    <section className="py-24 lg:py-28 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)]">
+    <section
+      className="py-24 lg:py-28 px-6 sm:px-8 lg:px-12 relative overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(circle at 18% 46%, rgba(216,180,106,0.13), transparent 34%),
+          linear-gradient(135deg, var(--deep-blue) 0%, #001f33 48%, #001827 100%)
+        `,
+      }}
+    >
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10 lg:gap-16">
+
+          {/* Bloco textual */}
           <div>
+            {/* Eyebrow */}
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-6 h-[1px] bg-[var(--champagne)]" />
-              <span
-                className="text-[var(--champagne-readable)] text-[10px] font-semibold uppercase tracking-[0.3em]"
-              >
-                Anuncie
+              <div className="w-6 h-px bg-[var(--champagne)]" />
+              <span className="text-[var(--champagne-readable)] text-[10px] font-semibold uppercase tracking-[0.18em]">
+                Para proprietários
               </span>
             </div>
+
+            {/* Título */}
             <h2
-              className="text-white text-title-section leading-[1.05] tracking-[-0.02em] mb-4 font-serif font-normal"
+              className="text-white font-serif font-light leading-[1.08] tracking-[-0.028em] max-w-[760px] mb-0"
+              style={{ fontSize: 'clamp(40px, 4vw, 68px)' }}
             >
-              ANUNCIE SEU IMÓVEL
+              {'Venda seu imóvel com a curadoria que ele merece.'}
             </h2>
+
+            {/* Subtítulo */}
             <p
-              className="text-white/65 text-[16px] leading-relaxed max-w-[480px] font-light"
+              className="text-white/[0.74] leading-[1.72] max-w-[500px] font-light mt-6"
+              style={{ fontSize: 'clamp(14px, 1vw, 16px)' }}
             >
-              O seu imóvel à venda em uma{' '}
-              <span className="text-white/90 font-normal">
-                Boutique Imobiliária
-              </span>
-              . Curadoria exclusiva, exposição máxima e negociação de alto padrão.
+              O seu imóvel à venda em uma Boutique Imobiliária. Curadoria exclusiva, exposição máxima e negociação de alto padrão.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 lg:shrink-0">
+          {/* CTA */}
+          <div className="flex lg:shrink-0">
             <LinkButton
               href={WA_ANUNCIE}
               variant="gold"
               size="lg"
               external
-              aria-label="Falar com um consultor sobre anunciar seu imóvel"
+              aria-label="Anunciar meu imóvel com a UNUS"
+              className="normal-case tracking-[0.04em] font-semibold"
             >
-              Falar com um consultor
+              Quero anunciar meu imóvel
               <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
             </LinkButton>
-            <LinkButton
-              href="/anuncie"
-              variant="phone"
-              size="lg"
-            >
-              Saiba mais
-            </LinkButton>
           </div>
+
         </div>
       </div>
     </section>
