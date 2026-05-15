@@ -129,8 +129,8 @@ function FilterField({
         <div className="flex-1 min-w-0">
           {!compact && (
             <p
-              className="text-[var(--text-xs)] text-[var(--color-caption)] uppercase tracking-[var(--tracking-button)]"
-              style={{ fontWeight: 'var(--weight-semi)' }}
+              className="text-[10px] text-[var(--color-caption)] uppercase tracking-[0.12em]"
+              style={{ fontWeight: 600 }}
             >
               {label}
             </p>
