@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 const metrics = [
   { value: '9+',  label: 'Anos de História'     },
   { value: '464', label: 'Famílias Realizadas'   },
-  { value: 'M²',  label: 'Comercializados'       },
+  { value: '56.016 M²', label: 'Comercializados' },
 ];
 
 const pilares = [
