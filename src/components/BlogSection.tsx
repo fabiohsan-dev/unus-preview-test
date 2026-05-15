@@ -48,13 +48,13 @@ const posts: BlogPostCardData[] = [
 
 export function BlogSection() {
   return (
-    <section className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--neutral-50)]">
+    <section className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--off-white)]">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-[1px] bg-[var(--primary-500)]" />
+            <div className="w-8 h-[1px] bg-[var(--champagne)]" />
             <span
-              className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-accent-text)]"
+              className="text-[10px] uppercase tracking-[0.3em] text-[var(--champagne-readable)]"
               style={{ fontWeight: 600 }}
             >
               Inteligência Imobiliária
@@ -63,7 +63,7 @@ export function BlogSection() {
 
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
             <h2
-              className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em]"
+              className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em] text-[var(--deep-blue)]"
               style={{ fontWeight: 300 }}
             >
               Insights do <span style={{ fontWeight: 600 }}>mercado</span>
@@ -71,7 +71,7 @@ export function BlogSection() {
 
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.15em] text-[var(--secondary-900)] hover:text-[var(--color-accent-text)] transition-colors"
+              className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.15em] text-[var(--deep-blue)] hover:text-[var(--champagne-readable)] transition-colors"
               style={{ fontWeight: 600 }}
             >
               Ver todos os artigos

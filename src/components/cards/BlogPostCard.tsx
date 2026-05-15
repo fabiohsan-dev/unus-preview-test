@@ -31,28 +31,28 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       </div>
 
       <span
-        className="text-[11px] uppercase tracking-[0.15em] text-[var(--color-caption)] mb-3 block"
+        className="text-[11px] uppercase tracking-[0.15em] text-[var(--champagne-readable)] mb-3 block"
         style={{ fontWeight: 500 }}
       >
         {post.date}
       </span>
 
       <h3
-        className="text-[17px] leading-[1.35] text-[var(--secondary-900)] mb-3 group-hover:text-[var(--color-accent-text)] transition-colors duration-300"
+        className="text-[17px] leading-[1.35] text-[var(--deep-blue)] mb-3 group-hover:text-[var(--champagne-readable)] transition-colors duration-300"
         style={{ fontWeight: 600, fontFamily: 'var(--font-sans)' }}
       >
         {post.title}
       </h3>
 
       <p
-        className="text-[14px] leading-[1.6] text-[var(--secondary-500)] mb-4 line-clamp-3"
+        className="text-[14px] leading-[1.6] text-[var(--graphite)] mb-4 line-clamp-3"
         style={{ fontWeight: 300 }}
       >
         {post.excerpt}
       </p>
 
       <span
-        className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.15em] text-[var(--color-accent-text)] group-hover:gap-3 transition-all duration-300"
+        className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.15em] text-[var(--deep-blue)] group-hover:text-[var(--champagne-readable)] group-hover:gap-3 transition-all duration-300"
         style={{ fontWeight: 600 }}
       >
         Leia mais
@@ -60,11 +60,11 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       </span>
 
       {post.tags && (
-        <div className="flex flex-wrap gap-2 mt-5 pt-5 border-t border-[var(--neutral-300)]">
+        <div className="flex flex-wrap gap-2 mt-5 pt-5 border-t border-[var(--champagne)]/20">
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="text-[10px] uppercase tracking-[0.1em] text-[var(--secondary-900)] bg-[var(--primary-50)] px-2.5 py-1"
+              className="text-[10px] uppercase tracking-[0.1em] text-[var(--deep-blue)] bg-[var(--champagne-soft)]/35 border border-[var(--champagne)]/25 px-2.5 py-1"
               style={{ fontWeight: 600 }}
             >
               {tag}
