@@ -1,7 +1,14 @@
 import Image from 'next/image';
+import { Quattrocento } from 'next/font/google';
 import { SearchBar } from './SearchBar';
 import type { ApiMetadataResponse } from '@/types/vista';
 import { whatsappUrl, WA_CONSULTIVO } from '@/lib/constants';
+
+const quattrocento = Quattrocento({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+});
 
 export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
   return (
@@ -45,24 +52,24 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       <div className="relative z-10 h-full max-w-[1320px] mx-auto px-6 sm:px-8 lg:px-12 pt-[116px] pb-[76px] flex flex-col justify-center">
 
         {/* Bloco textual */}
-        <div className="max-w-[820px]">
+        <div className="max-w-[1040px]">
 
           {/* Título */}
           <h1
-            className="font-serif font-light text-white leading-[1.02] tracking-[-0.035em] sm:leading-[0.98] sm:tracking-[-0.045em]"
-            style={{ fontSize: 'clamp(44px, 13vw, 66px)' }}
+            className={`${quattrocento.className} font-normal text-white leading-[1.02] tracking-[-0.025em] sm:leading-[0.98] sm:tracking-[-0.03em]`}
+            style={{ fontSize: 'clamp(52px, 6.4vw, 96px)' }}
           >
-            <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 104px)' }}>
+            <span className="block sm:whitespace-nowrap">
               Onde você mora
             </span>
-            <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 104px)' }}>
+            <span className="block sm:whitespace-nowrap">
               define como você vive!
             </span>
           </h1>
         </div>
 
         {/* SearchBar + CTA consultivo */}
-        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(40px,6vh,72px)]">
+        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(64px,8vh,104px)]">
           <SearchBar variant="hero" glass metadata={metadata} />
           <div className="mt-[18px]">
             <a
