@@ -6,67 +6,83 @@ import { WHATSAPP_BASE } from '@/lib/constants';
 export function NeighborhoodOpps() {
   return (
     <section id="contato" className="relative py-32 lg:py-40 px-6 sm:px-8 lg:px-12 overflow-hidden">
+
+      {/* ── Fundo ── */}
       <div className="absolute inset-0 z-0">
         <ContentImage
           src="https://sdr-w.agenciaalea.com.br/Sala-UNUS-8.jpg"
           alt="Vista aérea"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover saturate-[0.88] contrast-[1.04]"
           sizes="100vw"
           quality={60}
         />
-        <div className="absolute inset-0 bg-[var(--secondary-900)]/85" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(circle at 50% 42%, rgba(194,168,120,0.10), transparent 32%),
+              linear-gradient(135deg, rgba(0,43,69,0.90) 0%, rgba(0,31,51,0.88) 48%, rgba(0,24,39,0.92) 100%),
+              rgba(5,5,5,0.38)
+            `,
+          }}
+        />
       </div>
 
-      <div className="max-w-[800px] mx-auto relative z-10 text-center">
+      {/* ── Conteúdo ── */}
+      <div className="max-w-[840px] mx-auto relative z-10 text-center">
+
+        {/* Eyebrow */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-8 h-[1px] bg-white" />
-          <span className="text-[10px] uppercase tracking-[0.3em] text-white" style={{ fontWeight: 600 }}>
-            Para Proprietários
+          <div className="w-8 h-px bg-[var(--champagne)]/80" />
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--champagne-readable)]"
+          >
+            Para quem busca o imóvel certo
           </span>
-          <div className="w-8 h-[1px] bg-white" />
+          <div className="w-8 h-px bg-[var(--champagne)]/80" />
         </div>
 
+        {/* Título */}
         <h2
-          className="text-white text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.08] tracking-[-0.02em] mb-6"
-          style={{ fontWeight: 300 }}
+          className="text-white font-serif font-light leading-[1.08] tracking-[-0.02em] text-[32px] sm:text-[48px] lg:text-[56px] mb-6"
         >
-          Seu patrimônio merece
+          Encontre o imóvel certo
           <br />
-          <span style={{ fontWeight: 600 }}>inteligência de mercado.</span>
+          <span className="font-semibold">com inteligência de mercado.</span>
         </h2>
 
+        {/* Subtítulo */}
         <p
-          className="text-white/60 text-[16px] sm:text-[17px] leading-relaxed max-w-[520px] mx-auto mb-12"
-          style={{ fontWeight: 300 }}
+          className="text-white/65 text-[16px] sm:text-[17px] leading-[1.68] max-w-[620px] mx-auto mb-12 font-light"
         >
-          Receba uma avaliação estratégica gratuita. Analisamos dados reais de transações da
-          região para posicionar seu imóvel no patamar que ele merece, com discrição absoluta.
+          Conte com uma curadoria especializada para encontrar imóveis prontos, em construção ou em lançamento, com análise de localização, potencial de valorização e aderência ao seu momento de vida.
         </p>
 
+        {/* Botões */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/anuncie"
-            className="bg-white text-[var(--color-heading)] px-10 py-4 text-[13px] uppercase tracking-[0.16em] hover:bg-[var(--neutral-100)] transition-colors flex items-center gap-3"
-            style={{ fontWeight: 600 }}
+            href="/venda"
+            className="bg-[var(--champagne)] text-[var(--deep-blue)] px-10 py-4 text-[13px] uppercase tracking-[0.14em] hover:bg-[var(--champagne-soft)] transition-colors flex items-center gap-3 font-semibold"
           >
-            Solicitar Avaliação Gratuita
+            Encontrar meu imóvel ideal
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
           </Link>
           <a
             href={WHATSAPP_BASE}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-white/20 text-white px-8 py-4 text-[13px] uppercase tracking-[0.16em] hover:bg-white/10 transition-colors flex items-center gap-3"
-            style={{ fontWeight: 500 }}
+            className="border border-[var(--champagne)]/40 text-white px-8 py-4 text-[13px] uppercase tracking-[0.14em] hover:bg-[var(--champagne)]/10 hover:border-[var(--champagne)]/70 transition-colors flex items-center gap-3 font-medium"
           >
             <Phone className="w-4 h-4" strokeWidth={1.5} />
-            Falar com Consultor
+            Falar com especialista
           </a>
         </div>
 
-        <p className="text-white/40 text-[11px] mt-10 tracking-wide" style={{ fontWeight: 500 }}>
-          Sigilo e discrição garantidos em todas as negociações.
+        {/* Nota */}
+        <p className="text-white/45 text-[11px] mt-10 tracking-wide font-medium">
+          Atendimento consultivo para comprar com mais segurança, clareza e estratégia.
         </p>
+
       </div>
     </section>
   );
