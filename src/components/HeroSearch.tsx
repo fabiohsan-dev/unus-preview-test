@@ -60,16 +60,16 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
             style={{ fontSize: 'clamp(52px, 6.4vw, 96px)' }}
           >
             <span className="block sm:whitespace-nowrap">
-              Onde você mora
+              <span className="font-bold">Onde</span> você mora
             </span>
             <span className="block sm:whitespace-nowrap">
-              define como você vive!
+              define como <span className="font-bold">você vive!</span>
             </span>
           </h1>
         </div>
 
         {/* SearchBar + CTA consultivo */}
-        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(64px,8vh,104px)]">
+        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(80px,10vh,128px)]">
           <SearchBar variant="hero" glass metadata={metadata} />
           <div className="mt-[18px]">
             <a
