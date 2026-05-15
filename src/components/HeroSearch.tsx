@@ -23,7 +23,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pt-24">
         <div className="max-w-[800px]">
           <h1
-            className="text-[length:var(--title-hero)] leading-[1.05] tracking-[-0.02em] font-serif font-light text-white"
+            className="text-title-hero leading-[1.05] tracking-[-0.02em] font-serif font-light text-white"
           >
             Onde você mora
             <br />

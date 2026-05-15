@@ -497,6 +497,16 @@
 
   --font-sans:  var(--font-sans);
   --font-serif: var(--font-serif);
+
+  /* ── Text Sizes ── */
+  --text-title-hero: var(--title-hero);
+  --text-title-section: var(--title-section);
+  --text-title-card: var(--title-card);
+  --text-micro: var(--text-micro);
+  --text-body: var(--text-body);
+  --text-price-featured-size: var(--price-featured-size);
+  --text-price-opportunity-size: var(--price-opportunity-size);
+  --text-number-stat-size: var(--number-stat-size);
 }
 
 @layer base {

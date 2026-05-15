@@ -19,7 +19,7 @@ export function AnuncieStrip() {
               </span>
             </div>
             <h2
-              className="text-white text-[length:var(--title-section)] leading-[1.05] tracking-[-0.02em] mb-4 font-serif font-normal"
+              className="text-white text-title-section leading-[1.05] tracking-[-0.02em] mb-4 font-serif font-normal"
             >
               ANUNCIE SEU IMÓVEL
             </h2>

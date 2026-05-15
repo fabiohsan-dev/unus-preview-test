@@ -39,7 +39,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
               </span>
             </div>
             <h2
-              className="text-[var(--color-heading)] text-[length:var(--title-section)] leading-[1.1] tracking-[-0.02em] font-light"
+              className="text-[var(--color-heading)] text-title-section leading-[1.1] tracking-[-0.02em] font-light"
             >
               Lançamentos &
               <br />
@@ -94,7 +94,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
                     {item.location}
                   </p>
                   <h3
-                    className="text-[var(--color-heading)] text-[length:var(--title-card)] font-normal leading-tight mb-4 line-clamp-2 min-h-[52px]"
+                    className="text-[var(--color-heading)] text-title-card font-normal leading-tight mb-4 line-clamp-2 min-h-[52px]"
                   >
                     {item.title}
                   </h3>
@@ -126,7 +126,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
                   </div>
 
                   <p
-                    className="text-[var(--color-heading)] text-[length:var(--price-opportunity-size)] font-serif font-medium mt-auto"
+                    className="text-[var(--color-heading)] text-price-opportunity-size font-serif font-medium mt-auto"
                   >
                     {item.price}
                   </p>

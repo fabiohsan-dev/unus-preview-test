@@ -11,7 +11,7 @@ export function RetentionCTA() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
             <p
-              className="text-[var(--color-heading)] text-[length:var(--title-card)] leading-[1.2] font-serif font-normal"
+              className="text-[var(--color-heading)] text-title-card leading-[1.2] font-serif font-normal"
             >
               Ainda não encontrou o seu novo imóvel?
             </p>

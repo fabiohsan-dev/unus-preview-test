@@ -72,14 +72,14 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-[1px] bg-[var(--champagne)]" />
-              <span className="text-[var(--champagne-readable)] text-[length:var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)] font-semibold">
+              <span className="text-[var(--champagne-readable)] text-text-micro uppercase tracking-[var(--tracking-eyebrow)] font-semibold">
                 Vitrine UNUS
               </span>
             </div>
-            <h2 className="text-[var(--component-featured-title)] text-[length:var(--title-section)] leading-[1.1] tracking-[-0.02em] font-light font-serif">
+            <h2 className="text-[var(--component-featured-title)] text-title-section leading-[1.1] tracking-[-0.02em] font-light font-serif">
               Seleção <span className="font-semibold">exclusiva</span>
             </h2>
-            <p className="text-[var(--color-body)] text-[length:var(--text-body)] mt-4 leading-relaxed max-w-[420px] font-light">
+            <p className="text-[var(--color-body)] text-text-body mt-4 leading-relaxed max-w-[420px] font-light">
               Propriedades singulares, selecionadas pela nossa curadoria de inteligência imobiliária.
             </p>
           </div>
@@ -88,7 +88,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           <div className="flex items-center gap-3">
             <Link
               href="/venda"
-              className="hidden sm:inline-flex items-center gap-2 text-[length:var(--text-xs)] uppercase tracking-[var(--tracking-link)] text-[var(--component-featured-title)] hover:text-[var(--deep-blue)] transition-colors mr-4 font-medium"
+              className="hidden sm:inline-flex items-center gap-2 text-text-xs uppercase tracking-[var(--tracking-link)] text-[var(--component-featured-title)] hover:text-[var(--deep-blue)] transition-colors mr-4 font-medium"
             >
               Ver todos
               <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
@@ -180,7 +180,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     </span>
                   </div>
 
-                  <h3 className="text-[var(--color-heading)] text-[length:var(--title-card)] leading-[1.15] mb-8 line-clamp-3 min-h-[84px] font-normal">
+                  <h3 className="text-[var(--color-heading)] text-title-card leading-[1.15] mb-8 line-clamp-3 min-h-[84px] font-normal">
                     {property.title}
                   </h3>
 
@@ -209,7 +209,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 </div>
 
                 <div>
-                  <p className="text-[var(--champagne-readable)] text-[length:var(--price-featured-size)] mb-6 font-serif font-medium tracking-[var(--tracking-value)]">
+                  <p className="text-[var(--champagne-readable)] text-price-featured-size mb-6 font-serif font-medium tracking-[var(--tracking-value)]">
                     {property.price}
                   </p>
                   <Link

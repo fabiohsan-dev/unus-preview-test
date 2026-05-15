@@ -64,7 +64,7 @@ export function VisitUs() {
             <div className="w-8 h-[1px] bg-white" />
           </div>
           <h2
-            className="text-[length:var(--title-hero)] leading-[1.08] tracking-[-0.02em] max-w-[700px] mx-auto mb-6 text-[var(--color-inverse)] font-serif font-light"
+            className="text-title-hero leading-[1.08] tracking-[-0.02em] max-w-[700px] mx-auto mb-6 text-[var(--color-inverse)] font-serif font-light"
           >
             Não intermediamos.<br />
             <span className="font-semibold">Entregamos inteligência.</span>
@@ -88,7 +88,7 @@ export function VisitUs() {
               }`}
             >
               <p
-                className="text-[length:var(--number-stat-size)] text-[var(--color-inverse)] mb-2 font-serif font-normal"
+                className="text-number-stat-size text-[var(--color-inverse)] mb-2 font-serif font-normal"
               >
                 {m.value}
               </p>
@@ -146,7 +146,7 @@ export function VisitUs() {
                 Por Que a UNUS
               </p>
               <h3
-                className="text-[length:var(--title-section)] leading-[1.15] tracking-[-0.01em] text-[var(--color-inverse)] mb-4 font-serif font-light"
+                className="text-title-section leading-[1.15] tracking-[-0.01em] text-[var(--color-inverse)] mb-4 font-serif font-light"
               >
                 Os 5 Pilares da Nossa<br />
                 <span className="font-semibold">Inteligência Imobiliária</span>

@@ -48,7 +48,7 @@ export function CategoryStrip() {
               </span>
             </div>
             <h2
-              className="text-[var(--color-heading)] text-[length:var(--title-section)] leading-[1.1] tracking-[-0.02em] font-light"
+              className="text-[var(--color-heading)] text-title-section leading-[1.1] tracking-[-0.02em] font-light"
             >
               Navegue por
               <br />

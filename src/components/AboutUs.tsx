@@ -129,7 +129,7 @@ export function AboutUs() {
               </div>
 
               <h2
-                className="text-[length:var(--title-section)] leading-[1.1] tracking-[-0.015em] text-[var(--color-heading)] mb-8 font-serif font-light"
+                className="text-title-section leading-[1.1] tracking-[-0.015em] text-[var(--color-heading)] mb-8 font-serif font-light"
               >
                 UNUS <span className="italic font-medium">Núcleo</span> Imobiliário
                 <br />
