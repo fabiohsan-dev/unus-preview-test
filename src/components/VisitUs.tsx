@@ -1,107 +1,113 @@
 'use client';
 
 import Image from 'next/image';
-import { ArrowRight, Building2, MapPin, Star, TrendingUp, User } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const metrics = [
-  { value: 'R$ 2.8bi', label: 'em ativos sob consultoria' },
-  { value: '98%',      label: 'assertividade em avaliações' },
-  { value: '464+',     label: 'famílias realizadas' },
+  { value: '9+',  label: 'Anos de História'     },
+  { value: '464', label: 'Famílias Realizadas'   },
+  { value: 'M²',  label: 'Comercializados'       },
 ];
 
 const pilares = [
   {
-    Icon: User,
-    title: 'Atendimento Personalizado',
-    desc: 'Consultoria dedicada ao seu perfil, momento e objetivos. Cada cliente tem um corretor exclusivo.',
+    n: '1.',
+    title: 'Trabalhamos com atendimento personalizado',
+    desc: 'Contemos a equipe Premium. Muito qualificada em vendas! Pois um bom atendimento é o que nos move!',
   },
   {
-    Icon: Star,
-    title: 'Excelência',
-    desc: 'Padrão de alto nível em cada etapa — da busca ao fechamento, sem concessões na qualidade.',
+    n: '2.',
+    title: 'Excelência em cada etapa',
+    desc: 'Desde o primeiro contato, assinatura do contrato, até o pós-venda, você tem uma grande diferença na maneira como conduzimos os processos de venda.',
   },
   {
-    Icon: MapPin,
-    title: 'Localizações',
-    desc: 'Domínio profundo dos melhores bairros e regiões de Florianópolis e Grande Florianópolis.',
+    n: '3.',
+    title: 'Localizações privilegiadas',
+    desc: 'Sala aérea com vista para o mar no K-Platz Corporate, em Campinas - São José e uma loja no Somma Tower na Agronômica - Florianópolis. Ambientes pensados para oferecer conforto, sofisticação e excelência no atendimento aos nossos clientes.',
   },
   {
-    Icon: Building2,
-    title: 'Núcleo',
-    desc: 'Ecossistema imobiliário único com equipe especializada, parcerias e inteligência de mercado.',
+    n: '4.',
+    title: 'Núcleo imobiliário',
+    desc: 'Empresas e profissionais de serviços afiliados ao Núcleo, como arquitetos, móveis sob medida, gesso, box e fechamento de sacada, pintura e reforma, entre outros.',
   },
   {
-    Icon: TrendingUp,
-    title: 'Mkt Digital',
-    desc: 'Máxima exposição para os imóveis do portfólio com estratégia digital de alto alcance.',
+    n: '5.',
+    title: 'Mkt digital',
+    desc: 'Curadoria de marketing com profissionais experts em ações de inteligência de mercado, com vídeos e produção diferenciadas para a divulgação do seu imóvel.',
   },
 ];
 
 export function VisitUs() {
   return (
-    <section id="nucleo" className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)] text-white relative overflow-hidden">
-      {/* Subtle bg texture */}
+    <section
+      id="nucleo"
+      className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--secondary-900)] text-white relative overflow-hidden"
+    >
+      {/* Textura sutil */}
       <div
         className="absolute inset-0 opacity-[0.025] pointer-events-none"
         style={{
-          backgroundImage:
-            'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
           backgroundSize: '48px 48px',
         }}
       />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
 
-        {/* Topo: brand statement */}
-        <div className="text-center mb-20 lg:mb-24">
+        {/* ── Topo institucional ── */}
+        <div className="text-center mb-16 lg:mb-20">
+
+          {/* Eyebrow */}
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-8 h-[1px] bg-white" />
-            <span
-              className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white"
-            >
+            <div className="w-8 h-px bg-[var(--champagne)]/85" />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--champagne)]/85">
               A Experiência UNUS
             </span>
-            <div className="w-8 h-[1px] bg-white" />
+            <div className="w-8 h-px bg-[var(--champagne)]/85" />
           </div>
+
+          {/* Título */}
           <h2
-            className="text-title-hero leading-[1.08] tracking-[-0.02em] max-w-[700px] mx-auto mb-6 text-[var(--color-inverse)] font-serif font-light"
+            className="font-serif font-light leading-[1.08] tracking-[-0.028em] text-[var(--color-inverse)] max-w-[980px] mx-auto mb-6"
+            style={{ fontSize: 'clamp(38px, 4.6vw, 68px)' }}
           >
-            Não intermediamos.<br />
-            <span className="font-semibold">Entregamos inteligência.</span>
+            Imóveis certos, decisões rápidas e inteligência de mercado.
           </h2>
+
+          {/* Subtítulo */}
           <p
-            className="text-[var(--neutral-500)] text-[16px] sm:text-[17px] leading-relaxed max-w-[540px] mx-auto font-light"
+            className="text-white/65 leading-[1.72] font-light max-w-[580px] mx-auto"
+            style={{ fontSize: 'clamp(14px, 1.1vw, 17px)' }}
           >
-            Com presença em Balneário Camboriú e Itapema, a UNUS é o núcleo de referência em consultoria imobiliária de alto padrão no litoral catarinense. Dados, estratégia e uma rede exclusiva de relacionamento.
+            A UNUS é uma empresa moderna de inteligência imobiliária que atua com os melhores imóveis prontos, em construção ou em lançamento.
           </p>
         </div>
 
-        {/* Métricas */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 border-y border-white/[0.08] mb-20 lg:mb-24">
+        {/* ── Métricas ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 border-y border-white/[0.08] mb-16 lg:mb-20">
           {metrics.map((m, idx) => (
             <div
               key={idx}
-              className={`py-10 sm:py-12 text-center ${
+              className={`py-9 sm:py-11 text-center ${
                 idx < metrics.length - 1
                   ? 'sm:border-r border-b sm:border-b-0 border-white/[0.08]'
                   : ''
               }`}
             >
               <p
-                className="text-number-stat-size text-[var(--color-inverse)] mb-2 font-serif font-normal"
+                className="font-serif font-normal text-[var(--color-inverse)] leading-none tracking-[-0.025em] mb-2"
+                style={{ fontSize: 'clamp(34px, 3vw, 50px)' }}
               >
                 {m.value}
               </p>
-              <p
-                className="text-[var(--neutral-500)] text-[12px] font-medium uppercase tracking-[0.12em]"
-              >
+              <p className="text-white/45 text-[12px] font-medium uppercase tracking-[0.12em] leading-[1.45]">
                 {m.label}
               </p>
             </div>
           ))}
         </div>
 
-        {/* 2 colunas: imagem + pilares */}
+        {/* ── Grid principal: imagem + pilares ── */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
           {/* Imagem sticky */}
@@ -109,13 +115,14 @@ export function VisitUs() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src="/Sala-UNUS-13.jpg"
-                alt="Sede UNUS"
+                alt="Sede UNUS — K-Platz Corporate, São José SC"
                 fill
                 quality={72}
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
+            {/* Card sobre a imagem */}
             <div
               className="absolute bottom-6 left-6 right-6 sm:right-auto px-6 py-4 border border-white/[0.12]"
               style={{
@@ -124,62 +131,69 @@ export function VisitUs() {
                 WebkitBackdropFilter: 'blur(24px)',
               }}
             >
-              <p
-                className="text-[9px] font-semibold uppercase tracking-[0.25em] mb-1 text-white"
-              >
-                Nossa Metodologia
+              <p className="text-[9px] font-semibold uppercase tracking-[0.25em] mb-1 text-white/60">
+                Nossa sede
               </p>
-              <p
-                className="text-[var(--color-inverse)] text-[13px] font-normal tracking-[0.04em]"
-              >
-                5 pilares da UNUS
+              <p className="text-[var(--color-inverse)] text-[13px] font-normal tracking-[0.04em]">
+                K-Platz Corporate — São José, SC
               </p>
             </div>
           </div>
 
           {/* Pilares */}
           <div>
+            {/* Eyebrow + título dos pilares */}
             <div className="mb-12">
-              <p
-                className="text-[10px] font-semibold uppercase tracking-[0.25em] mb-4 text-white"
-              >
-                Por Que a UNUS
+              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] mb-4 text-white/60">
+                Por que a UNUS
               </p>
               <h3
-                className="text-title-section leading-[1.15] tracking-[-0.01em] text-[var(--color-inverse)] mb-4 font-serif font-light"
+                className="font-serif font-light leading-[1.12] tracking-[-0.026em] text-[var(--color-inverse)] mb-4"
+                style={{ fontSize: 'clamp(32px, 3.4vw, 52px)' }}
               >
-                Os 5 Pilares da Nossa<br />
+                Os Pilares da Nossa{' '}
                 <span className="font-semibold">Inteligência Imobiliária</span>
               </h3>
-              <p
-                className="text-[var(--neutral-500)] text-[15px] leading-relaxed max-w-[420px] font-light"
-              >
-                Cada decisão é respaldada por dados, cada transação protegida por rigor — esse é o padrão UNUS.
+              <p className="text-white/55 text-[15px] leading-[1.62] font-light max-w-[420px]">
+                Uma estrutura pensada para gerar confiança, diferenciação e desempenho em cada negociação.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10 mb-14">
-              {pilares.map(({ Icon, title, desc }) => (
-                <div key={title} className="group relative">
-                  <div className="w-11 h-11 rounded-[10px] border border-[var(--champagne)]/[0.15] flex items-center justify-center mb-5 group-hover:bg-[var(--champagne)]/[0.14] group-hover:border-[var(--champagne)]/[0.25] transition-all duration-500 bg-white/[0.08]">
-                    <Icon className="w-[18px] h-[18px] text-white" strokeWidth={1.3} />
-                  </div>
+            {/* Lista numerada editorial */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-11 gap-y-9 mb-12">
+              {pilares.map(({ n, title, desc }, idx) => (
+                <article
+                  key={n}
+                  className={`relative pt-5 border-t ${
+                    idx < 2
+                      ? 'border-[var(--champagne)]/35'
+                      : 'border-white/[0.10]'
+                  }`}
+                >
+                  <span
+                    className="block font-serif text-[22px] font-medium tracking-[-0.02em] text-[var(--champagne)]/70 leading-none mb-3"
+                  >
+                    {n}
+                  </span>
                   <h4
-                    className="text-white text-[13px] font-semibold uppercase tracking-[0.1em] mb-2.5"
+                    className="text-white/95 font-semibold uppercase tracking-[0.035em] leading-[1.28] mb-3 max-w-[360px]"
+                    style={{ fontSize: 'clamp(16px, 1.25vw, 19px)' }}
                   >
                     {title}
                   </h4>
                   <p
-                    className="text-[var(--neutral-500)] text-[13px] font-light leading-[1.7]"
+                    className="text-white/65 font-light leading-[1.62] max-w-[390px]"
+                    style={{ fontSize: 'clamp(14px, 1vw, 16px)' }}
                   >
                     {desc}
                   </p>
-                </div>
+                </article>
               ))}
             </div>
 
-            <div className="w-full h-[1px] bg-white/[0.06] mb-10" />
+            <div className="w-full h-px bg-white/[0.06] mb-10" />
 
+            {/* CTA */}
             <a
               href="/o-nucleo"
               className="inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.18em] pb-2.5 border-b border-[var(--champagne)]/25 hover:border-[var(--champagne)]/70 transition-all duration-500 group text-white"
@@ -188,6 +202,7 @@ export function VisitUs() {
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-500" />
             </a>
           </div>
+
         </div>
       </div>
     </section>
