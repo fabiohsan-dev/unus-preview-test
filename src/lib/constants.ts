@@ -13,6 +13,10 @@ export const PHONE_RAW      = '554830666767';               // sem formatação,
 export const PHONE_DISPLAY  = '(48) 3066-6767';             // para exibição em texto
 export const PHONE_HREF     = `tel:+${PHONE_RAW}`;
 
+export const PHONE2_RAW     = '5548991899903';
+export const PHONE2_DISPLAY = '(48) 9 9189-9903';
+export const PHONE2_HREF    = `tel:+${PHONE2_RAW}`;
+
 export const WHATSAPP_NUMBER  = PHONE_RAW;
 export const WHATSAPP_BASE    = `https://wa.me/${WHATSAPP_NUMBER}`;
 
@@ -25,7 +29,7 @@ export function whatsappUrl(text: string): string {
 export const SITE_URL       = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://unus-preview-test.vercel.app').replace(/\/$/, '');
 export const SITE_NAME      = 'UNUS Núcleo Imobiliário';
 export const SITE_TAGLINE   = 'Inteligência Imobiliária em Alto Padrão';
-export const CRECI          = 'CRECI-SC 3034-J';
+export const CRECI          = 'CRECI: 5.067 J';
 
 /* ── Unidades ── */
 export const UNITS = [
