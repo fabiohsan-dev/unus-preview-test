@@ -52,7 +52,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-[116px] pb-[76px] flex flex-col justify-center">
 
         {/* Bloco textual */}
-        <div className="max-w-[1040px]">
+        <div className="max-w-[1040px] mt-[clamp(40px,6vh,60px)]">
 
           {/* Título */}
           <h1
