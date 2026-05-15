@@ -49,7 +49,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       </div>
 
       {/* ── Conteúdo principal ── */}
-      <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-[116px] pb-[clamp(160px,20vh,240px)] flex flex-col justify-between">
+      <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-[116px] pb-[76px] flex flex-col justify-center">
 
         {/* Bloco textual */}
         <div className="max-w-[1040px]">
@@ -69,7 +69,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
         </div>
 
         {/* SearchBar + CTA consultivo */}
-        <div className="relative z-20 w-full max-w-[1040px]">
+        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(140px,18vh,200px)]">
           <SearchBar variant="hero" glass metadata={metadata} />
           <div className="mt-[18px]">
             <a
