@@ -42,47 +42,27 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       </div>
 
       {/* ── Conteúdo principal ── */}
-      <div className="relative z-10 h-full max-w-[1320px] mx-auto px-6 sm:px-8 lg:px-12 pt-[116px] pb-[76px] flex flex-col justify-between">
+      <div className="relative z-10 h-full max-w-[1320px] mx-auto px-6 sm:px-8 lg:px-12 pt-[116px] pb-[76px] flex flex-col justify-center">
 
         {/* Bloco textual */}
-        <div className="max-w-[720px]">
-
-          {/* Eyebrow */}
-          <div className="flex items-center gap-3 mb-5 sm:mb-6">
-            <div className="w-7 h-px bg-[var(--champagne)]" />
-            <span
-              className="text-white/70 text-[11px] font-bold uppercase tracking-[0.18em]"
-            >
-              Imóveis selecionados em Santa Catarina
-            </span>
-          </div>
+        <div className="max-w-[820px]">
 
           {/* Título */}
           <h1
             className="font-serif font-light text-white leading-[1.02] tracking-[-0.035em] sm:leading-[0.98] sm:tracking-[-0.045em]"
             style={{ fontSize: 'clamp(44px, 13vw, 66px)' }}
           >
-            <span style={{ fontSize: 'clamp(52px, 7vw, 104px)' }} className="block sm:inline">
+            <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 104px)' }}>
               Onde você mora
             </span>
-            <br className="hidden sm:block" />
-            <span style={{ fontSize: 'clamp(52px, 7vw, 104px)' }} className="block sm:inline">
+            <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 104px)' }}>
               define como você vive!
             </span>
           </h1>
-
-          {/* Subtítulo */}
-          <p
-            className="text-white/70 font-light leading-[1.6] sm:leading-[1.65] mt-5 sm:mt-6 max-w-[520px]"
-            style={{ fontSize: 'clamp(14px, 1.15vw, 16px)' }}
-          >
-            Uma curadoria imobiliária para encontrar endereços que combinam
-            localização, arquitetura e momento de vida.
-          </p>
         </div>
 
         {/* SearchBar + CTA consultivo */}
-        <div className="relative z-20 w-full max-w-[1040px]">
+        <div className="relative z-20 w-full max-w-[1040px] mt-[clamp(40px,6vh,72px)]">
           <SearchBar variant="hero" glass metadata={metadata} />
           <div className="mt-[18px]">
             <a
