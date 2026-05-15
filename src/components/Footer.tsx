@@ -113,22 +113,8 @@ export function Footer() {
             <div className="md:col-span-2 lg:col-span-1">
 
               {/* Logo + nome */}
-              <Link href="/" aria-label="Ir para a home da UNUS" className="inline-flex items-center gap-4 mb-6 group">
+              <Link href="/" aria-label="Ir para a home da UNUS" className="inline-block mb-6 group">
                 <UnusIcon className="h-[50px] w-auto text-[var(--gold)] transition-opacity group-hover:opacity-80" />
-                <div className="flex flex-col leading-none">
-                  <span
-                    className="text-white text-[20px] uppercase tracking-[0.12em]"
-                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}
-                  >
-                    UNUS
-                  </span>
-                  <span
-                    className="text-white/45 text-[10px] uppercase tracking-[0.18em] mt-2"
-                    style={{ fontWeight: 600 }}
-                  >
-                    Núcleo Imobiliário
-                  </span>
-                </div>
               </Link>
 
               {/* Tagline */}
