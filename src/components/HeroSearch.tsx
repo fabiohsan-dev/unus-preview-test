@@ -23,12 +23,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       <div className="relative z-10 flex-1 flex items-center w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 pt-24">
         <div className="max-w-[800px]">
           <h1
-            className="text-[var(--text-3xl)] sm:text-[44px] lg:text-[var(--text-5xl)] leading-[1.05] tracking-[-0.02em]"
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-light)',
-              color: 'white',
-            }}
+            className="text-[length:var(--title-hero)] leading-[1.05] tracking-[-0.02em] font-serif font-light text-white"
           >
             Onde você mora
             <br />
@@ -45,8 +40,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
               href={whatsappUrl(WA_CONSULTIVO)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-white/90 text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] transition-colors duration-300"
-              style={{ fontWeight: 'var(--weight-normal)' }}
+              className="inline-flex items-center gap-2 text-white/60 hover:text-white/90 text-[var(--text-xs)] font-normal uppercase tracking-[var(--tracking-button)] transition-colors duration-300"
             >
               Prefere atendimento consultivo? Fale com um corretor
               <span aria-hidden="true">→</span>

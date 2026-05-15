@@ -57,23 +57,20 @@ export function VisitUs() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="w-8 h-[1px] bg-white" />
             <span
-              className="text-[10px] uppercase tracking-[0.3em] text-white"
-              style={{ fontWeight: 600 }}
+              className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white"
             >
               A Experiência UNUS
             </span>
             <div className="w-8 h-[1px] bg-white" />
           </div>
           <h2
-            className="text-[36px] sm:text-[48px] lg:text-[56px] leading-[1.08] tracking-[-0.02em] max-w-[700px] mx-auto mb-6 text-[var(--color-inverse)]"
-            style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+            className="text-[length:var(--title-hero)] leading-[1.08] tracking-[-0.02em] max-w-[700px] mx-auto mb-6 text-[var(--color-inverse)] font-serif font-light"
           >
             Não intermediamos.<br />
-            <span style={{ fontWeight: 600 }}>Entregamos inteligência.</span>
+            <span className="font-semibold">Entregamos inteligência.</span>
           </h2>
           <p
-            className="text-[var(--neutral-500)] text-[16px] sm:text-[17px] leading-relaxed max-w-[540px] mx-auto"
-            style={{ fontWeight: 300 }}
+            className="text-[var(--neutral-500)] text-[16px] sm:text-[17px] leading-relaxed max-w-[540px] mx-auto font-light"
           >
             Com presença em Balneário Camboriú e Itapema, a UNUS é o núcleo de referência em consultoria imobiliária de alto padrão no litoral catarinense. Dados, estratégia e uma rede exclusiva de relacionamento.
           </p>
@@ -91,14 +88,12 @@ export function VisitUs() {
               }`}
             >
               <p
-                className="text-[36px] sm:text-[42px] text-[var(--color-inverse)] mb-2"
-                style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
+                className="text-[length:var(--number-stat-size)] text-[var(--color-inverse)] mb-2 font-serif font-normal"
               >
                 {m.value}
               </p>
               <p
-                className="text-[var(--neutral-500)] text-[12px] uppercase tracking-[0.12em]"
-                style={{ fontWeight: 500 }}
+                className="text-[var(--neutral-500)] text-[12px] font-medium uppercase tracking-[0.12em]"
               >
                 {m.label}
               </p>
@@ -130,14 +125,12 @@ export function VisitUs() {
               }}
             >
               <p
-                className="text-[9px] uppercase tracking-[0.25em] mb-1 text-white"
-                style={{ fontWeight: 600 }}
+                className="text-[9px] font-semibold uppercase tracking-[0.25em] mb-1 text-white"
               >
                 Nossa Metodologia
               </p>
               <p
-                className="text-[var(--color-inverse)] text-[13px] tracking-[0.04em]"
-                style={{ fontWeight: 400 }}
+                className="text-[var(--color-inverse)] text-[13px] font-normal tracking-[0.04em]"
               >
                 5 pilares da UNUS
               </p>
@@ -148,21 +141,18 @@ export function VisitUs() {
           <div>
             <div className="mb-12">
               <p
-                className="text-[10px] uppercase tracking-[0.25em] mb-4 text-white"
-                style={{ fontWeight: 600 }}
+                className="text-[10px] font-semibold uppercase tracking-[0.25em] mb-4 text-white"
               >
                 Por Que a UNUS
               </p>
               <h3
-                className="text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.01em] text-[var(--color-inverse)] mb-4"
-                style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+                className="text-[length:var(--title-section)] leading-[1.15] tracking-[-0.01em] text-[var(--color-inverse)] mb-4 font-serif font-light"
               >
                 Os 5 Pilares da Nossa<br />
-                <span style={{ fontWeight: 600 }}>Inteligência Imobiliária</span>
+                <span className="font-semibold">Inteligência Imobiliária</span>
               </h3>
               <p
-                className="text-[var(--neutral-500)] text-[15px] leading-relaxed max-w-[420px]"
-                style={{ fontWeight: 300 }}
+                className="text-[var(--neutral-500)] text-[15px] leading-relaxed max-w-[420px] font-light"
               >
                 Cada decisão é respaldada por dados, cada transação protegida por rigor — esse é o padrão UNUS.
               </p>
@@ -171,18 +161,16 @@ export function VisitUs() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10 mb-14">
               {pilares.map(({ Icon, title, desc }) => (
                 <div key={title} className="group relative">
-                  <div className="w-11 h-11 rounded-[10px] border border-[var(--gold)]/[0.15] flex items-center justify-center mb-5 group-hover:bg-[var(--gold)]/[0.14] group-hover:border-[var(--gold)]/[0.25] transition-all duration-500 bg-white/[0.08]">
+                  <div className="w-11 h-11 rounded-[10px] border border-[var(--champagne)]/[0.15] flex items-center justify-center mb-5 group-hover:bg-[var(--champagne)]/[0.14] group-hover:border-[var(--champagne)]/[0.25] transition-all duration-500 bg-white/[0.08]">
                     <Icon className="w-[18px] h-[18px] text-white" strokeWidth={1.3} />
                   </div>
                   <h4
-                    className="text-white text-[13px] uppercase tracking-[0.1em] mb-2.5"
-                    style={{ fontWeight: 600 }}
+                    className="text-white text-[13px] font-semibold uppercase tracking-[0.1em] mb-2.5"
                   >
                     {title}
                   </h4>
                   <p
-                    className="text-[var(--neutral-500)] text-[13px] leading-[1.7]"
-                    style={{ fontWeight: 300 }}
+                    className="text-[var(--neutral-500)] text-[13px] font-light leading-[1.7]"
                   >
                     {desc}
                   </p>
@@ -194,8 +182,7 @@ export function VisitUs() {
 
             <a
               href="/o-nucleo"
-              className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] pb-2.5 border-b border-[var(--gold)]/25 hover:border-[var(--gold)]/70 transition-all duration-500 group text-white"
-              style={{ fontWeight: 500 }}
+              className="inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.18em] pb-2.5 border-b border-[var(--champagne)]/25 hover:border-[var(--champagne)]/70 transition-all duration-500 group text-white"
             >
               Conheça nossa metodologia
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-500" />

@@ -11,14 +11,12 @@ export function RetentionCTA() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
             <p
-              className="text-[var(--color-heading)] text-[24px] sm:text-[30px] leading-[1.2]"
-              style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
+              className="text-[var(--color-heading)] text-[length:var(--title-card)] leading-[1.2] font-serif font-normal"
             >
               Ainda não encontrou o seu novo imóvel?
             </p>
             <p
-              className="text-[var(--color-body)] text-[15px] mt-2"
-              style={{ fontWeight: 300 }}
+              className="text-[var(--color-body)] text-[15px] mt-2 font-light"
             >
               Chama a gente — nossos consultores encontram o imóvel certo para você.
             </p>

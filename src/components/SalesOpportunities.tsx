@@ -31,26 +31,23 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-6 h-[1px] bg-[var(--gold)]" />
+              <div className="w-6 h-[1px] bg-[var(--champagne)]" />
               <span
-                className="text-[var(--gold-dark)] text-[10px] uppercase tracking-[0.3em]"
-                style={{ fontWeight: 600 }}
+                className="text-[var(--champagne-readable)] text-[10px] font-semibold uppercase tracking-[0.3em]"
               >
                 Para Investidores
               </span>
             </div>
             <h2
-              className="text-[var(--color-heading)] text-[32px] sm:text-[44px] leading-[1.1] tracking-[-0.02em]"
-              style={{ fontWeight: 300 }}
+              className="text-[var(--color-heading)] text-[length:var(--title-section)] leading-[1.1] tracking-[-0.02em] font-light"
             >
               Lançamentos &
               <br />
-              <span style={{ fontWeight: 600 }}>oportunidades</span>
+              <span className="font-semibold">oportunidades</span>
             </h2>
           </div>
           <p
-            className="text-[var(--color-body)] text-[15px] leading-relaxed max-w-[360px]"
-            style={{ fontWeight: 300 }}
+            className="text-[var(--color-body)] text-[15px] leading-relaxed max-w-[360px] font-light"
           >
             Imóveis com potencial real de valorização, selecionados por dados de mercado e
             expertise local.
@@ -80,8 +77,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
                   />
                   <div className="absolute top-4 left-4">
                     <span
-                      className="px-3 py-1 bg-[var(--gold)] text-white text-[9px] uppercase tracking-[0.15em]"
-                      style={{ fontWeight: 700 }}
+                      className="px-3 py-1 bg-[var(--champagne)] text-[var(--neutral-900)] text-[9px] font-bold uppercase tracking-[0.15em]"
                     >
                       {item.badge}
                     </span>
@@ -93,21 +89,18 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
 
                 <div className="flex flex-col flex-1">
                   <p
-                    className="text-[var(--color-caption)] text-[11px] uppercase tracking-[0.12em] mb-2"
-                    style={{ fontWeight: 500 }}
+                    className="text-[var(--color-caption)] text-[11px] font-medium uppercase tracking-[0.12em] mb-2"
                   >
                     {item.location}
                   </p>
                   <h3
-                    className="text-[var(--color-heading)] text-[22px] leading-tight mb-4 line-clamp-2 min-h-[52px]"
-                    style={{ fontWeight: 500 }}
+                    className="text-[var(--color-heading)] text-[length:var(--title-card)] font-normal leading-tight mb-4 line-clamp-2 min-h-[52px]"
                   >
                     {item.title}
                   </h3>
 
                   <div
-                    className="flex items-center gap-4 text-[var(--color-body)] text-[12px] mb-4 pb-4 border-b border-[var(--neutral-300)] flex-wrap"
-                    style={{ fontWeight: 400 }}
+                    className="flex items-center gap-4 text-[var(--color-body)] text-[12px] font-normal mb-4 pb-4 border-b border-[var(--neutral-300)] flex-wrap"
                   >
                     {isTerrain ? (
                       <span className="flex items-center gap-1.5">
@@ -133,8 +126,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
                   </div>
 
                   <p
-                    className="text-[var(--color-heading)] text-[20px] mt-auto"
-                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 500 }}
+                    className="text-[var(--color-heading)] text-[length:var(--price-opportunity-size)] font-serif font-medium mt-auto"
                   >
                     {item.price}
                   </p>
@@ -147,8 +139,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
         <div className="mt-12 flex justify-center">
           <Link
             href="/venda?ordem=mais-novo"
-            className="inline-flex items-center gap-3 border border-[var(--secondary-900)] text-[var(--color-heading)] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[var(--secondary-900)] hover:text-white transition-all duration-300"
-            style={{ fontWeight: 500 }}
+            className="inline-flex items-center gap-3 border border-[var(--secondary-900)] text-[var(--color-heading)] px-10 py-4 text-[11px] font-medium uppercase tracking-[0.18em] hover:bg-[var(--secondary-900)] hover:text-white transition-all duration-300"
           >
             Ver todos os lançamentos
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />

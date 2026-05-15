@@ -41,8 +41,7 @@ export function AboutUs() {
     <>
       <section
         id="quem-somos"
-        className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 relative overflow-hidden"
-        style={{ background: 'var(--neutral-50)' }}
+        className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 relative overflow-hidden bg-[var(--bg-section)]"
       >
         <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -105,8 +104,7 @@ export function AboutUs() {
                   }}
                 >
                   <p
-                    className="text-white/90 text-[11px] uppercase tracking-[0.18em]"
-                    style={{ fontWeight: 500 }}
+                    className="text-white/90 text-[11px] font-medium uppercase tracking-[0.18em]"
                   >
                     Assistir apresentação · 2:40
                   </p>
@@ -124,28 +122,25 @@ export function AboutUs() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-[1px] bg-[var(--gold)]" />
                 <span
-                  className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold-dark)]"
-                  style={{ fontWeight: 600 }}
+                  className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--champagne-readable)]"
                 >
                   Quem Somos
                 </span>
               </div>
 
               <h2
-                className="text-[30px] sm:text-[38px] lg:text-[44px] leading-[1.1] tracking-[-0.015em] text-[var(--color-heading)] mb-8"
-                style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+                className="text-[length:var(--title-section)] leading-[1.1] tracking-[-0.015em] text-[var(--color-heading)] mb-8 font-serif font-light"
               >
-                UNUS <span className="italic" style={{ fontWeight: 500 }}>Núcleo</span> Imobiliário
+                UNUS <span className="italic font-medium">Núcleo</span> Imobiliário
                 <br />
-                <span style={{ fontWeight: 600 }}>
+                <span className="font-semibold">
                   Conectamos pessoas aos melhores negócios.
                 </span>
               </h2>
 
               <div className="space-y-5 mb-10 pb-10 border-b border-[var(--secondary-900)]/[0.08]">
                 <p
-                  className="text-[var(--secondary-500)] text-[15px] sm:text-[16px] leading-[1.75]"
-                  style={{ fontWeight: 300 }}
+                  className="text-[var(--color-body)] text-[15px] sm:text-[16px] leading-[1.75] font-light"
                 >
                   Conectamos pessoas aos melhores negócios, seja em investimentos ou ao
                   seu lar. A UNUS é uma empresa moderna de inteligência imobiliária que
@@ -153,8 +148,7 @@ export function AboutUs() {
                   novos ou usados.
                 </p>
                 <p
-                  className="text-[var(--secondary-500)] text-[15px] sm:text-[16px] leading-[1.75]"
-                  style={{ fontWeight: 300 }}
+                  className="text-[var(--color-body)] text-[15px] sm:text-[16px] leading-[1.75] font-light"
                 >
                   Se você busca comprometimento, seriedade e consultoria completa na hora de
                   comprar ou vender um imóvel em São José e região da Grande Florianópolis,
@@ -164,12 +158,11 @@ export function AboutUs() {
 
               <Link href="/o-nucleo" className="inline-flex items-center gap-3 group">
                 <span
-                  className="text-[var(--color-heading)] text-[12px] uppercase tracking-[0.16em] pb-1 border-b border-[var(--secondary-900)]/20 group-hover:border-[#D4AF37] transition-colors duration-500"
-                  style={{ fontWeight: 600 }}
+                  className="text-[var(--color-heading)] text-[12px] font-semibold uppercase tracking-[0.16em] pb-1 border-b border-[var(--secondary-900)]/20 group-hover:border-[var(--champagne)] transition-colors duration-500"
                 >
                   Conheça o Ecossistema UNUS
                 </span>
-                <div className="w-8 h-8 rounded-full border border-[var(--secondary-900)]/15 flex items-center justify-center group-hover:bg-[#D4AF37] group-hover:border-[#D4AF37] transition-all duration-500">
+                <div className="w-8 h-8 rounded-full border border-[var(--secondary-900)]/15 flex items-center justify-center group-hover:bg-[var(--champagne)] group-hover:border-[var(--champagne)] transition-all duration-500">
                   <ArrowRight className="w-3.5 h-3.5 text-[var(--color-heading)] group-hover:text-white transition-colors duration-500" />
                 </div>
               </Link>
@@ -230,8 +223,7 @@ export function AboutUs() {
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
               <p
                 id="about-video-title"
-                className="text-white/40 text-[11px] uppercase tracking-[0.2em]"
-                style={{ fontWeight: 400 }}
+                className="text-white/40 text-[11px] font-normal uppercase tracking-[0.2em]"
               >
                 UNUS Núcleo Imobiliário · Apresentação Institucional
               </p>

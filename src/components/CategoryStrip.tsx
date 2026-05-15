@@ -40,26 +40,23 @@ export function CategoryStrip() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-6 h-[1px] bg-[var(--gold)]" />
+              <div className="w-6 h-[1px] bg-[var(--champagne)]" />
               <span
-                className="text-[var(--gold-dark)] text-[10px] uppercase tracking-[0.3em]"
-                style={{ fontWeight: 600 }}
+                className="text-[var(--champagne-readable)] text-[10px] font-semibold uppercase tracking-[0.3em]"
               >
                 Coleções Curadas
               </span>
             </div>
             <h2
-              className="text-[var(--color-heading)] text-[32px] sm:text-[44px] leading-[1.1] tracking-[-0.02em]"
-              style={{ fontWeight: 300 }}
+              className="text-[var(--color-heading)] text-[length:var(--title-section)] leading-[1.1] tracking-[-0.02em] font-light"
             >
               Navegue por
               <br />
-              <span style={{ fontWeight: 600 }}>estilo de vida</span>
+              <span className="font-semibold">estilo de vida</span>
             </h2>
           </div>
           <p
-            className="text-[var(--color-body)] text-[15px] leading-relaxed max-w-[380px]"
-            style={{ fontWeight: 300 }}
+            className="text-[var(--color-body)] text-[15px] leading-relaxed max-w-[380px] font-light"
           >
             Cada seleção traduz um modo de viver. Encontre a coleção que reflete suas
             ambições e descubra propriedades alinhadas ao seu momento.
@@ -86,15 +83,14 @@ export function CategoryStrip() {
                 <div className="flex items-end justify-between">
                   <div>
                     <p
-                      className="text-white/60 text-[11px] uppercase tracking-[0.15em] mb-1"
-                      style={{ fontWeight: 500 }}
+                      className="text-white/60 text-[11px] font-medium uppercase tracking-[0.15em] mb-1"
                     >
                       {item.subtitle}
                     </p>
-                    <h3 className="text-white text-[24px] leading-tight" style={{ fontWeight: 500 }}>
+                    <h3 className="text-white text-[24px] font-medium leading-tight">
                       {item.title}
                     </h3>
-                <span className="text-white/50 text-[12px] mt-2 block" style={{ fontWeight: 500 }}>
+                <span className="text-white/50 text-[12px] font-medium mt-2 block">
                       Curadoria UNUS
                 </span>
                   </div>

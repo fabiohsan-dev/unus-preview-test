@@ -57,7 +57,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
   return (
     <section 
       id="portfolio" 
-      className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--neutral-100)]"
+      className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--component-featured-meta-bg)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -71,15 +71,15 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
         >
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-6 h-[1px] bg-[var(--gold)]" />
-              <span className="text-[var(--gold-dark)] text-[var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)]" style={{ fontWeight: 'var(--weight-semi)' }}>
+              <div className="w-6 h-[1px] bg-[var(--champagne)]" />
+              <span className="text-[var(--champagne-readable)] text-[length:var(--text-micro)] uppercase tracking-[var(--tracking-eyebrow)] font-semibold">
                 Vitrine UNUS
               </span>
             </div>
-            <h2 className="text-[var(--color-heading)] text-[var(--text-3xl)] sm:text-[var(--text-4xl)] leading-[1.1] tracking-[-0.02em]" style={{ fontWeight: 'var(--weight-light)' }}>
-              Seleção <span style={{ fontWeight: 'var(--weight-semi)' }}>exclusiva</span>
+            <h2 className="text-[var(--component-featured-title)] text-[length:var(--title-section)] leading-[1.1] tracking-[-0.02em] font-light font-serif">
+              Seleção <span className="font-semibold">exclusiva</span>
             </h2>
-            <p className="text-[var(--color-body)] text-[var(--text-body)] mt-4 leading-relaxed max-w-[420px]" style={{ fontWeight: 'var(--weight-light)' }}>
+            <p className="text-[var(--color-body)] text-[length:var(--text-body)] mt-4 leading-relaxed max-w-[420px] font-light">
               Propriedades singulares, selecionadas pela nossa curadoria de inteligência imobiliária.
             </p>
           </div>
@@ -88,8 +88,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           <div className="flex items-center gap-3">
             <Link
               href="/venda"
-              className="hidden sm:inline-flex items-center gap-2 text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)] text-[var(--color-heading)] hover:text-[var(--deep-blue)] transition-colors mr-4"
-              style={{ fontWeight: 'var(--weight-medium)' }}
+              className="hidden sm:inline-flex items-center gap-2 text-[length:var(--text-xs)] uppercase tracking-[var(--tracking-link)] text-[var(--component-featured-title)] hover:text-[var(--deep-blue)] transition-colors mr-4 font-medium"
             >
               Ver todos
               <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
@@ -181,11 +180,11 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     </span>
                   </div>
 
-                  <h3 className="text-[var(--color-heading)] text-[var(--text-xl)] sm:text-[var(--text-2xl)] leading-[1.15] mb-8 line-clamp-3 min-h-[84px]" style={{ fontWeight: 'var(--weight-normal)' }}>
+                  <h3 className="text-[var(--color-heading)] text-[length:var(--title-card)] leading-[1.15] mb-8 line-clamp-3 min-h-[84px] font-normal">
                     {property.title}
                   </h3>
 
-                  <div className="grid grid-cols-2 gap-y-8 gap-x-4 mb-8 pb-8 border-b border-[var(--gold)]/30">
+                  <div className="grid grid-cols-2 gap-y-8 gap-x-4 mb-8 pb-8 border-b border-[var(--champagne)]/30">
                     <div>
                       <BedDouble className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
                       <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.bedrooms}</p>
@@ -210,7 +209,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 </div>
 
                 <div>
-                  <p className="text-[var(--gold-dark)] text-[var(--text-2xl)] mb-6" style={{ fontFamily: 'var(--font-serif)', fontWeight: 'var(--weight-medium)' }}>
+                  <p className="text-[var(--champagne-readable)] text-[length:var(--price-featured-size)] mb-6 font-serif font-medium tracking-[var(--tracking-value)]">
                     {property.price}
                   </p>
                   <Link

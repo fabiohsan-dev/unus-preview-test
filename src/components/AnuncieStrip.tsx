@@ -11,26 +11,23 @@ export function AnuncieStrip() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-6 h-[1px] bg-[var(--gold)]" />
+              <div className="w-6 h-[1px] bg-[var(--champagne)]" />
               <span
-                className="text-[var(--gold-dark)] text-[10px] uppercase tracking-[0.3em]"
-                style={{ fontWeight: 600 }}
+                className="text-[var(--champagne-readable)] text-[10px] font-semibold uppercase tracking-[0.3em]"
               >
                 Anuncie
               </span>
             </div>
             <h2
-              className="text-white text-[32px] sm:text-[44px] leading-[1.05] tracking-[-0.02em] mb-4"
-              style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
+              className="text-white text-[length:var(--title-section)] leading-[1.05] tracking-[-0.02em] mb-4 font-serif font-normal"
             >
               ANUNCIE SEU IMÓVEL
             </h2>
             <p
-              className="text-white/65 text-[16px] leading-relaxed max-w-[480px]"
-              style={{ fontWeight: 300 }}
+              className="text-white/65 text-[16px] leading-relaxed max-w-[480px] font-light"
             >
               O seu imóvel à venda em uma{' '}
-              <span className="text-white/90" style={{ fontWeight: 400 }}>
+              <span className="text-white/90 font-normal">
                 Boutique Imobiliária
               </span>
               . Curadoria exclusiva, exposição máxima e negociação de alto padrão.
