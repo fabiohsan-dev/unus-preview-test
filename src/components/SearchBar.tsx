@@ -38,9 +38,9 @@ function FilterField({
   onSelect: (value: string) => void;
   compact?: boolean;
 }) {
-  const listboxId = useId();
-  const triggerRef  = useRef<HTMLButtonElement>(null);
-  const listboxRef  = useRef<HTMLDivElement>(null);
+  const listboxId  = useId();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
   const [focusedIdx, setFocusedIdx] = useState(-1);
 
   /* Reseta índice ao fechar */
@@ -111,8 +111,8 @@ function FilterField({
       <button
         ref={triggerRef}
         type="button"
-        className={`w-full flex items-center gap-3 group cursor-pointer hover:bg-[var(--neutral-50)] rounded-lg transition-colors relative border-none text-left bg-transparent ${
-          compact ? 'px-3 py-2.5' : 'p-3.5 py-4 md:py-3.5'
+        className={`w-full flex items-center gap-3 group cursor-pointer hover:bg-[rgba(247,244,239,0.78)] rounded-[14px] transition-colors relative border-none text-left bg-transparent ${
+          compact ? 'px-3 py-2.5' : 'min-h-[60px] px-3.5 py-3'
         }`}
         onClick={(event) => {
           event.stopPropagation();
@@ -137,7 +137,7 @@ function FilterField({
           )}
           <div className="flex items-center justify-between gap-2">
             <span
-              className={`text-[var(--color-heading)] truncate ${compact ? 'text-[var(--text-sm)]' : 'text-[var(--text-sm)]'}`}
+              className="text-[var(--color-heading)] truncate text-[14px]"
               style={{ fontWeight: 'var(--weight-medium)' }}
             >
               {value}
@@ -156,14 +156,14 @@ function FilterField({
         <div
           ref={listboxRef}
           id={listboxId}
-          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[var(--neutral-200)] py-2 z-[200] max-h-[240px] overflow-y-auto"
+          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-[14px] shadow-[0_18px_42px_rgba(0,0,0,0.12)] border border-[var(--neutral-200)] py-1.5 z-[200] max-h-[240px] overflow-y-auto"
           role="listbox"
           aria-label={label}
           onClick={(event) => event.stopPropagation()}
         >
           {options.map((option, index) => {
-            const isSelected  = value === option;
-            const isFocused   = index === focusedIdx;
+            const isSelected = value === option;
+            const isFocused  = index === focusedIdx;
 
             return (
               <button
@@ -173,12 +173,12 @@ function FilterField({
                 role="option"
                 aria-selected={isSelected}
                 tabIndex={-1}
-                className={`w-full text-left px-4 py-3 md:py-2.5 text-[var(--text-sm)] transition-colors cursor-pointer border-none bg-transparent ${
+                className={`w-full text-left px-4 py-2.5 text-[14px] transition-colors cursor-pointer border-none bg-transparent ${
                   isSelected
-                    ? 'text-[var(--color-accent-text)] bg-[var(--primary-500)]/5'
+                    ? 'text-[var(--color-accent-text)] bg-[rgba(0,43,69,0.06)]'
                     : isFocused
-                    ? 'bg-[var(--primary-500)]/10 text-[var(--color-accent-text)] outline-none'
-                    : 'text-[var(--color-heading)] hover:bg-[var(--primary-500)]/5'
+                    ? 'bg-[rgba(0,43,69,0.06)] text-[var(--color-accent-text)] outline-none'
+                    : 'text-[var(--color-heading)] hover:bg-[rgba(0,43,69,0.06)]'
                 }`}
                 style={{ fontWeight: isSelected || isFocused ? 'var(--weight-semi)' : 'var(--weight-normal)' }}
                 onClick={() => {
@@ -214,26 +214,26 @@ function AdvancedPanel({
   onClose: () => void;
 }) {
   /* IDs únicos para associar label ↔ input/select (WCAG 3.3.2) */
-  const idQuartos       = useId();
-  const idSuites        = useId();
-  const idVagas         = useId();
-  const idArea          = useId();
-  const idCodigo        = useId();
+  const idQuartos = useId();
+  const idSuites  = useId();
+  const idVagas   = useId();
+  const idArea    = useId();
+  const idCodigo  = useId();
 
   const gridFields = [
-    { id: idQuartos, icon: BedDouble, label: 'Quartos', key: 'quartos' as const, options: ['', '1', '2', '3', '4'] },
-    { id: idSuites,  icon: Bath,      label: 'Suítes',  key: 'suites' as const, options: ['', '1', '2', '3', '4'] },
-    { id: idVagas,   icon: Car,       label: 'Vagas',   key: 'vagas' as const, options: ['', '1', '2', '3'] },
-    { id: idArea,    icon: Maximize,  label: 'Área (m²)', key: 'areaMin' as const, options: ['', '50', '100', '150', '200', '300'] },
+    { id: idQuartos, icon: BedDouble, label: 'Quartos',    key: 'quartos' as const, options: ['', '1', '2', '3', '4'] },
+    { id: idSuites,  icon: Bath,      label: 'Suítes',     key: 'suites' as const,  options: ['', '1', '2', '3', '4'] },
+    { id: idVagas,   icon: Car,       label: 'Vagas',      key: 'vagas' as const,   options: ['', '1', '2', '3'] },
+    { id: idArea,    icon: Maximize,  label: 'Área (m²)',  key: 'areaMin' as const, options: ['', '50', '100', '150', '200', '300'] },
   ];
 
   return (
-    <div className="bg-white rounded-[10px] mt-1.5 p-5 md:p-6">
+    <div className="mt-2 p-5 md:p-6 rounded-[16px] border border-[var(--neutral-200)] bg-white/95 shadow-[0_14px_34px_rgba(0,0,0,0.07)] backdrop-blur-sm">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="w-4 h-4 text-[var(--primary-500)]" strokeWidth={1.5} aria-hidden="true" />
           <span
-            className="text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)] text-[var(--color-caption)]"
+            className="text-[12px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
             style={{ fontWeight: 'var(--weight-semi)' }}
           >
             Busca Avançada
@@ -242,10 +242,10 @@ function AdvancedPanel({
         <button
           type="button"
           onClick={onClose}
-          className="w-11 h-11 rounded-full hover:bg-[var(--neutral-100)] flex items-center justify-center transition-colors cursor-pointer"
+          className="w-[38px] h-[38px] rounded-full hover:bg-[var(--neutral-100)] flex items-center justify-center transition-colors cursor-pointer"
           aria-label="Fechar filtros avançados"
         >
-          <X className="w-3.5 h-3.5 text-[var(--color-caption)]" aria-hidden="true" />
+          <X className="w-[13px] h-[13px] text-[var(--color-caption)]" aria-hidden="true" />
         </button>
       </div>
 
@@ -255,7 +255,7 @@ function AdvancedPanel({
           <div key={field.label} className="space-y-1.5">
             <label
               htmlFor={field.id}
-              className="flex items-center gap-1.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] text-[var(--color-caption)]"
+              className="flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
               style={{ fontWeight: 'var(--weight-semi)' }}
             >
               <field.icon className="w-3.5 h-3.5" aria-hidden="true" /> {field.label}
@@ -264,7 +264,7 @@ function AdvancedPanel({
               id={field.id}
               value={values[field.key]}
               onChange={(event) => onChange(field.key, event.target.value)}
-              className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[var(--text-sm)] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
+              className="w-full rounded-[10px] bg-[rgba(247,244,239,0.94)] px-3 py-2.5 text-[14px] text-[var(--color-heading)] border-0 outline-none appearance-none cursor-pointer"
               style={{ fontWeight: 'var(--weight-medium)' }}
             >
               {field.options.map((option) => (
@@ -280,7 +280,7 @@ function AdvancedPanel({
         <div className="space-y-1.5">
           <label
             htmlFor={idCodigo}
-            className="flex items-center gap-1.5 text-[var(--text-xs)] uppercase tracking-[var(--tracking-button)] text-[var(--color-caption)]"
+            className="flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-[var(--color-caption)]"
             style={{ fontWeight: 'var(--weight-semi)' }}
           >
             <Hash className="w-3.5 h-3.5" aria-hidden="true" /> Código
@@ -291,7 +291,7 @@ function AdvancedPanel({
             placeholder="Ex: UNUS-1234"
             value={values.codigo}
             onChange={(event) => onChange('codigo', event.target.value)}
-            className="w-full bg-[var(--neutral-100)] rounded-lg px-3 py-2.5 text-[var(--text-sm)] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
+            className="w-full rounded-[10px] bg-[rgba(247,244,239,0.94)] px-3 py-2.5 text-[14px] text-[var(--color-heading)] border-0 outline-none placeholder:text-[var(--secondary-300)]"
             style={{ fontWeight: 'var(--weight-medium)' }}
           />
         </div>
@@ -318,14 +318,14 @@ export function SearchBar({
   className = '',
 }: SearchBarProps) {
   const router = useRouter();
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showAdvanced, setShowAdvanced]     = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const locations = useMemo(() => ['Todas as regiões', ...(metadata?.bairros || [])], [metadata]);
-  const types = useMemo(() => ['Todos os tipos', ...(metadata?.categorias || [])], [metadata]);
+  const locations = useMemo(() => ['Todas as regiões', ...(metadata?.bairros    || [])], [metadata]);
+  const types     = useMemo(() => ['Todos os tipos',   ...(metadata?.categorias || [])], [metadata]);
   const [selectedLocation, setSelectedLocation] = useState('Todas as regiões');
-  const [selectedType, setSelectedType]         = useState('Todos os tipos');
-  const [precoMin, setPrecoMin]                 = useState('');
-  const [precoMax, setPrecoMax]                 = useState('');
+  const [selectedType,     setSelectedType]     = useState('Todos os tipos');
+  const [precoMin, setPrecoMin] = useState('');
+  const [precoMax, setPrecoMax] = useState('');
   const [advancedFilters, setAdvancedFilters] = useState<AdvancedFiltersState>({
     quartos: '',
     suites: '',
@@ -333,9 +333,9 @@ export function SearchBar({
     areaMin: '',
     codigo: '',
   });
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef    = useRef<HTMLDivElement>(null);
   const advancedPanelId = useId();
-  const compact = variant === 'compact';
+  const compact         = variant === 'compact';
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -368,7 +368,7 @@ export function SearchBar({
     const params = new URLSearchParams();
 
     if (selectedLocation !== 'Todas as regiões') params.set('bairro', selectedLocation);
-    if (selectedType !== 'Todos os tipos') params.set('tipo', selectedType);
+    if (selectedType     !== 'Todos os tipos')   params.set('tipo',   selectedType);
     if (precoMin) params.set('precoMin', precoMin);
     if (precoMax) params.set('precoMax', precoMax);
     Object.entries(advancedFilters).forEach(([key, value]) => {
@@ -377,8 +377,8 @@ export function SearchBar({
 
     onSearch?.({
       location: selectedLocation,
-      type: selectedType,
-      value: precoMax || precoMin || '',
+      type:     selectedType,
+      value:    precoMax || precoMin || '',
     });
 
     router.push(vendaUrl(Object.fromEntries(params.entries())));
@@ -392,6 +392,14 @@ export function SearchBar({
     ? 'p-0'
     : 'bg-[var(--neutral-100)] p-2 rounded-[28px]';
 
+  const innerGlass = glass
+    ? 'bg-white/95 border border-white/70 shadow-[0_18px_48px_rgba(0,0,0,0.10)] backdrop-blur-[18px]'
+    : 'bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)]';
+
+  const divider = compact
+    ? 'mx-3.5 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[rgba(216,208,195,0.70)] md:my-2'
+    : 'mx-3.5 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[rgba(216,208,195,0.70)] md:my-3';
+
   return (
     <div
       ref={containerRef}
@@ -400,9 +408,7 @@ export function SearchBar({
     >
       <div className={outerClass}>
         <div
-          className={`bg-white rounded-[22px] p-2 flex flex-col items-stretch relative ${
-            glass ? 'shadow-[0_8px_32px_rgba(0,0,0,0.18)]' : 'shadow-none'
-          } ${
+          className={`rounded-[20px] sm:rounded-[24px] p-[7px] sm:p-2 flex flex-col items-stretch relative ${innerGlass} ${
             compact
               ? 'gap-0 md:flex-row'
               : 'md:grid md:grid-cols-[minmax(150px,1fr)_1px_minmax(180px,1.1fr)_1px_minmax(145px,0.9fr)_auto]'
@@ -422,13 +428,7 @@ export function SearchBar({
             compact={compact}
           />
 
-          <div
-            className={
-              compact
-                ? 'mx-3 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-2'
-                : 'mx-3.5 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-3'
-            }
-          />
+          <div className={divider} />
 
           <FilterField
             icon={MapPin}
@@ -444,13 +444,7 @@ export function SearchBar({
             compact={compact}
           />
 
-          <div
-            className={
-              compact
-                ? 'mx-3 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-2'
-                : 'mx-3.5 md:mx-0 h-[1px] md:h-auto md:w-[1px] bg-[var(--neutral-200)] md:my-3'
-            }
-          />
+          <div className={divider} />
 
           <PriceRangeField
             precoMin={precoMin}
@@ -465,46 +459,43 @@ export function SearchBar({
             compact={compact}
           />
 
+          {/* Actions: filtros avançados + buscar */}
           <div
             className={`flex items-center gap-2 ${
               compact
-                ? 'p-1 pl-0 md:pl-1'
+                ? 'border-t md:border-t-0 border-[var(--neutral-200)] p-2 md:p-1 md:pl-1'
                 : 'p-1.5 pt-2 md:pt-1.5 border-t md:border-t-0 border-[var(--neutral-200)] mt-1 md:mt-0 md:justify-end md:pl-3'
             }`}
           >
             <button
               type="button"
-              className={`flex items-center justify-center rounded-lg transition-colors cursor-pointer ${
-                'w-11 h-11'
-              } ${
+              className={`w-[46px] h-[46px] flex items-center justify-center rounded-[12px] transition-colors cursor-pointer ${
                 showAdvanced
-                  ? 'bg-[var(--primary-500)]/10 text-[var(--color-accent-text)]'
-                  : 'hover:bg-[var(--neutral-100)] text-[var(--color-body)]'
+                  ? 'bg-[var(--primary-500)]/10 text-[var(--primary-500)]'
+                  : 'hover:bg-[rgba(247,244,239,0.84)] text-[var(--color-body)]'
               }`}
               onClick={() => setShowAdvanced((current) => !current)}
               aria-label={showAdvanced ? 'Fechar filtros avançados' : 'Abrir filtros avançados'}
               aria-expanded={showAdvanced}
               aria-controls={advancedPanelId}
             >
-              <SlidersHorizontal
-                className={compact ? 'w-4 h-4' : 'w-[18px] h-[18px]'}
-                strokeWidth={1.5}
-              />
+              <SlidersHorizontal className="w-[18px] h-[18px]" strokeWidth={1.5} />
             </button>
+
             <button
               type="button"
               onClick={handleSearch}
               aria-label="Buscar imóvel"
-              className={`bg-[var(--deep-blue)] text-white rounded-lg flex items-center justify-center gap-2.5 hover:bg-[var(--deep-blue-light)] transition-colors cursor-pointer ${
+              className={`bg-[var(--primary-500)] text-white rounded-[12px] flex items-center justify-center gap-2.5 hover:bg-[var(--deep-blue-700)] transition-colors cursor-pointer ${
                 compact
-                  ? 'px-5 py-2.5 min-h-11 flex-1 md:flex-none'
-                  : 'px-8 py-3.5 md:py-3 min-h-11 flex-1 md:flex-none'
+                  ? 'px-5 min-h-[46px] flex-1 md:flex-none'
+                  : 'px-7 min-h-[48px] flex-1 md:flex-none'
               }`}
             >
               <Search className={compact ? 'w-3.5 h-3.5' : 'w-4 h-4'} strokeWidth={1.5} />
               <span
-                className={`tracking-[0.02em] uppercase whitespace-nowrap ${compact ? 'text-[var(--text-xs)]' : 'text-[var(--text-sm)]'}`}
-                style={{ fontWeight: 'var(--weight-medium)' }}
+                className={`tracking-[0.02em] uppercase whitespace-nowrap ${compact ? 'text-[var(--text-xs)]' : 'text-[14px]'}`}
+                style={{ fontWeight: 'var(--weight-semi)' }}
               >
                 Buscar imóvel
               </span>
