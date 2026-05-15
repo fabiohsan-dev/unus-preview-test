@@ -4,152 +4,377 @@
   --font-size: 16px;
 
   /* ============================================================
-     UNUS DESIGN SYSTEM — COLOR TOKENS
-     Base: Azul Profundo #002B45 | Gold #C2A878
-     Architecture: Semantic + Scale (50–900)
+     UNUS DESIGN SYSTEM v3.2 — TEMA CLARO + PRETO EDITORIAL
+     Base clara, Deep Blue institucional, Champagne premium
+     Preto real usado apenas em blocos editoriais
+     Cyan removido 100% do sistema
      ============================================================ */
 
-  /* ── PRIMARY SCALE (Azul Profundo — CTAs, botões e ícones) ── */
-  --primary-50:  #E8EFF4;
-  --primary-100: #C2D4DF;
-  --primary-200: #96B4C7;
-  --primary-300: #6A94AF;
-  --primary-400: #3E7497;
-  --primary-500: #002B45; /* Base — azul profundo */
-  --primary-600: #004066; /* Hover */
-  --primary-700: #001F33;
-  --primary-800: #001525;
-  --primary-900: #000D18;
+  /* ── BRAND CORE ── */
+  --deep-blue:          #002B45;
+  --deep-blue-700:      #03405F;
+  --deep-blue-800:      #002238;
+  --deep-blue-900:      #001A2B;
 
-  /* ── DEEP BLUE (Azul Profundo — CTAs e destaques) ── */
-  --deep-blue:         #002B45;
-  --deep-blue-light:   #004066;
-  --deep-blue-lighter: #E6EEF3;
+  --black:              #000000;
+  --black-soft:         #080808;
+  --black-elevated:     #111111;
 
-  /* ── SECONDARY SCALE (Graphite) ── */
-  --secondary-50:  #F4F4F5;
-  --secondary-100: #E4E4E6;
-  --secondary-200: #C9CACC;
-  --secondary-300: #AEAFB3;
-  --secondary-400: #808082;
-  --secondary-500: #606062; /* Base — cinza médio */
-  --secondary-600: #4E4E50;
-  --secondary-700: #3B3B3B; /* grafite escuro */
-  --secondary-800: #2D2E30;
-  --secondary-900: #1A1A1C;
+  --champagne:          #C2A878;
+  --champagne-soft:     #D9C49B;
+  --champagne-deep:     #9C8657;
+  --champagne-readable: #806A42;
 
-  /* ── NEUTRAL / SURFACES ── */
-  --neutral-50:  #F9F7F3;  /* off-white quente — fundo principal */
-  --neutral-100: #F2F0EB;  /* ivory linen */
-  --neutral-200: #E8E5DF;  /* bg terciário */
-  --neutral-300: #D8D5CE;  /* bordas sutis */
-  --neutral-400: #C0BDB6;
-  --neutral-500: #9A9790;
-  --neutral-600: #74716A;
-  --neutral-700: #4F4D47;
-  --neutral-800: #2A2924;
-  --neutral-900: #151410;
+  --off-white:          #F9F7F3;
+  --off-white-deep:     #F1ECE3;
+  --white:              #FFFFFF;
 
-  /* ── CHAMPAGNE GOLD (fundos em transição) ── */
-  --gold:          #C49A2E;
-  --gold-light:    #F7EED4;
-  --gold-dark:     #9B7A20;
+  --graphite:           #3B3B3B;
+  --gray-medium:        #606062;
+  --gray-soft:          #9A9A9C;
+  --gray-line:          #E4E0D8;
 
   /* ── FUNCTIONAL COLORS ── */
-  --success:       #2D8B75;
-  --success-light: #E8F5F1;
-  --success-dark:  #1F6352;
+  --success:            #1F6F5E;
+  --success-hover:      #185C4E;
+  --success-light:      rgba(31, 111, 94, 0.12);
+  --success-dark:       #185C4E;
 
-  --error:         #C4384B;
-  --error-light:   #FCE8EB;
-  --error-dark:    #8C2735;
+  --error:              #B43A4A;
+  --error-soft:         #FBEAEC;
+  --error-light:        #FBEAEC;
+  --error-dark:         #8C2735;
 
-  --warning:       #C49A2E;  /* Champagne gold */
-  --warning-light: #F7EED4;
-  --warning-dark:  #9B7A20;
+  --warning:            var(--champagne);
+  --warning-light:      var(--champagne-soft);
+  --warning-dark:       var(--champagne-readable);
 
-  --info:          #002B45;
-  --info-light:    #E8EFF4;
-  --info-dark:     #001F33;
+  --info:               var(--champagne-readable);
+  --info-light:         #E8EFF4;
+  --info-dark:          #001F33;
 
-  /* ── SEMANTIC MAPPINGS ── */
-  --background:          var(--neutral-50);
-  --foreground:          var(--secondary-600);
-  --card:                #FAFAF8;
-  --card-foreground:     var(--secondary-600);
-  --popover:             #FFFFFF;
-  --popover-foreground:  var(--secondary-900);
-  --primary:             var(--secondary-900);
-  --primary-foreground:  var(--neutral-50);
-  --secondary:           var(--neutral-100);
-  --secondary-foreground: var(--secondary-900);
-  --muted:               var(--neutral-100);
-  --muted-foreground:    var(--secondary-500);
-  --accent:              var(--primary-500);   /* ciano — acento decorativo */
-  --accent-foreground:   #FFFFFF;
-  --destructive:         var(--error);
-  --destructive-foreground: #FFFFFF;
-  --border:              var(--neutral-300);
-  --input:               var(--neutral-300);
-  --input-background:    #FAFAF8;
-  --switch-background:   var(--neutral-400);
-  --ring:                var(--deep-blue);
+  /* ── SURFACES ── */
+  --bg-page:                    var(--off-white);
+  --bg-section:                 var(--off-white);
+  --bg-section-soft:            var(--white);
+  --bg-card:                    var(--white);
+  --bg-card-muted:              var(--off-white-deep);
+  --bg-dark:                    var(--black);
+  --bg-editorial-dark:          var(--black);
+  --bg-editorial-dark-soft:     var(--black-soft);
+  --bg-editorial-dark-elevated: var(--black-elevated);
 
-  /* BORDERS & RADII */
-  --radius: 0px;
+  /* ── TEXT COLORS ── */
+  --text-primary:         var(--deep-blue);
+  --text-secondary:       var(--graphite);
+  --text-muted:           var(--gray-medium);
+  --text-inverse:         var(--off-white);
+  --text-premium:         var(--champagne-readable);
+  --text-on-dark:         var(--off-white);
+  --text-on-dark-muted:   rgba(249, 247, 243, 0.70);
+  --text-on-dark-subtle:  rgba(249, 247, 243, 0.52);
 
-  /* SIDEBAR DEFAULTS */
-  --sidebar:                 var(--neutral-50);
-  --sidebar-foreground:      var(--secondary-600);
-  --sidebar-primary:         var(--secondary-900);
-  --sidebar-primary-foreground: var(--neutral-50);
-  --sidebar-accent:          var(--neutral-100);
-  --sidebar-accent-foreground: var(--secondary-900);
-  --sidebar-border:          var(--neutral-300);
-  --sidebar-ring:            var(--deep-blue);
+  /* ── BORDERS ── */
+  --border-subtle:          var(--gray-line);
+  --border-strong:          var(--graphite);
+  --border-premium:         var(--champagne);
+  --border-on-dark:         rgba(249, 247, 243, 0.10);
+  --border-on-dark-premium: rgba(194, 168, 120, 0.32);
+
+  /* ── ACCENTS ── */
+  --accent-premium:           var(--champagne);
+  --accent-premium-soft:      var(--champagne-soft);
+  --accent-premium-readable:  var(--champagne-readable);
+  --accent-on-dark:           var(--champagne-soft);
+  --accent-on-dark-strong:    var(--champagne);
+
+  /* ── CTA SYSTEM ── */
+  --cta-primary-bg:               var(--deep-blue);
+  --cta-primary-text:             var(--off-white);
+  --cta-primary-hover-bg:         var(--deep-blue-700);
+
+  --cta-secondary-bg:             var(--champagne);
+  --cta-secondary-text:           var(--deep-blue);
+  --cta-secondary-hover-bg:       #A98F5D;
+
+  --cta-ghost-bg:                 transparent;
+  --cta-ghost-text:               var(--deep-blue);
+  --cta-ghost-border:             var(--champagne);
+  --cta-ghost-hover-bg:           rgba(194, 168, 120, 0.14);
+
+  --cta-whatsapp-bg:              var(--success);
+  --cta-whatsapp-text:            var(--white);
+  --cta-whatsapp-hover-bg:        var(--success-hover);
+
+  --cta-on-dark-primary-bg:       var(--champagne);
+  --cta-on-dark-primary-text:     var(--black);
+  --cta-on-dark-primary-hover-bg: var(--champagne-soft);
+
+  --cta-on-dark-secondary-bg:       transparent;
+  --cta-on-dark-secondary-text:     var(--off-white);
+  --cta-on-dark-secondary-border:   rgba(217, 196, 155, 0.72);
+  --cta-on-dark-secondary-hover-bg: rgba(217, 196, 155, 0.12);
+
+  /* ── LINKS ── */
+  --link:              var(--deep-blue);
+  --link-hover:        var(--champagne-readable);
+  --link-on-dark:      var(--champagne-soft);
+  --link-on-dark-hover: var(--champagne);
+
+  /* ── FOCUS ── */
+  --focus-ring:      var(--champagne-readable);
+  --focus-ring-soft: rgba(128, 106, 66, 0.35);
+
+  /* ── SHADOWS ── */
+  --shadow-soft:
+    0 2px 8px rgba(0, 43, 69, 0.04),
+    0 8px 32px rgba(0, 43, 69, 0.05);
+  --shadow-card:
+    0 1px 2px rgba(0, 43, 69, 0.04),
+    0 12px 40px rgba(0, 43, 69, 0.06);
+  --shadow-elevated:
+    0 16px 48px rgba(0, 43, 69, 0.12);
+  --shadow-dark:
+    0 18px 56px rgba(0, 0, 0, 0.42);
+  --shadow-glass: var(--shadow-soft); /* compat alias */
 
   /* FONTS — variáveis injetadas via next/font/google no layout.tsx
      DM Sans → --font-sans | Cormorant Garamond → --font-serif
      Não redefinir aqui para não sobrescrever os valores de next/font */
+  --font-display:  var(--font-serif); /* alias semântico — v3.2 */
+  --font-label:    var(--font-sans);
+  --font-numeric:  var(--font-sans);
 
-  /* SPACING — 8pt Grid */
-  --spacing-2xs: 4px;
-  --spacing-xs:  8px;
-  --spacing-sm:  16px;
-  --spacing-md:  24px;
-  --spacing-lg:  32px;
-  --spacing-xl:  48px;
-  --spacing-2xl: 64px;
-  --spacing-3xl: 96px;
-  --spacing-4xl: 128px;
+  /* ── TYPE SCALE ── */
+  --text-micro: 0.68rem;  /* ~10.9px — badges, counters */
+  --text-xs:    0.75rem;  /* 12px   — eyebrows, CRECI */
+  --text-sm:    0.875rem; /* 14px   — metadata, datas */
+  --text-body:  1rem;     /* 16px   — descrições de card */
+  --text-base:  1rem;     /* 16px   — corpo (DEFAULT, compat) */
+  --text-md:    1.125rem; /* 18px   — body destacado */
+  --text-lg:    1.25rem;  /* 20px   — títulos list-view */
 
-  /* TYPOGRAPHY SCALE — Luxury Hierarchy 2026 */
-  --text-micro: 10px;  /* micro-badges, counters, ícones de label */
-  --text-xs:    12px;  /* eyebrows uppercase, CRECI, copyright */
-  --text-sm:    14px;  /* metadata, datas, breadcrumbs */
-  --text-body:  15px;  /* descrições de card, links de nav secundário */
-  --text-base:  16px;  /* corpo de leitura (DEFAULT) */
-  --text-md:    18px;  /* body destacado / sub-headlines */
-  --text-lg:    20px;  /* títulos list-view, section subtitles */
-  --text-xl:    24px;  /* card titles, preços menores */
-  --text-2xl:   28px;  /* preços em destaque, section titles médios */
-  --text-3xl:   32px;  /* H3 de seção / card titles grandes */
-  --text-4xl:   48px;  /* H2 de seção */
-  --text-5xl:   64px;  /* H1 mobile / H2 principal desktop */
-  --text-6xl:   84px;  /* H1 editorial desktop */
+  /* px aliases — mantidos para componentes existentes */
+  --text-xl:    24px;
+  --text-2xl:   28px;
+  --text-3xl:   32px;
+  --text-4xl:   48px;
+  --text-5xl:   64px;
+  --text-6xl:   84px;
 
-  /* FONT WEIGHTS */
+  /* Fluid titles — v3.2 */
+  --title-card:    clamp(1.35rem, 1.7vw, 1.75rem);
+  --title-section: clamp(2.25rem, 4.4vw, 4.65rem);
+  --title-hero:    clamp(3.3rem, 7vw, 7rem);
+
+  /* ── VALUE SCALE (preços e métricas) ── */
+  --value-weight:            600;
+  --value-letter-spacing:    -0.01em;
+  --price-featured-size:     clamp(1.45rem, 2vw, 2.25rem);
+  --price-card-size:         clamp(1.05rem, 1.15vw, 1.28rem);
+  --price-opportunity-size:  clamp(1.08rem, 1.25vw, 1.34rem);
+  --number-meta-size:        1.05rem;
+  --number-stat-size:        clamp(1.45rem, 2.2vw, 2.45rem);
+
+  /* ── FONT WEIGHTS ── */
   --weight-light:   300;
   --weight-normal:  400;
   --weight-medium:  500;
   --weight-semi:    600;
   --weight-bold:    700;
 
-  /* LETTER-SPACING — High-end refinement */
-  --tracking-eyebrow: 0.35em; /* 12px uppercase eyebrows */
-  --tracking-button:  0.20em; /* botões CTA */
-  --tracking-link:    0.15em; /* links de navegação */
-  --tracking-micro:   0.22em; /* badges e counters */
+  /* ── LETTER SPACING ── */
+  --tracking-eyebrow: 0.26em;   /* eyebrows uppercase (era 0.35em) */
+  --tracking-button:  0.16em;   /* CTAs (era 0.20em) */
+  --tracking-link:    0.14em;   /* nav links (era 0.15em) */
+  --tracking-micro:   0.18em;   /* badges (era 0.22em) */
+  --tracking-value:   -0.01em;  /* preços e números — novo */
+  --tracking-title:   -0.025em; /* títulos editoriais — novo */
+
+  /* ── LINE HEIGHTS ── */
+  --leading-hero:       0.92;
+  --leading-title:      1.02;
+  --leading-card-title: 1.1;
+  --leading-body:       1.72;
+  --leading-compact:    1.12;
+  --leading-value:      1.05;
+
+  /* ── SPACING — 8PT GRID ── */
+  --space-2xs:  4px;
+  --space-xs:   8px;
+  --space-sm:   16px;
+  --space-md:   24px;
+  --space-lg:   32px;
+  --space-xl:   48px;
+  --space-2xl:  64px;
+  --space-3xl:  96px;
+  --space-4xl:  128px;
+
+  /* compat aliases — componentes usam --spacing-* */
+  --spacing-2xs: var(--space-2xs);
+  --spacing-xs:  var(--space-xs);
+  --spacing-sm:  var(--space-sm);
+  --spacing-md:  var(--space-md);
+  --spacing-lg:  var(--space-lg);
+  --spacing-xl:  var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+  --spacing-3xl: var(--space-3xl);
+  --spacing-4xl: var(--space-4xl);
+
+  /* ── RADIUS ── */
+  --radius-none: 0px;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-xl:   16px;
+  --radius-pill: 9999px;
+  --radius: var(--radius-none);
+
+  /* ── COMPONENT TOKENS ── */
+  --component-header-bg:         rgba(249, 247, 243, 0.92);
+  --component-header-text:       var(--deep-blue);
+  --component-header-link:       var(--deep-blue);
+  --component-header-link-hover: var(--champagne-readable);
+  --component-header-border:     var(--border-subtle);
+
+  --component-search-bg:           var(--white);
+  --component-search-label:        var(--champagne-readable);
+  --component-search-text:         var(--deep-blue);
+  --component-search-border:       var(--border-subtle);
+  --component-search-button-bg:    var(--cta-primary-bg);
+  --component-search-button-text:  var(--cta-primary-text);
+  --component-search-button-hover: var(--cta-primary-hover-bg);
+
+  --component-card-bg:           var(--white);
+  --component-card-title:        var(--deep-blue);
+  --component-card-body:         var(--graphite);
+  --component-card-muted:        var(--gray-medium);
+  --component-card-price:        var(--deep-blue);
+  --component-card-border:       var(--border-subtle);
+  --component-card-hover-border: var(--border-premium);
+  --component-card-eyebrow:      var(--champagne-readable);
+
+  --component-featured-bg:          var(--white);
+  --component-featured-title:       var(--deep-blue);
+  --component-featured-price:       var(--deep-blue);
+  --component-featured-meta-bg:     var(--off-white);
+  --component-featured-meta-number: var(--deep-blue);
+  --component-featured-meta-label:  var(--gray-medium);
+
+  --component-dark-bg:       var(--black);
+  --component-dark-card-bg:  var(--black-soft);
+  --component-dark-title:    var(--off-white);
+  --component-dark-body:     rgba(249, 247, 243, 0.70);
+  --component-dark-muted:    rgba(249, 247, 243, 0.52);
+  --component-dark-accent:   var(--champagne-soft);
+  --component-dark-border:   rgba(194, 168, 120, 0.32);
+
+  --component-footer-bg:         var(--black);
+  --component-footer-title:      var(--off-white);
+  --component-footer-text:       rgba(249, 247, 243, 0.70);
+  --component-footer-muted:      rgba(249, 247, 243, 0.52);
+  --component-footer-link:       rgba(249, 247, 243, 0.70);
+  --component-footer-link-hover: var(--champagne-soft);
+  --component-footer-border:     rgba(249, 247, 243, 0.10);
+
+  --component-badge-bg:           var(--deep-blue);
+  --component-badge-text:         var(--off-white);
+  --component-badge-premium-bg:   var(--champagne);
+  --component-badge-premium-text: var(--deep-blue);
+  --component-badge-soft-bg:      var(--off-white-deep);
+  --component-badge-soft-text:    var(--deep-blue);
+
+  /* ── BACKWARD COMPAT ALIASES ── */
+  /* Mantém compatibilidade com componentes que usam os tokens v1/v2 */
+
+  /* Gold → Champagne */
+  --gold:          var(--champagne);
+  --gold-light:    var(--champagne-soft);
+  --gold-dark:     var(--champagne-readable);
+
+  /* Neutral scale */
+  --neutral-50:  var(--off-white);
+  --neutral-100: var(--off-white-deep);
+  --neutral-200: var(--gray-line);
+  --neutral-300: var(--gray-line);
+  --neutral-400: var(--gray-soft);
+  --neutral-500: var(--gray-medium);
+  --neutral-600: var(--gray-medium);
+  --neutral-700: var(--graphite);
+  --neutral-800: #2A2924;
+  --neutral-900: var(--black-elevated);
+
+  /* Primary scale */
+  --primary-50:  #E8EFF4;
+  --primary-100: #C2D4DF;
+  --primary-200: #96B4C7;
+  --primary-300: #6A94AF;
+  --primary-400: #3E7497;
+  --primary-500: var(--deep-blue);
+  --primary-600: var(--deep-blue-700);
+  --primary-700: #001F33;
+  --primary-800: #001525;
+  --primary-900: #000D18;
+
+  /* Secondary/Graphite scale */
+  --secondary-50:  #F4F4F5;
+  --secondary-100: #E4E4E6;
+  --secondary-200: #C9CACC;
+  --secondary-300: #AEAFB3;
+  --secondary-400: #808082;
+  --secondary-500: var(--gray-medium);
+  --secondary-600: #4E4E50;
+  --secondary-700: var(--graphite);
+  --secondary-800: #2D2E30;
+  --secondary-900: #1A1A1C;
+
+  /* Deep blue compat */
+  --deep-blue-light:   var(--deep-blue-700);
+  --deep-blue-lighter: #E6EEF3;
+
+  /* Semantic compat */
+  --background:           var(--bg-page);
+  --foreground:           var(--text-secondary);
+  --card:                 var(--bg-card);
+  --card-foreground:      var(--text-secondary);
+  --popover:              var(--white);
+  --popover-foreground:   var(--graphite);
+  --primary:              #1A1A1C;
+  --primary-foreground:   var(--off-white);
+  --secondary:            var(--off-white-deep);
+  --secondary-foreground: #1A1A1C;
+  --muted:                var(--off-white-deep);
+  --muted-foreground:     var(--gray-medium);
+  --accent:               var(--deep-blue);
+  --accent-foreground:    var(--white);
+  --destructive:          var(--error);
+  --destructive-foreground: var(--white);
+  --border:               var(--border-subtle);
+  --input:                var(--border-subtle);
+  --input-background:     var(--white);
+  --switch-background:    var(--gray-soft);
+  --ring:                 var(--deep-blue);
+
+  /* Action compat */
+  --color-action-whatsapp: var(--success);
+  --color-action-primary:  var(--deep-blue);
+  --color-action-brand:    var(--deep-blue);
+
+  /* Heading/body compat */
+  --color-heading: var(--text-primary);
+  --color-body:    var(--text-secondary);
+  --color-caption: var(--text-muted);
+  --color-inverse: var(--off-white);
+
+  /* Sidebar */
+  --sidebar:                    var(--off-white);
+  --sidebar-foreground:         var(--text-secondary);
+  --sidebar-primary:            #1A1A1C;
+  --sidebar-primary-foreground: var(--off-white);
+  --sidebar-accent:             var(--off-white-deep);
+  --sidebar-accent-foreground:  #1A1A1C;
+  --sidebar-border:             var(--border-subtle);
+  --sidebar-ring:               var(--deep-blue);
 }
 
 @theme inline {
@@ -213,19 +438,20 @@
   --color-neutral-900: var(--neutral-900);
 
   /* ── Semantic Text ── */
-  --color-heading: var(--secondary-900);    /* #1A1A1C — deep charcoal */
-  --color-body:    var(--secondary-600);    /* #4E4E50 — graphite com contraste AAA */
-  --color-caption: var(--secondary-600);
+  --color-heading:     var(--text-primary);      /* deep-blue #002B45 */
+  --color-body:        var(--text-secondary);    /* graphite #3B3B3B */
+  --color-caption:     var(--text-muted);
   --color-accent-text: var(--deep-blue);
-  --color-inverse: var(--neutral-50);       /* for dark bgs */
+  --color-inverse:     var(--off-white);
 
-  /* ── Deep Blue & Gold ── */
+  /* ── Deep Blue & Champagne ── */
   --color-deep-blue:       var(--deep-blue);
-  --color-deep-blue-light: var(--deep-blue-light);
-  --color-offwhite:        var(--neutral-50);
-  --color-gold:            var(--gold);
-  --color-gold-light:      var(--gold-light);
-  --color-gold-dark:       var(--gold-dark);
+  --color-deep-blue-light: var(--deep-blue-700);
+  --color-offwhite:        var(--off-white);
+  --color-gold:            var(--champagne);
+  --color-gold-light:      var(--champagne-soft);
+  --color-gold-dark:       var(--champagne-readable);
+  --color-champagne:       var(--champagne);
 
   /* ── Functional ── */
   --color-success:       var(--success);
@@ -242,32 +468,32 @@
   --color-info-dark:     var(--info-dark);
 
   /* ── Action / CTA ── */
-  --color-action-whatsapp: var(--success);  /* #2D8B75 */
-  --color-action-primary:  var(--secondary-900);
+  --color-action-whatsapp: var(--success);
+  --color-action-primary:  var(--deep-blue);
   --color-action-brand:    var(--deep-blue);
 
   /* ── Spacing ── */
-  --spacing-2xs: var(--spacing-2xs);
-  --spacing-xs:  var(--spacing-xs);
-  --spacing-sm:  var(--spacing-sm);
-  --spacing-md:  var(--spacing-md);
-  --spacing-lg:  var(--spacing-lg);
-  --spacing-xl:  var(--spacing-xl);
-  --spacing-2xl: var(--spacing-2xl);
-  --spacing-3xl: var(--spacing-3xl);
-  --spacing-4xl: var(--spacing-4xl);
+  --spacing-2xs: var(--space-2xs);
+  --spacing-xs:  var(--space-xs);
+  --spacing-sm:  var(--space-sm);
+  --spacing-md:  var(--space-md);
+  --spacing-lg:  var(--space-lg);
+  --spacing-xl:  var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+  --spacing-3xl: var(--space-3xl);
+  --spacing-4xl: var(--space-4xl);
 
   /* ── Radius & Shadows ── */
   --radius-none: 0px;
-  --radius-sm:   4px;
-  --radius-md:   8px;
-  --radius-lg:   12px;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
   --radius-xl:   16px;
-  --radius-pill:  9999px;
+  --radius-pill: 9999px;
 
-  --shadow-soft:     0px 8px 32px rgba(0, 0, 0, 0.04);
-  --shadow-glass:    0px 4px 24px rgba(0, 0, 0, 0.05);
-  --shadow-elevated: 0px 16px 48px rgba(0, 0, 0, 0.08);
+  --shadow-soft:     var(--shadow-soft);
+  --shadow-glass:    var(--shadow-soft);
+  --shadow-elevated: var(--shadow-elevated);
 
   --font-sans:  var(--font-sans);
   --font-serif: var(--font-serif);
