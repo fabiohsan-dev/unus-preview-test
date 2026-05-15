@@ -29,7 +29,7 @@ const tagIcon: Record<string, boolean> = { Oportunidade: true, Lançamento: true
 export function FeaturedCards({ properties: initialProperties }: FeaturedCardsProps) {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  
+
   const displayProperties = initialProperties ?? [];
 
   const goNext = useCallback(() => {
@@ -42,7 +42,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
 
   useEffect(() => {
     if (isPaused || displayProperties.length <= 1) return;
-    
+
     const timer = setInterval(() => {
       goNext();
     }, 6000);
@@ -55,13 +55,13 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
   const href = `/imovel/${property.slug || property.id}`;
 
   return (
-    <section 
-      id="portfolio" 
-      className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--component-featured-meta-bg)]"
+    <section
+      id="portfolio"
+      className="py-20 lg:py-28 px-6 sm:px-8 lg:px-12 bg-[var(--component-featured-meta-bg)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-[1320px] mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -76,7 +76,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 Vitrine UNUS
               </span>
             </div>
-            <h2 className="text-[var(--component-featured-title)] text-title-section leading-[1.1] tracking-[-0.02em] font-light font-serif">
+            <h2 className="text-[var(--component-featured-title)] text-[clamp(34px,3.8vw,56px)] leading-[1.1] tracking-[-0.02em] font-light font-serif">
               Seleção <span className="font-semibold">exclusiva</span>
             </h2>
             <p className="text-[var(--color-body)] text-text-body mt-4 leading-relaxed max-w-[420px] font-light">
@@ -98,14 +98,14 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
             </span>
             <button
               onClick={() => { goPrev(); setIsPaused(true); }}
-              className="w-12 h-12 flex items-center justify-center border border-[var(--neutral-300)] hover:bg-[var(--secondary-900)] hover:text-white hover:border-[var(--secondary-900)] transition-all"
+              className="w-[44px] h-[44px] flex items-center justify-center border border-[var(--neutral-300)] hover:bg-[var(--primary-500)] hover:text-white hover:border-[var(--primary-500)] transition-all"
               aria-label="Imóvel anterior"
             >
               <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
             </button>
             <button
               onClick={() => { goNext(); setIsPaused(true); }}
-              className="w-12 h-12 flex items-center justify-center border border-[var(--neutral-300)] hover:bg-[var(--secondary-900)] hover:text-white hover:border-[var(--secondary-900)] transition-all"
+              className="w-[44px] h-[44px] flex items-center justify-center border border-[var(--neutral-300)] hover:bg-[var(--primary-500)] hover:text-white hover:border-[var(--primary-500)] transition-all"
               aria-label="Próximo imóvel"
             >
               <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
@@ -114,9 +114,9 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
         </motion.div>
 
         {/* Main Showcase */}
-        <div className="grid lg:grid-cols-[1fr_400px] gap-0 overflow-hidden bg-white shadow-[var(--shadow-soft)]">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] gap-0 overflow-hidden bg-white shadow-[var(--shadow-soft)] lg:h-[580px]">
           {/* Image */}
-          <div className="relative aspect-[4/3] lg:aspect-auto overflow-hidden">
+          <div className="relative aspect-[4/3.2] lg:aspect-auto lg:h-full overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={property.id}
@@ -151,10 +151,18 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
               {property.tags.map((tag, idx) => (
                 <span
                   key={`${property.id}-${idx}`}
-                  className="px-3 py-1 bg-white/95 backdrop-blur-sm text-[var(--color-heading)] text-[var(--text-micro)] uppercase tracking-[var(--tracking-micro)] flex items-center gap-1.5 shadow-sm"
-                  style={{ fontWeight: 'var(--weight-semi)' }}
+                  className="px-3 py-1 text-[var(--text-micro)] uppercase flex items-center gap-1.5"
+                  style={{
+                    background: 'rgba(216, 180, 106, 0.98)',
+                    color: 'var(--primary-500)',
+                    border: '1px solid rgba(0, 43, 69, 0.18)',
+                    fontWeight: 800,
+                    letterSpacing: '0.11em',
+                  }}
                 >
-                  {tagIcon[tag] && <TrendingUp className="w-3 h-3 text-[var(--primary-500)]" />}
+                  {tagIcon[tag] && (
+                    <TrendingUp className="w-3 h-3" style={{ color: 'var(--primary-500)' }} />
+                  )}
                   {tag}
                 </span>
               ))}
@@ -162,7 +170,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           </div>
 
           {/* Info Panel */}
-          <div className="p-8 lg:p-10 flex flex-col justify-between bg-white">
+          <div className="p-8 lg:p-9 flex flex-col justify-between bg-white">
             <AnimatePresence mode="wait">
               <motion.div
                 key={property.id}
@@ -180,42 +188,42 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     </span>
                   </div>
 
-                  <h3 className="text-[var(--color-heading)] text-title-card leading-[1.15] mb-8 line-clamp-3 min-h-[84px] font-normal">
+                  <h3 className="text-[var(--color-heading)] text-[clamp(24px,1.8vw,32px)] leading-[1.15] mb-6 line-clamp-3 min-h-[84px] font-normal">
                     {property.title}
                   </h3>
 
-                  <div className="grid grid-cols-2 gap-y-8 gap-x-4 mb-8 pb-8 border-b border-[var(--champagne)]/30">
+                  <div className="grid grid-cols-2 gap-y-6 gap-x-4 mb-7 pb-7 border-b border-[var(--champagne)]/30">
                     <div>
-                      <BedDouble className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.bedrooms}</p>
+                      <BedDouble className="w-[18px] h-[18px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+                      <p className="text-[var(--color-heading)] text-[15px]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.bedrooms}</p>
                       <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>QUARTOS</p>
                     </div>
                     <div>
-                      <BedDouble className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.suites}</p>
+                      <BedDouble className="w-[18px] h-[18px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+                      <p className="text-[var(--color-heading)] text-[15px]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.suites}</p>
                       <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>SUÍTES</p>
                     </div>
                     <div>
-                      <Bath className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.bathrooms}</p>
+                      <Bath className="w-[18px] h-[18px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+                      <p className="text-[var(--color-heading)] text-[15px]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.bathrooms}</p>
                       <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>BANHEIROS</p>
                     </div>
                     <div>
-                      <Maximize className="w-5 h-5 text-[var(--secondary-400)] mb-2" strokeWidth={1.2} />
-                      <p className="text-[var(--color-heading)] text-[var(--text-base)]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.area}</p>
+                      <Maximize className="w-[18px] h-[18px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+                      <p className="text-[var(--color-heading)] text-[15px]" style={{ fontWeight: 'var(--weight-medium)' }}>{property.area}</p>
                       <p className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-micro)]" style={{ fontWeight: 'var(--weight-medium)' }}>ÁREA</p>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <p className="text-[var(--champagne-readable)] text-price-featured-size mb-6 font-serif font-medium tracking-[var(--tracking-value)]">
+                  <p className="text-[var(--champagne-readable)] text-[clamp(26px,2vw,36px)] mb-5 font-serif font-medium tracking-[var(--tracking-value)]">
                     {property.price}
                   </p>
                   <Link
                     href={href}
-                    className="w-full bg-[var(--secondary-900)] text-white py-4 text-[var(--text-sm)] uppercase tracking-[var(--tracking-button)] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2"
-                    style={{ fontWeight: 'var(--weight-medium)' }}
+                    className="w-full text-white py-4 text-[var(--text-sm)] uppercase tracking-[var(--tracking-button)] hover:bg-[var(--deep-blue-700)] transition-colors flex items-center justify-center gap-2 min-h-[52px]"
+                    style={{ fontWeight: 'var(--weight-medium)', background: 'var(--primary-500)' }}
                   >
                     Ver detalhes do imóvel
                     <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
