@@ -59,6 +59,11 @@ const AnuncieStrip = dynamic(
   { loading: () => <div className="min-h-[240px] bg-[var(--secondary-900)] animate-pulse" /> }
 );
 
+const HomeDevelopmentsCTA = dynamic(
+  () => import('@/components/sections/HomeDevelopmentsCTA').then((mod) => mod.HomeDevelopmentsCTA),
+  { loading: () => <div className="min-h-[607px] bg-[var(--off-white)] animate-pulse" /> }
+);
+
 export const revalidate = 3600; // Revalida a cada 1 hora
 
 export default async function HomePage() {
@@ -123,6 +128,7 @@ export default async function HomePage() {
       <RetentionCTA />
       <PropertyCardGrid properties={gridProperties} />
       <SalesOpportunities opportunities={opportunities} />
+      <HomeDevelopmentsCTA developments={opportunities} />
       <AboutUs />
       <AnuncieStrip />
       <VisitUs />
