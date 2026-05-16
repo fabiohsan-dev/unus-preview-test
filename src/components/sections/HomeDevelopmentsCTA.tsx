@@ -34,7 +34,7 @@ export function HomeDevelopmentsCTA({ developments }: HomeDevelopmentsCTAProps) 
 
   return (
     <section className="pb-20 lg:pb-28 px-6 sm:px-8 lg:px-12 bg-[var(--off-white)]">
-      <div className="max-w-[1320px] mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         <article
           className="overflow-hidden rounded-[8px] grid grid-cols-1 lg:grid-cols-[59.2fr_40.8fr] min-h-[607px] bg-[#080908]"
           style={{ boxShadow: '0 2px 24px rgba(21,20,16,0.10), 0 1px 4px rgba(21,20,16,0.06)' }}

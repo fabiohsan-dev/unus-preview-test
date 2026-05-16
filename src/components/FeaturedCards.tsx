@@ -61,7 +61,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="max-w-[1320px] mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

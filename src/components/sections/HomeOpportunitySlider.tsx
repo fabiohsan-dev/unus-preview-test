@@ -32,7 +32,7 @@ export function HomeOpportunitySlider({ opportunities }: HomeOpportunitySliderPr
 
   return (
     <section className="py-20 lg:py-28 bg-[var(--off-white)]">
-      <div className="max-w-[1320px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
 
         {/* ── Header ── */}
         <div className="flex items-end justify-between mb-10 lg:mb-14 gap-6">

@@ -16,7 +16,7 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
         id="investimentos"
         className="pt-20 lg:pt-28 pb-10 lg:pb-14 px-6 sm:px-8 lg:px-12 bg-[var(--off-white)]"
       >
-        <div className="max-w-[1320px] mx-auto">
+        <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 lg:gap-10">
             <div>
               <div className="flex items-center gap-3 mb-4">
