@@ -65,7 +65,7 @@ export default async function HomePage() {
   const [metadata, featuredData, opportunitiesData] = await Promise.all([
     getMetadataServer().catch(() => undefined),
     getListarImoveisServer({ destaque: true, limit: 12 }).catch(() => ({ items: [] })),
-    getListarImoveisServer({ limit: 3, ordem: 'mais-novo' }).catch(() => ({ items: [] })),
+    getListarImoveisServer({ limit: 9, ordem: 'mais-novo' }).catch(() => ({ items: [] })),
   ]);
 
   const rawFeatured = featuredData?.items || [];
