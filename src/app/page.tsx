@@ -3,10 +3,9 @@ import { HeroSearch } from '@/components/HeroSearch';
 import { CategoryStrip } from '@/components/CategoryStrip';
 import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaService';
 import { SITE_URL, SITE_NAME, PHONE_DISPLAY, PHONE_HREF, WHATSAPP_BASE, CRECI } from '@/lib/constants';
-import { 
-  mapToFeaturedProperty, 
-  mapToOpportunity, 
-  mapToGridProperty 
+import {
+  mapToFeaturedProperty,
+  mapToOpportunity,
 } from '@/lib/mappers/propertyMapper';
 
 // Carregamento dinâmico para componentes abaixo da dobra (performance)
@@ -17,9 +16,9 @@ const FeaturedCards = dynamic(
   }
 );
 
-const PropertyCardGrid = dynamic(
-  () => import('@/components/PropertyCard').then((mod) => mod.PropertyCardGrid),
-  { loading: () => <div className="min-h-[800px] bg-[var(--color-background)] animate-pulse" /> }
+const HomeOpportunitySlider = dynamic(
+  () => import('@/components/sections/HomeOpportunitySlider').then((mod) => mod.HomeOpportunitySlider),
+  { loading: () => <div className="min-h-[520px] bg-[var(--off-white)] animate-pulse" /> }
 );
 
 const SalesOpportunities = dynamic(
@@ -59,29 +58,22 @@ const AnuncieStrip = dynamic(
   { loading: () => <div className="min-h-[240px] bg-[var(--secondary-900)] animate-pulse" /> }
 );
 
-const HomeDevelopmentsCTA = dynamic(
-  () => import('@/components/sections/HomeDevelopmentsCTA').then((mod) => mod.HomeDevelopmentsCTA),
-  { loading: () => <div className="min-h-[607px] bg-[var(--off-white)] animate-pulse" /> }
-);
 
 export const revalidate = 3600; // Revalida a cada 1 hora
 
 export default async function HomePage() {
-  const [metadata, featuredData, opportunitiesData, gridData] = await Promise.all([
+  const [metadata, featuredData, opportunitiesData] = await Promise.all([
     getMetadataServer().catch(() => undefined),
     getListarImoveisServer({ destaque: true, limit: 12 }).catch(() => ({ items: [] })),
     getListarImoveisServer({ limit: 3, ordem: 'mais-novo' }).catch(() => ({ items: [] })),
-    getListarImoveisServer({ limit: 6 }).catch(() => ({ items: [] }))
   ]);
 
   const rawFeatured = featuredData?.items || [];
   const rawOpps = opportunitiesData?.items || [];
-  const rawGrid = gridData?.items || [];
 
   // Transforma os dados brutos usando mappers centralizados
   const featuredProperties = rawFeatured.map(mapToFeaturedProperty);
   const opportunities = rawOpps.map(mapToOpportunity);
-  const gridProperties = rawGrid.map(mapToGridProperty);
 
   const organizationJsonLd = {
     '@context': 'https://schema.org',
@@ -126,9 +118,8 @@ export default async function HomePage() {
       <CategoryStrip />
       <FeaturedCards properties={featuredProperties} />
       <RetentionCTA />
-      <PropertyCardGrid properties={gridProperties} />
+      <HomeOpportunitySlider opportunities={opportunities} />
       <SalesOpportunities opportunities={opportunities} />
-      <HomeDevelopmentsCTA developments={opportunities} />
       <AboutUs />
       <AnuncieStrip />
       <VisitUs />
