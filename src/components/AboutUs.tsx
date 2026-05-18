@@ -216,7 +216,7 @@ export function AboutUs() {
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
               <p
                 id="about-video-title"
-                className="text-white/40 text-[11px] font-normal uppercase tracking-[0.2em]"
+                className="text-white/60 text-[11px] font-normal uppercase tracking-[0.2em]"
               >
                 UNUS Núcleo Imobiliário · Apresentação Institucional
               </p>

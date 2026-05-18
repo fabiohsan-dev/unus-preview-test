@@ -75,7 +75,7 @@ export function NeighborhoodOpps() {
         </div>
 
         {/* Nota */}
-        <p className="text-white/45 text-[11px] mt-10 tracking-wide font-medium">
+        <p className="text-white/60 text-[11px] mt-10 tracking-wide font-medium">
           Atendimento consultivo para comprar com mais segurança, clareza e estratégia.
         </p>
 

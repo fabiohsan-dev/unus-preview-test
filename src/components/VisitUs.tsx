@@ -94,7 +94,7 @@ export function VisitUs() {
               <p className="text-[var(--color-inverse)] text-4xl lg:text-[40px] font-serif font-medium leading-none tracking-[-0.02em] mb-1">
                 {m.value}
               </p>
-              <p className="text-white/45 text-[12px] font-medium uppercase tracking-[0.12em] leading-[1.45]">
+              <p className="text-white/60 text-[12px] font-medium uppercase tracking-[0.12em] leading-[1.45]">
                 {m.label}
               </p>
             </div>

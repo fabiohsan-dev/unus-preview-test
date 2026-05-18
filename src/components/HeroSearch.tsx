@@ -80,7 +80,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
       {/* ── Scroll indicator ── */}
       <div className="hidden md:flex absolute bottom-14 right-8 sm:right-12 flex-col items-center gap-2">
         <span
-          className="text-white/40 text-[10px] uppercase tracking-[0.18em]"
+          className="text-white/60 text-[10px] uppercase tracking-[0.18em]"
           style={{ writingMode: 'vertical-rl' }}
         >
           Scroll

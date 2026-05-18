@@ -229,8 +229,8 @@ export function EmpreendimentoCard({ empreendimento: emp }: EmpreendimentoCardPr
           </>
         )}
 
-        <div className="pointer-events-none absolute bottom-3 right-5 z-30 border border-white/10 bg-black/25 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45 lg:right-[53px]">
-          UNUS
+        <div className="pointer-events-none absolute bottom-3 right-5 z-30 border border-white/10 bg-black/25 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/60 lg:right-[53px]">
+          Em Obras
         </div>
       </div>
 

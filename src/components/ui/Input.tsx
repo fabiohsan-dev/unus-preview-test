@@ -72,7 +72,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {Icon && (
             <Icon
               className={`absolute left-3.5 w-3.5 h-3.5 shrink-0 pointer-events-none ${
-                isDark ? 'text-white/40' : 'text-[var(--neutral-400)]'
+                isDark ? 'text-white/60' : 'text-[var(--neutral-400)]'
               }`}
               strokeWidth={1.5}
             />
@@ -83,10 +83,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={id}
             className={[
               'w-full h-11 text-[14px] transition-all duration-200',
-              'placeholder:text-[rgba(0,0,0,0.35)] focus:outline-none',
+              'placeholder:text-[rgba(0,0,0,0.50)] focus:outline-none',
               'focus:ring-1',
               isDark
-                ? 'focus:ring-[rgba(196,154,46,0.60)] placeholder:text-[rgba(255,255,255,0.30)]'
+                ? 'focus:ring-[rgba(196,154,46,0.60)] placeholder:text-[rgba(255,255,255,0.45)]'
                 : 'focus:ring-[var(--primary-500)]',
               Icon ? 'pl-9 pr-4' : 'px-4',
               'border',
@@ -116,7 +116,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <p
             id={`${id}-helper`}
             className={`text-[11px] font-normal ${
-              isDark ? 'text-white/40' : 'text-[var(--neutral-500)]'
+              isDark ? 'text-white/60' : 'text-[var(--neutral-500)]'
             }`}
           >
             {helper}

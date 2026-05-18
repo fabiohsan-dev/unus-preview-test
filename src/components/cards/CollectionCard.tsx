@@ -38,7 +38,7 @@ export function CollectionCard({ item }: CollectionCardProps) {
             <h3 className="text-white leading-[1.2] text-xl font-medium">
               {item.title}
             </h3>
-            <span className="text-white/45 text-text-xs font-medium mt-1.5 block leading-snug tracking-wider">
+            <span className="text-white/60 text-text-xs font-medium mt-1.5 block leading-snug tracking-wider">
               Curadoria UNUS
             </span>
           </div>
