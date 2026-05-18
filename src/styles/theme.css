@@ -149,8 +149,8 @@
   --text-micro: 0.5625rem; /* 9px  — badges */
   --text-xs:    0.6875rem; /* 11px — eyebrows, códigos e datas */
   --text-sm:    0.875rem;  /* 14px — metadata, descrições curtas */
-  --text-body:  1rem;     /* 16px   — descrições de card */
-  --text-base:  1rem;     /* 16px   — corpo (DEFAULT, compat) */
+  --text-body:  1.0625rem; /* 17px — descrições de card e corpo */
+  --text-base:  1.0625rem; /* 17px — corpo (DEFAULT, compat) */
   --text-md:    1.125rem; /* 18px   — body destacado */
   --text-lg:    1.25rem;  /* 20px   — títulos list-view */
 
@@ -164,7 +164,7 @@
 
   /* Fluid titles — v3.2 */
   --title-card:    clamp(2rem, 2.78vw, 2.5rem);
-  --title-section: clamp(2.25rem, 4.4vw, 4.65rem);
+  --title-section: clamp(2.25rem, 3.8vw, 3.75rem);
   --title-hero:    clamp(3.3rem, 7vw, 7rem);
 
   /* ── VALUE SCALE (preços e métricas) ── */
@@ -184,7 +184,7 @@
   --weight-bold:    700;
 
   /* ── LETTER SPACING ── */
-  --tracking-eyebrow: 0.26em;   /* eyebrows uppercase (era 0.35em) */
+  --tracking-eyebrow: 0.18em;   /* eyebrows uppercase (era 0.26em) */
   --tracking-button:  0.16em;   /* CTAs (era 0.20em) */
   --tracking-link:    0.14em;   /* nav links (era 0.15em) */
   --tracking-micro:   0.18em;   /* badges (era 0.22em) */
