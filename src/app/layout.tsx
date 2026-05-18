@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { DM_Sans, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from 'next/font/google';
 import { SITE_URL, SITE_NAME, SITE_TAGLINE } from '@/lib/constants';
 import '../styles/globals.css';
 import { Header } from '@/components/Header';
@@ -8,7 +8,7 @@ import { LazyFixedButtons } from '@/components/LazyFixedButtons';
 import { LazyStickySearchBar } from '@/components/LazyStickySearchBar';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-sans',
@@ -70,7 +70,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${dmSans.variable} ${cormorant.variable}`}>
+    <html lang="pt-BR" className={`${inter.variable} ${cormorant.variable}`}>
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://cdn.vistahost.com.br" />

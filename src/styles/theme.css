@@ -139,16 +139,16 @@
   --shadow-glass: var(--shadow-soft); /* compat alias */
 
   /* FONTS — variáveis injetadas via next/font/google no layout.tsx
-     DM Sans → --font-sans | Cormorant Garamond → --font-serif
+     Inter → --font-sans | Cormorant Garamond → --font-serif
      Não redefinir aqui para não sobrescrever os valores de next/font */
   --font-display:  var(--font-serif); /* alias semântico — v3.2 */
   --font-label:    var(--font-sans);
   --font-numeric:  var(--font-sans);
 
-  /* ── TYPE SCALE ── */
-  --text-micro: 0.68rem;  /* ~10.9px — badges, counters */
-  --text-xs:    0.75rem;  /* 12px   — eyebrows, CRECI */
-  --text-sm:    0.875rem; /* 14px   — metadata, datas */
+  /* ── TYPE SCALE — base alinhada ao card Figma 7:381 ── */
+  --text-micro: 0.5625rem; /* 9px  — badges */
+  --text-xs:    0.6875rem; /* 11px — eyebrows, códigos e datas */
+  --text-sm:    0.875rem;  /* 14px — metadata, descrições curtas */
   --text-body:  1rem;     /* 16px   — descrições de card */
   --text-base:  1rem;     /* 16px   — corpo (DEFAULT, compat) */
   --text-md:    1.125rem; /* 18px   — body destacado */
@@ -163,7 +163,7 @@
   --text-6xl:   84px;
 
   /* Fluid titles — v3.2 */
-  --title-card:    clamp(1.35rem, 1.7vw, 1.75rem);
+  --title-card:    clamp(2rem, 2.78vw, 2.5rem);
   --title-section: clamp(2.25rem, 4.4vw, 4.65rem);
   --title-hero:    clamp(3.3rem, 7vw, 7rem);
 
@@ -171,8 +171,8 @@
   --value-weight:            600;
   --value-letter-spacing:    -0.01em;
   --price-featured-size:     clamp(1.45rem, 2vw, 2.25rem);
-  --price-card-size:         clamp(1.05rem, 1.15vw, 1.28rem);
-  --price-opportunity-size:  clamp(1.08rem, 1.25vw, 1.34rem);
+  --price-card-size:         clamp(2.25rem, 3.125vw, 2.8125rem);
+  --price-opportunity-size:  clamp(1.375rem, 1.95vw, 1.75rem);
   --number-meta-size:        1.05rem;
   --number-stat-size:        clamp(1.45rem, 2.2vw, 2.45rem);
 
@@ -503,8 +503,27 @@
   --text-title-section: var(--title-section);
   --text-title-card: var(--title-card);
   --text-micro: var(--text-micro);
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
   --text-body: var(--text-body);
+  --text-base: var(--text-base);
+  --text-md: var(--text-md);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
+  --text-5xl: var(--text-5xl);
+  --text-6xl: var(--text-6xl);
+  --text-text-micro: var(--text-micro);
+  --text-text-xs: var(--text-xs);
+  --text-text-sm: var(--text-sm);
+  --text-text-body: var(--text-body);
+  --text-text-base: var(--text-base);
+  --text-text-md: var(--text-md);
+  --text-text-lg: var(--text-lg);
   --text-price-featured-size: var(--price-featured-size);
+  --text-price-card-size: var(--price-card-size);
   --text-price-opportunity-size: var(--price-opportunity-size);
   --text-number-stat-size: var(--number-stat-size);
 }
