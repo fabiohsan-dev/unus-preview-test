@@ -174,14 +174,14 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 className="flex flex-col h-full"
               >
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-6">
+                  <div className="flex items-center gap-2 mb-4 opacity-80">
                     <MapPin className="w-3.5 h-3.5 text-[var(--primary-500)]" strokeWidth={1.5} />
-                    <span className="text-[var(--secondary-400)] text-[var(--text-xs)] uppercase tracking-[var(--tracking-link)]" style={{ fontWeight: 'var(--weight-medium)' }}>
+                    <span className="text-[var(--secondary-400)] text-text-micro uppercase tracking-wider font-medium">
                       {property.location}
                     </span>
                   </div>
 
-                  <h3 className="text-[var(--color-heading)] text-2xl lg:text-[28px] leading-tight mb-6 line-clamp-3 min-h-[84px] font-normal">
+                  <h3 className="text-[var(--color-heading)] text-3xl lg:text-4xl leading-tight mb-8 line-clamp-3 font-serif font-light tracking-[-0.02em]">
                     {property.title}
                   </h3>
 
