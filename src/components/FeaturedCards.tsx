@@ -76,7 +76,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 Vitrine UNUS
               </span>
             </div>
-            <h2 className="text-[var(--component-featured-title)] text-title-section leading-none font-light font-serif">
+            <h2 className="text-[var(--component-featured-title)] text-[clamp(36px,5vw,56px)] leading-none font-light font-serif">
               Seleção <span className="font-semibold">exclusiva</span>
             </h2>
             <p className="text-[var(--color-body)] text-text-body mt-4 leading-relaxed max-w-[420px] font-light">
@@ -181,7 +181,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     </span>
                   </div>
 
-                  <h3 className="text-[var(--color-heading)] text-3xl lg:text-4xl leading-tight mb-8 line-clamp-3 font-serif font-light tracking-[-0.02em]">
+                  <h3 className="text-[var(--color-heading)] text-[clamp(26px,2.5vw,36px)] leading-tight mb-8 line-clamp-3 font-serif font-light tracking-[-0.02em]">
                     {property.title}
                   </h3>
 
