@@ -34,10 +34,7 @@ export function AnuncieStrip() {
             </h2>
 
             {/* Subtítulo */}
-            <p
-              className="text-white/[0.74] leading-[1.72] max-w-[500px] font-light mt-6"
-              style={{ fontSize: 'clamp(14px, 1vw, 16px)' }}
-            >
+            <p className="text-white/85 text-text-base leading-relaxed font-light mt-5 mb-0 max-w-[520px]">
               O seu imóvel à venda em uma Boutique Imobiliária. Curadoria exclusiva, exposição máxima e negociação de alto padrão.
             </p>
           </div>

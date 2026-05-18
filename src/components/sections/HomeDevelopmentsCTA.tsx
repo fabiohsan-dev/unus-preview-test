@@ -166,17 +166,15 @@ export function HomeDevelopmentsCTA({
 
               <div className="flex flex-col items-center justify-center py-2 lg:py-8">
                 {/* Título */}
-                <h2
-                  className="font-serif font-semibold text-white leading-[0.98] line-clamp-2"
+                <h3
+                  className="text-white text-4xl lg:text-[46px] font-medium leading-none tracking-[-0.015em] mb-4"
                   style={{
-                    fontSize: 'clamp(34px, 3.2vw, 46px)',
-                    letterSpacing: '-0.015em',
                     textShadow: '0 10px 28px rgba(0,0,0,0.38)',
                     fontFamily: 'var(--font-serif)',
                   }}
                 >
                   Lançamentos com visão de futuro
-                </h2>
+                </h3>
 
                 {/* Divider — centralizado para o bloco editorial */}
                 <div

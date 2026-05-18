@@ -91,10 +91,7 @@ export function VisitUs() {
                   : ''
               }`}
             >
-              <p
-                className="font-serif font-normal text-[var(--color-inverse)] leading-none tracking-[-0.025em] mb-2"
-                style={{ fontSize: 'clamp(34px, 3vw, 50px)' }}
-              >
+              <p className="text-[var(--color-inverse)] text-4xl lg:text-[40px] font-serif font-medium leading-none tracking-[-0.02em] mb-1">
                 {m.value}
               </p>
               <p className="text-white/45 text-[12px] font-medium uppercase tracking-[0.12em] leading-[1.45]">
@@ -170,14 +167,12 @@ export function VisitUs() {
                     {n}
                   </span>
                   <h4
-                    className="text-white/95 font-semibold uppercase tracking-[0.035em] leading-[1.28] mb-3 max-w-[360px]"
-                    style={{ fontSize: 'clamp(16px, 1.25vw, 19px)' }}
+                    className="text-white/95 font-semibold uppercase tracking-[0.035em] leading-[1.28] mb-3 max-w-[360px] text-lg lg:text-xl"
                   >
                     {title}
                   </h4>
                   <p
-                    className="text-white/65 font-light leading-[1.62] max-w-[390px]"
-                    style={{ fontSize: 'clamp(14px, 1vw, 16px)' }}
+                    className="text-white/65 font-light leading-[1.62] max-w-[390px] text-sm lg:text-base"
                   >
                     {desc}
                   </p>

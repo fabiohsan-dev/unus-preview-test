@@ -122,13 +122,7 @@ export function PrivateSelectionPopup({ open, onClose }: PrivateSelectionPopupPr
               <p className="text-[rgba(245,241,233,0.52)] text-[10px] font-semibold uppercase tracking-[0.28em] mb-3">
                 Curadoria UNUS
               </p>
-              <h2
-                className="text-white leading-[1.1] font-light"
-                style={{
-                  fontSize: 'clamp(24px, 2.6vw, 34px)',
-                  fontFamily: 'var(--font-serif)',
-                }}
-              >
+              <h2 className="text-white text-3xl font-serif font-light leading-none tracking-[-0.02em]">
                 Não encontrou o que{' '}
                 <em
                   className="not-italic font-semibold"
@@ -172,10 +166,7 @@ export function PrivateSelectionPopup({ open, onClose }: PrivateSelectionPopupPr
                 Fale com um consultor
               </span>
             </div>
-            <p
-              className="text-[var(--deep-blue)] font-light leading-[1.28]"
-              style={{ fontSize: 'clamp(16px, 1.6vw, 20px)', fontFamily: 'var(--font-serif)' }}
-            >
+            <p className="text-[var(--champagne-readable)] text-lg font-serif">
               Descreva o que procura — entraremos em contato pelo WhatsApp.
             </p>
           </div>
