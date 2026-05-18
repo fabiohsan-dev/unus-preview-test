@@ -148,91 +148,91 @@ export function HomeDevelopmentsCTA({
             className="flex h-full min-h-[390px] flex-col items-center justify-between border-l border-white/[0.02] px-[22px] py-7 text-center sm:px-7 sm:py-8 lg:min-h-0 lg:px-[52px] lg:py-[42px] lg:pb-10"
             style={{ background: '#090a09' }}
           >
-            <div className="flex h-full max-w-[520px] flex-col items-center text-center">
-
-              {/* Badge de status — igual ao EmpreendimentoCard */}
-              <span
-                className="inline-flex h-[25px] w-fit items-center justify-center px-[13px] text-[9px] font-semibold uppercase leading-none tracking-[0.34em] text-[var(--gold)] mb-[18px]"
-                style={{ border: '1px solid rgba(199,154,32,0.38)' }}
-              >
-                Curadoria
-              </span>
-
-              {/* Eyebrow */}
-              <p className="text-[12px] font-medium uppercase leading-[1.25] tracking-[0.28em] text-[rgba(184,186,198,0.92)] mb-[22px]">
-                Para investidores
-              </p>
-
-              {/* Título */}
-              <h2
-                className="font-serif font-semibold text-white leading-[0.98] line-clamp-2"
-                style={{
-                  fontSize: 'clamp(34px, 3.2vw, 46px)',
-                  letterSpacing: '-0.015em',
-                  textShadow: '0 10px 28px rgba(0,0,0,0.38)',
-                  fontFamily: 'var(--font-serif)',
-                }}
-              >
-                Lançamentos com visão de futuro
-              </h2>
-
-              {/* Divider — igual ao CardDivider */}
-              <div
-                className="my-7 h-px w-full"
-                style={{
-                  background: 'linear-gradient(90deg, rgba(199,154,32,0.34) 0%, rgba(199,154,32,0.18) 42%, rgba(199,154,32,0.07) 72%, rgba(9,10,9,0) 100%)',
-                }}
-              />
-
-              {/* Descrição */}
-              <p
-                className="font-normal leading-[1.82] tracking-[-0.01em]"
-                style={{ fontSize: '14.5px', color: 'rgba(245,241,233,0.82)', maxWidth: 460 }}
-              >
-                Explore projetos selecionados pela UNUS, com localização, entrega e
-                diferenciais para decidir com segurança.
-              </p>
-
-              {/* Divider */}
-              <div
-                className="mb-7 mt-auto h-px w-full"
-                style={{
-                  background: 'linear-gradient(90deg, rgba(199,154,32,0.34) 0%, rgba(199,154,32,0.18) 42%, rgba(199,154,32,0.07) 72%, rgba(9,10,9,0) 100%)',
-                }}
-              />
-
-              {/* CTA link — igual ao "Conheça o empreendimento" */}
-              <Link
-                href="/empreendimentos"
-                className="group/cta inline-flex w-fit items-center gap-[9px] text-[11.5px] font-medium uppercase leading-[1.2] tracking-[0.24em] text-[var(--gold)] transition-all duration-200 hover:gap-[15px] hover:opacity-80 mb-7"
-              >
-                Conhecer empreendimentos
-                <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.8} />
-              </Link>
-
-              {/* Botões — igual ao EmpreendimentoCard */}
-              <div className="flex flex-col items-center justify-center gap-[18px] sm:flex-row sm:gap-[38px]">
-                <a
-                  href={whatsappUrl(WA_EMPREENDIMENTOS_PAGE)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-[46px] w-full min-w-[152px] items-center justify-center gap-2.5 px-[22px] text-[11.5px] font-medium uppercase tracking-[0.22em] text-white transition-all duration-200 hover:-translate-y-px hover:brightness-110 sm:w-auto"
-                  style={{ background: 'var(--color-action-whatsapp)' }}
+            <div className="grid h-full w-full max-w-[520px] grid-rows-[auto_1fr_auto] items-center gap-8 text-center">
+              <div className="flex flex-col items-center gap-4">
+                {/* Badge de status — igual ao EmpreendimentoCard */}
+                <span
+                  className="inline-flex h-[25px] w-fit items-center justify-center px-[13px] text-[9px] font-semibold uppercase leading-none tracking-[0.34em] text-[var(--gold)]"
+                  style={{ border: '1px solid rgba(199,154,32,0.38)' }}
                 >
-                  <svg className="h-[17px] w-[17px] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                  </svg>
-                  Falar no WhatsApp
-                </a>
+                  Curadoria
+                </span>
 
+                {/* Eyebrow */}
+                <p className="text-[12px] font-medium uppercase leading-[1.25] tracking-[0.28em] text-[rgba(184,186,198,0.92)]">
+                  Para investidores
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center justify-center py-2 lg:py-8">
+                {/* Título */}
+                <h2
+                  className="font-serif font-semibold text-white leading-[0.98] line-clamp-2"
+                  style={{
+                    fontSize: 'clamp(34px, 3.2vw, 46px)',
+                    letterSpacing: '-0.015em',
+                    textShadow: '0 10px 28px rgba(0,0,0,0.38)',
+                    fontFamily: 'var(--font-serif)',
+                  }}
+                >
+                  Lançamentos com visão de futuro
+                </h2>
+
+                {/* Divider — centralizado para o bloco editorial */}
+                <div
+                  className="my-7 h-px w-full max-w-[360px]"
+                  style={{
+                    background: 'linear-gradient(90deg, rgba(9,10,9,0) 0%, rgba(199,154,32,0.34) 50%, rgba(9,10,9,0) 100%)',
+                  }}
+                />
+
+                {/* Descrição */}
+                <p
+                  className="font-normal leading-[1.82] tracking-[-0.01em]"
+                  style={{ fontSize: '14.5px', color: 'rgba(245,241,233,0.82)', maxWidth: 430 }}
+                >
+                  Explore projetos selecionados pela UNUS, com localização, entrega e
+                  diferenciais para decidir com segurança.
+                </p>
+              </div>
+
+              <div
+                className="flex w-full flex-col items-center border-t pt-7"
+                style={{ borderColor: 'rgba(199,154,32,0.20)' }}
+              >
+                {/* CTA link — igual ao "Conheça o empreendimento" */}
                 <Link
                   href="/empreendimentos"
-                  className="inline-flex items-center gap-2.5 text-[11.5px] font-extrabold uppercase tracking-[0.22em] transition-colors duration-200 hover:text-[rgba(245,241,233,0.9)]"
-                  style={{ color: '#777a77' }}
+                  className="group/cta inline-flex w-fit items-center gap-[9px] text-[11.5px] font-medium uppercase leading-[1.2] tracking-[0.24em] text-[var(--gold)] transition-all duration-200 hover:gap-[15px] hover:opacity-80"
                 >
-                  <ArrowRight className="h-[15px] w-[15px] shrink-0" strokeWidth={1.7} />
-                  Ver catálogo
+                  Conhecer empreendimentos
+                  <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.8} />
                 </Link>
+
+                {/* Botões — igual ao EmpreendimentoCard */}
+                <div className="mt-7 flex flex-col items-center justify-center gap-[18px] sm:flex-row sm:gap-[38px]">
+                  <a
+                    href={whatsappUrl(WA_EMPREENDIMENTOS_PAGE)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-[46px] w-full min-w-[152px] items-center justify-center gap-2.5 px-[22px] text-[11.5px] font-medium uppercase tracking-[0.22em] text-white transition-all duration-200 hover:-translate-y-px hover:brightness-110 sm:w-auto"
+                    style={{ background: 'var(--color-action-whatsapp)' }}
+                  >
+                    <svg className="h-[17px] w-[17px] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                    Falar no WhatsApp
+                  </a>
+
+                  <Link
+                    href="/empreendimentos"
+                    className="inline-flex items-center gap-2.5 text-[11.5px] font-extrabold uppercase tracking-[0.22em] transition-colors duration-200 hover:text-[rgba(245,241,233,0.9)]"
+                    style={{ color: '#777a77' }}
+                  >
+                    <ArrowRight className="h-[15px] w-[15px] shrink-0" strokeWidth={1.7} />
+                    Ver catálogo
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
