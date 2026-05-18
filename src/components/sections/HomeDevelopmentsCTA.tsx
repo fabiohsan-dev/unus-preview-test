@@ -60,7 +60,7 @@ export function HomeDevelopmentsCTA({
   const countLabel = String(count).padStart(2, '0');
 
   return (
-    <section className="pb-20 lg:pb-28 px-6 sm:px-8 lg:px-12 bg-[var(--off-white)]">
+    <section className="pb-20 lg:pb-28 px-6 sm:px-8 lg:px-12 bg-white">
       <div className="max-w-[1400px] mx-auto">
         <article
           className="overflow-hidden rounded-[8px] grid grid-cols-1 lg:grid-cols-[59.2fr_40.8fr] min-h-[607px] bg-[#080908]"

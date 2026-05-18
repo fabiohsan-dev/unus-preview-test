@@ -17,8 +17,7 @@ export function SalesOpportunities({
     <>
       {/* Heading editorial da seção — âncora preservada */}
       <div
-        id="investimentos"
-        className="pt-20 lg:pt-28 pb-10 lg:pb-14 px-6 sm:px-8 lg:px-12 bg-[var(--off-white)]"
+        className="pt-20 lg:pt-28 pb-10 lg:pb-14 px-6 sm:px-8 lg:px-12 bg-white"
       >
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 lg:gap-10">

@@ -71,7 +71,7 @@ const variantClass: Record<ButtonVariant, string> = {
   gold:      'bg-[var(--gold)] text-[var(--neutral-900)] border border-[var(--gold)] hover:brightness-110',
   ghost:     'bg-transparent text-[var(--gold-dark)] border border-transparent hover:opacity-70',
   whatsapp:  'bg-[var(--color-action-whatsapp)] text-white border border-transparent hover:brightness-110',
-  phone:     '',  /* phone has JS hover — handled via inline style in the component */
+  phone:     'bg-transparent border border-[var(--champagne)]/40 text-white/75 hover:border-[var(--gold)] hover:text-white',
 };
 
 const BASE =
@@ -94,40 +94,7 @@ function Arrow() {
   );
 }
 
-/* Phone variant needs stateful hover for the color trick → tiny wrapper */
-function PhoneButton({
-  size,
-  className,
-  children,
-  withArrow,
-  ...rest
-}: Omit<ButtonProps, 'variant'>) {
-  const sz = size ?? 'md';
-  return (
-    <button
-      className={[BASE, sizeMap[sz], className].filter(Boolean).join(' ')}
-      style={{
-        border: '1px solid rgba(196,154,46,0.40)',
-        color: 'rgba(255,255,255,0.75)',
-        background: 'transparent',
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget;
-        el.style.borderColor = 'var(--gold)';
-        el.style.color = 'white';
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget;
-        el.style.borderColor = 'rgba(196,154,46,0.40)';
-        el.style.color = 'rgba(255,255,255,0.75)';
-      }}
-      {...rest}
-    >
-      {children}
-      {withArrow && <Arrow />}
-    </button>
-  );
-}
+
 
 /* ─────────────────────────────────────────────────────────────────────────── */
 /*  <Button>                                                                    */
@@ -135,13 +102,6 @@ function PhoneButton({
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', withArrow, className, children, ...rest }, ref) => {
-    if (variant === 'phone') {
-      return (
-        <PhoneButton size={size} className={className} withArrow={withArrow} {...rest}>
-          {children}
-        </PhoneButton>
-      );
-    }
     return (
       <button
         ref={ref}

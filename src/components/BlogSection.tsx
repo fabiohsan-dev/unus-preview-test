@@ -48,7 +48,7 @@ const posts: BlogPostCardData[] = [
 
 export function BlogSection() {
   return (
-    <section className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-[var(--off-white)]">
+    <section className="py-24 lg:py-32 px-6 sm:px-8 lg:px-12 bg-white">
       <div className="max-w-[1400px] mx-auto">
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-6">

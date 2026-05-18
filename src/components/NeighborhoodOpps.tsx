@@ -5,7 +5,7 @@ import { WHATSAPP_BASE } from '@/lib/constants';
 
 export function NeighborhoodOpps() {
   return (
-    <section id="contato" className="relative py-32 lg:py-40 px-6 sm:px-8 lg:px-12 overflow-hidden">
+    <section id="contato" className="relative py-32 lg:py-40 px-6 sm:px-8 lg:px-12 overflow-hidden bg-[var(--off-white)]">
 
       {/* ── Fundo ── */}
       <div className="absolute inset-0 z-0">

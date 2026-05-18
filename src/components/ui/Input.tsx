@@ -45,30 +45,24 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const isDark = surface === 'dark';
 
-    const inputStyle: React.CSSProperties = isDark
-      ? {
-          background: 'rgba(21,20,16,0.55)',
-          border: `1px solid ${error ? 'var(--error)' : 'rgba(196,154,46,0.30)'}`,
-          color: 'rgba(255,255,255,0.90)',
-          caretColor: 'var(--gold)',
-        }
-      : {
-          background: 'var(--input-background)',
-          border: `1px solid ${error ? 'var(--error)' : 'var(--neutral-300)'}`,
-          color: 'var(--color-heading)',
-          caretColor: 'var(--primary-500)',
-        };
+    const baseClasses = isDark
+      ? 'bg-[#151410]/55 text-white/90 caret-[var(--champagne)]'
+      : 'bg-[var(--input-background)] text-[var(--color-heading)] caret-[var(--primary-500)]';
+
+    const borderClasses = error
+      ? 'border-[var(--error)]'
+      : isDark
+        ? 'border-[var(--champagne)]/30'
+        : 'border-[var(--neutral-300)]';
 
     return (
       <div className={['flex flex-col gap-1.5 w-full', wrapperClassName].filter(Boolean).join(' ')}>
         {label && (
           <label
             htmlFor={id}
-            className="text-[10px] uppercase tracking-[0.18em]"
-            style={{
-              fontWeight: 600,
-              color: isDark ? 'rgba(255,255,255,0.55)' : 'var(--neutral-600)',
-            }}
+            className={`text-[10px] uppercase tracking-[0.18em] font-semibold ${
+              isDark ? 'text-white/55' : 'text-[var(--neutral-600)]'
+            }`}
           >
             {label}
           </label>
@@ -77,9 +71,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div className="relative flex items-center">
           {Icon && (
             <Icon
-              className="absolute left-3.5 w-3.5 h-3.5 shrink-0 pointer-events-none"
+              className={`absolute left-3.5 w-3.5 h-3.5 shrink-0 pointer-events-none ${
+                isDark ? 'text-white/40' : 'text-[var(--neutral-400)]'
+              }`}
               strokeWidth={1.5}
-              style={{ color: isDark ? 'rgba(255,255,255,0.40)' : 'var(--neutral-400)' }}
             />
           )}
 
@@ -94,11 +89,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 ? 'focus:ring-[rgba(196,154,46,0.60)] placeholder:text-[rgba(255,255,255,0.30)]'
                 : 'focus:ring-[var(--primary-500)]',
               Icon ? 'pl-9 pr-4' : 'px-4',
+              'border',
+              baseClasses,
+              borderClasses,
               className,
             ]
               .filter(Boolean)
               .join(' ')}
-            style={inputStyle}
             aria-invalid={!!error}
             aria-describedby={error ? `${id}-error` : helper ? `${id}-helper` : undefined}
             {...rest}
@@ -108,8 +105,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {error && (
           <p
             id={`${id}-error`}
-            className="text-[11px]"
-            style={{ color: 'var(--error)', fontWeight: 500 }}
+            className="text-[11px] text-[var(--error)] font-medium"
             role="alert"
           >
             {error}
@@ -119,8 +115,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {!error && helper && (
           <p
             id={`${id}-helper`}
-            className="text-[11px]"
-            style={{ color: isDark ? 'rgba(255,255,255,0.40)' : 'var(--neutral-500)', fontWeight: 400 }}
+            className={`text-[11px] font-normal ${
+              isDark ? 'text-white/40' : 'text-[var(--neutral-500)]'
+            }`}
           >
             {helper}
           </p>
