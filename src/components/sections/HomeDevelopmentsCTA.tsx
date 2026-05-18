@@ -145,14 +145,14 @@ export function HomeDevelopmentsCTA({
 
           {/* ── Painel CTA ── */}
           <div
-            className="flex flex-col justify-start border-l border-white/[0.02] px-[22px] py-7 sm:px-7 sm:py-8 lg:px-[52px] lg:py-[42px] lg:pb-10"
+            className="flex h-full min-h-[390px] flex-col justify-between border-l border-white/[0.02] px-[22px] py-7 sm:px-7 sm:py-8 lg:min-h-0 lg:px-[52px] lg:py-[42px] lg:pb-10"
             style={{ background: '#090a09' }}
           >
-            <div style={{ maxWidth: 480 }}>
+            <div className="flex h-full max-w-[520px] flex-col">
 
               {/* Badge de status — igual ao EmpreendimentoCard */}
               <span
-                className="inline-flex h-[25px] w-fit items-center justify-center px-[13px] text-[9px] font-semibold uppercase leading-none tracking-[0.34em] text-[var(--gold)] mb-[19px]"
+                className="inline-flex h-[25px] w-fit items-center justify-center px-[13px] text-[9px] font-semibold uppercase leading-none tracking-[0.34em] text-[var(--gold)] mb-[18px]"
                 style={{ border: '1px solid rgba(199,154,32,0.38)' }}
               >
                 Empreendimentos
@@ -178,7 +178,7 @@ export function HomeDevelopmentsCTA({
 
               {/* Divider — igual ao CardDivider */}
               <div
-                className="my-6 h-px w-full"
+                className="my-7 h-px w-full"
                 style={{
                   background: 'linear-gradient(90deg, rgba(199,154,32,0.34) 0%, rgba(199,154,32,0.18) 42%, rgba(199,154,32,0.07) 72%, rgba(9,10,9,0) 100%)',
                 }}
@@ -195,7 +195,7 @@ export function HomeDevelopmentsCTA({
 
               {/* Divider */}
               <div
-                className="my-6 h-px w-full"
+                className="mb-7 mt-auto h-px w-full"
                 style={{
                   background: 'linear-gradient(90deg, rgba(199,154,32,0.34) 0%, rgba(199,154,32,0.18) 42%, rgba(199,154,32,0.07) 72%, rgba(9,10,9,0) 100%)',
                 }}
