@@ -1,35 +1,62 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { ContentImage } from '@/components/ContentImage';
-import { type OpportunityCardData } from '@/components/cards/OpportunityCard';
-import { WHATSAPP_BASE } from '@/lib/constants';
+import { WA_EMPREENDIMENTOS_PAGE, whatsappUrl } from '@/lib/constants';
+import type { VistaImovelItem } from '@/types/vista';
 
 type HomeDevelopmentsCTAProps = {
-  developments?: OpportunityCardData[];
+  developments?: VistaImovelItem[];
+  developmentsCount?: number;
 };
 
-export function HomeDevelopmentsCTA({ developments }: HomeDevelopmentsCTAProps) {
+function getRandomImage(images: string[], current?: string | null) {
+  if (images.length === 0) return '/Sala-UNUS-8.jpg';
+  if (images.length === 1) return images[0];
+
+  const candidates = images.filter((image) => image !== current);
+  return candidates[Math.floor(Math.random() * candidates.length)] ?? images[0];
+}
+
+export function HomeDevelopmentsCTA({
+  developments,
+  developmentsCount,
+}: HomeDevelopmentsCTAProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const validImages = (developments ?? [])
-      .map((item) => item.image)
-      .filter((img): img is string => Boolean(img));
+  const developmentImages = useMemo(() => {
+    const all: string[] = [];
 
-    const uniqueImages = Array.from(new Set(validImages));
-
-    if (uniqueImages.length > 0) {
-      const index = Math.floor(Math.random() * uniqueImages.length);
-      setSelectedImage(uniqueImages[index]);
-    } else {
-      setSelectedImage('/Sala-UNUS-8.jpg');
+    for (const item of developments ?? []) {
+      if (item.FotosSlider && item.FotosSlider.length > 0) {
+        all.push(...item.FotosSlider);
+      }
+      if (item.FotoDestaque) {
+        all.push(item.FotoDestaque);
+      }
+      if (item.FotoDestaquePequena) {
+        all.push(item.FotoDestaquePequena);
+      }
     }
+
+    return Array.from(new Set(all.filter(Boolean)));
   }, [developments]);
 
-  const count = developments?.length ?? 0;
+  useEffect(() => {
+    setSelectedImage((current) => getRandomImage(developmentImages, current));
+
+    if (developmentImages.length <= 1) return undefined;
+
+    const interval = window.setInterval(() => {
+      setSelectedImage((current) => getRandomImage(developmentImages, current));
+    }, 6500);
+
+    return () => window.clearInterval(interval);
+  }, [developmentImages]);
+
+  const count = developmentsCount ?? developments?.length ?? 0;
   const countLabel = String(count).padStart(2, '0');
 
   return (
@@ -186,7 +213,7 @@ export function HomeDevelopmentsCTA({ developments }: HomeDevelopmentsCTAProps) 
               {/* Botões — igual ao EmpreendimentoCard */}
               <div className="flex flex-col items-start gap-[18px] sm:flex-row sm:items-center sm:gap-[38px]">
                 <a
-                  href={WHATSAPP_BASE}
+                  href={whatsappUrl(WA_EMPREENDIMENTOS_PAGE)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex h-[46px] w-full min-w-[152px] items-center justify-center gap-2.5 px-[22px] text-[11.5px] font-medium uppercase tracking-[0.22em] text-white transition-all duration-200 hover:-translate-y-px hover:brightness-110 sm:w-auto"

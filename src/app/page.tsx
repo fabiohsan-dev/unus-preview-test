@@ -1,7 +1,11 @@
 import dynamic from 'next/dynamic';
 import { HeroSearch } from '@/components/HeroSearch';
 import { CategoryStrip } from '@/components/CategoryStrip';
-import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaService';
+import {
+  getMetadataServer,
+  getListarImoveisServer,
+  getEmpreendimentoFotosServer,
+} from '@/lib/server/vistaService';
 import { SITE_URL, SITE_NAME, PHONE_DISPLAY, PHONE_HREF, WHATSAPP_BASE, CRECI } from '@/lib/constants';
 import {
   mapToFeaturedProperty,
@@ -62,18 +66,39 @@ const AnuncieStrip = dynamic(
 export const revalidate = 3600; // Revalida a cada 1 hora
 
 export default async function HomePage() {
-  const [metadata, featuredData, opportunitiesData] = await Promise.all([
+  const [metadata, featuredData, opportunitiesData, empreendimentosData] = await Promise.all([
     getMetadataServer().catch(() => undefined),
     getListarImoveisServer({ destaque: true, limit: 12 }).catch(() => ({ items: [] })),
     getListarImoveisServer({ limit: 9, ordem: 'mais-novo' }).catch(() => ({ items: [] })),
+    getListarImoveisServer({ tipo: 'Empreendimento', limit: 12, page: 1 }).catch(() => ({
+      items: [],
+      total: 0,
+      paginas: 1,
+      pagina: 1,
+    })),
   ]);
 
   const rawFeatured = featuredData?.items || [];
   const rawOpps = opportunitiesData?.items || [];
+  const rawEmpreendimentos = empreendimentosData?.items || [];
 
   // Transforma os dados brutos usando mappers centralizados
   const featuredProperties = rawFeatured.map(mapToFeaturedProperty);
   const opportunities = rawOpps.map(mapToOpportunity);
+  const empreendimentos = await Promise.all(
+    rawEmpreendimentos.map(async (emp) => {
+      const { fotos, descricao } = await getEmpreendimentoFotosServer(emp.Codigo, 5).catch(() => ({
+        fotos: [],
+        descricao: null,
+      }));
+
+      return {
+        ...emp,
+        FotosSlider: fotos.length > 0 ? fotos : emp.FotosSlider,
+        DescricaoEmpreendimento: descricao ?? emp.DescricaoEmpreendimento,
+      };
+    })
+  );
 
   const organizationJsonLd = {
     '@context': 'https://schema.org',
@@ -119,7 +144,10 @@ export default async function HomePage() {
       <FeaturedCards properties={featuredProperties} />
       <RetentionCTA />
       <HomeOpportunitySlider opportunities={opportunities} />
-      <SalesOpportunities opportunities={opportunities} />
+      <SalesOpportunities
+        developments={empreendimentos}
+        developmentsCount={empreendimentosData?.total ?? empreendimentos.length}
+      />
       <AboutUs />
       <AnuncieStrip />
       <VisitUs />

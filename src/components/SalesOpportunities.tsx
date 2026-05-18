@@ -1,13 +1,17 @@
-import { type OpportunityCardData } from '@/components/cards/OpportunityCard';
 import { HomeDevelopmentsCTA } from '@/components/sections/HomeDevelopmentsCTA';
+import type { VistaImovelItem } from '@/types/vista';
 
 interface SalesOpportunitiesProps {
-  opportunities?: OpportunityCardData[];
+  developments?: VistaImovelItem[];
+  developmentsCount?: number;
 }
 
-export function SalesOpportunities({ opportunities: initialOpportunities }: SalesOpportunitiesProps) {
-  const displayOpportunities = initialOpportunities ?? [];
-  if (displayOpportunities.length === 0) return null;
+export function SalesOpportunities({
+  developments: initialDevelopments,
+  developmentsCount,
+}: SalesOpportunitiesProps) {
+  const displayDevelopments = initialDevelopments ?? [];
+  if (displayDevelopments.length === 0) return null;
 
   return (
     <>
@@ -40,7 +44,10 @@ export function SalesOpportunities({ opportunities: initialOpportunities }: Sale
       </div>
 
       {/* Card editorial de empreendimentos — herda o contexto da seção acima */}
-      <HomeDevelopmentsCTA developments={displayOpportunities} />
+      <HomeDevelopmentsCTA
+        developments={displayDevelopments}
+        developmentsCount={developmentsCount ?? displayDevelopments.length}
+      />
     </>
   );
 }
