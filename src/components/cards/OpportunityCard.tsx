@@ -41,7 +41,7 @@ export function OpportunityCard({ item }: OpportunityCardProps) {
           protectedContent
         />
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 bg-[var(--champagne)] text-[var(--neutral-900)] text-[10px] font-bold uppercase tracking-[0.12em]">
+          <span className="px-3 py-1 bg-[var(--champagne)]/95 text-[var(--primary-500)] border border-[var(--primary-500)]/20 text-[10px] font-extrabold uppercase tracking-[0.11em]">
             {item.badge}
           </span>
         </div>
@@ -50,34 +50,38 @@ export function OpportunityCard({ item }: OpportunityCardProps) {
         </div>
       </div>
 
-      <div className="flex flex-col flex-1">
-        <p className="text-[var(--color-caption)] text-[12px] font-medium uppercase tracking-[0.10em] mb-2">
+      <div className="flex flex-col flex-1 mt-1">
+        <p className="text-[var(--secondary-400)] text-text-micro uppercase tracking-[var(--tracking-micro)] font-medium mb-3 opacity-80">
           {item.location}
         </p>
-        <h3 className="text-[var(--color-heading)] text-xl leading-tight mb-4 line-clamp-2 h-[2.5lh]">
+        <h3 className="text-[var(--color-heading)] text-2xl leading-tight mb-6 line-clamp-2 font-serif font-light tracking-[-0.02em]">
           {item.title}
         </h3>
 
-        <div className="flex items-center gap-x-[15px] gap-y-2.5 text-[var(--color-body)] text-[13px] font-normal mb-[17px] pb-[17px] border-b border-[var(--neutral-300)] flex-wrap">
+        <div className="grid grid-cols-3 gap-2 mb-6 pb-6 border-b border-[var(--champagne)]/30">
           {isTerrain ? (
-            <span className="flex items-center gap-1.5">
-              <Maximize className="w-[15px] h-[15px] text-[var(--color-caption)]" strokeWidth={1.2} />
-              Área: {item.area}
-            </span>
+            <div>
+              <Maximize className="w-[16px] h-[16px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+              <p className="text-[var(--color-heading)] text-[14px] font-medium">{item.area}</p>
+              <p className="text-[var(--secondary-400)] text-[9px] uppercase tracking-wider font-medium">ÁREA</p>
+            </div>
           ) : (
             <>
-              <span className="flex items-center gap-1.5">
-                <BedDouble className="w-[15px] h-[15px] text-[var(--color-caption)]" strokeWidth={1.2} />
-                {item.bedrooms} dorms.
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Bath className="w-[15px] h-[15px] text-[var(--color-caption)]" strokeWidth={1.2} />
-                {item.bathrooms} banh.
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Maximize className="w-[15px] h-[15px] text-[var(--color-caption)]" strokeWidth={1.2} />
-                {item.area}
-              </span>
+              <div>
+                <BedDouble className="w-[16px] h-[16px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+                <p className="text-[var(--color-heading)] text-[14px] font-medium">{item.bedrooms}</p>
+                <p className="text-[var(--secondary-400)] text-[9px] uppercase tracking-wider font-medium">QUARTOS</p>
+              </div>
+              <div>
+                <Bath className="w-[16px] h-[16px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+                <p className="text-[var(--color-heading)] text-[14px] font-medium">{item.bathrooms}</p>
+                <p className="text-[var(--secondary-400)] text-[9px] uppercase tracking-wider font-medium">BANHEIROS</p>
+              </div>
+              <div>
+                <Maximize className="w-[16px] h-[16px] text-[var(--secondary-400)] mb-1.5" strokeWidth={1.2} />
+                <p className="text-[var(--color-heading)] text-[14px] font-medium">{item.area}</p>
+                <p className="text-[var(--secondary-400)] text-[9px] uppercase tracking-wider font-medium">ÁREA</p>
+              </div>
             </>
           )}
         </div>
