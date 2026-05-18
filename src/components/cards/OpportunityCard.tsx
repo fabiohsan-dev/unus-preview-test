@@ -86,7 +86,7 @@ export function OpportunityCard({ item }: OpportunityCardProps) {
           )}
         </div>
 
-        <p className="text-[var(--color-heading)] text-[var(--price-opportunity-size)] font-serif font-medium mt-auto">
+        <p className="text-[var(--color-heading)] text-2xl lg:text-[28px] font-serif font-medium mt-auto mb-2 tracking-tight">
           {item.price}
         </p>
       </div>
