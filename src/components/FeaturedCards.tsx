@@ -72,11 +72,11 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-[1px] bg-[var(--champagne)]" />
-              <span className="text-[var(--champagne-readable)] text-text-micro uppercase tracking-[var(--tracking-eyebrow)] font-semibold">
+              <span className="text-[var(--champagne-readable)] text-micro uppercase tracking-[var(--tracking-eyebrow)] font-semibold">
                 Vitrine UNUS
               </span>
             </div>
-            <h2 className="text-[var(--component-featured-title)] text-[clamp(34px,3.8vw,56px)] leading-[1.1] tracking-[-0.02em] font-light font-serif">
+            <h2 className="text-[var(--component-featured-title)] text-title-section leading-none font-light font-serif">
               Seleção <span className="font-semibold">exclusiva</span>
             </h2>
             <p className="text-[var(--color-body)] text-text-body mt-4 leading-relaxed max-w-[420px] font-light">
@@ -139,7 +139,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     draggable={false}
                     onContextMenu={(event) => event.preventDefault()}
                   />
-                  <span className="pointer-events-none absolute bottom-3 right-3 z-10 border border-white/25 bg-black/20 px-2.5 py-1 text-[var(--text-micro)] uppercase tracking-[var(--tracking-micro)] text-white/70 backdrop-blur-sm">
+                  <span className="pointer-events-none absolute bottom-3 right-3 z-10 border border-white/25 bg-black/20 px-2.5 py-1 text-micro uppercase tracking-[var(--tracking-micro)] text-white/70 backdrop-blur-sm">
                     UNUS
                   </span>
                 </div>
@@ -151,14 +151,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
               {property.tags.map((tag, idx) => (
                 <span
                   key={`${property.id}-${idx}`}
-                  className="px-3 py-1 text-[var(--text-micro)] uppercase flex items-center gap-1.5"
-                  style={{
-                    background: 'rgba(216, 180, 106, 0.98)',
-                    color: 'var(--primary-500)',
-                    border: '1px solid rgba(0, 43, 69, 0.18)',
-                    fontWeight: 800,
-                    letterSpacing: '0.11em',
-                  }}
+                  className="px-3 py-1 text-micro uppercase flex items-center gap-1.5 bg-[var(--champagne)]/95 text-[var(--primary-500)] border border-[var(--primary-500)]/20 font-extrabold tracking-[0.11em]"
                 >
                   {tagIcon[tag] && (
                     <TrendingUp className="w-3 h-3" style={{ color: 'var(--primary-500)' }} />
@@ -188,7 +181,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                     </span>
                   </div>
 
-                  <h3 className="text-[var(--color-heading)] text-[clamp(24px,1.8vw,32px)] leading-[1.15] mb-6 line-clamp-3 min-h-[84px] font-normal">
+                  <h3 className="text-[var(--color-heading)] text-title-card leading-tight mb-6 line-clamp-3 min-h-[84px] font-normal">
                     {property.title}
                   </h3>
 
@@ -217,7 +210,7 @@ export function FeaturedCards({ properties: initialProperties }: FeaturedCardsPr
                 </div>
 
                 <div>
-                  <p className="text-[var(--champagne-readable)] text-[clamp(26px,2vw,36px)] mb-5 font-serif font-medium tracking-[var(--tracking-value)]">
+                  <p className="text-[var(--champagne-readable)] text-[var(--price-card-size)] mb-5 font-serif font-medium tracking-[var(--tracking-value)]">
                     {property.price}
                   </p>
                   <Link

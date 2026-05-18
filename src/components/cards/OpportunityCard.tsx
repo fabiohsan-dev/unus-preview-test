@@ -54,7 +54,7 @@ export function OpportunityCard({ item }: OpportunityCardProps) {
         <p className="text-[var(--color-caption)] text-[12px] font-medium uppercase tracking-[0.10em] mb-2">
           {item.location}
         </p>
-        <h3 className="text-[var(--color-heading)] text-[clamp(22px,1.65vw,27px)] font-normal leading-tight mb-4 line-clamp-2 min-h-[56px]">
+        <h3 className="text-[var(--color-heading)] text-xl leading-tight mb-4 line-clamp-2 h-[2.5lh]">
           {item.title}
         </h3>
 
@@ -82,7 +82,7 @@ export function OpportunityCard({ item }: OpportunityCardProps) {
           )}
         </div>
 
-        <p className="text-[var(--color-heading)] text-[clamp(22px,1.6vw,28px)] font-serif font-medium mt-auto">
+        <p className="text-[var(--color-heading)] text-[var(--price-opportunity-size)] font-serif font-medium mt-auto">
           {item.price}
         </p>
       </div>

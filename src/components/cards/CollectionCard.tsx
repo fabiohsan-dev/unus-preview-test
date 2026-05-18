@@ -18,8 +18,7 @@ export function CollectionCard({ item }: CollectionCardProps) {
   return (
     <Link
       href={item.href}
-      className="group relative overflow-hidden cursor-pointer aspect-[4/5] sm:aspect-[3/4] bg-[var(--secondary-900)]"
-      style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }}
+      className="group relative overflow-hidden cursor-pointer aspect-[4/5] sm:aspect-[3/4] bg-black shadow-[var(--shadow-soft)]"
     >
       <ContentImage
         src={item.image}
@@ -30,19 +29,16 @@ export function CollectionCard({ item }: CollectionCardProps) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-      <div className="absolute inset-0 flex flex-col justify-end" style={{ padding: '28px 24px' }}>
+      <div className="absolute inset-0 flex flex-col justify-end p-7">
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-white/60 text-[10px] font-medium uppercase tracking-[0.12em] mb-1.5 leading-[1.4]">
+            <p className="text-white/60 text-text-micro font-medium uppercase tracking-[var(--tracking-micro)] mb-1.5 leading-snug">
               {item.subtitle}
             </p>
-            <h3
-              className="text-white leading-[1.2]"
-              style={{ fontSize: 'clamp(20px, 1.35vw, 24px)', fontWeight: 500 }}
-            >
+            <h3 className="text-white leading-[1.2] text-xl font-medium">
               {item.title}
             </h3>
-            <span className="text-white/45 text-[11px] font-medium mt-1.5 block leading-[1.4] tracking-[0.08em]">
+            <span className="text-white/45 text-text-xs font-medium mt-1.5 block leading-snug tracking-wider">
               Curadoria UNUS
             </span>
           </div>

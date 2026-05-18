@@ -30,31 +30,19 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
         <div className="absolute inset-0 bg-[var(--secondary-900)]/0 group-hover:bg-[var(--secondary-900)]/10 transition-colors duration-500" />
       </div>
 
-      <span
-        className="text-[11px] uppercase tracking-[0.15em] text-[var(--champagne-readable)] mb-3 block"
-        style={{ fontWeight: 500 }}
-      >
+      <span className="text-text-xs font-medium uppercase tracking-[var(--tracking-micro)] text-[var(--champagne-readable)] mb-3 block">
         {post.date}
       </span>
 
-      <h3
-        className="text-[17px] leading-[1.35] text-[var(--deep-blue)] mb-3 group-hover:text-[var(--champagne-readable)] transition-colors duration-300"
-        style={{ fontWeight: 600, fontFamily: 'var(--font-sans)' }}
-      >
+      <h3 className="text-lg font-semibold leading-snug text-[var(--deep-blue)] mb-3 group-hover:text-[var(--champagne-readable)] transition-colors duration-300">
         {post.title}
       </h3>
 
-      <p
-        className="text-[14px] leading-[1.6] text-[var(--graphite)] mb-4 line-clamp-3"
-        style={{ fontWeight: 300 }}
-      >
+      <p className="text-sm font-light leading-relaxed text-[var(--graphite)] mb-4 line-clamp-3">
         {post.excerpt}
       </p>
 
-      <span
-        className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.15em] text-[var(--deep-blue)] group-hover:text-[var(--champagne-readable)] group-hover:gap-3 transition-all duration-300"
-        style={{ fontWeight: 600 }}
-      >
+      <span className="inline-flex items-center gap-1.5 text-text-xs font-semibold uppercase tracking-[var(--tracking-button)] text-[var(--deep-blue)] group-hover:text-[var(--champagne-readable)] group-hover:gap-3 transition-all duration-300">
         Leia mais
         <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
       </span>
@@ -64,8 +52,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="text-[10px] uppercase tracking-[0.1em] text-[var(--deep-blue)] bg-[var(--champagne-soft)]/35 border border-[var(--champagne)]/25 px-2.5 py-1"
-              style={{ fontWeight: 600 }}
+              className="text-text-micro font-semibold uppercase tracking-[var(--tracking-micro)] text-[var(--deep-blue)] bg-[var(--champagne-soft)]/35 border border-[var(--champagne)]/25 px-2.5 py-1"
             >
               {tag}
             </span>

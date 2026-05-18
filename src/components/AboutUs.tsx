@@ -121,17 +121,12 @@ export function AboutUs() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-[1px] bg-[var(--champagne)]" />
-                <span
-                  className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--champagne-readable)]"
-                >
+                <span className="text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)] text-[var(--champagne-readable)]">
                   Quem Somos
                 </span>
               </div>
 
-              <h2
-                className="font-serif font-light leading-[1.08] tracking-[-0.026em] text-[var(--deep-blue)] mb-8"
-                style={{ fontSize: 'clamp(36px,3.8vw,60px)' }}
-              >
+              <h2 className="font-serif font-light leading-[1.08] tracking-[-0.026em] text-[var(--deep-blue)] mb-8 text-title-section">
                 UNUS <span className="italic font-medium">Núcleo</span> Imobiliário.
                 <br />
                 <span className="font-semibold">
@@ -141,13 +136,13 @@ export function AboutUs() {
 
               <div className="space-y-5 mb-10 pb-10 border-b border-[var(--deep-blue)]/10">
                 <p
-                  className="text-[var(--graphite)] text-[15px] sm:text-[16px] leading-[1.75] font-light"
+                  className="text-[var(--graphite)] text-text-base leading-relaxed font-light"
                 >
                   A UNUS é uma empresa moderna de inteligência imobiliária, especializada
                   em imóveis prontos, em construção e lançamentos na Grande Florianópolis.
                 </p>
                 <p
-                  className="text-[var(--graphite)] text-[15px] sm:text-[16px] leading-[1.75] font-light"
+                  className="text-[var(--graphite)] text-text-base leading-relaxed font-light"
                 >
                   Unimos curadoria, dados de mercado e consultoria próxima para orientar
                   compradores, investidores e proprietários em decisões imobiliárias mais seguras.

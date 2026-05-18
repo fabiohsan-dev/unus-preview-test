@@ -1,14 +1,7 @@
 import Image from 'next/image';
-import { Quattrocento } from 'next/font/google';
 import { SearchBar } from './SearchBar';
 import type { ApiMetadataResponse } from '@/types/vista';
 import { whatsappUrl, WA_CONSULTIVO } from '@/lib/constants';
-
-const quattrocento = Quattrocento({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  display: 'swap',
-});
 
 export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
   return (
@@ -56,8 +49,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
 
           {/* Título */}
           <h1
-            className={`${quattrocento.className} font-normal text-white leading-[1.02] tracking-[-0.025em] sm:leading-[0.98] sm:tracking-[-0.03em]`}
-            style={{ fontSize: 'clamp(52px, 6.4vw, 96px)' }}
+            className="font-serif font-light text-white leading-[1.02] tracking-[-0.025em] sm:leading-[0.98] sm:tracking-[-0.03em] text-title-hero"
           >
             <span className="block sm:whitespace-nowrap">
               <span className="font-bold">Onde</span> você mora
@@ -76,7 +68,7 @@ export function HeroSearch({ metadata }: { metadata?: ApiMetadataResponse }) {
               href={whatsappUrl(WA_CONSULTIVO)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white/65 hover:text-white/90 text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.11em] sm:tracking-[0.14em] transition-colors duration-300 max-w-[320px] sm:max-w-none"
+              className="inline-flex items-center gap-2 text-white/65 hover:text-white/90 text-[11px] sm:text-[12px] font-medium uppercase tracking-[var(--tracking-button)] transition-colors duration-300 max-w-[320px] sm:max-w-none"
             >
               Prefere atendimento consultivo? Fale com um corretor
               <span aria-hidden="true">→</span>

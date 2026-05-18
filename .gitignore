@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 node_modules
 /.pnp
 .pnp.js
@@ -47,3 +47,6 @@ contato-structure.md
 anuncie-structure.md
 blog-structure.md
 .env*.local
+
+# Backups Locais
+src/components/__backup/

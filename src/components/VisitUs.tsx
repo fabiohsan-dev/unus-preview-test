@@ -60,17 +60,14 @@ export function VisitUs() {
           {/* Eyebrow */}
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="w-8 h-px bg-[var(--champagne)]/85" />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--champagne)]/85">
+            <span className="text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)] text-[var(--champagne)]/85">
               A Experiência UNUS
             </span>
             <div className="w-8 h-px bg-[var(--champagne)]/85" />
           </div>
 
           {/* Título */}
-          <h2
-            className="font-serif font-light leading-[1.08] tracking-[-0.028em] text-[var(--color-inverse)] max-w-[980px] mx-auto mb-6"
-            style={{ fontSize: 'clamp(38px, 4.6vw, 68px)' }}
-          >
+          <h2 className="font-serif font-light leading-[1.08] tracking-[-0.028em] text-[var(--color-inverse)] max-w-[980px] mx-auto mb-6 text-title-section">
             Imóveis certos, decisões rápidas e inteligência de mercado.
           </h2>
 
@@ -144,13 +141,10 @@ export function VisitUs() {
           <div>
             {/* Eyebrow + título dos pilares */}
             <div className="mb-12">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] mb-4 text-white/60">
+              <p className="text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)] mb-4 text-white/60">
                 Por que a UNUS
               </p>
-              <h3
-                className="font-serif font-light leading-[1.12] tracking-[-0.026em] text-[var(--color-inverse)] mb-4"
-                style={{ fontSize: 'clamp(32px, 3.4vw, 52px)' }}
-              >
+              <h3 className="font-serif font-light leading-none tracking-[-0.026em] text-[var(--color-inverse)] mb-4 text-title-card">
                 Os Pilares da Nossa{' '}
                 <span className="font-semibold">Inteligência Imobiliária</span>
               </h3>

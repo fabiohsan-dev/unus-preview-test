@@ -34,18 +34,14 @@ export function NeighborhoodOpps() {
         {/* Eyebrow */}
         <div className="flex items-center justify-center gap-3 mb-8">
           <div className="w-8 h-px bg-[var(--champagne)]/80" />
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--champagne-readable)]"
-          >
+          <span className="text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)] text-[var(--champagne-readable)]">
             Para quem busca o imóvel certo
           </span>
           <div className="w-8 h-px bg-[var(--champagne)]/80" />
         </div>
 
         {/* Título */}
-        <h2
-          className="text-white font-serif font-light leading-[1.08] tracking-[-0.02em] text-[32px] sm:text-[48px] lg:text-[56px] mb-6"
-        >
+        <h2 className="text-white font-serif font-light leading-[1.08] tracking-[-0.02em] text-title-section mb-6">
           Encontre o imóvel certo
           <br />
           <span className="font-semibold">com inteligência de mercado.</span>
@@ -62,7 +58,7 @@ export function NeighborhoodOpps() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/venda"
-            className="bg-[var(--champagne)] text-[var(--deep-blue)] px-10 py-4 text-[13px] uppercase tracking-[0.14em] hover:bg-[var(--champagne-soft)] transition-colors flex items-center gap-3 font-semibold"
+            className="bg-[var(--champagne)] text-[var(--deep-blue)] px-10 py-4 text-text-xs uppercase tracking-[var(--tracking-button)] hover:bg-[var(--champagne-soft)] transition-colors flex items-center gap-3 font-semibold"
           >
             Encontrar meu imóvel ideal
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
@@ -71,7 +67,7 @@ export function NeighborhoodOpps() {
             href={WHATSAPP_BASE}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-[var(--champagne)]/40 text-white px-8 py-4 text-[13px] uppercase tracking-[0.14em] hover:bg-[var(--champagne)]/10 hover:border-[var(--champagne)]/70 transition-colors flex items-center gap-3 font-medium"
+            className="border border-[var(--champagne)]/40 text-white px-8 py-4 text-text-xs uppercase tracking-[var(--tracking-button)] hover:bg-[var(--champagne)]/10 hover:border-[var(--champagne)]/70 transition-colors flex items-center gap-3 font-medium"
           >
             <Phone className="w-4 h-4" strokeWidth={1.5} />
             Falar com especialista

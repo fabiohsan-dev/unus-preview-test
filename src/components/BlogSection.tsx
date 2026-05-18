@@ -53,26 +53,19 @@ export function BlogSection() {
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-[1px] bg-[var(--champagne)]" />
-            <span
-              className="text-[10px] uppercase tracking-[0.3em] text-[var(--champagne-readable)]"
-              style={{ fontWeight: 600 }}
-            >
+            <span className="text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)] text-[var(--champagne-readable)]">
               Inteligência Imobiliária
             </span>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-            <h2
-              className="text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em] text-[var(--deep-blue)]"
-              style={{ fontWeight: 300 }}
-            >
-              Insights do <span style={{ fontWeight: 600 }}>mercado</span>
+            <h2 className="text-title-section font-serif font-light leading-tight tracking-[-0.02em] text-[var(--deep-blue)]">
+              Insights do <span className="font-semibold">mercado</span>
             </h2>
 
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.15em] text-[var(--deep-blue)] hover:text-[var(--champagne-readable)] transition-colors"
-              style={{ fontWeight: 600 }}
+              className="inline-flex items-center gap-2 text-text-xs font-semibold uppercase tracking-[var(--tracking-link)] text-[var(--deep-blue)] hover:text-[var(--champagne-readable)] transition-colors"
             >
               Ver todos os artigos
               <ArrowRight className="w-4 h-4" strokeWidth={1.5} />

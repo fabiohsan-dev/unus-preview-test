@@ -25,11 +25,11 @@ export function SalesOpportunities({
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-6 h-[1px] bg-[var(--champagne)]" />
-                <span className="text-[var(--champagne-readable)] text-[11px] font-semibold uppercase tracking-[0.22em]">
+                <span className="text-[var(--champagne-readable)] text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)]">
                   Para Investidores
                 </span>
               </div>
-              <h2 className="text-[var(--color-heading)] text-[clamp(38px,4.4vw,64px)] leading-[1.1] tracking-[-0.02em] font-light">
+              <h2 className="text-[var(--color-heading)] text-title-section font-serif leading-none tracking-[-0.02em] font-light">
                 Lançamentos &
                 <br />
                 <span className="font-semibold">oportunidades</span>

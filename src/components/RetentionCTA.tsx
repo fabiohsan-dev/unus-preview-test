@@ -21,9 +21,7 @@ export function RetentionCTA() {
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-7 text-center sm:text-left">
             <div>
-              <p
-                className="text-[var(--off-white)] text-[clamp(30px,3vw,46px)] leading-[1.14] tracking-[-0.02em] font-serif font-normal"
-              >
+              <p className="text-[var(--off-white)] text-title-card leading-tight tracking-[-0.02em] font-serif font-normal">
                 Ainda não encontrou o seu novo imóvel?
               </p>
               <p

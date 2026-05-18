@@ -39,14 +39,11 @@ export function HomeOpportunitySlider({ opportunities }: HomeOpportunitySliderPr
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-[1px] bg-[var(--champagne)]" />
-              <span className="text-[var(--champagne-readable)] text-[11px] font-semibold uppercase tracking-[0.22em]">
+              <span className="text-[var(--champagne-readable)] text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)]">
                 Curadoria UNUS
               </span>
             </div>
-            <h2
-              className="text-[var(--deep-blue)] leading-[1.08] tracking-[-0.02em] font-light"
-              style={{ fontSize: 'clamp(32px,3.8vw,52px)' }}
-            >
+            <h2 className="text-[var(--deep-blue)] text-title-section leading-none tracking-[-0.02em] font-light font-serif">
               Imóveis{' '}
               <span className="font-semibold">à venda</span>
             </h2>
@@ -117,7 +114,7 @@ export function HomeOpportunitySlider({ opportunities }: HomeOpportunitySliderPr
             href="/venda"
             className="inline-flex items-center gap-3 border border-[var(--deep-blue)]/30
               text-[var(--deep-blue)] px-9 py-4
-              text-[11px] font-medium uppercase tracking-[0.15em]
+              text-text-xs font-medium uppercase tracking-[var(--tracking-button)]
               hover:bg-[var(--deep-blue)] hover:text-white hover:border-[var(--deep-blue)]
               transition-all duration-300"
           >

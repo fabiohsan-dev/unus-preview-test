@@ -23,16 +23,13 @@ export function AnuncieStrip() {
             {/* Eyebrow */}
             <div className="flex items-center gap-3 mb-5">
               <div className="w-6 h-px bg-[var(--champagne)]" />
-              <span className="text-[var(--champagne-readable)] text-[10px] font-semibold uppercase tracking-[0.18em]">
+              <span className="text-[var(--champagne-readable)] text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)]">
                 Para proprietários
               </span>
             </div>
 
             {/* Título */}
-            <h2
-              className="text-white font-serif font-light leading-[1.08] tracking-[-0.028em] max-w-[760px] mb-0"
-              style={{ fontSize: 'clamp(40px, 4vw, 68px)' }}
-            >
+            <h2 className="text-white font-serif font-light leading-[1.08] tracking-[-0.028em] max-w-[760px] mb-0 text-title-section">
               {'Venda seu imóvel com a curadoria que ele merece.'}
             </h2>
 

@@ -39,9 +39,7 @@ export function CategoryStrip() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-[1px] bg-[var(--champagne)]" />
-              <span
-                className="text-[var(--champagne-readable)] text-[10px] font-semibold uppercase tracking-[0.3em]"
-              >
+              <span className="text-[var(--champagne-readable)] text-text-xs font-semibold uppercase tracking-[var(--tracking-eyebrow)]">
                 Coleções Curadas
               </span>
             </div>
