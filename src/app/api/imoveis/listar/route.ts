@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Erro desconhecido';
-    return NextResponse.json({ error: message }, { status: 502 });
+    console.error('[Listar API] Error:', err);
+    return NextResponse.json({ error: 'Erro ao buscar imóveis' }, { status: 502 });
   }
 }

@@ -2,7 +2,11 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { whatsappAnuncieLead } from '@/lib/whatsapp';
+import { PRIVACY_URL } from '@/lib/constants';
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 /* ─────────────────────────────────────────
    Dropdown customizado (substitui <select>)
@@ -153,12 +157,28 @@ export function AnuncieForm() {
   const [tipo, setTipo]       = useState('');
   const [quartos, setQuartos] = useState('');
   const [lgpd, setLgpd]       = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!tipo) return; // required no custom select
+    if (!tipo) return;
+    if (TURNSTILE_SITE_KEY && !turnstileToken) return;
 
-    window.open(whatsappAnuncieLead({ name, phone, email, tipo, quartos }), '_blank', 'noopener,noreferrer');
+    setVerifying(true);
+    try {
+      if (TURNSTILE_SITE_KEY && turnstileToken) {
+        const res = await fetch('/api/verify-turnstile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
+        if (!res.ok) { setVerifying(false); return; }
+      }
+      window.open(whatsappAnuncieLead({ name, phone, email, tipo, quartos }), '_blank', 'noopener,noreferrer');
+    } finally {
+      setVerifying(false);
+    }
   };
 
   const inputBase =
@@ -253,21 +273,32 @@ export function AnuncieForm() {
           style={{ fontWeight: 300 }}
         >
           Concordo com a{' '}
-          <span className="underline underline-offset-2 text-[var(--color-heading)]">
+          <a
+            href={PRIVACY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 text-[var(--color-heading)]"
+          >
             Política de Privacidade
-          </span>{' '}
+          </a>{' '}
           e autorizo o uso dos meus dados para contato sobre meu imóvel.
         </label>
       </div>
 
+      {TURNSTILE_SITE_KEY && (
+        <Turnstile siteKey={TURNSTILE_SITE_KEY} onSuccess={setTurnstileToken} />
+      )}
+
       {/* Submit */}
       <button
         type="submit"
+        disabled={verifying || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
         className="inline-flex items-center gap-3 bg-[var(--secondary-900)] text-white
           text-[11px] uppercase tracking-[0.2em] font-semibold px-10 py-4
-          hover:bg-[var(--secondary-800)] transition-colors group"
+          hover:bg-[var(--secondary-800)] transition-colors group
+          disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Quero anunciar meu imóvel
+        {verifying ? 'Verificando...' : 'Quero anunciar meu imóvel'}
         <ArrowRight
           className="w-4 h-4 group-hover:translate-x-1 transition-transform"
           strokeWidth={1.5}

@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { LazyFixedButtons } from '@/components/LazyFixedButtons';
 import { LazyStickySearchBar } from '@/components/LazyStickySearchBar';
+import { MotionProvider } from '@/components/MotionProvider';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
@@ -76,18 +77,20 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.vistahost.com.br" />
       </head>
       <body className="min-h-screen bg-[var(--color-background)] antialiased font-sans">
-        <a 
-          href="#main-content" 
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[var(--secondary-900)] focus:text-white focus:text-[12px] focus:uppercase focus:tracking-widest"
-        >
-          Pular para o conteúdo principal
-        </a>
-        <Header />
-        <LazyStickySearchBar />
-        <main id="main-content">{children}</main>
-        <Footer />
-        <LazyFixedButtons />
-        <SpeedInsights />
+        <MotionProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[var(--secondary-900)] focus:text-white focus:text-[12px] focus:uppercase focus:tracking-widest"
+          >
+            Pular para o conteúdo principal
+          </a>
+          <Header />
+          <LazyStickySearchBar />
+          <main id="main-content">{children}</main>
+          <Footer />
+          <LazyFixedButtons />
+          <SpeedInsights />
+        </MotionProvider>
       </body>
     </html>
   );

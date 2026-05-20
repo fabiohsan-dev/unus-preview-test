@@ -51,7 +51,7 @@ export function ComingSoon({ title, subtitle }: ComingSoonProps) {
       {/* Background sutil baseado no seu CSS */}
       <div 
         className="absolute inset-0 z-0 opacity-10 bg-cover bg-center"
-        style={{ backgroundImage: 'url("/404-bg.png")' }} // Reaproveitando a imagem de alto padrão
+        style={{ backgroundImage: 'url("/404-bg.webp")' }}
       />
 
       {/* Header / Logo */}

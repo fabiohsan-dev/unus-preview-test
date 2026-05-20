@@ -3,39 +3,48 @@
 import { useEffect, useRef, useState } from 'react';
 import { MessageCircle, Shield, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import { whatsappUrl, WA_DEFAULT } from '@/lib/constants';
-
-const PRIVACY_URL = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade/';
-const COOKIES_URL = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade-e-cookies/';
+import { whatsappUrl, WA_DEFAULT, PRIVACY_URL, COOKIES_URL } from '@/lib/constants';
+import { loadConsent, saveConsent, type ConsentPrefs } from '@/lib/consent';
 
 export function FixedButtons() {
   const [consentOpen, setConsentOpen] = useState(false);
-  const [consentAccepted, setConsentAccepted] = useState(false);
+  const [consent, setConsent] = useState<ConsentPrefs | null>(null);
+  const [hydrated, setHydrated] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!consentOpen) {
-      return undefined;
-    }
+    const saved = loadConsent();
+    setConsent(saved);
+    setHydrated(true);
+  }, []);
 
+  useEffect(() => {
+    if (!consentOpen) return undefined;
     closeButtonRef.current?.focus();
-
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setConsentOpen(false);
         requestAnimationFrame(() => triggerRef.current?.focus());
       }
     };
-
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [consentOpen]);
 
-  const acceptConsent = () => {
-    setConsentAccepted(true);
+  const acceptAll = () => {
+    const prefs = saveConsent({ analytics: true, marketing: true });
+    setConsent(prefs);
     setConsentOpen(false);
   };
+
+  const acceptEssential = () => {
+    const prefs = saveConsent({ analytics: false, marketing: false });
+    setConsent(prefs);
+    setConsentOpen(false);
+  };
+
+  const bannerVisible = hydrated && consent === null;
 
   return (
     <>
@@ -66,7 +75,7 @@ export function FixedButtons() {
         </div>
       </motion.a>
 
-      {!consentAccepted && (
+      {hydrated && (
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -74,7 +83,7 @@ export function FixedButtons() {
           className="fixed bottom-6 left-6 z-[60]"
         >
           <AnimatePresence>
-            {!consentOpen ? (
+            {bannerVisible && !consentOpen && (
               <motion.button
                 key="consent-pill"
                 ref={triggerRef}
@@ -96,7 +105,33 @@ export function FixedButtons() {
                   Privacidade & Cookies
                 </span>
               </motion.button>
-            ) : (
+            )}
+
+            {!bannerVisible && !consentOpen && (
+              <motion.button
+                key="consent-pill-accepted"
+                ref={triggerRef}
+                type="button"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                onClick={() => setConsentOpen(true)}
+                className="flex items-center gap-2.5 bg-white/95 backdrop-blur-xl border border-[var(--color-border)] px-4 py-3 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300 group"
+                aria-expanded={consentOpen}
+                aria-controls="consent-panel"
+                aria-label="Gerenciar preferências de privacidade"
+              >
+                <Shield className="w-4 h-4 text-[var(--primary-500)]" strokeWidth={1.5} />
+                <span
+                  className="text-[var(--color-heading)] text-[11px] uppercase tracking-[0.1em]"
+                  style={{ fontWeight: 600 }}
+                >
+                  Privacidade
+                </span>
+              </motion.button>
+            )}
+
+            {consentOpen && (
               <motion.div
                 key="consent-panel"
                 id="consent-panel"
@@ -104,8 +139,8 @@ export function FixedButtons() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 className="bg-white border border-[var(--color-border)] shadow-[var(--shadow-elevated)] max-w-[400px] w-[calc(100vw-48px)]"
-                role="dialog"
-                aria-modal="false"
+                role="region"
+                aria-label="Consentimento de cookies"
                 aria-labelledby="consent-title"
                 aria-describedby="consent-description"
               >
@@ -172,7 +207,7 @@ export function FixedButtons() {
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
-                      onClick={acceptConsent}
+                      onClick={acceptAll}
                       className="flex-1 bg-[var(--secondary-900)] text-white py-3 text-[11px] uppercase tracking-[0.15em] hover:bg-[var(--secondary-800)] transition-colors"
                       style={{ fontWeight: 600 }}
                     >
@@ -180,7 +215,7 @@ export function FixedButtons() {
                     </button>
                     <button
                       type="button"
-                      onClick={acceptConsent}
+                      onClick={acceptEssential}
                       className="flex-1 border border-[var(--color-border)] text-[var(--color-body)] py-3 text-[11px] uppercase tracking-[0.15em] hover:bg-[var(--neutral-100)] transition-colors"
                       style={{ fontWeight: 500 }}
                     >

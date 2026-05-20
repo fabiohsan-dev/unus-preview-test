@@ -1,9 +1,13 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import Image from 'next/image';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { ArrowRight, MessageCircle, Phone } from 'lucide-react';
-import { PHONE_HREF } from '@/lib/constants';
+import { PHONE_HREF, PRIVACY_URL } from '@/lib/constants';
 import { whatsappPropertyLead } from '@/lib/whatsapp';
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export function ImovelContact({
   title,
@@ -29,6 +33,9 @@ export function ImovelContact({
   const [visitName, setVisitName] = useState('');
   const [visitEmail, setVisitEmail] = useState('');
   const [visitPhone, setVisitPhone] = useState('');
+  const [visitLgpd, setVisitLgpd] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
 
   const leadUrl = () => whatsappPropertyLead({
     title,
@@ -37,21 +44,36 @@ export function ImovelContact({
     pathOrUrl: typeof window !== 'undefined' ? window.location.href : undefined,
   });
 
-  const submitVisit = (event: FormEvent) => {
+  const submitVisit = async (event: FormEvent) => {
     event.preventDefault();
-    window.open(
-      whatsappPropertyLead({
-        title,
-        bairro,
-        codigo: propertyRef,
-        pathOrUrl: window.location.href,
-        name: visitName,
-        email: visitEmail,
-        phone: visitPhone,
-      }),
-      '_blank',
-      'noopener,noreferrer',
-    );
+    if (TURNSTILE_SITE_KEY && !turnstileToken) return;
+
+    setVerifying(true);
+    try {
+      if (TURNSTILE_SITE_KEY && turnstileToken) {
+        const res = await fetch('/api/verify-turnstile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
+        if (!res.ok) { setVerifying(false); return; }
+      }
+      window.open(
+        whatsappPropertyLead({
+          title,
+          bairro,
+          codigo: propertyRef,
+          pathOrUrl: window.location.href,
+          name: visitName,
+          email: visitEmail,
+          phone: visitPhone,
+        }),
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } finally {
+      setVerifying(false);
+    }
   };
 
   const phoneHref = corretorCelular ? `tel:+55${corretorCelular.replace(/\D/g, '')}` : PHONE_HREF;
@@ -73,8 +95,7 @@ export function ImovelContact({
         <div className="p-7 border-b border-[var(--color-border)]">
           <div className="flex items-center gap-4 mb-5">
             {agentPhoto ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={agentPhoto} alt={agentName} className="w-14 h-14 object-cover border border-[var(--color-border)]" />
+              <Image src={agentPhoto} alt={agentName} width={56} height={56} className="object-cover border border-[var(--color-border)]" />
             ) : (
               <div className="w-14 h-14 border border-[var(--color-border)] bg-[var(--neutral-50)] flex items-center justify-center text-[11px] uppercase tracking-[0.2em] text-[var(--color-caption)]">
                 UNUS
@@ -98,13 +119,47 @@ export function ImovelContact({
         <div className="p-7">
           <h4 className="text-[var(--color-heading)] text-[18px] mb-5" style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}>Agendar uma visita</h4>
           <form className="flex flex-col gap-3" onSubmit={submitVisit}>
-            <input type="text" required value={visitName} onChange={(event) => setVisitName(event.target.value)} placeholder="Seu nome completo" className="w-full bg-[var(--neutral-50)] border border-[var(--color-border)] px-4 py-3 text-[13px] text-[var(--color-heading)] outline-none focus:border-[var(--secondary-900)] transition-colors" />
-            <div className="flex gap-3">
-              <input type="email" value={visitEmail} onChange={(event) => setVisitEmail(event.target.value)} placeholder="E-mail" className="w-full bg-[var(--neutral-50)] border border-[var(--color-border)] px-4 py-3 text-[13px] text-[var(--color-heading)] outline-none focus:border-[var(--secondary-900)] transition-colors" />
-              <input type="tel" required value={visitPhone} onChange={(event) => setVisitPhone(event.target.value)} placeholder="Telefone" className="w-full bg-[var(--neutral-50)] border border-[var(--color-border)] px-4 py-3 text-[13px] text-[var(--color-heading)] outline-none focus:border-[var(--secondary-900)] transition-colors" />
+            <div>
+              <label htmlFor="visit-name" className="sr-only">Seu nome completo</label>
+              <input id="visit-name" type="text" required value={visitName} onChange={(event) => setVisitName(event.target.value)} placeholder="Seu nome completo" maxLength={120} className="w-full bg-[var(--neutral-50)] border border-[var(--color-border)] px-4 py-3 text-[13px] text-[var(--color-heading)] outline-none focus:border-[var(--secondary-900)] transition-colors" />
             </div>
-            <button type="submit" className="min-h-11 w-full bg-[var(--secondary-900)] text-white py-4 text-[11px] uppercase tracking-[0.2em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2 mt-1" style={{ fontWeight: 600 }}>
-              Solicitar agendamento <ArrowRight className="w-4 h-4" />
+            <div className="flex gap-3">
+              <div className="w-full">
+                <label htmlFor="visit-email" className="sr-only">E-mail</label>
+                <input id="visit-email" type="email" value={visitEmail} onChange={(event) => setVisitEmail(event.target.value)} placeholder="E-mail" maxLength={120} className="w-full bg-[var(--neutral-50)] border border-[var(--color-border)] px-4 py-3 text-[13px] text-[var(--color-heading)] outline-none focus:border-[var(--secondary-900)] transition-colors" />
+              </div>
+              <div className="w-full">
+                <label htmlFor="visit-phone" className="sr-only">Telefone</label>
+                <input id="visit-phone" type="tel" required value={visitPhone} onChange={(event) => setVisitPhone(event.target.value)} placeholder="Telefone" maxLength={20} className="w-full bg-[var(--neutral-50)] border border-[var(--color-border)] px-4 py-3 text-[13px] text-[var(--color-heading)] outline-none focus:border-[var(--secondary-900)] transition-colors" />
+              </div>
+            </div>
+            <div className="flex items-start gap-2.5 pt-1">
+              <input
+                type="checkbox"
+                id="visit-lgpd"
+                required
+                checked={visitLgpd}
+                onChange={(e) => setVisitLgpd(e.target.checked)}
+                className="mt-0.5 w-4 h-4 shrink-0 accent-[var(--secondary-900)] cursor-pointer"
+              />
+              <label htmlFor="visit-lgpd" className="text-[12px] text-[var(--color-body)] leading-[1.6] cursor-pointer" style={{ fontWeight: 300 }}>
+                Autorizo o uso dos meus dados para contato conforme a{' '}
+                <a href={PRIVACY_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                  Política de Privacidade
+                </a>
+                .
+              </label>
+            </div>
+            {TURNSTILE_SITE_KEY && (
+              <Turnstile siteKey={TURNSTILE_SITE_KEY} onSuccess={setTurnstileToken} options={{ size: 'compact' }} />
+            )}
+            <button
+              type="submit"
+              disabled={verifying || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+              className="min-h-11 w-full bg-[var(--secondary-900)] text-white py-4 text-[11px] uppercase tracking-[0.2em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2 mt-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontWeight: 600 }}
+            >
+              {verifying ? 'Verificando...' : 'Solicitar agendamento'} <ArrowRight className="w-4 h-4" />
             </button>
           </form>
         </div>

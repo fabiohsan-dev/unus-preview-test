@@ -8,7 +8,7 @@ export default function NotFound() {
       {/* Background Image Layer */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url("/404-bg.png")' }}
+        style={{ backgroundImage: 'url("/404-bg.webp")' }}
       />
       
       {/* Logo Header */}
