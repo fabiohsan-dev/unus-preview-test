@@ -30,6 +30,8 @@ export const SITE_URL       = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://unus
 export const SITE_NAME      = 'UNUS Núcleo Imobiliário';
 export const SITE_TAGLINE   = 'Inteligência Imobiliária em Alto Padrão';
 export const CRECI          = 'CRECI: 5.067 J';
+export const PRIVACY_URL    = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade/';
+export const COOKIES_URL    = 'https://unusnucleoimobiliario.com.br/politica-de-privacidade-e-cookies/';
 
 /* ── Unidades ── */
 export const UNITS = [

@@ -3,12 +3,14 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { whatsappContactLead } from '@/lib/whatsapp';
+import { PRIVACY_URL } from '@/lib/constants';
 
 export function ContatoForm() {
   const [name, setName]       = useState('');
   const [phone, setPhone]     = useState('');
   const [email, setEmail]     = useState('');
   const [message, setMessage] = useState('');
+  const [lgpd, setLgpd]       = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,6 +78,34 @@ export function ContatoForm() {
           className={`${inputBase} resize-none`}
           style={{ fontWeight: 300 }}
         />
+      </div>
+
+      <div className="flex items-start gap-3 pt-1">
+        <input
+          type="checkbox"
+          id="contato-lgpd"
+          required
+          checked={lgpd}
+          onChange={(e) => setLgpd(e.target.checked)}
+          className="mt-0.5 w-4 h-4 shrink-0 accent-[var(--secondary-900)] cursor-pointer"
+        />
+        <label
+          htmlFor="contato-lgpd"
+          className="text-[13px] text-[var(--color-body)] leading-[1.7] cursor-pointer"
+          style={{ fontWeight: 300 }}
+        >
+          Ao continuar, você concorda em ser contatado pela UNUS para atendimento imobiliário.
+          Seus dados serão usados apenas para responder à sua solicitação, conforme nossa{' '}
+          <a
+            href={PRIVACY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 text-[var(--color-heading)]"
+          >
+            Política de Privacidade
+          </a>
+          .
+        </label>
       </div>
 
       <button
