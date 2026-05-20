@@ -12,8 +12,6 @@ import {
   ChevronDown,
   DollarSign,
   Hash,
-  LayoutGrid,
-  List,
   MapPin,
   Maximize,
   Search,
@@ -401,7 +399,6 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
     areaMin: searchParams.get('areaMin') || '',
     codigo: searchParams.get('codigo') || '',
   });
-  const view = (searchParams.get('view') as 'grid' | 'list') || 'grid';
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -436,14 +433,13 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [activeDropdown, showAdvanced]);
 
-  const updateURL = (nextFilters: typeof filters, nextView?: string) => {
+  const updateURL = (nextFilters: typeof filters) => {
     const params = new URLSearchParams();
 
     Object.entries(nextFilters).forEach(([key, value]) => {
       if (value) params.set(key, value);
     });
 
-    params.set('view', nextView || view);
     router.push(vendaUrl(Object.fromEntries(params.entries())));
   };
 
@@ -519,36 +515,7 @@ export function PropertyFilters({ metadata }: PropertyFiltersProps) {
             }}
           />
 
-          <div className="p-1.5 pt-2 md:pt-1.5 border-t md:border-t-0 border-[var(--neutral-200)] mt-1 md:mt-0 flex items-center justify-between md:justify-end gap-2 md:gap-3">
-            <div className="flex bg-[var(--neutral-100)] p-1 rounded-lg">
-              <button
-                type="button"
-                onClick={() => updateURL(filters, 'grid')}
-                className={`w-11 h-11 flex items-center justify-center rounded-md transition-all ${
-                  view === 'grid'
-                    ? 'bg-white shadow-sm text-[var(--color-accent-text)]'
-                    : 'text-[var(--neutral-400)] hover:text-[var(--color-heading)]'
-                }`}
-                aria-label="Ver imóveis em grade"
-                aria-pressed={view === 'grid'}
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => updateURL(filters, 'list')}
-                className={`w-11 h-11 flex items-center justify-center rounded-md transition-all ${
-                  view === 'list'
-                    ? 'bg-white shadow-sm text-[var(--color-accent-text)]'
-                    : 'text-[var(--neutral-400)] hover:text-[var(--color-heading)]'
-                }`}
-                aria-label="Ver imóveis em lista"
-                aria-pressed={view === 'list'}
-              >
-                <List className="w-4 h-4" />
-              </button>
-            </div>
-
+          <div className="p-1.5 pt-2 md:pt-1.5 border-t md:border-t-0 border-[var(--neutral-200)] mt-1 md:mt-0 flex items-center justify-end gap-2 md:gap-3">
             <div className="flex items-center gap-2">
               <button
                 type="button"
