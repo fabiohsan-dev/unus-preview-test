@@ -5,7 +5,7 @@ import { getMetadataServer, getListarImoveisServer } from '@/lib/server/vistaSer
 import { mapToGridProperty } from '@/lib/mappers/propertyMapper';
 import { SITE_URL } from '@/lib/constants';
 import { normalizeVendaSearchParams, vendaFiltersFromParams, vendaUrl } from '@/lib/vendaSearch';
-import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
@@ -28,7 +28,6 @@ interface VendaPageProps {
     codigo?: string;
     ordem?: string;
     page?: string;
-    view?: string;
   }>;
 }
 
@@ -59,9 +58,8 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
   }
 
   const params = normalized.params;
-  const viewMode = params.view || 'grid';
   const currentPage = Number(params.page) || 1;
-  const itemsPerPage = viewMode === 'list' ? 24 : 12;
+  const itemsPerPage = 24;
   
   const [metadata, propertiesData] = await Promise.all([
     getMetadataServer().catch((e: unknown) => {
@@ -103,27 +101,11 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
       />
       <PropertyFilters metadata={metadata} />
 
-      <main className={`flex flex-col lg:flex-row ${viewMode === 'grid' ? 'h-[calc(100vh-128px)] overflow-hidden' : 'min-h-screen'}`}>
-        
-        {/* Lado Esquerdo: Mapa (Apenas no modo Grid) */}
-        {viewMode === 'grid' && (
-          <div className="hidden lg:block w-[45%] xl:w-[50%] bg-[var(--neutral-100)] relative overflow-hidden border-r border-[var(--neutral-200)]">
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-[var(--color-caption)] p-12 text-center">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
-                <MapPin className="w-6 h-6 text-[var(--primary-500)]" />
-              </div>
-              <h3 className="text-[18px] mb-2 font-medium">Visualização em Mapa</h3>
-              <p className="text-[14px] max-w-[280px] leading-relaxed">
-                Integração com Google Maps em processamento.
-              </p>
-            </div>
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
-          </div>
-        )}
+      <main className="min-h-screen">
 
         {/* Listagem de Imóveis */}
-        <div className={`flex-1 ${viewMode === 'grid' ? 'overflow-y-auto no-scrollbar' : ''} px-6 py-8 sm:px-8 lg:px-10 bg-[var(--neutral-50)]/30`}>
-          <div className={`${viewMode === 'list' ? 'max-w-[1400px]' : 'max-w-[1000px]'} mx-auto`}>
+        <div className="flex-1 px-6 py-8 sm:px-8 lg:px-10 bg-[var(--neutral-50)]/30">
+          <div className="max-w-[1400px] mx-auto">
             
             <div className="flex items-center justify-between mb-8">
               <h1 className="text-[14px] uppercase tracking-[0.2em] text-[var(--color-caption)] font-semibold">
@@ -133,10 +115,7 @@ export default async function VendaPage({ searchParams }: VendaPageProps) {
 
             {properties.length > 0 ? (
               <>
-                <div className={viewMode === 'grid' 
-                  ? "grid grid-cols-1 md:grid-cols-2 gap-6" 
-                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                }>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {properties.map((prop) => (
                     <PropertyCard 
                       key={prop.id} 
