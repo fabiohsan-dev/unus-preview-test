@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { ArrowRight } from 'lucide-react';
 import { whatsappContactLead } from '@/lib/whatsapp';
 import { PRIVACY_URL } from '@/lib/constants';
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export function ContatoForm() {
   const [name, setName]       = useState('');
@@ -11,10 +14,27 @@ export function ContatoForm() {
   const [email, setEmail]     = useState('');
   const [message, setMessage] = useState('');
   const [lgpd, setLgpd]       = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    window.open(whatsappContactLead({ name, phone, email, message, origin: 'formulário Contato' }), '_blank', 'noopener,noreferrer');
+    if (TURNSTILE_SITE_KEY && !turnstileToken) return;
+
+    setVerifying(true);
+    try {
+      if (TURNSTILE_SITE_KEY && turnstileToken) {
+        const res = await fetch('/api/verify-turnstile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
+        if (!res.ok) { setVerifying(false); return; }
+      }
+      window.open(whatsappContactLead({ name, phone, email, message, origin: 'formulário Contato' }), '_blank', 'noopener,noreferrer');
+    } finally {
+      setVerifying(false);
+    }
   };
 
   const inputBase =
@@ -108,11 +128,16 @@ export function ContatoForm() {
         </label>
       </div>
 
+      {TURNSTILE_SITE_KEY && (
+        <Turnstile siteKey={TURNSTILE_SITE_KEY} onSuccess={setTurnstileToken} />
+      )}
+
       <button
         type="submit"
-        className="inline-flex items-center gap-3 bg-[var(--secondary-900)] text-white text-[11px] uppercase tracking-[0.2em] font-semibold px-10 py-4 hover:bg-[var(--secondary-800)] transition-colors group"
+        disabled={verifying || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+        className="inline-flex items-center gap-3 bg-[var(--secondary-900)] text-white text-[11px] uppercase tracking-[0.2em] font-semibold px-10 py-4 hover:bg-[var(--secondary-800)] transition-colors group disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Iniciar conversa pelo WhatsApp
+        {verifying ? 'Verificando...' : 'Iniciar conversa pelo WhatsApp'}
         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
       </button>
     </form>
