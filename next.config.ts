@@ -44,14 +44,41 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://*.vercel-insights.com",
+      "style-src 'self' 'unsafe-inline'",
+      [
+        "img-src 'self' data: blob:",
+        "https://images.unsplash.com",
+        "https://sdr-w.agenciaalea.com.br",
+        "https://img.youtube.com",
+        "https://*.vistahost.com.br",
+        "https://www.vistasoft.com.br",
+      ].join(' '),
+      "font-src 'self' data:",
+      [
+        "connect-src 'self'",
+        "https://*.supabase.co",
+        "https://challenges.cloudflare.com",
+        "https://*.vercel-insights.com",
+      ].join(' '),
+      "frame-src https://challenges.cloudflare.com https://www.google.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self' https://wa.me https://api.whatsapp.com",
+      "upgrade-insecure-requests",
+    ].join('; ');
+
     return [
       {
         source: '/(.*)',
         headers: [
-          { key: 'X-Frame-Options',        value: 'SAMEORIGIN' },
-          { key: 'X-Content-Type-Options',  value: 'nosniff' },
-          { key: 'Referrer-Policy',         value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy',      value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'X-Frame-Options',           value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options',     value: 'nosniff' },
+          { key: 'Referrer-Policy',            value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy',         value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Content-Security-Policy',    value: csp },
         ],
       },
     ];

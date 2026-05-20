@@ -1,9 +1,13 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import Image from 'next/image';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { ArrowRight, MessageCircle, Phone } from 'lucide-react';
 import { PHONE_HREF, PRIVACY_URL } from '@/lib/constants';
 import { whatsappPropertyLead } from '@/lib/whatsapp';
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export function ImovelContact({
   title,
@@ -30,6 +34,8 @@ export function ImovelContact({
   const [visitEmail, setVisitEmail] = useState('');
   const [visitPhone, setVisitPhone] = useState('');
   const [visitLgpd, setVisitLgpd] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
 
   const leadUrl = () => whatsappPropertyLead({
     title,
@@ -38,21 +44,36 @@ export function ImovelContact({
     pathOrUrl: typeof window !== 'undefined' ? window.location.href : undefined,
   });
 
-  const submitVisit = (event: FormEvent) => {
+  const submitVisit = async (event: FormEvent) => {
     event.preventDefault();
-    window.open(
-      whatsappPropertyLead({
-        title,
-        bairro,
-        codigo: propertyRef,
-        pathOrUrl: window.location.href,
-        name: visitName,
-        email: visitEmail,
-        phone: visitPhone,
-      }),
-      '_blank',
-      'noopener,noreferrer',
-    );
+    if (TURNSTILE_SITE_KEY && !turnstileToken) return;
+
+    setVerifying(true);
+    try {
+      if (TURNSTILE_SITE_KEY && turnstileToken) {
+        const res = await fetch('/api/verify-turnstile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
+        if (!res.ok) { setVerifying(false); return; }
+      }
+      window.open(
+        whatsappPropertyLead({
+          title,
+          bairro,
+          codigo: propertyRef,
+          pathOrUrl: window.location.href,
+          name: visitName,
+          email: visitEmail,
+          phone: visitPhone,
+        }),
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } finally {
+      setVerifying(false);
+    }
   };
 
   const phoneHref = corretorCelular ? `tel:+55${corretorCelular.replace(/\D/g, '')}` : PHONE_HREF;
@@ -74,8 +95,7 @@ export function ImovelContact({
         <div className="p-7 border-b border-[var(--color-border)]">
           <div className="flex items-center gap-4 mb-5">
             {agentPhoto ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={agentPhoto} alt={agentName} className="w-14 h-14 object-cover border border-[var(--color-border)]" />
+              <Image src={agentPhoto} alt={agentName} width={56} height={56} className="object-cover border border-[var(--color-border)]" />
             ) : (
               <div className="w-14 h-14 border border-[var(--color-border)] bg-[var(--neutral-50)] flex items-center justify-center text-[11px] uppercase tracking-[0.2em] text-[var(--color-caption)]">
                 UNUS
@@ -130,8 +150,16 @@ export function ImovelContact({
                 .
               </label>
             </div>
-            <button type="submit" className="min-h-11 w-full bg-[var(--secondary-900)] text-white py-4 text-[11px] uppercase tracking-[0.2em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2 mt-1" style={{ fontWeight: 600 }}>
-              Solicitar agendamento <ArrowRight className="w-4 h-4" />
+            {TURNSTILE_SITE_KEY && (
+              <Turnstile siteKey={TURNSTILE_SITE_KEY} onSuccess={setTurnstileToken} options={{ size: 'compact' }} />
+            )}
+            <button
+              type="submit"
+              disabled={verifying || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+              className="min-h-11 w-full bg-[var(--secondary-900)] text-white py-4 text-[11px] uppercase tracking-[0.2em] hover:bg-[var(--secondary-800)] transition-colors flex items-center justify-center gap-2 mt-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontWeight: 600 }}
+            >
+              {verifying ? 'Verificando...' : 'Solicitar agendamento'} <ArrowRight className="w-4 h-4" />
             </button>
           </form>
         </div>
