@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
 import { whatsappAnuncieLead } from '@/lib/whatsapp';
+import { PRIVACY_URL } from '@/lib/constants';
 
 /* ─────────────────────────────────────────
    Dropdown customizado (substitui <select>)
@@ -253,9 +254,14 @@ export function AnuncieForm() {
           style={{ fontWeight: 300 }}
         >
           Concordo com a{' '}
-          <span className="underline underline-offset-2 text-[var(--color-heading)]">
+          <a
+            href={PRIVACY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 text-[var(--color-heading)]"
+          >
             Política de Privacidade
-          </span>{' '}
+          </a>{' '}
           e autorizo o uso dos meus dados para contato sobre meu imóvel.
         </label>
       </div>
